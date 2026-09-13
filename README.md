@@ -1,0 +1,1 @@
+# magnumsports.co.nz
