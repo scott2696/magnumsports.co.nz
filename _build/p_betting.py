@@ -1,0 +1,468 @@
+# -*- coding: utf-8 -*-
+"""Betting hub pages: /online-betting/ and /best-sports-betting-sites/"""
+from lib import *
+
+# =============================================================== /online-betting/
+OB_TITLE = "Online Betting NZ 2026 | Best Betting Sites for Kiwi Punters"
+OB_DESC = ("Online betting in New Zealand explained: what the 2025 TAB monopoly law actually changed, "
+           "which betting sites still accept Kiwis, NZD deposits, rugby and racing markets, odds and "
+           "free bets compared.")
+OB_PATH = "/online-betting/"
+
+OB_FAQ = [
+ ("Is online betting legal in New Zealand?",
+  "<p>For you as a punter, yes &mdash; and this is explicitly protected. The "
+  "<strong>Racing Industry Amendment Act 2025</strong> makes it unlawful for anyone other than TAB NZ and its "
+  "partner to <em>offer or promote</em> racing and sports betting to a person in New Zealand, but the Act "
+  "expressly provides that an individual may not be convicted of an offence for placing a bet with an offshore "
+  "betting operator. The prohibition sits on the supply side. Placing the bet is not an offence; supplying the "
+  "bet to a New Zealander without authorisation is.</p>"),
+ ("What changed on 28 June 2025?",
+  "<p>TAB NZ&rsquo;s land-based monopoly on racing and sports betting was extended to cover online betting as "
+  "well. Before that date, offshore bookmakers operated in a grey zone and took an estimated "
+  "<strong>NZ$180&ndash;200 million a year</strong> in New Zealand turnover. After it, only TAB NZ and its "
+  "partner operator may lawfully offer or advertise racing and sports betting to people in New Zealand. Several "
+  "major European-licensed bookmakers withdrew from the New Zealand market over the following months rather than "
+  "operate against the Act.</p>"),
+ ("Who can legally take my sports bet in New Zealand?",
+  "<p><strong>TAB NZ</strong> is the sole authorised domestic operator, operating in commercial partnership with "
+  "Entain. Betcha operates under the same authorised framework. Every other betting site you can reach from a New "
+  "Zealand IP address is offshore and is not authorised to offer or promote betting here, whatever its own "
+  "licence says. That does not make you an offender for using one, but it does mean you have no New Zealand "
+  "regulator to complain to if something goes wrong.</p>"),
+ ("What are the practical risks of using an offshore sportsbook from NZ?",
+  "<p>Three that matter. <strong>No local recourse:</strong> the Department of Internal Affairs cannot help you "
+  "recover a withheld balance from an operator that is not authorised here, so your only avenue is the operator&rsquo;s "
+  "own licensing body, which may be Curaçao or Anjouan. <strong>Payment friction:</strong> New Zealand banks "
+  "increasingly decline transactions to offshore gambling merchants, and a declined withdrawal is a genuine "
+  "problem. <strong>Market exit:</strong> operators leaving New Zealand have historically given short notice, and "
+  "a balance you cannot withdraw in time is a balance you lose. Keep balances small and withdraw regularly.</p>"),
+ ("Can I bet in New Zealand dollars?",
+  "<p>At TAB NZ, always. At offshore books, sometimes. <a href='/casino-reviews/rooster-bet/'>Rooster Bet</a>, "
+  "<a href='/casino-reviews/betandplay/'>Bet&amp;Play</a>, <a href='/casino-reviews/kingdom/'>Kingdom</a>, Smash, "
+  "Rivo, MadCasino and Lucky Vibe hold NZD balances. <a href='/casino-reviews/gunsbet/'>Gunsbet</a> is euro-only, "
+  "which costs a New Zealander roughly 2&ndash;3% on the way in and again on the way out. On a NZ$1,000 turnover "
+  "that spread is larger than the margin difference between most books.</p>"),
+ ("Do I pay tax on betting winnings in New Zealand?",
+  "<p>No, not on recreational betting. Inland Revenue does not treat gambling winnings as assessable income, so a "
+  "winning multi on the All Blacks is not declarable. The exceptions are the same as for casino play: professional "
+  "gambling carried on as a business, and cryptocurrency held as property where its NZD value rises before you "
+  "convert. Our <a href='/gambling-winnings-tax-nz/'>tax guide</a> covers both.</p>"),
+ ("What sports do Kiwi punters actually bet on?",
+  "<p>By turnover, the order is roughly: <strong>rugby union</strong> (Super Rugby Pacific, the Rugby "
+  "Championship, All Blacks tests), <strong>rugby league</strong> (NRL, with the Warriors driving a "
+  "disproportionate share), <strong>basketball</strong> (the NBA is the single largest offshore category), "
+  "<strong>football</strong> (Premier League and A-League), <strong>cricket</strong> (Black Caps limited-overs "
+  "and the IPL), then <strong>netball</strong>, <strong>golf</strong>, <strong>tennis</strong> and increasingly "
+  "<strong>esports</strong>. Domestic thoroughbred and harness racing remain enormous at TAB NZ specifically.</p>"),
+ ("Which betting site has the best odds for New Zealanders?",
+  "<p>No single book leads on every market, which is why serious punters hold two or three accounts and compare "
+  "before each bet. As a general pattern: TAB NZ is strongest on New Zealand thoroughbred and harness racing "
+  "because its pools are domestic; offshore books tend to price international football, NBA and tennis more "
+  "sharply because their liquidity is deeper. On rugby union, the gap is narrower than most punters assume. "
+  "Always compare the actual price rather than the brand.</p>"),
+ ("What is an acceptable free bet condition?",
+  "<p><strong>5x turnover at odds of 1.80 or better</strong> is fair &mdash; that is what "
+  "<a href='/casino-reviews/betandplay/'>Bet&amp;Play</a> asks. Anything above 8x, or a minimum odds requirement "
+  "above 2.50, tips the offer toward the book. Watch three clauses: whether the stake is returned with winnings "
+  "(usually it is not), whether cashed-out bets count toward turnover (usually they do not), and the expiry "
+  "window, which on free bets is often as short as seven days.</p>"),
+ ("Can I use the TAB and an offshore book at the same time?",
+  "<p>Nothing stops you, and many Kiwi punters do &mdash; TAB NZ for domestic racing pools and offshore books for "
+  "international sport and in-play markets. Be aware that the two have different withdrawal mechanics, different "
+  "verification standards and very different dispute paths. If you are going to hold both, keep the offshore "
+  "balance small and treat it as a working float rather than a savings account.</p>"),
+]
+
+OB_ROWS = [
+ ["<a href='/casino-reviews/rooster-bet/'>Rooster Bet</a>", "9.0", "Rugby union &amp; league depth",
+  "100% up to NZ$350", "6x free bet", "<span class='t-yes'>Yes</span>", "2–6 hrs", "Curaçao GCB"],
+ ["<a href='/casino-reviews/gunsbet/'>Gunsbet</a>", "8.6", "Biggest welcome offer",
+  "285% up to €7,500", "40x", "<span class='t-no'>EUR only</span>", "12–24 hrs", "Curaçao"],
+ ["<a href='/casino-reviews/betandplay/'>Bet&amp;Play</a>", "8.5", "In-play betting",
+  "100% up to NZ$500", "<b>5x @ 1.80+</b>", "<span class='t-yes'>Yes</span>", "2–8 hrs", "Curaçao GCB"],
+ ["<a href='/casino-reviews/ivibet-sportsbook/'>Ivibet Sportsbook</a>", "8.2", "Netball &amp; niche sports",
+  "100% up to NZ$200", "5x @ 2.00+", "<span class='t-no'>No</span>", "2–12 hrs", "Curaçao"],
+ ["<a href='/casino-reviews/kingdom/'>Kingdom</a>", "9.1", "Casino + sports combo",
+  "200% up to NZ$1,900", "30x", "<span class='t-yes'>Yes</span>", "2–4 hrs", "Anjouan"],
+ ["<a href='/casino-reviews/smash/'>Smash</a>", "8.8", "Best betting bonus terms",
+  "250% up to NZ$9,800", "<b>15x</b>", "<span class='t-yes'>Yes</span>", "3–8 hrs", "Anjouan"],
+]
+
+
+def online_betting():
+    ops = SPORTS[:8]
+    cr = [("Home", "/"), ("Online Betting NZ", None)]
+    schema = page_schema(
+        "CollectionPage", OB_TITLE, OB_DESC, OB_PATH, author="daniel-ashworth",
+        extra=[person_schema("tama-whitiora"),
+               crumb_schema([("Home", "/"), ("Online Betting NZ", OB_PATH)]),
+               itemlist_schema(ops, "Online betting sites NZ 2026", OB_PATH, "sports"),
+               faq_schema(OB_FAQ, f"{SITE}{OB_PATH}#faq")])
+    o = [head(OB_TITLE, OB_DESC, OB_PATH, schema), crumbs(cr)]
+
+    o.append(f'''<section class="hero"><div class="wrap">
+<span class="eyebrow">{icon("scale")} Law current to {UPDATED_NZ}</span>
+<h1>Online Betting NZ: The 2026 Guide for Kiwi Punters</h1>
+{byline("daniel-ashworth", "tama-whitiora")}
+<p class="lede">New Zealand&rsquo;s online betting rules changed fundamentally in June 2025 and most comparison sites have not caught up. This page explains exactly what the law now says, what it means for you rather than for operators, and which betting sites still accept New Zealand punters &mdash; with the risks stated plainly rather than buried.</p>
+<div class="hero-stats">
+<div class="hero-stat"><b>28 Jun 2025</b><span>Law in force</span></div>
+<div class="hero-stat"><b>TAB NZ</b><span>Sole authorised operator</span></div>
+<div class="hero-stat"><b>Not an offence</b><span>For the punter</span></div>
+<div class="hero-stat"><b>NZ$0</b><span>Tax on winnings</span></div>
+</div>
+</div></section>
+''')
+
+    o.append('<section class="sec" style="padding-bottom:0"><div class="wrap">'
+             + disclosure("This page describes the legal position for players as at "
+                          + UPDATED_NZ + " and is general information, not legal advice.")
+             + toc([("What the 2025 law actually changed", "law"),
+                    ("Where you can legally bet", "where"),
+                    ("Betting sites that accept New Zealanders", "sites"),
+                    ("Comparison table", "compare"),
+                    ("Sports Kiwis bet on", "sports"),
+                    ("Racing betting in New Zealand", "racing"),
+                    ("Deposits and withdrawals in NZD", "banking"),
+                    ("Free bets and betting bonuses", "bonuses"),
+                    ("Odds, margins and line shopping", "odds"),
+                    ("In-play, cash out and betting tools", "tools"),
+                    ("Betting on mobile", "mobile"),
+                    ("Trust, safety and what to watch for", "trust"),
+                    ("Responsible gambling", "rg"),
+                    ("Frequently asked questions", "faq")])
+             + '</div></section>')
+
+    # --- LAW
+    o.append(f'''<section id="law" class="sec"><div class="wrap"><div class="prose prose--wide">
+<span class="kicker">Start here</span>
+<h2>What the 2025 law actually changed &mdash; and what it did not</h2>
+<p>On <strong>28 June 2025</strong>, the Racing Industry Amendment Act 2025 came into force and extended TAB NZ&rsquo;s long-standing monopoly on racing and sports betting from land-based wagering to cover <strong>online betting as well</strong>. The stated purpose was to protect the financial sustainability of the New Zealand racing industry, which had been losing an estimated NZ$180 to NZ$200 million a year in turnover to offshore operators &mdash; a large share of it on NBA basketball.</p>
+<p>The change matters because of where the Act places the obligation. It is now unlawful for any person other than TAB NZ or its partner organisation to <strong>offer or promote</strong> racing betting, sports betting, or other racing or sports betting to a person in New Zealand. That prohibition binds operators and promoters. It does not bind you.</p>
+<div class="note note--mint"><b>The part most sites leave out</b>
+<p>The legislation expressly provides that <strong>an individual may not be convicted of an offence for placing a bet with an offshore betting operator</strong>. If you place a bet from New Zealand with a bookmaker in Curaçao, you have not committed an offence. The offence, if there is one, belongs to the operator that offered you the bet. We state this plainly because a lot of coverage has blurred it into &ldquo;offshore betting is illegal in New Zealand&rdquo;, which is accurate about supply and misleading about you.</p></div>
+<h3>What it means in practice</h3>
+<ul>
+<li><strong>Several major bookmakers left.</strong> A number of large European-licensed operators, including some household names, stopped actively serving New Zealand customers rather than operate against the Act. If a book you used in 2024 now blocks your login, this is why.</li>
+<li><strong>Advertising largely disappeared.</strong> Promotion of offshore betting to New Zealanders is caught by the prohibition, so the television, radio and sponsorship presence of offshore books has collapsed.</li>
+<li><strong>Some operators stayed.</strong> A smaller group, mostly casino-led sportsbooks licensed in Curaçao and Anjouan, continues to accept New Zealand registrations. These are the sites listed further down this page.</li>
+<li><strong>Your protections got thinner, not thicker.</strong> This is the honest consequence. An operator that is not authorised here is not accountable to the Department of Internal Affairs, so if a dispute arises your only route is that operator&rsquo;s own licensing body.</li>
+</ul>
+<h3>How this differs from the online casino rules</h3>
+<p>The two regimes are moving in opposite directions and it is worth being clear about the difference. <strong>Casino gambling</strong> is being opened up: the Online Casino Gambling Act creates up to 15 New Zealand licences, allocated by auction in September 2026, with unlicensed operators required to exit from 1 December 2026. <strong>Sports and racing betting</strong> has been closed down to a single authorised domestic operator. A site can therefore be perfectly positioned to hold a New Zealand casino licence next year while its sportsbook remains outside the authorised framework. Our <a href="/nz-online-casino-law/">NZ online casino law page</a> tracks the casino side in detail.</p>
+</div></div></section>
+''')
+
+    # --- WHERE
+    o.append(f'''<section id="where" class="sec sec--haze"><div class="wrap">
+<div class="sec-head"><span class="kicker">Your options</span><h2>Where New Zealanders can bet online</h2>
+<p>There are exactly two categories, and they are not equivalent. Understanding which you are dealing with should come before you compare a single price.</p></div>
+<div class="grid grid--2">
+<div class="card"><div class="card-ic">{icon("shield")}</div>
+<h3>TAB NZ &mdash; the authorised operator</h3>
+<p><strong>The only bookmaker authorised to offer racing and sports betting to people in New Zealand</strong>, operating in commercial partnership with Entain. Betcha operates under the same authorised framework.</p>
+<p><b>What you get:</b> New Zealand regulatory oversight, a domestic complaints path, guaranteed NZD banking, and the deepest thoroughbred and harness racing pools in the country by a wide margin. Profits fund the New Zealand racing industry and community sport.</p>
+<p><b>What you give up:</b> a narrower international sports offering than the global books, generally thinner in-play markets, and no competitive pressure on price because there is no domestic competitor.</p></div>
+<div class="card"><div class="card-ic">{icon("flag")}</div>
+<h3>Offshore sportsbooks</h3>
+<p>Books licensed in Curaçao, Anjouan or similar jurisdictions that continue to accept registrations from New Zealand. They are <strong>not authorised to offer or promote betting here</strong>, though using one is not an offence on your part.</p>
+<p><b>What you get:</b> deeper international market coverage, sharper pricing on football, NBA and tennis, better in-play interfaces, crypto banking and larger welcome offers.</p>
+<p><b>What you give up:</b> New Zealand regulatory protection entirely. No DIA recourse, payment friction with New Zealand banks, and genuine exit risk if the operator withdraws from the market at short notice.</p></div>
+</div>
+<div class="note note--amber" style="margin-top:24px"><b>Our editorial position</b>
+<p>We list offshore books below because New Zealanders are using them and are better served by accurate information about them than by a page that pretends they do not exist. We are not going to tell you the risks are theoretical, because they are not. If you use one: keep the balance small, withdraw winnings promptly rather than letting them accumulate, complete verification on day one, and never deposit money you would be unable to absorb losing to an operator exit rather than to a bet.</p></div>
+</div></section>
+''')
+
+    o.append(leaderboard(
+        ops, "sports", hid="sites",
+        heading="Betting sites that still accept New Zealand punters",
+        intro="Scored on market depth, price, in-play quality, banking and withdrawal speed &mdash; all "
+              "recorded by us. Read the section above before you open an account with any of them."))
+
+    # --- COMPARE
+    o.append(f'''<section id="compare" class="sec sec--haze"><div class="wrap">
+<div class="sec-head"><span class="kicker">Side by side</span><h2>Online betting sites NZ compared</h2>
+<p>The figures that decide which account is worth opening, with the free bet turnover condition shown rather than hidden.</p></div>
+{table(["Betting site","Score","Best for","Welcome offer","Turnover condition","NZD accounts","Payout speed","Licence"], OB_ROWS, minw=1000)}
+</div></section>
+''')
+
+    # --- SPORTS
+    o.append(f'''<section id="sports" class="sec"><div class="wrap">
+<div class="sec-head"><span class="kicker">Markets</span><h2>What Kiwis bet on, and where each book is strongest</h2>
+<p>New Zealand&rsquo;s betting profile does not look like Britain&rsquo;s or America&rsquo;s. Rugby carries a weight here it carries almost nowhere else, and netball is a genuine market rather than a novelty. A book that prices those properly is worth more to a Kiwi punter than one with a marginally better Premier League margin.</p></div>
+{cards([
+ ("ball","Rugby union","Super Rugby Pacific, the Rugby Championship, All Blacks tests and the NPC. The market that matters most here and the one most international books treat as an afterthought. <a href='/casino-reviews/rooster-bet/'>Rooster Bet</a> was the only offshore book we tested that priced NPC matches consistently, including handicaps and first try-scorer."),
+ ("ball","Rugby league","The NRL, and the Warriors in particular, drive a large share of New Zealand sports turnover. Look for books offering margin handicaps, first try-scorer and same-game multis rather than head-to-head alone."),
+ ("chart","Basketball","The NBA is the single largest category by offshore turnover from New Zealand, helped by tip-off times that land in the Kiwi morning. Offshore books generally price the NBA more sharply than TAB NZ because their liquidity is far deeper."),
+ ("ball","Football","Premier League, Champions League and the A-League. The most competitively priced sport across the board, with margins of 2–4% at the better books. Also where in-play depth varies most between operators."),
+ ("ball","Cricket","Black Caps limited-overs and tests, the IPL, and the Super Smash. Outright and top-batsman markets are where the value tends to sit; match odds are efficiently priced almost everywhere."),
+ ("ball","Netball","The ANZ Premiership and Silver Ferns tests. Almost ignored by international books, which is precisely why it can be worth finding one that prices it. <a href='/casino-reviews/ivibet-sportsbook/'>Ivibet</a> was the best of the offshore group here."),
+ ("bolt","Esports","CS2, League of Legends, Dota 2 and Valorant, growing quickly with younger New Zealand punters. Coverage is deep at the crypto-friendly books and thin at TAB NZ."),
+ ("coin","Racing","Thoroughbred, harness and greyhound. This is TAB NZ&rsquo;s stronghold — domestic pools, full form data and every New Zealand meeting. See the racing section below."),
+])}
+</div></section>
+''')
+
+    # --- RACING
+    o.append(f'''<section id="racing" class="sec sec--haze"><div class="wrap"><div class="prose prose--wide">
+<span class="kicker">Racing</span>
+<h2>Racing betting in New Zealand</h2>
+<p>Racing deserves its own treatment because the domestic and offshore options are not remotely comparable, and because the 2025 law exists largely because of it.</p>
+<p><strong>TAB NZ runs the domestic pools.</strong> New Zealand thoroughbred and harness racing is bet into totalisator pools operated here, which means the odds you see reflect New Zealand money and the dividends are calculated on New Zealand turnover. An offshore book pricing a Riccarton maiden is quoting a fixed price off someone else&rsquo;s market, usually with a wider margin and lower limits, and it will not offer the exotics &mdash; trifectas, First 4, Quinellas and multi-leg pools &mdash; that make up a large share of serious racing play here. It also will not carry full New Zealand form, sectional times or scratchings in real time.</p>
+<p>Add to that the destination of the money. Betting duty and the point-of-consumption charges on racing turnover fund the New Zealand racing industry directly. If domestic racing is something you want to still exist in ten years, where you bet on it is not a neutral choice.</p>
+<div class="note"><b>Our practical recommendation on racing</b>
+<p>For New Zealand thoroughbred and harness racing, TAB NZ is both the lawful option and, on the merits, clearly the better product. Offshore books are worth an account for international sport and in-play markets where their depth and pricing genuinely beat what is available domestically. Splitting your play that way is what most experienced New Zealand punters we speak to actually do.</p></div>
+<h3>International racing</h3>
+<p>For Melbourne Cup carnival, Royal Ascot, the Breeders&rsquo; Cup and the Hong Kong internationals, both routes work. TAB NZ co-mingles into overseas pools for the major meetings, which usually gives better value than an offshore fixed price. For a mid-week Wolverhampton card, an offshore book may be the only place you can get a bet on at all.</p>
+</div></div></section>
+''')
+
+    # --- BANKING
+    o.append(f'''<section id="banking" class="sec"><div class="wrap">
+<div class="sec-head"><span class="kicker">Banking</span><h2>Depositing and withdrawing in New Zealand dollars</h2>
+<p>The mechanics are the same as for online casinos, with one difference that catches punters out: betting accounts turn money over far more often, so a slow withdrawal method costs you more here than it does at a casino.</p></div>
+{table(["Method","Deposit","Withdrawal","NZD native","Notes for punters"], [
+ ["NZD bank transfer","Instant–1 day","1–3 business days","<span class='t-yes'>Yes</span>","The most reliable route from an ANZ, ASB, BNZ, Kiwibank or Westpac account. Never failed in our testing."],
+ ["Cryptocurrency","5–20 min","<b>2–8 hours</b>","<span class='t-no'>No</span>","Fastest by a distance and immune to bank declines. You need an exchange account and you carry price risk while funds are held."],
+ ["Visa / Mastercard debit","Instant","2–5 business days","<span class='t-yes'>Yes</span>","Convenient but the most likely to be declined. Some NZ banks block gambling merchant codes outright."],
+ ["Skrill / Neteller","Instant","4–24 hours","<span class='t-yes'>Usually</span>","A good compromise on speed. Check whether e-wallet deposits qualify for the free bet — at several books they do not."],
+ ["Neosurf","Instant","<span class='t-no'>No</span>","<span class='t-yes'>Yes</span>","Cash voucher from a dairy or service station. Deposit-only, so plan a different withdrawal route from the start."],
+ ["POLi","Patchy","<span class='t-no'>No</span>","<span class='t-yes'>Yes</span>","<b>Not recommended.</b> Deposit-only and frequently declined by New Zealand banks since they tightened credential-sharing terms."],
+], minw=860)}
+<div class="note note--amber"><b>The 2–3% nobody itemises</b>
+<p>If a book holds your balance in euros &mdash; <a href="/casino-reviews/gunsbet/">Gunsbet</a> does &mdash; your bank converts twice, once on the way in and once on the way out, taking roughly 2 to 3% each time. On NZ$2,000 of turnover that is around NZ$100. It is larger than the margin difference between almost any two books, and it is the reason we weight NZD support heavily. <a href="/payment-methods/">Full NZ payment methods guide &rarr;</a></p></div>
+</div></section>
+''')
+
+    # --- BONUSES
+    o.append(f'''<section id="bonuses" class="sec sec--haze"><div class="wrap"><div class="prose prose--wide">
+<span class="kicker">Offers</span>
+<h2>Free bets and betting bonuses for New Zealanders</h2>
+<p>Betting bonuses are structured differently from casino bonuses and are, on the whole, better value &mdash; but only if you read the turnover condition rather than the headline.</p>
+<h3>The three shapes a betting offer takes</h3>
+<ul>
+<li><strong>Matched deposit.</strong> The book matches a percentage of your first deposit in bonus funds, which must be turned over a set number of times before anything can be withdrawn. Gunsbet&rsquo;s 285% and Smash&rsquo;s 250% are this shape. Large headline, substantial turnover.</li>
+<li><strong>Free bet / bet credit.</strong> You place a qualifying bet, and the book credits a free bet of equal value. Crucially, the <strong>stake is usually not returned</strong> with your winnings: a NZ$50 free bet at odds of 2.00 returns NZ$50, not NZ$100. Bet&amp;Play and Rooster Bet use this shape.</li>
+<li><strong>Risk-free / bet insurance.</strong> If your first bet loses, you are refunded &mdash; almost always in bonus funds with their own turnover requirement, not in cash. Read whether the refund is cash or credit, because it changes the value by roughly half.</li>
+</ul>
+<h3>What a fair condition looks like</h3>
+{table(["Condition","Fair","Acceptable","Poor"], [
+ ["Turnover multiple","<span class='t-yes'>1–5x</span>","6–10x","<span class='t-no'>Above 10x</span>"],
+ ["Minimum odds","<span class='t-yes'>1.50–1.80</span>","1.81–2.50","<span class='t-no'>Above 2.50</span>"],
+ ["Expiry window","<span class='t-yes'>30 days</span>","14 days","<span class='t-no'>7 days or less</span>"],
+ ["Stake returned","<span class='t-yes'>Yes</span>","—","<span class='t-no'>No (the norm)</span>"],
+ ["Cashed-out bets count","<span class='t-yes'>Yes</span>","—","<span class='t-no'>No (the norm)</span>"],
+ ["Max win from bonus","<span class='t-yes'>Uncapped</span>","10x+ bonus","<span class='t-no'>Under 5x bonus</span>"],
+], minw=680)}
+<p>By that standard, <a href="/casino-reviews/betandplay/">Bet&amp;Play&rsquo;s 5x at odds of 1.80 or better</a> is the strongest offer available to New Zealanders on this page, and <a href="/casino-reviews/smash/">Smash&rsquo;s 15x</a> is the most reasonable of the large matched-deposit offers. Gunsbet&rsquo;s 285% at 40x is a very large number attached to a very large amount of work.</p>
+<div class="note"><b>A note on multi and acca insurance</b>
+<p>Several books offer &ldquo;money back if one leg lets you down&rdquo; on multis of four or more selections. These are genuinely decent promotions when the refund is cash and the minimum odds per leg are around 1.40. They are close to worthless when the refund is a bonus bet with its own 5x turnover attached. The distinction is one line in the terms and it changes the value completely.</p></div>
+</div></div></section>
+''')
+
+    # --- ODDS
+    o.append(f'''<section id="odds" class="sec"><div class="wrap"><div class="prose prose--wide">
+<span class="kicker">Value</span>
+<h2>Odds, margins and why line shopping matters more than the bonus</h2>
+<p>A welcome offer is a one-off. A bookmaker&rsquo;s margin applies to every bet you ever place with them. Over a year of regular betting, the margin is worth several times the bonus, and almost nobody compares it.</p>
+<h3>How to read a margin</h3>
+<p>Convert each price to an implied probability (1 divided by the decimal odds), add them up, and subtract 100%. On a two-way market priced 1.90 / 1.90, that is 52.6% + 52.6% = 105.3%, so a <strong>5.3% margin</strong>. At 1.95 / 1.95 it is 2.6%. That difference &mdash; five cents on the price &mdash; is the difference between a book you can beat over time and one you cannot.</p>
+{table(["Market type","Sharp margin","Typical margin","Where it gets expensive"], [
+ ["Football match odds","2–4%","5–7%","Correct score and first scorer: 15–25%"],
+ ["NBA head-to-head","2–3%","4–6%","Player props: 8–14%"],
+ ["Rugby union head-to-head","4–5%","6–9%","First try-scorer: 20%+"],
+ ["Tennis match winner","2–4%","5–7%","Set betting: 8–12%"],
+ ["Multis / accumulators","—","—","Margin compounds per leg — a 5% margin over four legs is roughly 21%"],
+], minw=720)}
+<div class="note note--amber"><b>The single most valuable habit in betting</b>
+<p>Hold two or three accounts and check the price at each before every bet. A 3% average improvement on the price you take is worth more than every welcome bonus on this page combined once your annual turnover passes about NZ$3,000. It costs you thirty seconds a bet. Note also that multis compound the margin on every leg, which is why books promote them so heavily &mdash; a four-leg multi at a 5% per-leg margin gives the book roughly 21%.</p></div>
+</div></div></section>
+''')
+
+    # --- TOOLS
+    o.append(f'''<section id="tools" class="sec sec--haze"><div class="wrap">
+<div class="sec-head"><span class="kicker">Features</span><h2>In-play, cash out and the tools worth having</h2>
+<p>Feature lists on betting sites are long and mostly padding. These are the five that change how you actually bet.</p></div>
+{cards([
+ ("bolt","Live / in-play betting","Prices updating during the match. The quality differences here are enormous: <a href='/casino-reviews/betandplay/'>Bet&amp;Play</a> refreshed fastest with the fewest rejected bets, while two books we tested froze markets so often that in-play was effectively unusable. If you bet live, test this before you fund an account properly."),
+ ("coin","Cash out","Settle a bet early for a guaranteed return below the full payout. Convenient, and expensive — the book builds a margin into every cash-out price, typically 5–10% worse than the fair value of your position. Useful for genuine risk management, costly as a habit."),
+ ("chart","Bet builder / same-game multi","Combining several outcomes from one match. Hugely popular and hugely profitable for books, because correlated legs are priced with a compounding margin. Enjoy them for what they are; do not mistake them for value."),
+ ("mobile","Live streaming","Watch the event you have bet on inside the account, usually requiring a funded balance or an active bet. Rooster Bet streams selected football and tennis. Rights restrictions mean almost nothing from New Zealand domestic sport is available this way."),
+ ("clock","Early payout","Some books pay a football bet as a winner at two goals clear, or a rugby bet at a set margin, regardless of the final result. A genuinely player-favourable promotion when it is offered without conditions attached."),
+ ("shield","Deposit and loss limits","Not a betting feature, a control. Every operator here offers deposit caps, session reminders, time-outs and self-exclusion. Set the limit when you open the account, when you are calm and it costs you nothing to be sensible.","/responsible-gambling/","Responsible gambling"),
+])}
+</div></section>
+''')
+
+    # --- MOBILE
+    o.append(f'''<section id="mobile" class="sec"><div class="wrap"><div class="prose prose--wide">
+<span class="kicker">Mobile</span>
+<h2>Betting on your phone in New Zealand</h2>
+<p>Almost all New Zealand betting turnover happens on a phone, and almost no offshore bookmaker ships an app to the New Zealand App Store or Google Play, because both platforms restrict real-money gambling apps here. That is not the problem it sounds like.</p>
+<p>What operators build instead is a <strong>progressive web app</strong> &mdash; a mobile site that you add to your home screen from the browser share menu, which then opens full-screen with no address bar and behaves like a native app. It does not need an app store account, it never asks you to install an update, and it takes about ten seconds to set up. On iOS: Safari, share button, <em>Add to Home Screen</em>. On Android: Chrome, menu, <em>Install app</em> or <em>Add to Home screen</em>.</p>
+<p>What to check before you commit to a book on mobile: whether the bet slip stays reachable one-handed, whether live prices update without a manual refresh, whether the deposit flow works without bouncing you out to a broken bank redirect, and whether you can complete a withdrawal entirely on the phone. We test all four. <a href="/casino-reviews/rivo/">Rivo</a> had the best mobile build of any operator we looked at, with <a href="/casino-reviews/rooster-bet/">Rooster Bet</a> close behind.</p>
+<p>One New Zealand-specific point: mobile data coverage outside the main centres is variable, and a betting interface that assumes constant connectivity will reject bets on a patchy 4G signal. Books that queue the bet and confirm on reconnection handle this far better than those that simply fail. It is a small thing that matters if you bet from a farm, a bach or a car park at a provincial ground.</p>
+</div></div></section>
+''')
+
+    # --- TRUST
+    o.append(f'''<section id="trust" class="sec sec--haze"><div class="wrap">
+<div class="sec-head"><span class="kicker">Safety</span><h2>Trust, licensing and what to watch for</h2>
+<p>With no New Zealand regulator standing behind an offshore book, the due diligence falls to you. These are the checks we run on every operator, and you can run them in about five minutes.</p></div>
+<ol class="steps">
+<li><h4>Find the licence number, then verify it</h4><p>It should be in the footer with a number, not just a badge. Take the number to the regulator&rsquo;s public register &mdash; the Curaçao Gaming Control Board maintains one &mdash; and confirm it is live and matches the company named. A badge image proves nothing; anyone can host a PNG. Any book that does not publish a number is an immediate no.</p></li>
+<li><h4>Identify the operating company</h4><p>You are looking for a named legal entity and a registered address, usually in the terms and conditions. Dama N.V., Rabidi N.V. and Vertikal N.V. are all real companies with traceable histories. &ldquo;Not published&rdquo; is a genuine red flag, and it is why <a href="/casino-reviews/roby-casino/">Roby</a> is marked down on this site.</p></li>
+<li><h4>Read the withdrawal terms before you deposit</h4><p>Specifically: the weekly and monthly withdrawal ceilings, whether withdrawals are processed on weekends, whether a fee applies below a threshold, and whether the book reserves a right to pay large wins in instalments. All of that is in the T&amp;Cs and none of it is in the marketing.</p></li>
+<li><h4>Complete verification on day one</h4><p>Upload a New Zealand driver licence or passport, a proof of address dated within three months, and a screenshot of your payment method, before you have a balance worth withdrawing. Almost every &ldquo;they won&rsquo;t pay me&rdquo; story we investigate is an incomplete KYC file discovered at the worst possible moment.</p></li>
+<li><h4>Test with a small withdrawal early</h4><p>Deposit, place a modest bet, and withdraw whatever is left within the first week. You are buying information about how this operator behaves when it owes you money, and the cost of that information is essentially zero. We do exactly this at every book we review.</p></li>
+</ol>
+<div class="note"><b>Signals we treat as disqualifying</b>
+<p>No published licence number; no named operating company; terms that permit voiding winnings at the operator&rsquo;s sole discretion without defined grounds; a pattern of unresolved non-payment complaints on independent forums; or a withdrawal process that requires contacting support rather than a self-service request. Any one of these and the book does not appear on this site, regardless of commercial terms.</p></div>
+</div></section>
+''')
+
+    o.append(band("Prefer the fully regulated route?",
+                  "TAB NZ is the only operator authorised to offer racing and sports betting to New Zealanders, "
+                  "with domestic oversight and a local complaints path. For New Zealand racing in particular, "
+                  "it is also the better product.",
+                  "Read our full comparison", "/best-sports-betting-sites/"))
+
+    o.append('<section id="rg" class="sec" style="padding:0"></section>')
+    o.append(rg_block())
+    o.append(faq_block(OB_FAQ, "Online betting NZ: frequently asked questions"))
+
+    o.append(f'''<section class="sec"><div class="wrap"><div class="prose prose--wide">
+<h2>The bottom line on online betting in New Zealand</h2>
+<p>New Zealand has made a deliberate policy choice: one authorised betting operator, with the proceeds directed to the racing industry and community sport. Whether you think that is the right call, it is the law as at {UPDATED_NZ}, and it is enforced against operators rather than against you.</p>
+<p>If you bet on New Zealand racing, TAB NZ is both the lawful and the better option &mdash; the pools are domestic, the exotics exist, and the form data is complete. If you bet on international sport, offshore books offer depth and pricing that TAB NZ does not attempt to match, and using one does not put you in legal jeopardy. What it does is remove your safety net, so size your balance accordingly, verify your account on day one, and withdraw your winnings rather than letting them sit.</p>
+<p>Whatever you choose, set a deposit limit before you place the first bet. It is the one decision on this page that is guaranteed to be worth making.</p>
+{authorbox("daniel-ashworth")}
+</div></div></section>
+''')
+
+    o.append(footer())
+    return write(OB_PATH, "".join(o))
+
+
+# ================================================= /best-sports-betting-sites/
+SB_TITLE = "Best Sports Betting Sites NZ 2026 | Compared &amp; Ranked"
+SB_DESC = ("The best sports betting sites for New Zealanders in 2026, compared on rugby and NRL market "
+           "depth, odds margins, in-play quality, NZD banking and free bet terms. Independently tested.")
+SB_PATH = "/best-sports-betting-sites/"
+
+SB_FAQ = [
+ ("What is the best sports betting site in NZ?",
+  "<p>For overall market depth and rugby coverage, <a href='/casino-reviews/rooster-bet/'>Rooster Bet</a> was the "
+  "strongest offshore book we tested, scoring 9.0. For in-play betting, "
+  "<a href='/casino-reviews/betandplay/'>Bet&amp;Play</a> is clearly ahead. For New Zealand thoroughbred and "
+  "harness racing, TAB NZ is both the authorised operator and, on the merits, the better product because the "
+  "pools are domestic. Read our <a href='/online-betting/'>online betting guide</a> for the legal context before "
+  "opening any offshore account.</p>"),
+ ("Which betting site has the deepest rugby markets?",
+  "<p>Rooster Bet, by a clear margin among offshore books. It was the only one that consistently priced NPC "
+  "matches alongside Super Rugby Pacific and the Rugby Championship, and the only one offering handicaps, "
+  "first try-scorer and same-game multis across the full New Zealand domestic calendar rather than tests alone.</p>"),
+ ("Can I bet on the All Blacks from New Zealand?",
+  "<p>Yes. All Blacks tests are covered by TAB NZ and by every offshore book that accepts New Zealand "
+  "registrations. Placing the bet is not an offence for you. Prices on headline tests are competitive across the "
+  "board because liquidity is high; the difference between books shows up on the derivative markets &mdash; "
+  "handicaps, margins, try-scorers &mdash; rather than the head-to-head.</p>"),
+ ("Do betting sites accept NZD?",
+  "<p>Many do. Rooster Bet, Bet&amp;Play, Kingdom, Smash, Rivo, MadCasino and Lucky Vibe all hold New Zealand "
+  "dollar balances. Gunsbet is euro-denominated, which costs roughly 2&ndash;3% in conversion each way. Always "
+  "check the account currency before depositing &mdash; the spread is usually larger than the price difference "
+  "between books.</p>"),
+ ("What is the fastest-paying betting site for Kiwis?",
+  "<p><a href='/casino-reviews/kingdom/'>Kingdom</a> at two to four hours on crypto, with "
+  "<a href='/casino-reviews/rooster-bet/'>Rooster Bet</a> and <a href='/casino-reviews/betandplay/'>Bet&amp;Play</a> "
+  "close behind at two to eight hours. NZD bank withdrawals take one to three business days everywhere. Unverified "
+  "accounts are the main cause of delay, not the payment method.</p>"),
+ ("Is there a betting site with no wagering on the free bet?",
+  "<p>Not among the books accepting New Zealanders in 2026. The closest is Bet&amp;Play at 5x turnover with a "
+  "minimum odds requirement of 1.80, which is genuinely modest. Treat any book advertising a &lsquo;no "
+  "wagering&rsquo; free bet with scepticism and read the maximum-conversion clause before you accept it.</p>"),
+]
+
+
+def sports_sites():
+    ops = SPORTS
+    schema = page_schema(
+        "CollectionPage", SB_TITLE, SB_DESC, SB_PATH, author="daniel-ashworth",
+        extra=[crumb_schema([("Home", "/"), ("Best Sports Betting Sites", SB_PATH)]),
+               itemlist_schema(ops, "Best sports betting sites NZ 2026", SB_PATH, "sports"),
+               faq_schema(SB_FAQ, f"{SITE}{SB_PATH}#faq")])
+    o = [head(SB_TITLE, SB_DESC, SB_PATH, schema),
+         crumbs([("Home", "/"), ("Best Sports Betting Sites", None)])]
+
+    o.append(f'''<section class="hero"><div class="wrap">
+<span class="eyebrow">{icon("ball")} 12 sportsbooks tested</span>
+<h1>Best Sports Betting Sites NZ 2026</h1>
+{byline("daniel-ashworth", "tama-whitiora")}
+<p class="lede">Ranked on what actually decides a betting account: rugby and NRL market depth, the margin you pay on every bet, in-play reliability, NZD banking and how fast the money comes back. Read our <a href="/online-betting/" style="color:#fff;text-decoration:underline">guide to New Zealand betting law</a> first &mdash; the rules changed in 2025 and they matter.</p>
+</div></section>
+''')
+
+    o.append('<section class="sec" style="padding-bottom:0"><div class="wrap">' + disclosure() + '</div></section>')
+
+    o.append(leaderboard(ops, "sports",
+                         heading="Best betting sites for New Zealand punters",
+                         intro="Every book below currently accepts New Zealand registrations. None of them "
+                               "except TAB NZ is authorised to offer betting here — see our "
+                               "<a href='/online-betting/'>legal explainer</a> for what that means for you."))
+
+    o.append(f'''<section class="sec sec--haze"><div class="wrap">
+<div class="sec-head"><span class="kicker">By category</span><h2>Best betting site by what you want</h2></div>
+{picks([
+ ("Best overall","rooster-bet","The deepest rugby union and rugby league markets of any offshore book, a real casino attached on the same wallet, and payouts inside six hours."),
+ ("Best in-play","betandplay","Live prices refresh faster than anything else we tested and bets are accepted without the constant freezes that ruin live betting elsewhere."),
+ ("Biggest welcome offer","gunsbet","285% up to €7,500 plus 285 free spins, from an operator running since 2016. Euro-denominated, so budget for the conversion spread."),
+ ("Best betting bonus terms","smash","250% up to NZ$9,800 at 15x — a realistic turnover requirement on a large matched offer, which is a rare combination."),
+ ("Fastest payouts","kingdom","Two to four hours on crypto with no operator fee, and one wallet shared with a 7,000-game casino."),
+ ("Best niche markets","ivibet-sportsbook","Netball, handball and table tennis priced properly rather than ignored. Worth an account if you bet outside the mainstream."),
+])}
+</div></section>
+''')
+
+    o.append(f'''<section class="sec"><div class="wrap">
+<div class="sec-head"><span class="kicker">Compared</span><h2>Sports betting sites NZ: full comparison</h2></div>
+{table(["Betting site","Score","Sports covered","Live betting","Cash out","NZD","Crypto","Payout speed"], [
+ ["<a href='/casino-reviews/rooster-bet/'>Rooster Bet</a>","9.0","10+ incl. rugby union &amp; league","<span class='t-yes'>Yes + streaming</span>","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","2–6 hrs"],
+ ["<a href='/casino-reviews/kingdom/'>Kingdom</a>","9.1","Full international book","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","<b>2–4 hrs</b>"],
+ ["<a href='/casino-reviews/smash/'>Smash</a>","8.8","Full international book","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","3–8 hrs"],
+ ["<a href='/casino-reviews/gunsbet/'>Gunsbet</a>","8.6","8 sports, football-led","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","<span class='t-no'>EUR</span>","<span class='t-no'>No</span>","12–24 hrs"],
+ ["<a href='/casino-reviews/betandplay/'>Bet&amp;Play</a>","8.5","8 sports incl. both rugby codes","<span class='t-yes'><b>Best in class</b></span>","<span class='t-no'>Partial</span>","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","2–8 hrs"],
+ ["<a href='/casino-reviews/rivo/'>Rivo</a>","8.6","Full international book","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","3–8 hrs"],
+ ["<a href='/casino-reviews/ivibet-sportsbook/'>Ivibet Sportsbook</a>","8.2","10 sports incl. netball","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","<span class='t-no'>No</span>","<span class='t-yes'>Yes</span>","2–12 hrs"],
+ ["<a href='/casino-reviews/fortune-play/'>Fortune Play</a>","8.8","Full international book","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","2–8 hrs"],
+], minw=960)}
+</div></section>
+''')
+
+    o.append(f'''<section class="sec sec--haze"><div class="wrap"><div class="prose prose--wide">
+<h2>How we rank sports betting sites</h2>
+<p>Our sportsbook scoring uses six criteria, weighted for what matters to a New Zealand punter rather than a British or American one.</p>
+<ul>
+<li><strong>Market depth on NZ-relevant sport (25%).</strong> Rugby union down to NPC level, rugby league including the Warriors, netball, and Black Caps cricket. A book with 40 football leagues and no NPC is not a New Zealand betting site.</li>
+<li><strong>Price and margin (25%).</strong> We sample head-to-head and handicap prices across rugby, NBA, football and tennis and calculate the implied margin. A 2% difference here outweighs any welcome offer over a year.</li>
+<li><strong>Withdrawal speed (20%).</strong> Timed by us from request to funds landing, separately for crypto, e-wallet and NZD bank.</li>
+<li><strong>In-play quality (15%).</strong> Refresh rate, bet rejection rate and how the interface behaves on a patchy mobile connection.</li>
+<li><strong>Banking (10%).</strong> Native NZD balances, which methods clear from New Zealand banks, and whether withdrawals fail.</li>
+<li><strong>Trust and transparency (5%).</strong> Verifiable licence number, named operating company, and withdrawal terms that do not reserve unlimited discretion.</li>
+</ul>
+<p>Full detail is on our <a href="/how-we-review/">review methodology page</a>, including what disqualifies an operator outright.</p>
+</div></div></section>
+''')
+
+    o.append(rg_block())
+    o.append(faq_block(SB_FAQ, "Sports betting NZ: your questions answered"))
+    o.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
+             + authorbox("daniel-ashworth") + '</div></div></section>')
+    o.append(footer())
+    return write(SB_PATH, "".join(o))
+
+
+def build():
+    return [online_betting(), sports_sites()]

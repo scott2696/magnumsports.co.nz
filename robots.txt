@@ -1,0 +1,34 @@
+# robots.txt — magnumsports.co.nz
+
+# SEO crawlers we do not want indexing or profiling this site
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: Rogerbot
+Disallow: /
+
+User-agent: serpstatbot
+Disallow: /
+
+User-agent: SistrixBot
+Disallow: /
+
+# Everyone else
+User-agent: *
+Allow: /
+Disallow: /_build/
+Disallow: /go/
+Disallow: /*?
+Crawl-delay: 1
+
+Sitemap: https://magnumsports.co.nz/sitemap.xml
