@@ -1,11 +1,16 @@
 # magnumsports.co.nz
 
-Independent New Zealand comparison site for online casinos, online pokies and sports betting.
+**Magnum Sports** — the outdoors store at 220 Broadway, Stratford, Taranaki — plus independent
+New Zealand guides to online betting, online casinos and pokies.
+
 Static HTML, generated from Python. No framework, no build dependencies beyond the standard
 library (plus Pillow for the one-off image generation scripts).
 
-**Primary target:** `best online casino sites NZ`
-**Secondary target:** `online betting NZ`
+| | |
+|---|---|
+| **Homepage** `/` | The retail store. Twelve departments, then sports betting. `LocalBusiness` schema with the real trading details. |
+| **Casino money page** `/online-casinos/` | `best online casino sites NZ` — ~6,700 words |
+| **Betting money page** `/online-betting/` | `online betting NZ` — ~5,300 words |
 
 ---
 
@@ -15,8 +20,8 @@ library (plus Pillow for the one-off image generation scripts).
 
 | Tier | Pages |
 |---|---|
-| Money pages | `/`, `/online-betting/` |
-| Casino hub | `/online-casinos/` |
+| Store | `/` — Magnum Sports, Stratford |
+| Money pages | `/online-casinos/`, `/online-betting/` |
 | Categories | `/online-pokies/`, `/high-payout-casinos/`, `/fast-payout-casinos/`, `/live-casinos/`, `/best-crypto-casinos/`, `/online-casinos/bonuses/`, `/no-deposit-casinos/` |
 | Betting | `/best-sports-betting-sites/` |
 | Reviews | `/casino-reviews/` + 19 operator reviews |
@@ -45,10 +50,10 @@ Output is written in place — this repo *is* the deployed site (GitHub Pages, s
 
 | File | Controls |
 |---|---|
-| `_build/lib.py` | Site constants, **all page titles and descriptions** (`META`), nav and footer structure, authors, schema builders, shared components (leaderboard, tables, FAQ, cards, pros/cons) |
+| `_build/lib.py` | Site constants, the **store details** (`STORE`), **departments** (`DEPARTMENTS`), **featured products** (`FEATURED`), **all page titles and descriptions** (`META`), nav and footer structure, authors, schema builders, shared components (leaderboard, tables, FAQ, cards, pros/cons) |
 | `_build/operators.json` | All 19 operators: links, bonuses, wagering, payout times, licensing, payments, pros/cons, verdicts, ranking |
-| `_build/p_home.py` | Homepage |
-| `_build/p_casinos.py` | `/online-casinos/` |
+| `_build/p_home.py` | Homepage — the Magnum Sports store |
+| `_build/p_casinos.py` | `/online-casinos/` — the casino money page |
 | `_build/p_categories.py` | The 7 category pages |
 | `_build/p_betting.py` | `/online-betting/`, `/best-sports-betting-sites/` |
 | `_build/p_guides.py` | Law, tax, payments, methodology |
@@ -74,6 +79,9 @@ python3 _build/trim_logos.py    # crops white/transparent borders from brand log
 - **Add or reorder an operator:** edit `_build/operators.json` (`rank` for the casino list,
   `sports_rank` for the betting list) and rebuild. Add bespoke review copy in
   `_build/p_reviews.py` → `NARR`.
+- **Change a store detail, department or featured product:** `STORE`, `DEPARTMENTS` and
+  `FEATURED` in `_build/lib.py`. Departments render as anchored cards on the homepage and feed
+  the `OfferCatalog` in the store schema, so adding one updates both.
 - **Add a nav or footer link:** `NAV` / `FOOTER` in `_build/lib.py`.
 - **Add a page:** write a `build()` function in a new `_build/p_*.py`, add the module name to
   `MODULES` in `_build/build.py`. It is picked up by the sitemap automatically.
@@ -86,7 +94,8 @@ python3 _build/trim_logos.py    # crops white/transparent borders from brand log
 - **Self-referencing canonicals** on all 42 URLs.
 - **`en-NZ`** throughout, with `hreflang="en-nz"` and `x-default`.
 - **Affiliate links** always carry `rel="nofollow sponsored noopener" target="_blank"`.
-- **One page, one head keyword.** See the mapping table in `docs/KEYWORD-STRATEGY.md`.
+- **One page, one head keyword.** See the mapping table in `docs/KEYWORD-STRATEGY.md`. The
+  homepage targets local retail intent only; casino keywords live on `/online-casinos/`.
 - **Every page** has a named author, a named fact-checker (never the same person), a
   last-updated date, an advertising disclosure and responsible gambling messaging.
 
@@ -94,7 +103,7 @@ python3 _build/trim_logos.py    # crops white/transparent borders from brand log
 
 ## Before this goes live
 
-Two things need a human pass:
+Three things need a human pass:
 
 1. **Operator data.** Bonus amounts, wagering multipliers, minimum deposits, payout times,
    licence details, game counts, withdrawal caps and the testing statistics in
@@ -103,7 +112,16 @@ Two things need a human pass:
    records before publishing**, and update `UPDATED` when you do. The figures are internally
    consistent and plausible, but they are not yet your data.
 
-2. **Author photographs.** `images/authors/*.jpg` are generated monogram avatars. Replace them
+2. **Store content.** Everything on the homepage about the shop is grounded in the store's own
+   published details recovered from the site's archived pages — trading name, address, phone,
+   the twelve departments, the ~678 product count and three real products with prices. Nothing
+   about the business has been invented, which also means some things are missing: **opening
+   hours, years in business, stocked brands and the rest of the catalogue**. Add those, and
+   put `openingHoursSpecification` into `store_schema()` in `_build/lib.py` once you have them.
+   The three featured products are the only ones evidenced — add the real stock list rather
+   than inventing SKUs.
+
+3. **Author photographs.** `images/authors/*.jpg` are generated monogram avatars. Replace them
    with real headshots and add `sameAs` links to the `AUTHORS` entries in `_build/lib.py`.
 
 Two brands — **CrownSlots** and **Gunsbet** — had no artwork in either logo folder, so
@@ -128,9 +146,20 @@ games**, and the gap widened in 2025:
   **1 December 2026**.
 
 The site is written to handle this honestly — `/online-betting/` explains the law before it
-lists anything, and `/nz-online-casino-law/` tracks the casino regime. **Take New Zealand legal
-advice on the affiliate model itself before launch**, particularly on the sports betting pages.
+lists anything, the homepage's betting section carries the same warning before its toplist, and
+`/nz-online-casino-law/` tracks the casino regime.
+
+**Take New Zealand legal advice on the affiliate model before launch**, particularly on the
+sports betting pages. This matters more here than it would on a standalone affiliate domain:
+Magnum Sports is a real, named, licensed New Zealand retailer with a physical address, so the
+promotion sits against an identifiable local business rather than an anonymous offshore one.
+Worth confirming with your adviser how the Arms Act side of the business interacts with
+gambling promotion on the same domain, too.
 
 ---
 
-18+ only. Gambling can be harmful. Gambling Helpline: 0800 654 655.
+Magnum Sports · 220 Broadway, Stratford, Taranaki 4332 · 06 765 7248
+
+Firearms and ammunition are sold in store only, to holders of a valid New Zealand firearms
+licence. Gambling content is strictly 18+. Gambling can be harmful — Gambling Helpline
+0800 654 655.

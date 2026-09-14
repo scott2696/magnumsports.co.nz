@@ -300,10 +300,11 @@ td b,th b{color:var(--ink)}
 .foot{background:var(--ink);color:#8e9bb4;padding:52px 0 26px;font-size:.88rem;margin-top:0}
 .foot a{color:#c3cddf}
 .foot a:hover{color:#fff}
-.foot-top{display:grid;gap:30px 26px;grid-template-columns:1.6fr repeat(5,minmax(0,1fr));padding-bottom:34px;border-bottom:1px solid rgba(255,255,255,.1)}
+.foot-top{display:grid;gap:30px 26px;grid-template-columns:1.5fr repeat(3,minmax(0,1fr));padding-bottom:34px;border-bottom:1px solid rgba(255,255,255,.1)}
 .foot-col h4{color:#fff;font-size:.78rem;font-family:var(--mono);letter-spacing:.11em;text-transform:uppercase;margin:0 0 13px;font-weight:500}
 .foot-col ul{list-style:none;padding:0;margin:0}
 .foot-col li{margin-bottom:8px}
+.foot-about{grid-row:span 2}
 .foot-about p{margin-bottom:1em;max-width:36ch;line-height:1.62}
 .foot-bot{padding-top:24px;display:flex;gap:22px;flex-wrap:wrap;justify-content:space-between;align-items:flex-start}
 .foot-bot p{margin:0;max-width:62ch;font-size:.81rem;line-height:1.62}

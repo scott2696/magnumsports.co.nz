@@ -1,7 +1,8 @@
 # Keyword Strategy — magnumsports.co.nz
 
-**Head term:** `best online casino sites NZ`
-**Secondary head term:** `online betting NZ`
+**Head term:** `best online casino sites NZ` → `/online-casinos/`
+**Secondary head term:** `online betting NZ` → `/online-betting/`
+**Homepage:** the Magnum Sports retail store — local intent, not casino intent
 **Market:** New Zealand (`en-NZ`, hreflang `en-nz` + `x-default`)
 
 Volumes below are directional monthly NZ estimates for planning priority, not billing-grade
@@ -13,17 +14,18 @@ will not see this site's own performance.
 
 ## 1. Primary keyword clusters
 
-### Cluster A — Head / commercial investigation (→ `/`)
-The homepage owns the head term and every close variant. Do not build a second page for these.
+### Cluster A — Head / commercial investigation (→ `/online-casinos/`)
+`/online-casinos/` owns the head term and every close variant. Do not build a second page for
+these. The homepage is the retail store and does **not** target casino keywords.
 
 | Keyword | Est. vol | Intent | Placement |
 |---|---|---|---|
-| best online casino sites NZ | 900 | Commercial | H1, title, lede, first H2 |
+| best online casino sites NZ | 900 | Commercial | `/online-casinos/` H1, title, lede, first H2 |
 | best online casino NZ | 2,400 | Commercial | Title variant, H2, FAQ |
-| online casino NZ | 3,600 | Commercial | Hub H1 (`/online-casinos/`) |
+| online casino NZ | 3,600 | Commercial | `/online-casinos/` H2 + body |
 | best online casinos NZ 2026 | 700 | Commercial | H2, intro |
 | top online casinos NZ | 480 | Commercial | Section H2 |
-| real money online casino NZ | 590 | Transactional | `/online-casinos/` H1 + homepage body |
+| real money online casino NZ | 590 | Transactional | `/online-casinos/` body + FAQ |
 | NZ online casino sites | 320 | Commercial | Body, comparison table caption |
 | best casino sites New Zealand | 260 | Commercial | Body, FAQ answer |
 | online casino real money New Zealand | 210 | Transactional | Body |
@@ -67,6 +69,25 @@ almost nobody outranks a well-built review for `<brand> review NZ`.
 
 Pattern per brand: `<brand> review`, `<brand> NZ`, `is <brand> legit`, `<brand> bonus code`,
 `<brand> withdrawal time`, `<brand> login`.
+
+
+### Cluster E — Local retail (→ `/`)
+The homepage's own cluster. Low volume, very high intent, effectively uncontested — and it is
+the term set the domain has genuine real-world authority for.
+
+| Keyword | Intent | Placement |
+|---|---|---|
+| magnum sports | Navigational | H1, title, `LocalBusiness` schema |
+| magnum sports stratford / magnum sports taranaki | Local | H1, hero, visit section |
+| outdoors store stratford / hunting shop taranaki | Local commercial | H1, departments intro |
+| fishing gear taranaki / hunting gear new plymouth | Local commercial | Fishing and hunting department copy |
+| airguns nz / ammunition stratford | Local commercial | Department cards |
+| gun shop taranaki / firearms stratford | Local commercial | Firearms department + licence note |
+| camping gear taranaki | Local commercial | Outdoor Leisure card |
+
+**Priority action:** claim and complete the Google Business Profile for 220 Broadway, Stratford.
+For a physical retailer these queries convert at a rate no national keyword matches, and the
+`LocalBusiness` schema on `/` is only half the job without the profile.
 
 ---
 
@@ -179,8 +200,8 @@ No two pages target the same head keyword. This is the discipline that prevents 
 
 | URL | Primary keyword | Secondary | Supporting long-tail |
 |---|---|---|---|
-| `/` | best online casino sites NZ | best online casino NZ 2026 | top real money casino sites NZ, NZ casino comparison |
-| `/online-casinos/` | online casino NZ | real money online casino NZ | how online casinos work NZ, NZ casino market 2026 |
+| `/` | **magnum sports** / outdoors store Stratford | hunting fishing camping Taranaki | airguns NZ, ammunition Stratford, outdoor gear Taranaki |
+| `/online-casinos/` | **best online casino sites NZ** | online casino NZ, real money casino NZ | top casino sites NZ, NZ casino comparison, how online casinos work |
 | `/online-pokies/` | online pokies NZ | real money pokies NZ | pokies RTP, pokies vs pub pokies, best pokies to play |
 | `/high-payout-casinos/` | highest payout online casino NZ | best RTP casino NZ | highest RTP casino game, house edge by game |
 | `/fast-payout-casinos/` | fast payout casino NZ | instant withdrawal casino NZ | fastest paying casino, why is my withdrawal slow |
@@ -208,7 +229,7 @@ target page: 40% exact/near-exact, 40% partial-match, 20% natural-language.
 
 | Target | Exact | Partial | Natural |
 |---|---|---|---|
-| `/` | best online casino sites NZ | our casino rankings | the rest of the field |
+| `/online-casinos/` | best online casino sites NZ | our casino rankings | the rest of the field |
 | `/online-pokies/` | online pokies NZ | best pokies sites | which studios are worth seeking out |
 | `/fast-payout-casinos/` | fast payout casinos | fastest payouts | the withdrawal times we recorded |
 | `/online-casinos/bonuses/` | casino bonuses NZ | compare bonuses | the arithmetic worked through |

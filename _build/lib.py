@@ -5,7 +5,78 @@ import json, os, html
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = "https://magnumsports.co.nz"
 NAME = "Magnum Sports"
-TAG = "NZ Casino & Betting Guide"
+TAG = "Outdoors Store & NZ Betting Guide"
+
+# The retail business this domain has always belonged to. Facts here are the
+# store's own published trading details — do not invent additions.
+STORE = {
+    "name": "Magnum Sports",
+    "legal": "Magnum Sports New Zealand",
+    "tagline": "Hunting, Fishing, Camping, Clothing and more.",
+    "blurb": ("Magnum Sports Taranaki, New Zealand for your outdoor gear and "
+              "sports equipment."),
+    "street": "220 Broadway",
+    "suburb": "Stratford",
+    "region": "Taranaki",
+    "postcode": "4332",
+    "country": "NZ",
+    "phone_display": "06 765 7248",
+    "phone_tel": "+6467657248",
+    "products": 678,
+}
+
+DEPARTMENTS = [
+    ("Airguns", "airguns", "target",
+     "Air rifles and air pistols, pellets, targets and scopes. The sensible "
+     "starting point for pest control on the farm and for target shooting."),
+    ("Ammunition", "ammunition", "cartridge",
+     "Rimfire, centrefire and shotgun ammunition from the calibres Taranaki "
+     "hunters actually use. Firearms licence required — see below."),
+    ("Apparel", "apparel", "shirt",
+     "Bush shirts, thermals, rainwear, hunting camo and everyday outdoor "
+     "clothing built for a Taranaki winter rather than a catalogue shoot."),
+    ("Bags", "bags", "pack",
+     "Day packs, hunting packs, meat packs, dry bags, rod tubes and gun bags "
+     "— carry gear that survives more than one season."),
+    ("Firearms and Accessories", "firearms-and-accessories", "shield",
+     "Rifles, shotguns, scopes, mounts, slings, cases and safes. Licence and "
+     "in-store paperwork required on every firearm we sell."),
+    ("Fishing", "fishing", "fish",
+     "Freshwater and saltwater — rods, reels, line, lures, flies, nets and "
+     "terminal tackle for the Taranaki rivers and the coast."),
+    ("Footwear", "footwear", "boot",
+     "Boots for the bush, gumboots for the paddock, wading boots for the "
+     "river, and socks worth the money."),
+    ("Hunting Accessories", "hunting-accessories", "compass",
+     "Knives, game bags, calls, rangefinders, headlamps, bipods and the "
+     "hundred small things you notice only when you have forgotten one."),
+    ("Outdoor Leisure", "outdoor-leisure", "tent",
+     "Camping, tramping and family gear — tents, sleeping bags, chilly bins, "
+     "cookers, torches and chairs."),
+    ("Reloading", "reloading", "scale",
+     "Presses, dies, powder, primers, projectiles, tumblers and scales for "
+     "handloading your own."),
+    ("Sporting Goods", "sporting-goods", "ball",
+     "General sports equipment and club gear — the side of the shop that has "
+     "kept Stratford supplied for years."),
+    ("Clearance", "clearance", "tag",
+     "End-of-line, ex-display and last-season stock at reduced prices. "
+     "Changes constantly; worth a look every visit."),
+]
+
+# The only products we can evidence from the store's own catalogue. Add the
+# rest from the real stock list before launch — do not invent SKUs or prices.
+FEATURED = [
+    ("4 Piece Hunters Pack", "109.99", "Hunting Accessories",
+     "A starter bundle for anyone getting into the bush — the four things "
+     "people come back for after their first trip without them."),
+    ("5 TO 9 Track Pant", "109.99", "Apparel",
+     "Hard-wearing track pant that works on the hill and in town. One of the "
+     "steadiest sellers on the apparel wall."),
+    ("360° Wide Brim Hat", "49.99", "Apparel",
+     "Full-brim sun protection for fishing, farm work and summer tramping. "
+     "Also stocked in a heavier $59.99 version."),
+]
 EMAIL = "editor@magnumsports.co.nz"
 PUBLISHED = "2026-02-02"
 UPDATED = "2026-09-14"
@@ -56,8 +127,23 @@ AUTHORS = {
 
 NAV = [
     ("Home", "/", None),
+    ("Outdoors Store", "/#shop", [
+        ("Shop by Department", "/#shop"),
+        ("Airguns", "/#airguns"),
+        ("Ammunition", "/#ammunition"),
+        ("Apparel", "/#apparel"),
+        ("Firearms and Accessories", "/#firearms-and-accessories"),
+        ("Fishing", "/#fishing"),
+        ("Hunting Accessories", "/#hunting-accessories"),
+        ("Outdoor Leisure", "/#outdoor-leisure"),
+        ("Visit the Store", "/#visit"),
+    ]),
+    ("Betting", "/online-betting/", [
+        ("Online Betting NZ", "/online-betting/"),
+        ("Best Sports Betting Sites", "/best-sports-betting-sites/"),
+    ]),
     ("Online Casinos", "/online-casinos/", [
-        ("Online Casinos NZ", "/online-casinos/"),
+        ("Best Online Casino Sites NZ", "/online-casinos/"),
         ("Online Pokies", "/online-pokies/"),
         ("High Payout Casinos", "/high-payout-casinos/"),
         ("Fast Payout Casinos", "/fast-payout-casinos/"),
@@ -66,10 +152,6 @@ NAV = [
         ("Casino Bonuses", "/online-casinos/bonuses/"),
         ("No Deposit Bonuses", "/no-deposit-casinos/"),
         ("Casino Reviews", "/casino-reviews/"),
-    ]),
-    ("Betting", "/online-betting/", [
-        ("Online Betting NZ", "/online-betting/"),
-        ("Best Sports Betting Sites", "/best-sports-betting-sites/"),
     ]),
     ("Guides", None, [
         ("NZ Online Casino Law", "/nz-online-casino-law/"),
@@ -83,6 +165,9 @@ NAV = [
 ]
 
 FOOTER = [
+    ("Outdoors Store", [("Shop by Department", "/#shop"), ("Firearms &amp; Ammunition", "/#firearms-and-accessories"),
+                        ("Fishing", "/#fishing"), ("Hunting Accessories", "/#hunting-accessories"),
+                        ("Visit Us in Stratford", "/#visit")]),
     ("Casinos", [("Online Casinos NZ", "/online-casinos/"), ("Online Pokies", "/online-pokies/"),
                  ("High Payout Casinos", "/high-payout-casinos/"), ("Fast Payout Casinos", "/fast-payout-casinos/"),
                  ("Live Dealer Casinos", "/live-casinos/"), ("Crypto Casinos", "/best-crypto-casinos/")]),
@@ -116,6 +201,16 @@ IC = {
  "search": '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
  "users": '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M17 11.2a3.2 3.2 0 0 0 0-6.2M18 20h3.5a5.5 5.5 0 0 0-3.2-5"/>',
  "scale": '<path d="M12 3v18M7 21h10M12 6 5 9l3 5 3-5zM12 6l7 3-3 5-3-5z"/>',
+ "target": '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.1"/><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3"/>',
+ "cartridge": '<path d="M9 21h6V9.2L12 3 9 9.2z"/><path d="M9 13h6M9 17h6"/>',
+ "shirt": '<path d="M8.6 3 5 5.1 3 9.2l3.1 1.5V21h11.8V10.7L21 9.2 19 5.1 15.4 3a3.4 3.4 0 0 1-6.8 0z"/>',
+ "pack": '<rect x="5" y="7.5" width="14" height="13.5" rx="3"/><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"/><path d="M9.5 14h5"/>',
+ "fish": '<path d="M20.4 12s-3 4.4-8 4.4S5.1 12 5.1 12s2.4-4.4 7.3-4.4 8 4.4 8 4.4z"/><path d="M5.1 12 1.9 8.7v6.6z"/><circle cx="16" cy="11" r=".9"/>',
+ "boot": '<path d="M6 3h5v9.1c0 1.2.7 2.3 1.8 2.8l4.4 1.9c1.1.5 1.8 1.6 1.8 2.8V21H6z"/><path d="M6 17.2h13"/>',
+ "compass": '<circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.1 5.1-5.1 2.1 2.1-5.1z"/>',
+ "tent": '<path d="M12 3.8 2.6 20.2h18.8z"/><path d="m12 3.8 4.1 16.4M12 3.8 7.9 20.2"/>',
+ "gear": '<circle cx="12" cy="12" r="3.1"/><path d="M12 2.2v2.4M12 19.4v2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2.2 12h2.4M19.4 12h2.4M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/>',
+ "tag": '<path d="M20.6 12.6 12.4 20.8 3.2 11.6V3.2h8.4z"/><circle cx="7.9" cy="7.9" r="1.5"/>',
 }
 
 
@@ -124,10 +219,10 @@ IC = {
 # <= 158, each targeting a different head-keyword variant so pages do not
 # compete with one another in the SERP.
 META = {
- "/": ("Best Online Casino Sites NZ 2026 | Top 16 Tested",
+ "/": ("Magnum Sports | Outdoors Store, Stratford Taranaki",
+       "Hunting, fishing, camping and outdoor gear in Stratford, Taranaki. Airguns, ammunition, firearms, apparel, footwear and tackle. Call 06 765 7248."),
+ "/online-casinos/": ("Best Online Casino Sites NZ 2026 | Top 16 Tested",
        "Compare the best online casino sites NZ players can use in 2026. 41 casinos tested with real NZD, every withdrawal timed. Payouts, bonuses and pokies ranked."),
- "/online-casinos/": ("Online Casinos NZ | Real Money Casino Sites 2026",
-       "Every real money online casino NZ players can join, reviewed and ranked. NZD banking, payout times, bonus terms and the 2026 licensing changes explained."),
  "/online-pokies/": ("Online Pokies NZ 2026 | Best Real Money Pokies Sites",
        "The best online pokies NZ sites for real money in 2026. Compare RTP, volatility, studios and free spins, plus how online pokies beat NZ pub machines."),
  "/high-payout-casinos/": ("High Payout Casinos NZ | Highest RTP Sites 2026",
@@ -317,8 +412,9 @@ def footer():
 <a class="brand" href="/" style="margin-bottom:14px">
 <svg class="brand-mark" width="32" height="32" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#121c33"/><path d="M20.5 73.5V26.5L50 58.5L79.5 26.5V73.5" fill="none" stroke="#e11d2e" stroke-width="11.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="20.5" y="79.5" width="59" height="5.5" rx="2.75" fill="#ffb703"/></svg>
 <span class="brand-txt"><span class="brand-word">MAGNUM<i>.</i></span><span class="brand-tag">{esc(TAG)}</span></span></a>
-<p>Independent reviews of online casinos and betting sites for New Zealanders. We open the accounts, deposit our own New Zealand dollars and time every withdrawal ourselves.</p>
-<p><a href="/how-we-review/">How we review</a> &middot; <a href="/authors/">Meet the team</a></p>
+<p>Hunting, fishing, camping and outdoor gear from our Stratford shop, plus independent guides to online betting and casino sites for New Zealanders.</p>
+<p><b style="color:#c3cddf">220 Broadway, Stratford<br>Taranaki 4332</b><br><a href="tel:+6467657248">06 765 7248</a></p>
+<p><a href="/#shop">Shop by department</a> &middot; <a href="/how-we-review/">How we review</a></p>
 </div>
 {cols}
 </div>
@@ -507,9 +603,45 @@ def org_schema():
         "logo": {"@type": "ImageObject", "url": f"{SITE}/favicon-512x512.png", "width": 512, "height": 512},
         "email": EMAIL, "areaServed": {"@type": "Country", "name": "New Zealand"},
         "knowsLanguage": "en-NZ",
-        "description": "Independent New Zealand comparison site for online casinos, online pokies and sports betting.",
+        "description": ("Outdoors retailer in Stratford, Taranaki, and independent New Zealand "
+                        "guide to online betting, online casinos and pokies."),
+        "telephone": STORE["phone_tel"],
         "publishingPrinciples": f"{SITE}/how-we-review/",
         "founder": {"@id": f"{SITE}/#author-tama-whitiora"},
+    }
+
+
+def store_schema():
+    """SportingGoodsStore entity for the retail business behind this domain."""
+    return {
+        "@type": ["SportingGoodsStore", "LocalBusiness"],
+        "@id": f"{SITE}/#store",
+        "name": STORE["legal"],
+        "alternateName": STORE["name"],
+        "url": SITE,
+        "telephone": STORE["phone_tel"],
+        "image": f"{SITE}/images/og-magnum.jpg",
+        "logo": f"{SITE}/favicon-512x512.png",
+        "description": f'{STORE["tagline"]} {STORE["blurb"]}',
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": STORE["street"],
+            "addressLocality": STORE["suburb"],
+            "addressRegion": STORE["region"],
+            "postalCode": STORE["postcode"],
+            "addressCountry": STORE["country"],
+        },
+        "areaServed": {"@type": "Country", "name": "New Zealand"},
+        "currenciesAccepted": "NZD",
+        "parentOrganization": {"@id": f"{SITE}/#organization"},
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Departments",
+            "itemListElement": [
+                {"@type": "OfferCatalog", "name": d[0],
+                 "url": f"{SITE}/#{d[1]}"} for d in DEPARTMENTS
+            ],
+        },
     }
 
 

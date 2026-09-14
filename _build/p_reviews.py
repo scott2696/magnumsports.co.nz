@@ -242,7 +242,7 @@ def review(o):
 
 <h2>Our verdict on {esc(o["name"])}</h2>
 <p>{esc(o["verdict"])}</p>
-<p><strong>Score: {o["rating"]}/10.</strong> {esc(o["best_for"])}. Read how we arrive at these scores in our <a href="/how-we-review/">review methodology</a>, and compare {esc(o["short"])} against the rest of the field on our <a href="/">best online casino sites NZ</a> page.</p>
+<p><strong>Score: {o["rating"]}/10.</strong> {esc(o["best_for"])}. Read how we arrive at these scores in our <a href="/how-we-review/">review methodology</a>, and compare {esc(o["short"])} against the rest of the field on our <a href="/online-casinos/">best online casino sites NZ</a> page.</p>
 </div></div></section>
 ''')
 

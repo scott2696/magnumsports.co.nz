@@ -10,9 +10,10 @@ operating cadence needed to hold position once won.
 42 pages live. Three tiers, flat architecture — every page is ≤2 clicks from the homepage.
 
 ```
-/                                   ← MONEY PAGE · "best online casino sites NZ"
+/                                   ← MAGNUM SPORTS STORE · Stratford, Taranaki
+│                                     outdoors departments, then sports betting
 │
-├── /online-casinos/                ← Casino pillar hub
+├── /online-casinos/                ← MONEY PAGE · "best online casino sites NZ"
 │   ├── /online-pokies/
 │   ├── /high-payout-casinos/
 │   ├── /fast-payout-casinos/
@@ -41,8 +42,15 @@ operating cadence needed to hold position once won.
     └── /sitemap.xml    /robots.txt
 ```
 
-**Navigation:** About and Contact sit in both the main horizontal nav and the footer, as
-specified. The footer additionally carries Terms, Privacy, Cookie Policy, Authors,
+
+**The homepage is the store.** magnumsports.co.nz has always been Magnum Sports, the outdoors
+retailer at 220 Broadway, Stratford. The homepage leads with the twelve departments, carries
+`SportingGoodsStore` / `LocalBusiness` schema with the real trading details, and presents sports
+betting as the second section. The casino money page sits at `/online-casinos/`, which already
+had topical authority for `online casino NZ` and now carries the full ~6,700-word treatment.
+
+**Navigation:** Outdoors Store is the first dropdown, then Betting, then Online Casinos.
+About and Contact sit in both the main horizontal nav and the footer, as specified. The footer additionally carries Terms, Privacy, Cookie Policy, Authors,
 Responsible Gambling and the sitemap.
 
 **Internal linking rules in force**
@@ -57,7 +65,7 @@ Responsible Gambling and the sitemap.
 
 ## 2. Recommended H1–H6 hierarchy (money-page template)
 
-Applied on `/` and `/online-betting/`; category pages use a reduced version.
+Applied on `/online-casinos/` and `/online-betting/`; category pages use a reduced version.
 
 ```
 H1   {Head keyword} {year}                              — once, contains exact head term
@@ -129,6 +137,7 @@ H1   {Head keyword} {year}                              — once, contains exact
 | Three authors with distinct, credible specialisms | `/authors/` with full bios, areas of responsibility, page lists and direct email addresses |
 | Published scoring **weightings** (25/20/20/15/12/8) | `/how-we-review/` — no competitor does this |
 | Original dataset: 168 timed withdrawals | `/fast-payout-casinos/`, cited site-wide |
+| Real, verifiable local business behind the domain | `SportingGoodsStore` schema on `/` with trading address and phone |
 | Explicit exclusion criteria + count (22 excluded) | `/how-we-review/` |
 | Negative findings published | Roby's missing licence, flagged everywhere it appears |
 | Affiliate disclosure on every commercial page | `disclosure()` block, above the toplist |
@@ -161,6 +170,7 @@ H1   {Head keyword} {year}                              — once, contains exact
 | Type | Where | Purpose |
 |---|---|---|
 | `Organization` | Every page | Entity consolidation, `publishingPrinciples`, `areaServed: NZ` |
+| `SportingGoodsStore` / `LocalBusiness` | `/` | The Stratford shop: address, phone, 12-department `OfferCatalog` |
 | `WebSite` | Every page | Site entity |
 | `Person` ×3 | Every page | Author authority, `knowsAbout`, `worksFor` |
 | `WebPage` / `CollectionPage` | Every page | `author`, `reviewedBy`, `datePublished`, `dateModified` |
@@ -297,8 +307,9 @@ value and natural link potential:
   Smash → bonuses, Spino → crypto, Rivo → mobile/betting).
 - **Everything → trust tier:** `/how-we-review/` from every score claim, `/authors/` from every
   byline, `/responsible-gambling/` from every page.
-- **Money pages receive the most internal links.** `/` and `/online-betting/` are linked from
-  every page via nav, footer and body. Keep it that way.
+- **Money pages receive the most internal links.** `/online-casinos/` and `/online-betting/`
+  are linked from every page via nav, footer and body, and from the homepage in two places each.
+  Keep it that way.
 
 ---
 
