@@ -541,16 +541,24 @@ td b,th b{color:var(--ink)}
   .menu{display:block}
   .nav .wrap{min-height:60px}
   .lb-head{display:none}
-  .lb-row{grid-template-columns:1fr;gap:16px;padding:18px;align-items:start}
-  .lb-rank{position:absolute;left:auto;right:16px;top:14px;font-size:1.05rem;color:var(--faint);
-    z-index:2;text-align:right}
-  .lb-brand{grid-column:1/-1;padding-right:36px;gap:14px}
-  .lb-logo{width:124px;height:66px}
-  .lb-score,.lb-bonus,.lb-cta{grid-column:1/-1}
-  .lb-bonus{padding-top:14px;border-top:1px solid var(--graphite)}
-  .lb-bonus-v{font-size:1.38rem}
-  .lb-score{flex-direction:row;align-items:center;gap:12px;flex-wrap:wrap}
-  .lb-bar{width:110px}
+  /* Stacked, and centred on one axis: rank, logo, name, score, offer and
+     CTA all share a centre line, so the row reads as a card rather than a
+     collapsed table. */
+  .lb-row{grid-template-columns:1fr;gap:14px;padding:22px 18px;align-items:center;
+    justify-items:center;text-align:center}
+  .lb-rank{position:static;font-size:.92rem;color:var(--faint);text-align:center;line-height:1}
+  .lb-rank::before{content:"#";opacity:.55;margin-right:1px}
+  .lb-brand{grid-column:1/-1;flex-direction:column;align-items:center;gap:13px;padding-right:0}
+  .lb-logo{width:150px;height:80px}
+  .lb-name{align-items:center;text-align:center;gap:6px;font-size:1.14rem}
+  .lb-sub{-webkit-line-clamp:3;max-width:34ch}
+  .lb-score,.lb-bonus,.lb-cta{grid-column:1/-1;width:100%}
+  .lb-score{flex-direction:row;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+  .lb-bar{width:132px;flex:0 0 auto}
+  .lb-flag{margin-inline:auto}
+  .lb-bonus{align-items:center;padding-top:16px;border-top:1px solid var(--graphite);gap:6px}
+  .lb-bonus-v{font-size:1.42rem;max-width:20ch}
+  .lb-cta{align-items:stretch}
   .toc ol{columns:1}
   .rev-hd-cta{flex:1 1 100%}
   .hero{padding:42px 0 46px}
