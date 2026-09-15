@@ -152,7 +152,7 @@ def build():
     o.append(faq_block(FAQ, "New online casinos NZ: your questions answered"))
     o.append(paa_for(PATH, haze=False))
     o.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
-             + authorbox("tama-whitiora") + '</div></div></section>')
+             + authorbox("angus-mclean") + '</div></div></section>')
     o.append(disclosure_section())
     o.append(footer())
     return write(PATH, "".join(o))

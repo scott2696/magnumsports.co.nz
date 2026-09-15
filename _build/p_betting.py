@@ -132,8 +132,8 @@ def build():
     ops = SPORTS
     cr = [("Home", "/"), ("Online Betting NZ", PATH)]
     schema = page_schema(
-        "CollectionPage", TITLE, DESC, PATH, author="daniel-ashworth",
-        extra=[person_schema("tama-whitiora"),
+        "CollectionPage", TITLE, DESC, PATH, author="angus-mclean",
+        extra=[person_schema("witi-king"),
                crumb_schema(cr),
                itemlist_schema(ops, "Best sports betting sites NZ 2026", PATH, "sports"),
                faq_schema(FAQ + paa_items(PATH), f"{SITE}{PATH}#faq")])
@@ -143,7 +143,7 @@ def build():
     o.append(f'''<section class="hero"><div class="wrap">
 <span class="eyebrow">{icon("scale")} Law current to {UPDATED_NZ} &middot; 4 books listed</span>
 <h1>Online Betting NZ: Best Sports Betting Sites [{MONTH_YEAR}]</h1>
-{byline("daniel-ashworth", "tama-whitiora")}
+{byline("angus-mclean", "witi-king")}
 <p class="lede">New Zealand&rsquo;s online betting rules changed fundamentally in June 2025 and most comparison sites have not caught up. This page explains exactly what the law now says, what it means for you rather than for operators, and ranks every sports betting site that still accepts New Zealand punters &mdash; with the risks stated plainly rather than buried.</p>
 <div class="hero-stats">
 <div class="hero-stat"><b>28 Jun 2025</b><span>Law in force</span></div>
@@ -430,7 +430,7 @@ def build():
 <p>New Zealand has made a deliberate policy choice: one authorised betting operator, with the proceeds directed to the racing industry and community sport. Whether you think that is the right call, it is the law as at {UPDATED_NZ}, and it is enforced against operators rather than against you.</p>
 <p>If you bet on New Zealand racing, TAB NZ is both the lawful and the better option &mdash; the pools are domestic, the exotics exist, and the form data is complete. If you bet on international sport, offshore books offer depth and pricing that TAB NZ does not attempt to match, and using one does not put you in legal jeopardy. What it does is remove your safety net, so size your balance accordingly, verify your account on day one, and withdraw your winnings rather than letting them sit.</p>
 <p>Whatever you choose, set a deposit limit before you place the first bet. It is the one decision on this page that is guaranteed to be worth making.</p>
-{authorbox("daniel-ashworth")}
+{authorbox("angus-mclean")}
 </div></div></section>
 ''')
 

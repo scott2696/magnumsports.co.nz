@@ -4,7 +4,7 @@ from lib import *
 
 
 def shell(title, desc, path, crumb, h1, lede, eyebrow, ops, lb_head, lb_intro,
-          body, faq, author="tama-whitiora", checker="daniel-ashworth",
+          body, faq, author="angus-mclean", checker="witi-king",
           stats=None, mode="casino", extra_schema=None):
     ex = [crumb_schema([("Home", "/")] + crumb),
           itemlist_schema(ops, h1, path, mode),
@@ -274,7 +274,7 @@ def fast_payout():
         icon("bolt") + " 168 withdrawals timed", ops,
         "Fastest paying online casino NZ sites, ranked on timed withdrawals",
         "Ranked purely on our recorded withdrawal times, weighted toward the methods New Zealanders actually use.",
-        body, faq, author="holly-mcgrath",
+        body, faq, author="angus-mclean",
         stats=[("10 min", "Fastest logged"), ("3 hrs", "Median crypto"),
                ("2 days", "Median NZD bank"), ("168", "Withdrawals timed")])
 
@@ -600,7 +600,7 @@ def crypto():
         "Best crypto casino NZ sites: Bitcoin, Ethereum and USDT compared",
         "Ranked on coin support, withdrawal speed on-chain, provably fair coverage and whether the site handles "
         "stablecoins properly.",
-        body, faq, author="holly-mcgrath",
+        body, faq, author="angus-mclean",
         stats=[("10 min", "Fastest crypto payout"), ("0x", "Wagering at Spino"),
                ("USDT", "The coin we recommend"), ("Property", "IRD's view of crypto")])
 

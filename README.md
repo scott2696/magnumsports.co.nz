@@ -180,8 +180,17 @@ Three things need a human pass:
    been corrected sitewide. Bank coverage and per-operator acceptance both move, so re-check before
    publishing.
 
-4. **Author photographs.** `images/authors/*.jpg` are generated monogram avatars. Replace them
-   with real headshots and add `sameAs` links to the `AUTHORS` entries in `_build/lib.py`.
+4. **Author bios.** The site has two named people: **Angus McLean** (writer) and **Witi King**
+   (fact checker), with their supplied headshots in `images/authors/`. Their bios describe what
+   they do *on this site* — the testing, the scoring, the fact-checking — and deliberately invent
+   no personal history, because fabricated credentials attached to a real name and face are the
+   exact thing Google's guidelines target and the fastest way to lose the trust the rest of this
+   site is built on.
+
+   Before launch, add their **actual** background to `AUTHORS` in `_build/lib.py`: years in the
+   field, prior publications, qualifications, and a `sameAs` array (LinkedIn at minimum). And make
+   sure the roles are real — if Angus is not the person opening the accounts and timing the
+   withdrawals, the pages should not say he is.
 
 Two brands — **CrownSlots** and **Gunsbet** — had no artwork in either logo folder, so
 `logos/crownslots.svg` and `logos/gunsbet.svg` are house-style wordmarks. Swap them for vendor

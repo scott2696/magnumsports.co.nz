@@ -3,7 +3,7 @@
 from lib import *
 
 
-def simple(title, desc, path, crumb, h1, lede, body, author="tama-whitiora",
+def simple(title, desc, path, crumb, h1, lede, body, author="angus-mclean",
            eyebrow=None, kind="WebPage", extra=None, faq=None, noindex=False, show_author=True):
     ex = [crumb_schema([("Home", "/")] + crumb)]
     if not faq and paa_items(path):
@@ -55,7 +55,7 @@ def about():
  ("book","We read the actual terms","Not the promotion banner — the full terms document. Wagering base, maximum bet, contribution tables, expiry, conversion caps. Where the terms contradict the advertised offer, we say so."),
  ("scale","We check the law at source","Every legal claim on this site is checked against the Act, the DIA notice or the regulator's own register. Not against another comparison site, which is where most of the errors in this industry come from."),
  ("flag","We say what is wrong","Roby does not publish a licence number or an operating company. We say that on every page it appears on, including the pages that link to it. A comparison site that never criticises anything is an advertisement."),
- ("users","We put our names on it","Three named people with published areas of responsibility, a byline on every page and a fact-checker on every claim. No anonymous content, no AI-generated reviews of casinos nobody has visited."),
+ ("users","We put our names on it","Two named people with published areas of responsibility. Angus McLean writes and tests; Witi King checks. A byline on every page and a fact-checker on every claim. No anonymous content, no AI-generated reviews of casinos nobody has visited."),
 ])}
 
 <h2>How we are funded, in plain terms</h2>
@@ -82,7 +82,7 @@ def about():
 </ul>
 
 <h2>Who we are</h2>
-<p>Three people, based in New Zealand, with backgrounds in gambling media, retail banking and sports analytics. Full profiles, areas of responsibility and contact details are on our <a href="/authors/">authors page</a>.</p>
+<p>Two people, based in New Zealand: Angus McLean writes every page on this site, and Witi King checks every claim on it before it is published. Full profiles, areas of responsibility and contact details are on our <a href="/authors/">authors page</a>.</p>
 <div class="grid grid--3" style="margin-top:22px">
 {team_cards}
 </div>
@@ -104,7 +104,7 @@ def about():
         "anything written by a commission-funded publisher &mdash; including this one &mdash; with your eyes "
         "open.",
         body, eyebrow=icon("users") + " Established 2026",
-        extra=[person_schema("holly-mcgrath"), person_schema("daniel-ashworth"),
+        extra=[person_schema("witi-king"),
                {"@type": "AboutPage", "@id": f"{SITE}/about/#aboutpage",
                 "mainEntity": {"@id": f"{SITE}/#organization"}}])
 
@@ -190,50 +190,46 @@ def contact():
 def authors():
     blocks = []
     detail = {
-     "tama-whitiora": {
-      "since": "2017", "reviews": "41 operators tested in 2026",
+     "angus-mclean": {
+      "since": "launch, 2026", "reviews": "41 operators tested in 2026",
       "cover": ["Casino reviews and scoring", "Online pokies and game libraries",
-                "Bonus terms analysis", "Withdrawal testing"],
-      "extra": "<p>He grew up in Rotorua and came to this work after a decade in hospitality venues "
-               "running class 4 gaming machines &mdash; an education in what problem gambling actually "
-               "looks like, and the reason this site is written the way it is.</p>"
-               "<p>He is responsible for the scoring model, for every casino review on the site, and for the "
-               "decision to exclude an operator. He personally opened and funded all 41 accounts tested in "
-               "2026 and logged all 168 withdrawal times.</p>",
-      "pages": [("Best Online Casino Sites NZ", "/"), ("Online Casinos NZ", "/online-casinos/"),
-                ("Online Pokies NZ", "/online-pokies/"), ("High Payout Casinos", "/casino-payout-percentages/"),
-                ("Live Casinos NZ", "/live-casino/"), ("Casino Bonuses NZ", "/casino-bonus/"),
-                ("No Deposit Casinos", "/no-deposit-bonus/"), ("How We Review", "/how-we-rate-casinos/")]},
-     "holly-mcgrath": {
-      "since": "2021", "reviews": "5 NZ banks tested across 41 operators",
-      "cover": ["NZD deposits and withdrawals", "Bank declines and payment friction",
-                "Cryptocurrency payments", "Verification and KYC"],
-      "extra": "<p>Holly spent nine years in retail banking operations in Auckland, including four in a "
-               "financial crime team, before moving into gambling media in 2021. That background is the "
-               "reason this site covers things most casino guides do not &mdash; why a deposit gets declined "
-               "at one New Zealand bank and clears at another, what anti-money-laundering obligations actually "
-               "require of an operator, and where the currency conversion spread on a euro-denominated account "
-               "goes.</p>"
-               "<p>She runs all payment testing, maintains the withdrawal timing dataset, and writes the "
-               "banking and crypto coverage.</p>",
-      "pages": [("NZ Payment Methods", "/casino-payment-methods/"), ("Fast Payout Casinos", "/fast-payout-casinos/"),
-                ("Best Crypto Casinos NZ", "/crypto-casinos-nz/")]},
-     "daniel-ashworth": {
-      "since": "2019", "reviews": "Every legal claim on this site",
-      "cover": ["New Zealand gambling legislation", "Sports betting and odds analysis",
-                "Fact-checking and corrections", "Responsible gambling policy"],
-      "extra": "<p>Daniel has priced sports markets professionally and follows New Zealand gambling "
-               "legislation closely enough to have read the Racing Industry Amendment Act rather than a "
-               "summary of it. He fact-checks every legal, regulatory and statistical claim published on this "
-               "site against the primary source &mdash; the Act itself, the Department of Internal Affairs "
-               "notice, or the regulator&rsquo;s own licence register.</p>"
-               "<p>He is the reason a number of claims that appear on competing New Zealand casino sites do "
-               "not appear on this one, and the reason our betting pages say plainly that the punter commits "
-               "no offence &mdash; a point most coverage of the 2025 law change has blurred.</p>",
-      "pages": [("NZ Online Casino Law", "/licensed-online-casinos/"),
-                ("Tax on Gambling Winnings NZ", "/gambling-winnings-tax-nz/"),
+                "Bonus terms analysis", "Withdrawal testing", "NZD payments and banking",
+                "Sports betting"],
+      "extra": "<p>Angus is responsible for the scoring model, for every review on this site, and "
+               "for the decision to exclude an operator. He opened and funded all 41 accounts "
+               "tested in 2026, logged all 168 withdrawal times, and read every bonus terms "
+               "document in full rather than the promotional banner above it.</p>"
+               "<p>If a number appears anywhere on Magnum Sports &mdash; a payout time, a wagering "
+               "multiple, a weekly withdrawal ceiling &mdash; he is the person who recorded it, and "
+               "he is the person to email if you think it is wrong.</p>",
+      "pages": [("Best Online Casinos NZ", "/online-casinos/"),
+                ("Online Pokies NZ", "/online-pokies/"),
+                ("Casino Payout Percentages", "/casino-payout-percentages/"),
+                ("Fast Payout Casinos NZ", "/fast-payout-casinos/"),
+                ("Live Casino NZ", "/live-casino/"),
+                ("Crypto Casinos NZ", "/crypto-casinos-nz/"),
+                ("Casino Bonus NZ", "/casino-bonus/"),
+                ("No Deposit Bonus NZ", "/no-deposit-bonus/"),
+                ("New Online Casinos NZ", "/new-casinos-nz/"),
+                ("Casino Payment Methods NZ", "/casino-payment-methods/"),
                 ("Online Betting NZ", "/online-betting/"),
-                ("Responsible Gambling", "/responsible-gambling/")]},
+                ("How We Rate Casinos", "/how-we-rate-casinos/")]},
+     "witi-king": {
+      "since": "launch, 2026", "reviews": "Every claim published on this site",
+      "cover": ["New Zealand gambling law", "Licensing and regulation",
+                "Tax on gambling winnings", "Fact-checking and corrections",
+                "Responsible gambling policy", "Editorial standards"],
+      "extra": "<p>Nothing on this site is published on one person&rsquo;s word. Where a claim "
+               "cannot be traced to a primary source it is either removed or labelled unverified "
+               "&mdash; which is why our no deposit page lists one offer rather than thirty, and "
+               "why the licensed casinos page says plainly that no New Zealand licence has been "
+               "granted yet.</p>"
+               "<p>He also owns the corrections process. When an error is found, here or by a "
+               "reader, it is fixed in place with a note rather than edited away quietly.</p>",
+      "pages": [("Licensed Online Casinos NZ", "/licensed-online-casinos/"),
+                ("Tax on Gambling Winnings NZ", "/gambling-winnings-tax-nz/"),
+                ("Responsible Gambling NZ", "/responsible-gambling/"),
+                ("How We Rate Casinos", "/how-we-rate-casinos/")]},
     }
     for slug, a in AUTHORS.items():
         d = detail[slug]
@@ -245,7 +241,7 @@ def authors():
 <img src="{a["img"]}" srcset="{a["img"]} 1x, {a["img"].replace(".jpg","@2x.jpg")} 2x" alt="{esc(a["name"])}" width="96" height="96" loading="lazy" style="border-radius:50%;flex:0 0 auto">
 <div style="flex:1 1 300px">
 <h2 style="margin-bottom:4px;font-size:1.4rem">{esc(a["name"])}</h2>
-<p style="font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin-bottom:12px">{esc(a["role"])} &middot; Writing about gambling since {d["since"]}</p>
+<p style="font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin-bottom:12px">{esc(a["role"])} &middot; On Magnum Sports since {d["since"]}</p>
 <p>{esc(a["bio"])}</p>
 {d["extra"]}
 <h3 style="font-size:1rem;margin-top:1.4em">Areas of responsibility</h3>
@@ -260,7 +256,7 @@ def authors():
     blocks_html = "".join(blocks)
     body = f'''<section class="sec"><div class="wrap"><div class="prose prose--wide">
 <h2>Who writes Magnum Sports</h2>
-<p>Three named people, each responsible for a defined area, with a byline on every page they write and a colleague fact-checking every claim. We do not publish anonymous content, we do not use contributed or guest posts, and we do not generate reviews of casinos nobody on the team has opened an account at.</p>
+<p>Two named people. <strong>Angus McLean</strong> writes every review, guide and comparison, and does the testing the numbers come from. <strong>Witi King</strong> checks every claim before it is published. Both carry a byline on every page, and they are never the same person on the same claim. We do not publish anonymous content, we do not accept contributed or guest posts, and we do not generate reviews of casinos nobody here has opened an account at.</p>
 <p>That should not be remarkable. In this industry it is, which is why the page exists and why every author here is contactable directly.</p>
 </div>
 <div style="max-width:880px;margin-top:28px">
@@ -268,24 +264,24 @@ def authors():
 </div>
 <div class="prose prose--wide" style="margin-top:8px">
 <h2>How we work together</h2>
-<p>Every page on this site has an <strong>author</strong> and a <strong>fact-checker</strong>, and they are never the same person. Tama writes the casino and pokies coverage and Daniel checks it. Daniel writes the legal, tax and betting coverage and Tama or Holly checks it. Holly writes the payments and crypto coverage and Tama checks it.</p>
+<p>Every page on this site has an <strong>author</strong> and a <strong>fact-checker</strong>, and they are never the same person. Angus writes it and does the testing the numbers come from; Witi checks it against the primary source before it goes live. Nothing is published that only one of them has seen.</p>
 <p>Factual claims about the law are checked against the legislation or the Department of Internal Affairs notice. Claims about an operator are checked against the operator&rsquo;s own published terms and against our testing data. Numbers in our tables come from the testing dataset, not from operator marketing. Where we cannot verify something, we either leave it out or say explicitly that it is unverified &mdash; which is why our <a href="/no-deposit-bonus/">no deposit page</a> lists one offer rather than thirty.</p>
 <h2>Corrections</h2>
 <p>We get things wrong. Bonus terms change without notice, operators alter payment methods quietly, and legislation moves. When we find an error, or you tell us about one, we correct it in place and note the change rather than editing silently.</p>
-<p>Email <a href="mailto:corrections@magnumsports.co.nz">corrections@magnumsports.co.nz</a> with a link to the page and what you believe is wrong. It goes straight to Daniel. Read our full <a href="/how-we-rate-casinos/">methodology and editorial standards</a>.</p>
+<p>Email <a href="mailto:corrections@magnumsports.co.nz">corrections@magnumsports.co.nz</a> with a link to the page and what you believe is wrong. It goes straight to Witi. Read our full <a href="/how-we-rate-casinos/">methodology and editorial standards</a>.</p>
 </div>
 </div></section>
 '''
     return simple(
         "Our Authors | Who Writes Magnum Sports",
-        "Meet the three people who write Magnum Sports: their backgrounds, areas of responsibility, the pages "
-        "they write and how to contact them directly. No anonymous content.",
+        "Meet the two people behind Magnum Sports: who writes it, who checks it, what each is "
+        "responsible for, and how to contact them directly. No anonymous content.",
         "/authors/", [("Our Authors", "/authors/")], "Our Authors",
         "Every page on this site carries a named author and a named fact-checker, and they are never the same "
         "person. Here is who they are, what each is responsible for, and how to reach them.",
         body, eyebrow=icon("users") + " Named, contactable, accountable", show_author=False,
         kind="ProfilePage",
-        extra=[person_schema("holly-mcgrath"), person_schema("daniel-ashworth")])
+        extra=[person_schema("witi-king")])
 
 
 # ================================================ RESPONSIBLE GAMBLING
@@ -425,7 +421,7 @@ def responsible():
         "Every game we write about has a house edge, which means the expected outcome of playing is a loss. "
         "This page is about keeping it that way &mdash; a cost you chose &mdash; rather than something worse. "
         "Free help is available 24 hours a day on <strong>0800 654 655</strong>.",
-        body, author="daniel-ashworth", eyebrow=icon("shield") + " Free help &middot; 0800 654 655",
+        body, author="angus-mclean", eyebrow=icon("shield") + " Free help &middot; 0800 654 655",
         faq=faq)
 
 

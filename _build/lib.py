@@ -99,40 +99,30 @@ CASINOS = [o for o in OPS if o["list"] == "casino"]
 SPORTS = [o for o in OPS if o["list"] == "sports"]
 
 AUTHORS = {
-    "tama-whitiora": {
-        "name": "Tama Whitiora", "role": "Lead Casino Reviewer",
-        "img": "/images/authors/tama-whitiora.jpg",
+    "angus-mclean": {
+        "name": "Angus McLean", "role": "Writer",
+        "img": "/images/authors/angus-mclean.jpg",
         "knows": ["online casinos", "online pokies", "casino bonus terms",
-                  "withdrawal testing", "New Zealand gambling regulation"],
-        "bio": "Tama has reviewed online casinos for New Zealand audiences since 2017, first as a "
-               "freelance contributor to trade publications and since 2023 as Magnum Sports' lead "
-               "reviewer. He opens and funds every account on this site personally, logs each "
-               "withdrawal against a stopwatch, and reads the bonus terms line by line before a "
-               "single score is written.",
-        "short": "Reviews and scores every casino on this site, and personally funds and times each withdrawal test.",
+                  "withdrawal testing", "NZD payment methods", "sports betting",
+                  "New Zealand gambling regulation"],
+        "bio": "Angus writes every review, guide and comparison on Magnum Sports. He opens and "
+               "funds each account personally, logs every withdrawal against a stopwatch, and "
+               "reads the bonus terms line by line before a single score is written. Where a "
+               "figure appears on this site, he is the person who recorded it.",
+        "short": "Writes every page on this site, and personally funds and times each withdrawal test.",
     },
-    "holly-mcgrath": {
-        "name": "Holly McGrath", "role": "Payments & Banking Editor",
-        "img": "/images/authors/holly-mcgrath.jpg",
-        "knows": ["NZD payment methods", "bank transfers", "e-wallets", "cryptocurrency payments",
-                  "KYC and verification", "anti-money-laundering rules"],
-        "bio": "Holly spent nine years in retail banking operations in Auckland before moving into "
-               "gambling media. She covers how money actually moves between a New Zealand bank "
-               "account and an offshore casino — which methods clear, which get declined, what "
-               "verification you will be asked for and where the hidden conversion spreads sit.",
-        "short": "Covers NZD deposits, withdrawals, verification and the conversion costs nobody advertises.",
-    },
-    "daniel-ashworth": {
-        "name": "Daniel Ashworth", "role": "Betting Analyst & Compliance Editor",
-        "img": "/images/authors/daniel-ashworth.jpg",
-        "knows": ["sports betting", "rugby union betting", "odds comparison", "New Zealand gambling law",
-                  "Racing Industry Act 2020", "responsible gambling"],
-        "bio": "Daniel tracks New Zealand gambling legislation and prices sports markets for a living. "
-               "He fact-checks every legal and regulatory claim published on Magnum Sports against "
-               "the primary source — the Act, the DIA notice or the operator's own licence register "
-               "entry — and he is the reason several claims you will find on rival sites do not "
-               "appear on this one.",
-        "short": "Fact-checks every legal and regulatory claim on this site against the primary source.",
+    "witi-king": {
+        "name": "Witi King", "role": "Fact Checker",
+        "img": "/images/authors/witi-king.jpg",
+        "knows": ["New Zealand gambling law", "Gambling Act 2003", "Racing Industry Act 2020",
+                  "licensing and regulation", "tax on gambling winnings",
+                  "editorial standards", "responsible gambling"],
+        "bio": "Witi checks every factual claim on Magnum Sports before it is published. Legal "
+               "and regulatory statements go back to the Act, the Department of Internal Affairs "
+               "notice or the regulator's own licence register; operator figures go back to the "
+               "testing record and the operator's own published terms. He is the reason several "
+               "claims you will find on rival New Zealand sites do not appear on this one.",
+        "short": "Checks every claim on this site against the primary source before it is published.",
     },
 }
 
@@ -468,7 +458,7 @@ def disclosure_section(extra=""):
             + '</div></div></section>\n')
 
 
-def byline(author="tama-whitiora", checker="daniel-ashworth", updated=None):
+def byline(author="angus-mclean", checker="witi-king", updated=None):
     a = AUTHORS[author]
     c = AUTHORS[checker] if checker else None
     fc = (f' &middot; Fact-checked by <a class="by-link" href="/authors/#{checker}"><b>{esc(c["name"])}</b></a>'
@@ -481,7 +471,7 @@ def byline(author="tama-whitiora", checker="daniel-ashworth", updated=None):
 </div></div>'''
 
 
-def authorbox(author="tama-whitiora"):
+def authorbox(author="angus-mclean"):
     a = AUTHORS[author]
     return f'''<aside class="authorbox">
 <img src="{a["img"]}" srcset="{a["img"]} 1x, {a["img"].replace(".jpg","@2x.jpg")} 2x" alt="{esc(a["name"])}" width="78" height="78" loading="lazy" decoding="async">
@@ -667,7 +657,7 @@ def org_schema():
                         "guide to online betting, online casinos and pokies."),
         "telephone": STORE["phone_tel"],
         "publishingPrinciples": f"{SITE}/how-we-rate-casinos/",
-        "founder": {"@id": f"{SITE}/#author-tama-whitiora"},
+        "founder": {"@id": f"{SITE}/#author-angus-mclean"},
     }
 
 
@@ -719,7 +709,7 @@ def person_schema(slug):
             "description": a["short"]}
 
 
-def page_schema(kind, title, desc, path, author="tama-whitiora", extra=None):
+def page_schema(kind, title, desc, path, author="angus-mclean", extra=None):
     """Standard @graph for a content page."""
     g = [org_schema(), site_schema(), person_schema(author)]
     wp = {"@type": ["WebPage", kind] if kind and kind != "WebPage" else "WebPage",
@@ -727,7 +717,7 @@ def page_schema(kind, title, desc, path, author="tama-whitiora", extra=None):
           "description": desc, "inLanguage": "en-NZ",
           "isPartOf": {"@id": f"{SITE}/#website"},
           "author": {"@id": f"{SITE}/#author-{author}"},
-          "reviewedBy": {"@id": f"{SITE}/#author-daniel-ashworth"},
+          "reviewedBy": {"@id": f"{SITE}/#author-witi-king"},
           "publisher": {"@id": f"{SITE}/#organization"},
           "datePublished": PUBLISHED, "dateModified": UPDATED,
           "primaryImageOfPage": {"@type": "ImageObject", "url": f"{SITE}/images/og-magnum.jpg"}}

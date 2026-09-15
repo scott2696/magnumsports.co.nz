@@ -132,8 +132,26 @@ if __name__ == "__main__":
     write_favicons()
     wordmark(os.path.join(ROOT, "logos", "crownslots.svg"), "Crown Slots", "#c9a227", "CASINO")
     wordmark(os.path.join(ROOT, "logos", "gunsbet.svg"), "Guns Bet", "#e11d2e", "SPORTSBOOK")
-    avatar(os.path.join(ROOT, "images", "authors", "tama-whitiora.jpg"), "TW", (22, 35, 61), (225, 29, 46))
-    avatar(os.path.join(ROOT, "images", "authors", "holly-mcgrath.jpg"), "HM", (12, 42, 74), (15, 169, 104))
-    avatar(os.path.join(ROOT, "images", "authors", "daniel-ashworth.jpg"), "DA", (30, 24, 58), (255, 183, 3))
+    # Author headshots are supplied, not generated:
+    #   headshot("<source>.png", "images/authors/angus-mclean.jpg")
+    #   headshot("<source>.png", "images/authors/witi-king.jpg")
     og_card()
     print("images generated")
+
+
+def headshot(src, dest, focus_y=0.42):
+    """Square-crop a supplied headshot around the face and write 1x + 2x.
+
+    Bylines and author boxes render the image as a circle, so the crop is
+    centred horizontally and biased upward (faces sit above centre in most
+    portraits) to keep the head inside the circle rather than the chin.
+    """
+    im = Image.open(src).convert("RGB")
+    w, h = im.size
+    side = min(w, h)
+    left = (w - side) // 2
+    top = int(max(0, min(h - side, focus_y * h - side / 2)))
+    sq = im.crop((left, top, left + side, top + side))
+    sq.resize((168, 168), Image.LANCZOS).save(dest, quality=92)
+    sq.resize((336, 336), Image.LANCZOS).save(dest.replace(".jpg", "@2x.jpg"), quality=90)
+    print(f"  {os.path.basename(src)} {w}x{h} -> {os.path.basename(dest)} (168 + 336)")

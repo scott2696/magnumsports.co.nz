@@ -222,7 +222,7 @@ def review(o):
         "@type": "Review", "@id": f"{SITE}{path}#review",
         "itemReviewed": {"@type": "Organization", "name": o["name"], "url": SITE + path,
                          "logo": SITE + o["logo"]},
-        "author": {"@id": f"{SITE}/#author-tama-whitiora"},
+        "author": {"@id": f"{SITE}/#author-angus-mclean"},
         "publisher": {"@id": f"{SITE}/#organization"},
         "datePublished": PUBLISHED, "dateModified": UPDATED,
         "reviewRating": {"@type": "Rating", "ratingValue": o["rating"],
@@ -324,7 +324,7 @@ def review(o):
                           f"The questions New Zealanders search most often around {esc(o['short'])}, "
                           f"taken from autosuggest rather than guessed.", haze=False))
     body.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
-                + authorbox("tama-whitiora") + '</div></div></section>')
+                + authorbox("angus-mclean") + '</div></div></section>')
     body.append(disclosure_section())
     body.append(footer())
     return write(path, "".join(body))
@@ -425,7 +425,7 @@ def hub():
     o.append(faq_block(faq))
     o.append(paa_for(HUB_PATH, haze=False))
     o.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
-             + authorbox("tama-whitiora") + '</div></div></section>')
+             + authorbox("angus-mclean") + '</div></div></section>')
     o.append(disclosure_section())
     o.append(footer())
     return write(HUB_PATH, "".join(o))

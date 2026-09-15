@@ -3,7 +3,7 @@
 from lib import *
 
 
-def guide(title, desc, path, crumb, h1, lede, eyebrow, body, faq, author, checker="daniel-ashworth",
+def guide(title, desc, path, crumb, h1, lede, eyebrow, body, faq, author="angus-mclean", checker="witi-king",
           stats=None, kind="Article", extra=None):
     ex = [crumb_schema([("Home", "/")] + crumb)]
     if faq:
@@ -164,7 +164,7 @@ def law():
 <p>New Zealand operates a multi-venue exclusion programme for land-based venues. It does not extend to offshore online operators, so online self-exclusion must be requested at each site individually. Every operator we recommend offers it. See our <a href="/responsible-gambling/">responsible gambling page</a>.</p>
 
 <h2>Sources</h2>
-<p>This page is compiled from the Gambling Act 2003, the Racing Industry Act 2020 as amended by the Racing Industry Amendment Act 2025, the Online Casino Gambling Act, and Department of Internal Affairs guidance for online gambling providers. Where we state a date or a figure, it comes from one of those sources rather than from another comparison site. We review this page monthly and after every material DIA announcement; it was last reviewed on {UPDATED_NZ} by {AUTHORS["daniel-ashworth"]["name"]}.</p>
+<p>This page is compiled from the Gambling Act 2003, the Racing Industry Act 2020 as amended by the Racing Industry Amendment Act 2025, the Online Casino Gambling Act, and Department of Internal Affairs guidance for online gambling providers. Where we state a date or a figure, it comes from one of those sources rather than from another comparison site. We review this page monthly and after every material DIA announcement; it was last reviewed on {UPDATED_NZ} by {AUTHORS["witi-king"]["name"]}.</p>
 </div></div></section>
 '''
     return guide(
@@ -177,7 +177,7 @@ def law():
         "first licensed online casino market. This page covers the online gambling laws New Zealand actually "
         "has, which operators will hold a DIA licence, what happens to offshore casinos from 1 December 2026, "
         "and why the rules for casino games and sports betting are moving in opposite directions.",
-        icon("scale") + " DIA licensing &middot; checked against primary sources", body, faq, "daniel-ashworth", "tama-whitiora",
+        icon("scale") + " DIA licensing &middot; checked against primary sources", body, faq, "angus-mclean", "witi-king",
         stats=[("15", "Licences available"), ("1 Dec 2026", "Unlicensed cut-off"),
                ("Legal", "For players"), ("18+", "Minimum age")])
 
@@ -296,7 +296,7 @@ def tax():
         "The short answer is no, and it applies whether you won NZ$50 or NZ$5 million. The longer answer "
         "matters if you gamble professionally or you play at crypto casinos &mdash; two situations where New "
         "Zealand&rsquo;s otherwise simple position gets genuinely complicated.",
-        icon("coin") + " Current to " + UPDATED_NZ, body, faq, "daniel-ashworth", "holly-mcgrath",
+        icon("coin") + " Current to " + UPDATED_NZ, body, faq, "angus-mclean", "witi-king",
         stats=[("NZ$0", "Tax on recreational wins"), ("No", "Declaration required"),
                ("Property", "IRD's view of crypto"), ("Not deductible", "Losses")])
 
@@ -412,7 +412,7 @@ def payments():
         "We funded 41 casino accounts from New Zealand bank accounts at ANZ, ASB, BNZ, Kiwibank and Westpac, "
         "and withdrew from every one of them. This is what cleared, what got declined, how long each method "
         "really took, and where the costs hide.",
-        icon("wallet") + " Tested across 5 NZ banks", body, faq, "holly-mcgrath",
+        icon("wallet") + " Tested across 5 NZ banks", body, faq, "angus-mclean",
         stats=[("100%", "Bank transfer success"), ("10 min", "Fastest crypto out"),
                ("2–3%", "Hidden EUR spread"), ("POLi", "NZ-owned, deposit-only")])
 
@@ -511,7 +511,7 @@ def how_we_review():
 <p>Email <a href="mailto:{EMAIL}">{EMAIL}</a> or use our <a href="/contact/">contact form</a>. We read everything, and we correct in place with a note rather than quietly.</p>
 
 <h2>Who writes this</h2>
-<p>Three people, named, with their areas of responsibility published on our <a href="/authors/">authors page</a>. Every review carries a byline and a fact-checker. We do not publish anonymous content and we do not use AI-generated reviews of casinos nobody has opened an account at &mdash; which, given what this industry currently looks like, is worth stating explicitly.</p>
+<p>Two people, named, with their areas of responsibility published on our <a href="/authors/">authors page</a>: Angus McLean writes and tests, Witi King checks. Every page carries both a byline and a fact-checker, and they are never the same person. We do not publish anonymous content and we do not use AI-generated reviews of casinos nobody has opened an account at &mdash; which, given what this industry currently looks like, is worth stating explicitly.</p>
 </div></div></section>
 '''
     return guide(
@@ -523,7 +523,7 @@ def how_we_review():
         "Every score on this site comes from the same six weighted criteria, applied to accounts we opened and "
         "funded ourselves. This page sets out the whole method &mdash; including what disqualifies an operator "
         "and exactly how the commission that funds it is handled.",
-        icon("shield") + " Published methodology", body, faq, "tama-whitiora", "daniel-ashworth",
+        icon("shield") + " Published methodology", body, faq, "angus-mclean", "witi-king",
         stats=[("41", "Operators tested"), ("22", "Excluded"),
                ("168", "Withdrawals timed"), ("25%", "Weight on payout speed")])
 

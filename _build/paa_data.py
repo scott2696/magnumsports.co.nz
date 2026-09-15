@@ -662,10 +662,11 @@ PAA = {
    "and casino guides are published by the same business, by a "
    "<a href='/authors/'>named team</a>, and kept separate from the shop.</p>"),
   ("Who writes the casino and betting reviews?",
-   "<p>Three named people, each with a defined area and a published contact address: Tama Whitiora "
-   "(casino reviews and scoring), Holly McGrath (payments and banking) and Daniel Ashworth (law, tax "
-   "and betting). Every page carries an author <em>and</em> a fact-checker, and they are never the "
-   "same person. Full profiles on the <a href='/authors/'>authors page</a>.</p>"),
+   "<p>Two named people, with published contact addresses. <strong>Angus McLean</strong> writes "
+   "every review, guide and comparison, and does the testing the numbers come from. "
+   "<strong>Witi King</strong> checks every claim against the primary source before it is "
+   "published. Every page carries both a byline and a fact-checker, and they are never the same "
+   "person. Full profiles on the <a href='/authors/'>authors page</a>.</p>"),
   ("How does this site make money?",
    "<p>Affiliate commission &mdash; operators pay us when a reader opens an account through one of our "
    "links. It costs you nothing and changes nothing about the offer. What it does not do is buy a "

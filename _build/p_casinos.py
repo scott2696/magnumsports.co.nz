@@ -171,7 +171,7 @@ def build():
     cr = [("Home", "/"), ("Online Casinos NZ", PATH)]
     schema = page_schema(
         "CollectionPage", TITLE, DESC, PATH,
-        extra=[person_schema("holly-mcgrath"), person_schema("daniel-ashworth"),
+        extra=[person_schema("witi-king"),
                crumb_schema(cr),
                itemlist_schema(ops[:12], "Best online casino sites NZ 2026", PATH),
                faq_schema(FAQ + paa_items(PATH), f"{SITE}{PATH}#faq")])
@@ -428,7 +428,7 @@ def build():
     o.append(faq_block(FAQ, "Best online casino sites NZ: your questions answered"))
     o.append(paa_for(PATH, haze=False))
     o.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
-             + authorbox("tama-whitiora") + '</div></div></section>')
+             + authorbox("angus-mclean") + '</div></div></section>')
     o.append(disclosure_section())
     o.append(footer())
     return write(PATH, "".join(o))
