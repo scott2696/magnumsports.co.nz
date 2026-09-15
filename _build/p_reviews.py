@@ -257,7 +257,7 @@ def review(o):
 
     body.append(f'''<section class="sec"><div class="wrap"><div class="prose prose--wide">
 <div class="rev-hd">
-<img class="rev-logo" src="{o["logo"]}" alt="{esc(o["name"])} logo" width="132" height="72" loading="eager" decoding="async">
+<img class="rev-logo" src="{o["logo"]}" alt="{esc(o["name"])} logo" width="132" height="72" loading="eager" decoding="async"{plate(o)}>
 <div class="rev-hd-main">
 <h2 style="margin-top:0">{esc(o["name"])}</h2>
 <div class="rev-score"><b>{o["rating"]}</b><span>out of 10 &middot; {esc(o["tagline"])}</span></div>

@@ -523,11 +523,23 @@ def lb_row(o, i, mode="casino", feat=False):
     return f'''<li class="lb-row{' lb-row--feat' if feat else ''}">
 <a class="lb-cover" href="{esc(url)}" {rel} aria-label="Visit {esc(o["name"])} (opens in a new tab)"></a>
 <span class="lb-rank">{i}</span>
-<div class="lb-brand"><img class="lb-logo" src="{o["logo"]}" alt="{esc(o["name"])} logo" loading="lazy" decoding="async" width="136" height="72"><span class="lb-name">{esc(o["name"])}<span class="lb-sub">{esc(o["sub"])}</span></span></div>
+<div class="lb-brand"><img class="lb-logo" src="{o["logo"]}" alt="{esc(o["name"])} logo" loading="lazy" decoding="async" width="136" height="72"{plate(o)}><span class="lb-name">{esc(o["name"])}<span class="lb-sub">{esc(o["sub"])}</span></span></div>
 <div class="lb-score"><span class="lb-score-top">{icon("star")}<b>{o["rating"]}/10</b></span><span class="lb-bar"><span style="width:{o["bar"]}%"></span></span>{flag}</div>
 <div class="lb-bonus"><span class="lb-bonus-l">{'Welcome offer' if mode=='casino' else 'Betting offer'}</span><span class="lb-bonus-v">{esc(_head)}</span>{f'<span class="lb-bonus-x">+ {esc(_tail)}</span>' if _tail else ''}</div>
 <div class="lb-cta"><a class="btn btn--wide" href="{esc(url)}" {rel}>Get bonus</a><span class="lb-terms">{terms}</span><span class="lb-review"><a href="/casino-reviews/{o["slug"]}/">Read review</a></span></div>
 </li>'''
+
+
+def plate(o):
+    """Inline background for a logo tile.
+
+    Most operator artwork is drawn for a white ground, so the default chalk
+    plate is right. A few are supplied as light artwork on their own dark
+    square — those get a plate matching that square so the crop is seamless
+    instead of a black box floating in a white one.
+    """
+    c = o.get("plate")
+    return f' style="background:{esc(c)}"' if c else ""
 
 
 def leaderboard(ops, mode="casino", heading=None, intro=None, hid="toplist"):
@@ -616,7 +628,7 @@ def picks(items):
         o = BY[slug]
         url = o["casino_url"] or o["betting_url"]
         out.append(f'''<div class="pick"><span class="pick-cat">{esc(cat)}</span>
-<div class="pick-brand"><img src="{o["logo"]}" alt="{esc(o["name"])} logo" loading="lazy" decoding="async" width="70" height="38"><b>{esc(o["name"])}</b></div>
+<div class="pick-brand"><img src="{o["logo"]}" alt="{esc(o["name"])} logo" loading="lazy" decoding="async" width="70" height="38"{plate(o)}><b>{esc(o["name"])}</b></div>
 <p>{blurb}</p>
 <a class="btn btn--sm" href="{esc(url)}" rel="nofollow sponsored noopener" target="_blank">Visit {esc(o["short"])}</a></div>''')
     return '<div class="picks">' + "".join(out) + '</div>'
