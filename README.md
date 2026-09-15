@@ -234,3 +234,14 @@ Magnum Sports · 220 Broadway, Stratford, Taranaki 4332 · 06 765 7248
 Firearms and ammunition are sold in store only, to holders of a valid New Zealand firearms
 licence. Gambling content is strictly 18+. Gambling can be harmful — Gambling Helpline
 0800 654 655.
+
+## Above-the-fold audit
+
+`/_fold.html` loads any page in a fixed 390x844 iframe and measures where the
+key elements land against a 714px fold line (iPhone 14 with Safari chrome).
+It exists because Chrome refuses to resize its window below roughly 1500px on
+this machine, so a real phone viewport can't be screenshotted directly.
+
+Run the preview server and open http://localhost:8811/_fold.html — change the
+iframe `src` to audit a different page. It is disallowed in robots.txt and is
+a development tool only.

@@ -567,6 +567,48 @@ td b,th b{color:var(--ink)}
   .foot-top{grid-template-columns:1fr 1fr}
   .foot-about{grid-column:1/-1}
 }
+/* ---------- phone: protect the above-the-fold ----------
+   On a phone the first screen has to carry five things: the H1, who wrote
+   it, when it was last updated, the toplist H2, and the top of the first
+   operator row. Everything else in the hero compresses, clamps or scrolls
+   sideways — nothing is removed from the DOM. The eyebrow is the one thing
+   hidden, and only because both of its facts (sites tested, updated date)
+   already appear in the byline and the stat row below it. */
+@media (max-width:760px){
+  .crumbs{padding-block:8px;font-size:.7rem}
+
+  .hero{padding:22px 0 24px}
+  .hero .eyebrow{display:none}
+  .hero h1{font-size:clamp(1.5rem,6.4vw,1.78rem);line-height:1.08;margin-bottom:12px;max-width:none}
+
+  .byline{margin:0 0 14px;gap:10px}
+  .byline img{width:34px;height:34px}
+  .byline-txt{font-size:.82rem;gap:2px}
+  .byline-date{font-size:.7rem}
+
+  .hero .lede{font-size:.95rem;line-height:1.55;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+  /* stat cards become one sideways-scrolling row instead of a 2x2 block */
+  .hero-stats{margin-top:14px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+    padding-bottom:2px;-webkit-overflow-scrolling:touch}
+  .hero-stats::-webkit-scrollbar{display:none}
+  .hero-stat{flex:0 0 auto;padding:7px 11px}
+  .hero-stat b{font-size:.92rem}
+  .hero-stat span{font-size:.56rem}
+
+  /* the section straight after the hero is the money table on every money page */
+  .hero + .sec{padding-top:24px}
+  .hero + .sec .sec-head{margin-bottom:16px}
+  .hero + .sec .sec-head h2{font-size:clamp(1.24rem,5.4vw,1.46rem);line-height:1.12;margin-bottom:8px}
+  .hero + .sec .sec-head p{font-size:.92rem;line-height:1.5;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+  /* first row tightened so more of it clears the fold */
+  .hero + .sec .lb-row{padding:18px}
+  .hero + .sec .lb-row:first-child .lb-logo{width:136px;height:72px}
+}
+
 @media (max-width:520px){
   body{font-size:16px}
   .wrap{padding-inline:16px}

@@ -88,6 +88,7 @@ def main():
         r += ["", f"User-agent: {b}", "Disallow: /"]
     r += ["", "# Everyone else", "User-agent: *", "Allow: /",
           "Disallow: /_build/", "Disallow: /go/", "Disallow: /*?",
+          "Disallow: /_fold.html",
           "Crawl-delay: 1", "",
           f"Sitemap: {SITE}/sitemap.xml", ""]
     open(os.path.join(ROOT, "robots.txt"), "w").write("\n".join(r))

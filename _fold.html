@@ -1,0 +1,43 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Fold test</title>
+<style>
+ body{margin:0;background:#1b1b22;font:12px ui-monospace,Menlo,monospace;color:#9D98A8;
+   display:flex;gap:24px;padding:20px;align-items:flex-start}
+ .phone{position:relative;flex:0 0 auto}
+ iframe{width:390px;height:844px;border:0;background:#0C0B10;display:block;border-radius:10px}
+ .fold{position:absolute;left:0;right:0;top:714px;border-top:2px dashed #D0402A;pointer-events:none}
+ .fold span{position:absolute;right:4px;top:4px;color:#D0402A;font-size:10px}
+ h1{font:600 14px ui-monospace;color:#F2EFE9;margin:0 0 10px}
+ #out{white-space:pre;line-height:1.7}
+ .ok{color:#35C17E}.bad{color:#D0402A}
+</style></head><body>
+<div class="phone">
+  <iframe id="f" src="/online-casinos/"></iframe>
+  <div class="fold"><span>fold @714px (iPhone 14, Safari chrome)</span></div>
+</div>
+<div><h1>Above-the-fold audit &middot; 390x844</h1><div id="out">measuring...</div></div>
+<script>
+document.getElementById('f').addEventListener('load', function(){
+  var d = this.contentDocument, FOLD = 714;
+  function top(sel){ var e=d.querySelector(sel); if(!e) return null;
+    return Math.round(e.getBoundingClientRect().top + (d.documentElement.scrollTop||0)); }
+  var checks = [
+    ['H1', 'main h1, .hero h1'],
+    ['Author byline', '.byline'],
+    ['Updated date', '.byline-date'],
+    ['Toplist H2', '.hero + .sec h2'],
+    ['Table starts', '.hero + .sec .lb'],
+    ['Row 1 logo', '.hero + .sec .lb-row .lb-logo'],
+    ['Row 1 offer', '.hero + .sec .lb-row .lb-bonus-v'],
+    ['Row 1 CTA', '.hero + .sec .lb-row .btn']
+  ];
+  var out = checks.map(function(c){
+    var t = top(c[1]);
+    if(t===null) return '  ' + c[0].padEnd(16) + ' not found';
+    var ok = t < FOLD;
+    return '  <span class="'+(ok?'ok':'bad')+'">'+(ok?'✓':'✗')+'</span> ' +
+           c[0].padEnd(16) + String(t).padStart(5) + 'px' + (ok?'':'  below fold');
+  }).join('\n');
+  var h = d.documentElement.scrollHeight;
+  document.getElementById('out').innerHTML = out + '\n\n  page height ' + h + 'px';
+});
+</script></body></html>
