@@ -98,6 +98,17 @@ OPS.sort(key=lambda o: o["order"])
 CASINOS = [o for o in OPS if o["list"] == "casino"]
 SPORTS = [o for o in OPS if o["list"] == "sports"]
 
+
+def pick_ops(slugs, listname="casino"):
+    """A curated subset of operators, always returned in the master order from
+    the operator table and filtered to the right toplist — so a casino page can
+    never show a sportsbook-only brand, and a reorder propagates everywhere."""
+    want = set(slugs)
+    unknown = want - {o["slug"] for o in OPS}
+    if unknown:
+        raise KeyError(f"unknown operator slug(s): {sorted(unknown)}")
+    return [o for o in OPS if o["slug"] in want and o["list"] == listname]
+
 AUTHORS = {
     "angus-mclean": {
         "name": "Angus McLean", "role": "Writer",

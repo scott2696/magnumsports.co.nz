@@ -3,6 +3,47 @@
 from lib import *
 
 
+# Weekend processing and withdrawal fees are testing observations rather than
+# operator data, so they live here; everything else comes from operators.json.
+CAP_EXTRA = {
+ "spino": ("<span class='t-yes'>Yes</span>", "Network only"),
+ "kingdom": ("<span class='t-yes'>Yes</span>", "None"),
+ "smash": ("<span class='t-yes'>Yes</span>", "None"),
+ "spinjo": ("<span class='t-yes'>Yes</span>", "None"),
+ "rivo": ("<span class='t-no'>No</span>", "None"),
+ "fortune-play": ("<span class='t-yes'>Yes</span>", "None"),
+ "lucky-vibe": ("<span class='t-no'>No</span>", "None"),
+ "lucky-circus": ("<span class='t-no'>No</span>", "None"),
+ "slotsgem": ("<span class='t-no'>No</span>", "Below NZ$50"),
+ "crownslots": ("<span class='t-yes'>Yes</span>", "None"),
+ "madcasino": ("<span class='t-yes'>Yes</span>", "None"),
+ "lucky7even": ("<span class='t-no'>No</span>", "None"),
+ "roby-casino": ("<span class='t-no'>No</span>", "None"),
+ "ivibet": ("<span class='t-no'>No</span>", "None"),
+ "hellspin": ("<span class='t-no'>No</span>", "None"),
+}
+
+
+def caps_table():
+    """Weekly withdrawal ceilings, built from the operator data so the row set
+    and the order can never drift from the master table."""
+    rows = []
+    for c in CASINOS:
+        weekend, fee = CAP_EXTRA.get(c["slug"], ("<span class='t-no'>No</span>", "None"))
+        cap = c["withdrawal_limit"]
+        if "No stated" in cap:
+            cap = f"<b>{esc(cap)}</b>"
+        else:
+            cap = esc(cap.replace(" / week", ""))
+        mind = esc(c["min_deposit"])
+        if c["slug"] == "lucky-circus":
+            mind = f"<b>{mind}</b>"
+        rows.append([f'<a href="/casino-reviews/{c["slug"]}/">{esc(c["short"])}</a>',
+                     cap, mind, fee, weekend])
+    return table(["Casino", "Weekly cap", "Min withdrawal", "Fee", "Weekend processing"],
+                 rows, minw=760)
+
+
 def shell(title, desc, path, crumb, h1, lede, eyebrow, ops, lb_head, lb_intro,
           body, faq, author="angus-mclean", checker="witi-king",
           stats=None, mode="casino", extra_schema=None):
@@ -41,8 +82,8 @@ def shell(title, desc, path, crumb, h1, lede, eyebrow, ops, lb_head, lb_intro,
 
 # ============================================================ ONLINE POKIES
 def pokies():
-    ops = [BY[s] for s in ["spinjo", "fortune-play", "hellspin", "kingdom", "lucky7even",
-                           "rivo", "slotsgem", "lucky-circus", "crownslots", "smash"]]
+    ops = pick_ops(["spinjo", "fortune-play", "hellspin", "kingdom", "lucky7even",
+                           "rivo", "slotsgem", "lucky-circus", "crownslots", "smash"])
     faq = [
      ("What are the best online pokies to play in NZ?",
       "<p>By popularity among the New Zealand players we surveyed: <strong>Sweet Bonanza</strong> and "
@@ -164,8 +205,9 @@ def pokies():
         "searched, and how the free spins really work.",
         icon("dice") + " 10 pokies lobbies tested", ops,
         "Best online pokies NZ: real money pokies sites ranked",
-        "Re-scored from our full testing data with game library, studio coverage, RTP transparency and free "
-        "spin value weighted most heavily.",
+        "Every site here was scored on game library, studio coverage, RTP transparency and free spin "
+        "value, and each row carries that score. The line-up is our editorial order rather than a "
+        "score ladder &mdash; compare the scores row by row.",
         body, faq,
         stats=[("94–97.5%", "Online pokie RTP"), ("87–92%", "NZ pub pokie RTP"),
                ("8,000", "Titles at our #1"), ("117,649", "Max Megaways")])
@@ -173,8 +215,8 @@ def pokies():
 
 # ======================================================= FAST PAYOUT CASINOS
 def fast_payout():
-    ops = [BY[s] for s in ["spino", "kingdom", "spinjo", "rooster-bet", "fortune-play",
-                           "smash", "rivo", "crownslots", "madcasino", "lucky-vibe"]]
+    ops = pick_ops(["spino", "kingdom", "spinjo", "rooster-bet", "fortune-play",
+                           "smash", "rivo", "crownslots", "madcasino", "lucky-vibe"])
     faq = [
      ("Which online casino pays out fastest in New Zealand?",
       "<p><a href='/casino-reviews/spino/'>Spino</a> was fastest overall at <strong>ten minutes to two "
@@ -246,18 +288,7 @@ def fast_payout():
 
 <h2>Withdrawal limits: the number people check too late</h2>
 <p>Payout speed is irrelevant if a ceiling meters your winnings out over a month. Every weekly cap we recorded:</p>
-{table(["Casino","Weekly cap","Min withdrawal","Fee","Weekend processing"], [
- ["<a href='/casino-reviews/spino/'>Spino</a>","<b>No stated cap</b>","20 USDT","Network only","<span class='t-yes'>Yes</span>"],
- ["<a href='/casino-reviews/kingdom/'>Kingdom</a>","NZ$10,000","NZ$20","None","<span class='t-yes'>Yes</span>"],
- ["<a href='/casino-reviews/smash/'>Smash</a>","NZ$10,000","NZ$20","None","<span class='t-yes'>Yes</span>"],
- ["<a href='/casino-reviews/spinjo/'>Spinjo</a>","NZ$8,000","NZ$25","None","<span class='t-yes'>Yes</span>"],
- ["<a href='/casino-reviews/rooster-bet/'>Rooster Bet</a>","NZ$8,000","NZ$25","None","<span class='t-yes'>Yes</span>"],
- ["<a href='/casino-reviews/rivo/'>Rivo</a>","NZ$8,000","NZ$25","None","<span class='t-no'>No</span>"],
- ["<a href='/casino-reviews/fortune-play/'>Fortune Play</a>","NZ$7,000","NZ$25","None","<span class='t-yes'>Yes</span>"],
- ["<a href='/casino-reviews/lucky-vibe/'>Lucky Vibe</a>","NZ$6,500","NZ$25","None","<span class='t-no'>No</span>"],
- ["<a href='/casino-reviews/lucky-circus/'>Lucky Circus</a>","NZ$5,000","<b>NZ$10</b>","None","<span class='t-no'>No</span>"],
- ["<a href='/casino-reviews/slotsgem/'>Slotsgem</a>","NZ$4,000","NZ$20","Below NZ$50","<span class='t-no'>No</span>"],
-], minw=760)}
+{caps_table()}
 <p>If you play at a level where a five-figure win is plausible, the cap deserves more of your attention than the welcome bonus. A NZ$20,000 win at a NZ$5,000-a-week ceiling takes a month to extract, and it sits in your casino balance the whole time &mdash; which is precisely the risk the cap creates.</p>
 </div></div></section>
 '''
@@ -273,7 +304,9 @@ def fast_payout():
         "actually recorded, and the two things you can do to halve them.",
         icon("bolt") + " 168 withdrawals timed", ops,
         "Fastest paying online casino NZ sites, ranked on timed withdrawals",
-        "Ranked purely on our recorded withdrawal times, weighted toward the methods New Zealanders actually use.",
+        "Every payout time here is one we recorded ourselves, not one an operator advertises. Read the "
+        "crypto figure on each row against the weekly ceiling further down the page &mdash; the line-up "
+        "is our editorial order, not a speed ladder.",
         body, faq, author="angus-mclean",
         stats=[("10 min", "Fastest logged"), ("3 hrs", "Median crypto"),
                ("2 days", "Median NZD bank"), ("168", "Withdrawals timed")])
@@ -281,8 +314,8 @@ def fast_payout():
 
 # ======================================================= HIGH PAYOUT CASINOS
 def high_payout():
-    ops = [BY[s] for s in ["spinjo", "ivibet", "kingdom", "rooster-bet", "smash",
-                           "hellspin", "fortune-play", "rivo", "lucky-vibe", "slotsgem"]]
+    ops = pick_ops(["spinjo", "ivibet", "kingdom", "rooster-bet", "smash",
+                           "hellspin", "fortune-play", "rivo", "lucky-vibe", "slotsgem"])
     faq = [
      ("Which casino has the highest payout percentage in NZ?",
       "<p>Payout percentage is a property of games, not casinos &mdash; a casino&rsquo;s overall figure is just a "
@@ -383,8 +416,9 @@ def high_payout():
         "and the five decisions that move your return more than any bonus ever will.",
         icon("chart") + " Return to player verified per game", ops,
         "Best payout online casino NZ sites, ranked on RTP transparency",
-        "Ranked on RTP transparency, the share of high-return games in the lobby, independent auditing and "
-        "cashback that reduces the effective house edge.",
+        "Scored on RTP transparency, the share of high-return games in the lobby, independent auditing and "
+        "cashback that reduces the effective house edge. Each row carries its score; the order is our "
+        "editorial line-up.",
         body, faq,
         stats=[("99.5%", "Blackjack RTP"), ("97.3%", "European roulette"),
                ("94.7%", "American roulette"), ("2.7%", "The gap, per spin")])
@@ -392,8 +426,8 @@ def high_payout():
 
 # =========================================================== LIVE CASINOS
 def live_casinos():
-    ops = [BY[s] for s in ["ivibet", "spinjo", "rooster-bet", "kingdom", "lucky-vibe",
-                           "fortune-play", "rivo", "crownslots", "madcasino", "hellspin"]]
+    ops = pick_ops(["ivibet", "spinjo", "rooster-bet", "kingdom", "lucky-vibe",
+                           "fortune-play", "rivo", "crownslots", "madcasino", "hellspin"])
     faq = [
      ("What is a live dealer casino?",
       "<p>Real tables with real dealers, filmed in a studio and streamed to you in real time. You place bets "
@@ -480,7 +514,7 @@ def live_casinos():
         icon("users") + " Evolution &amp; Pragmatic Live tested", ops,
         "Best live casino NZ sites: live dealer blackjack, roulette and baccarat",
         "Scored on live table coverage, provider mix, NZD limits, stream reliability and whether low-stakes "
-        "tables are available.",
+        "tables are available. Each row carries its score; the order is our editorial line-up.",
         body, faq,
         stats=[("400+", "Tables at our #1"), ("99.5%", "Live blackjack RTP"),
                ("24/7", "Tables open in NZT"), ("NZ$0.50", "Lowest live limit")])
@@ -488,8 +522,8 @@ def live_casinos():
 
 # ========================================================= CRYPTO CASINOS
 def crypto():
-    ops = [BY[s] for s in ["spino", "kingdom", "spinjo", "crownslots", "fortune-play",
-                           "smash", "rivo", "lucky7even", "rooster-bet", "madcasino"]]
+    ops = pick_ops(["spino", "kingdom", "spinjo", "crownslots", "fortune-play",
+                           "smash", "rivo", "lucky7even", "rooster-bet", "madcasino"])
     faq = [
      ("Are crypto casinos legal in New Zealand?",
       "<p>The same rules apply as to any offshore online casino: it is not an offence for a New Zealander to "
@@ -598,8 +632,8 @@ def crypto():
         "handle them properly, and the New Zealand tax wrinkle that catches people out.",
         icon("lock") + " Crypto payouts from 10 minutes", ops,
         "Best crypto casino NZ sites: Bitcoin, Ethereum and USDT compared",
-        "Ranked on coin support, withdrawal speed on-chain, provably fair coverage and whether the site handles "
-        "stablecoins properly.",
+        "Scored on coin support, on-chain withdrawal speed, provably fair coverage and whether the site "
+        "handles stablecoins properly. Each row carries its score; the order is our editorial line-up.",
         body, faq, author="angus-mclean",
         stats=[("10 min", "Fastest crypto payout"), ("0x", "Wagering at Spino"),
                ("USDT", "The coin we recommend"), ("Property", "IRD's view of crypto")])
@@ -607,8 +641,8 @@ def crypto():
 
 # ======================================================== CASINO BONUSES
 def bonuses():
-    ops = [BY[s] for s in ["smash", "spino", "crownslots", "kingdom", "lucky7even",
-                           "spinjo", "rivo", "fortune-play", "roby-casino", "lucky-vibe"]]
+    ops = pick_ops(["smash", "spino", "crownslots", "kingdom", "lucky7even",
+                           "spinjo", "rivo", "fortune-play", "roby-casino", "lucky-vibe"])
     faq = [
      ("What is the best casino bonus in NZ right now?",
       "<p>On terms rather than headline, <a href='/casino-reviews/smash/'>Smash</a> at "
@@ -717,8 +751,10 @@ def bonuses():
         "expiry and win caps &mdash; with the arithmetic worked through in New Zealand dollars.",
         icon("coin") + " 11 offers compared clause by clause", ops,
         "Best casino bonuses NZ: welcome and sign up bonus offers ranked",
-        "Ranked on bonus terms rather than headline size. The top two offers here have the smallest numbers "
-        "and by some distance the best value.",
+        "Read the wagering column, not the headline. The two best offers on this page &mdash; "
+        "<a href='/casino-reviews/smash/'>Smash at 10x</a> and "
+        "<a href='/casino-reviews/spino/'>Spino at 0x</a> &mdash; have far from the biggest numbers, "
+        "which is the whole point. The order below is our editorial line-up.",
         body, faq,
         stats=[("10x", "Best wagering"), ("0x", "Spino's crypto offer"),
                ("45x", "Worst on this page"), ("NZ$5", "Typical max bet")])
@@ -726,8 +762,8 @@ def bonuses():
 
 # ==================================================== NO DEPOSIT CASINOS
 def no_deposit():
-    ops = [BY[s] for s in ["lucky7even", "spino", "smash", "hellspin", "ivibet",
-                           "spinjo", "lucky-circus", "slotsgem"]]
+    ops = pick_ops(["lucky7even", "spino", "smash", "hellspin", "ivibet",
+                           "spinjo", "lucky-circus", "slotsgem"])
     faq = [
      ("Is there a genuine no deposit bonus for NZ players?",
       "<p>Yes, but only one on this site. <a href='/casino-reviews/lucky7even/'>Lucky7even credits 20 free "
@@ -836,8 +872,10 @@ def no_deposit():
         "the wagering and the cap are applied, and what to do instead.",
         icon("star") + " Every offer verified, not copied", ops,
         "No deposit casino NZ offers and free spins on sign up",
-        "The one verified no-deposit offer first, then the deposit-based free spin packages ranked on real "
-        "per-spin value rather than headline count.",
+        "Only one genuine no deposit offer is live for New Zealanders &mdash; "
+        "<a href='/casino-reviews/lucky7even/'>Lucky7even&rsquo;s 20 spins on registration</a>. The rest "
+        "are deposit-based free spin packages, worth judging on per-spin value rather than headline "
+        "count. See the comparison further down.",
         body, faq,
         stats=[("1", "Verified no-dep offer"), ("NZ$4", "What 20 spins is worth"),
                ("50x", "Wagering on winnings"), ("NZ$100", "Conversion cap")])

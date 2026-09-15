@@ -66,7 +66,7 @@ FAQ = [
 
 
 def build():
-    ops = [BY[s] for s, _, _ in LAUNCHES]
+    ops = pick_ops([s for s, _, _ in LAUNCHES])
     cr = [("Home", "/"), ("Online Casinos NZ", "/online-casinos/"), ("New Online Casinos NZ", PATH)]
     schema = page_schema(
         "CollectionPage", TITLE, DESC, PATH,
@@ -99,8 +99,9 @@ def build():
               "checks further down this page matter more here than anywhere else on the site."))
 
     rows = []
-    for slug, yr, note in LAUNCHES:
-        c = BY[slug]
+    notes = {s: (y, n) for s, y, n in LAUNCHES}
+    for c in ops:
+        slug = c["slug"]; yr, note = notes[slug]
         rows.append([f'<a href="/casino-reviews/{slug}/">{esc(c["short"])}</a>', yr,
                      f'{c["rating"]}', esc(c["licence"]),
                      esc(c["operator_co"]) if c["operator_co"] != "Not published"

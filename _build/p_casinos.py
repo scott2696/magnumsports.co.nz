@@ -264,7 +264,7 @@ def build():
 <p>Every page below is built on the same testing data as the ranking above, filtered and re-scored for one specific thing you might care about.</p></div>
 {cards([
  ("dice","Online pokies NZ","The pokies-first ranking: studio coverage, RTP transparency, volatility filtering and which sites stock the high-variance titles Kiwi players actually seek out.","/online-pokies/","Best pokies sites"),
- ("bolt","Fast payout casinos","Ranked purely on the withdrawal times we recorded ourselves, method by method, including what actually causes delays.","/fast-payout-casinos/","Fastest payouts"),
+ ("bolt","Fast payout casinos","The withdrawal times we recorded ourselves, method by method, with the weekly ceilings and what actually causes delays.","/fast-payout-casinos/","Fastest payouts"),
  ("chart","High payout casinos","Highest RTP games and the sites that publish their figures. Where to get the longest play from a fixed budget.","/casino-payout-percentages/","Best RTP casinos"),
  ("users","Live dealer casinos","Evolution and Pragmatic Live coverage, table limits in NZD, and which studios are open at 9pm New Zealand time.","/live-casino/","Best live casinos"),
  ("lock","Crypto casinos","Bitcoin, Ethereum and USDT casinos, provably fair games, and the tax treatment Kiwis need to understand before they start.","/crypto-casinos-nz/","Crypto casinos NZ"),
