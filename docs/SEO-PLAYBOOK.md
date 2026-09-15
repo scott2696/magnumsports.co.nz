@@ -7,7 +7,9 @@ operating cadence needed to hold position once won.
 
 ## 1. Site structure as built
 
-42 pages live. Three tiers, flat architecture — every page is ≤2 clicks from the homepage.
+41 pages live. Three tiers, flat architecture — every page is ≤2 clicks from the homepage.
+`/online-betting/` and `/best-sports-betting-sites/` were merged: they answered the same query
+in two places and split the same links. One page now holds both keyword sets.
 
 ```
 /                                   ← MAGNUM SPORTS STORE · Stratford, Taranaki
@@ -26,7 +28,7 @@ operating cadence needed to hold position once won.
 │   └── /casino-reviews/{19 brands}/
 │
 ├── /online-betting/                ← MONEY PAGE · "online betting NZ"
-│   └── /best-sports-betting-sites/
+│                                     + "best sports betting sites NZ"
 │
 ├── Guides (trust tier)
 │   ├── /nz-online-casino-law/

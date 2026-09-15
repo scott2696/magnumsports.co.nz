@@ -6,7 +6,7 @@ from lib import ROOT, SITE, UPDATED
 MODULES = ["p_home", "p_casinos", "p_categories", "p_betting", "p_guides", "p_site", "p_reviews"]
 
 PRIORITY = {"/": "1.0", "/online-casinos/": "1.0", "/online-betting/": "0.9",
-            "/best-sports-betting-sites/": "0.9", "/online-pokies/": "0.9"}
+            "/online-pokies/": "0.9"}
 
 
 def main():

@@ -230,7 +230,6 @@ def authors():
       "pages": [("NZ Online Casino Law", "/nz-online-casino-law/"),
                 ("Tax on Gambling Winnings NZ", "/gambling-winnings-tax-nz/"),
                 ("Online Betting NZ", "/online-betting/"),
-                ("Best Sports Betting Sites NZ", "/best-sports-betting-sites/"),
                 ("Responsible Gambling", "/responsible-gambling/")]},
     }
     for slug, a in AUTHORS.items():

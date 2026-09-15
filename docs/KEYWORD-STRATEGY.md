@@ -2,6 +2,7 @@
 
 **Head term:** `best online casino sites NZ` → `/online-casinos/`
 **Secondary head term:** `online betting NZ` → `/online-betting/`
+(also holds `best sports betting sites NZ`; the two pages were merged — same query, one page)
 **Homepage:** the Magnum Sports retail store — local intent, not casino intent
 **Market:** New Zealand (`en-NZ`, hreflang `en-nz` + `x-default`)
 
@@ -43,7 +44,7 @@ these. The homepage is the retail store and does **not** target casino keywords.
 | casino bonus NZ / online casino bonus NZ | 1,300 / 590 | `/online-casinos/bonuses/` |
 | no deposit bonus NZ / free spins no deposit NZ | 880 / 720 | `/no-deposit-casinos/` |
 | online betting NZ / betting sites NZ | 1,600 / 1,900 | `/online-betting/` |
-| best sports betting sites NZ / best bookmakers NZ | 590 / 210 | `/best-sports-betting-sites/` |
+| best sports betting sites NZ / best bookmakers NZ | 590 / 210 | `/online-betting/` |
 
 ### Cluster C — Informational / trust (→ guides; these win featured snippets)
 
@@ -209,8 +210,7 @@ No two pages target the same head keyword. This is the discipline that prevents 
 | `/best-crypto-casinos/` | crypto casino NZ | bitcoin casino NZ | USDT casino, provably fair, crypto gambling tax NZ |
 | `/online-casinos/bonuses/` | casino bonus NZ | online casino welcome bonus NZ | 40x wagering meaning, lowest wagering bonus |
 | `/no-deposit-casinos/` | no deposit bonus NZ | free spins no deposit NZ | free spins value, no deposit casino real |
-| `/online-betting/` | **online betting NZ** | betting sites NZ | is offshore betting legal NZ, TAB alternatives |
-| `/best-sports-betting-sites/` | best sports betting sites NZ | best bookmakers NZ | rugby betting NZ, NRL betting, netball betting |
+| `/online-betting/` | **online betting NZ** | betting sites NZ, best sports betting sites NZ | is offshore betting legal NZ, TAB alternatives, rugby betting NZ, NRL betting, netball betting |
 | `/casino-reviews/` | online casino reviews NZ | NZ casino ratings | how we score casinos |
 | `/casino-reviews/<brand>/` | `<brand>` review | `<brand>` NZ | is `<brand>` legit, `<brand>` withdrawal time |
 | `/nz-online-casino-law/` | is online gambling legal in New Zealand | NZ online casino law | Online Casino Gambling Act, 1 December 2026 |

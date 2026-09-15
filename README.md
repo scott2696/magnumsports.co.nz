@@ -10,20 +10,19 @@ library (plus Pillow for the one-off image generation scripts).
 |---|---|
 | **Homepage** `/` | The retail store. Twelve departments, then sports betting. `LocalBusiness` schema with the real trading details. |
 | **Casino money page** `/online-casinos/` | `best online casino sites NZ` — ~6,700 words |
-| **Betting money page** `/online-betting/` | `online betting NZ` — ~5,300 words |
+| **Betting money page** `/online-betting/` | `online betting NZ` + `best sports betting sites NZ` — ~6,400 words |
 
 ---
 
 ## What's here
 
-42 pages, ~76,000 words of original content.
+41 pages, ~76,000 words of original content.
 
 | Tier | Pages |
 |---|---|
 | Store | `/` — Magnum Sports, Stratford |
 | Money pages | `/online-casinos/`, `/online-betting/` |
 | Categories | `/online-pokies/`, `/high-payout-casinos/`, `/fast-payout-casinos/`, `/live-casinos/`, `/best-crypto-casinos/`, `/online-casinos/bonuses/`, `/no-deposit-casinos/` |
-| Betting | `/best-sports-betting-sites/` |
 | Reviews | `/casino-reviews/` + 19 operator reviews |
 | Guides | `/nz-online-casino-law/`, `/gambling-winnings-tax-nz/`, `/payment-methods/`, `/how-we-review/` |
 | Company | `/about/`, `/contact/`, `/authors/`, `/responsible-gambling/` |
@@ -43,7 +42,7 @@ Strategy documents live in [`docs/`](docs/):
 python3 _build/build.py
 ```
 
-Regenerates all 42 pages plus `sitemap.xml` and `robots.txt` in about a second.
+Regenerates all 41 pages plus `sitemap.xml` and `robots.txt` in about a second.
 Output is written in place — this repo *is* the deployed site (GitHub Pages, see `CNAME`).
 
 ### Where things live
@@ -55,7 +54,7 @@ Output is written in place — this repo *is* the deployed site (GitHub Pages, s
 | `_build/p_home.py` | Homepage — the Magnum Sports store |
 | `_build/p_casinos.py` | `/online-casinos/` — the casino money page |
 | `_build/p_categories.py` | The 7 category pages |
-| `_build/p_betting.py` | `/online-betting/`, `/best-sports-betting-sites/` |
+| `_build/p_betting.py` | `/online-betting/` — the single betting page |
 | `_build/p_guides.py` | Law, tax, payments, methodology |
 | `_build/p_site.py` | About, contact, authors, responsible gambling, terms, privacy, cookies |
 | `_build/p_reviews.py` | Review hub + 19 reviews (`NARR` holds the bespoke per-brand copy) |
@@ -91,7 +90,7 @@ python3 _build/trim_logos.py    # crops white/transparent borders from brand log
 ## Conventions
 
 - **Clean URLs.** Every page is `<path>/index.html`; nothing links to a `.html` extension.
-- **Self-referencing canonicals** on all 42 URLs.
+- **Self-referencing canonicals** on all 41 URLs.
 - **`en-NZ`** throughout, with `hreflang="en-nz"` and `x-default`.
 - **Affiliate links** always carry `rel="nofollow sponsored noopener" target="_blank"`.
 - **One page, one head keyword.** See the mapping table in `docs/KEYWORD-STRATEGY.md`. The

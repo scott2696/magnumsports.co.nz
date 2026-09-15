@@ -139,7 +139,7 @@ def build():
 <p style="font-size:.79rem;color:var(--mute);margin-top:14px">Offers as published at our last check on {UPDATED_NZ}. Terms change without notice. 18+ only.</p>
 <div class="grid grid--3" style="margin-top:30px">
 <div class="card card--link"><div class="card-ic">{icon("scale")}</div><h3>Online Betting NZ</h3><p>The full legal position, which books still accept New Zealanders, NZD banking, odds margins and free bet terms compared.</p><p><a href="/online-betting/">Read the guide &rarr;</a></p></div>
-<div class="card card--link"><div class="card-ic">{icon("ball")}</div><h3>Best Sports Betting Sites</h3><p>Ranked on rugby union and NRL market depth, the margin you pay on every bet, in-play reliability and how fast the money comes back.</p><p><a href="/best-sports-betting-sites/">Compare bookmakers &rarr;</a></p></div>
+<div class="card card--link"><div class="card-ic">{icon("ball")}</div><h3>Best Sports Betting Sites</h3><p>All twelve books ranked on rugby union and NRL market depth, the margin you pay on every bet, in-play reliability and how fast the money comes back.</p><p><a href="/online-betting/#sites">Compare bookmakers &rarr;</a></p></div>
 <div class="card card--link"><div class="card-ic">{icon("coin")}</div><h3>Tax on Winnings</h3><p>Recreational betting winnings are not taxable in New Zealand. Here are the two exceptions that catch people out, with worked examples.</p><p><a href="/gambling-winnings-tax-nz/">Read the tax guide &rarr;</a></p></div>
 </div>
 </div></section>

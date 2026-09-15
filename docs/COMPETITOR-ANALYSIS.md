@@ -114,7 +114,7 @@ These are the gaps the new site is built to exploit. Each maps to a section we n
 | 10 | **Withdrawal caps buried or absent.** The number that actually decides a big win. | All | Every weekly cap published, plus a comparison table |
 | 11 | **Support hours never tested in NZT.** Offshore desks are in Europe; 9pm NZT is 9am CET. | All | Four support contacts per site, at least one 7–11pm NZT |
 | 12 | **No side-by-side comparison table.** Card layouts only — impossible to scan 10 sites on one variable. | gambling.com, casinos.com | Sortable-style comparison tables on every category page |
-| 13 | **Netball, NPC rugby and NZ racing pools ignored.** The sports Kiwis actually bet on. | All | Covered on `/online-betting/` and `/best-sports-betting-sites/` |
+| 13 | **Netball, NPC rugby and NZ racing pools ignored.** The sports Kiwis actually bet on. | All | Covered on `/online-betting/` |
 | 14 | **Free spin value never stated.** "300 free spins" is NZ$60 of play, not NZ$300. | All | Per-spin value table on `/no-deposit-casinos/` |
 | 15 | **Reverse-withdrawal windows unexplained.** The mechanic that costs players the most money. | All | Explained in the 4-stage payout anatomy on `/fast-payout-casinos/` |
 

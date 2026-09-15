@@ -383,7 +383,7 @@ def build():
 <span class="kicker">Sport</span>
 <h2>Casino and sports betting on one account</h2>
 <p>Six of the sites on this page run a full sportsbook alongside the casino on a single wallet and a single verification, which removes a genuine friction point: no moving money between products, no second ID check, no second withdrawal queue. <a href="/casino-reviews/rooster-bet/">Rooster Bet</a> has the deepest rugby union and rugby league coverage of the group, <a href="/casino-reviews/betandplay/">Bet&amp;Play</a> the best in-play interface, and <a href="/casino-reviews/kingdom/">Kingdom</a> the strongest combined welcome offer across both products.</p>
-<p>Before you open one, read our <a href="/online-betting/">online betting in New Zealand guide</a>. The legal position for sports and racing betting is materially different from the position for casino games following the Racing Industry Amendment Act 2025, and you should understand that difference before you place a bet rather than after. Our <a href="/best-sports-betting-sites/">best sports betting sites</a> page compares market depth, odds and betting features across every book we tested.</p>
+<p>Before you open one, read our <a href="/online-betting/">online betting in New Zealand guide</a>. The legal position for sports and racing betting is materially different from the position for casino games following the Racing Industry Amendment Act 2025, and you should understand that difference before you place a bet rather than after. It also ranks <a href="/online-betting/#sites">every sports betting site</a> that still accepts New Zealanders, on market depth, odds and betting features.</p>
 </div></div></section>
 ''')
 
