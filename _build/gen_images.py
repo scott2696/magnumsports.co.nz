@@ -4,9 +4,9 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-INK = (10, 16, 32, 255)
-RED = (225, 29, 46, 255)
-AMBER = (255, 183, 3, 255)
+INK = (43, 40, 54, 255)      # graphite #2B2836
+RED = (245, 165, 36, 255)    # sodium   #F5A524
+AMBER = (242, 239, 233, 255) # chalk    #F2EFE9
 WHITE = (255, 255, 255, 255)
 
 FONTS = [
@@ -36,7 +36,7 @@ def rounded(size, radius_ratio=0.22, fill=INK):
 
 
 def mark(size):
-    """Navy rounded tile with a magnum-red M and an amber underscore."""
+    """Graphite tile, sodium M, chalk underscore — one accent, per the system."""
     S = size * 8  # supersample
     im = rounded(S, fill=INK)
     d = ImageDraw.Draw(im)
@@ -60,9 +60,9 @@ def write_favicons():
     ico = mark(64)
     ico.save(os.path.join(ROOT, "favicon.ico"), sizes=[(16, 16), (32, 32), (48, 48), (64, 64)])
     svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Magnum Sports">
-<rect width="100" height="100" rx="22" fill="#0a1020"/>
-<path d="M20.5 73.5V26.5L50 58.5L79.5 26.5V73.5" fill="none" stroke="#e11d2e" stroke-width="11.5" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="20.5" y="79.5" width="59" height="5.5" rx="2.75" fill="#ffb703"/>
+<rect width="100" height="100" rx="22" fill="#2B2836"/>
+<path d="M20.5 73.5V26.5L50 58.5L79.5 26.5V73.5" fill="none" stroke="#F5A524" stroke-width="11.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="20.5" y="79.5" width="59" height="5.5" rx="2.75" fill="#F2EFE9"/>
 </svg>"""
     open(os.path.join(ROOT, "favicon.svg"), "w").write(svg)
 

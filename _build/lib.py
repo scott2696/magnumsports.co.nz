@@ -337,10 +337,10 @@ def head(title, desc, path, schema=None, image="/images/og-magnum.jpg", robots=N
 <link rel="alternate" hreflang="en-nz" href="{url}">
 <link rel="alternate" hreflang="x-default" href="{url}">
 <meta name="rating" content="adult">
-<meta name="theme-color" content="#0a1020">
+<meta name="theme-color" content="#0C0B10">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
@@ -377,9 +377,9 @@ def nav():
     o = ['<header class="nav"><div class="wrap">',
          f'<a class="brand" href="/" aria-label="{NAME} — {TAG}">',
          '<svg class="brand-mark" width="34" height="34" viewBox="0 0 100 100" aria-hidden="true">',
-         '<rect width="100" height="100" rx="22" fill="#121c33"/>',
-         '<path d="M20.5 73.5V26.5L50 58.5L79.5 26.5V73.5" fill="none" stroke="#e11d2e" stroke-width="11.5" stroke-linecap="round" stroke-linejoin="round"/>',
-         '<rect x="20.5" y="79.5" width="59" height="5.5" rx="2.75" fill="#ffb703"/></svg>',
+         '<rect width="100" height="100" rx="22" fill="#2B2836"/>',
+         '<path d="M20.5 73.5V26.5L50 58.5L79.5 26.5V73.5" fill="none" stroke="#F5A524" stroke-width="11.5" stroke-linecap="round" stroke-linejoin="round"/>',
+         '<rect x="20.5" y="79.5" width="59" height="5.5" rx="2.75" fill="#F2EFE9"/></svg>',
          '<span class="brand-txt"><span class="brand-word">MAGNUM<i>.</i></span>',
          f'<span class="brand-tag">{esc(TAG)}</span></span></a>',
          '<nav class="nav-links" aria-label="Main">']
@@ -439,7 +439,7 @@ def footer():
 <div class="foot-top">
 <div class="foot-col foot-about">
 <a class="brand" href="/" style="margin-bottom:14px">
-<svg class="brand-mark" width="32" height="32" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#121c33"/><path d="M20.5 73.5V26.5L50 58.5L79.5 26.5V73.5" fill="none" stroke="#e11d2e" stroke-width="11.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="20.5" y="79.5" width="59" height="5.5" rx="2.75" fill="#ffb703"/></svg>
+<svg class="brand-mark" width="32" height="32" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#2B2836"/><path d="M20.5 73.5V26.5L50 58.5L79.5 26.5V73.5" fill="none" stroke="#F5A524" stroke-width="11.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="20.5" y="79.5" width="59" height="5.5" rx="2.75" fill="#F2EFE9"/></svg>
 <span class="brand-txt"><span class="brand-word">MAGNUM<i>.</i></span><span class="brand-tag">{esc(TAG)}</span></span></a>
 <p>Hunting, fishing, camping and outdoor gear from our Stratford shop, plus independent guides to online betting and casino sites for New Zealanders.</p>
 <p><b style="color:#c3cddf">220 Broadway, Stratford<br>Taranaki 4332</b><br><a href="tel:+6467657248">06 765 7248</a></p>
