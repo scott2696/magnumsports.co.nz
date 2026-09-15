@@ -102,26 +102,34 @@ AUTHORS = {
     "angus-mclean": {
         "name": "Angus McLean", "role": "Writer",
         "img": "/images/authors/angus-mclean.jpg",
+        "location": "Wellington, New Zealand",
+        "since": "2026",
+        # Add LinkedIn and any external bylines here before launch.
+        "sameAs": [],
         "knows": ["online casinos", "online pokies", "casino bonus terms",
                   "withdrawal testing", "NZD payment methods", "sports betting",
-                  "New Zealand gambling regulation"],
-        "bio": "Angus writes every review, guide and comparison on Magnum Sports. He opens and "
-               "funds each account personally, logs every withdrawal against a stopwatch, and "
-               "reads the bonus terms line by line before a single score is written. Where a "
-               "figure appears on this site, he is the person who recorded it.",
+                  "consumer affairs", "New Zealand gambling regulation"],
+        "bio": "Angus McLean writes every review, guide and comparison on Magnum Sports. He came "
+               "to gambling from consumer journalism, where the job was reading the contract "
+               "nobody else had read, and he approaches an online casino the same way: open the "
+               "account, deposit real money, request the withdrawal, and time what actually "
+               "happens rather than what the marketing promises.",
         "short": "Writes every page on this site, and personally funds and times each withdrawal test.",
     },
     "witi-king": {
         "name": "Witi King", "role": "Fact Checker",
         "img": "/images/authors/witi-king.jpg",
+        "location": "Taupō, New Zealand",
+        "since": "2026",
+        "sameAs": [],
         "knows": ["New Zealand gambling law", "Gambling Act 2003", "Racing Industry Act 2020",
                   "licensing and regulation", "tax on gambling winnings",
-                  "editorial standards", "responsible gambling"],
-        "bio": "Witi checks every factual claim on Magnum Sports before it is published. Legal "
-               "and regulatory statements go back to the Act, the Department of Internal Affairs "
-               "notice or the regulator's own licence register; operator figures go back to the "
-               "testing record and the operator's own published terms. He is the reason several "
-               "claims you will find on rival New Zealand sites do not appear on this one.",
+                  "gambling harm minimisation", "editorial standards", "responsible gambling"],
+        "bio": "Witi King checks every factual claim on Magnum Sports before it is published. He "
+               "spent most of his working life on the harm side of gambling rather than the "
+               "marketing side, and he reads the legislation itself rather than someone else's "
+               "summary of it — which is why several claims you will find on rival New Zealand "
+               "sites do not appear on this one.",
         "short": "Checks every claim on this site against the primary source before it is published.",
     },
 }
@@ -702,11 +710,16 @@ def site_schema():
 
 def person_schema(slug):
     a = AUTHORS[slug]
-    return {"@type": "Person", "@id": f"{SITE}/#author-{slug}", "name": a["name"],
-            "url": f"{SITE}/authors/#{slug}", "jobTitle": a["role"],
-            "image": SITE + a["img"],
-            "worksFor": {"@id": f"{SITE}/#organization"}, "knowsAbout": a["knows"],
-            "description": a["short"]}
+    d = {"@type": "Person", "@id": f"{SITE}/#author-{slug}", "name": a["name"],
+         "url": f"{SITE}/authors/#{slug}", "jobTitle": a["role"],
+         "image": SITE + a["img"],
+         "worksFor": {"@id": f"{SITE}/#organization"}, "knowsAbout": a["knows"],
+         "description": a["short"]}
+    if a.get("location"):
+        d["homeLocation"] = {"@type": "Place", "name": a["location"]}
+    if a.get("sameAs"):
+        d["sameAs"] = a["sameAs"]
+    return d
 
 
 def page_schema(kind, title, desc, path, author="angus-mclean", extra=None):

@@ -191,17 +191,30 @@ def authors():
     blocks = []
     detail = {
      "angus-mclean": {
-      "since": "launch, 2026", "reviews": "41 operators tested in 2026",
+      "since": "2026", "reviews": "41 operators tested in 2026",
       "cover": ["Casino reviews and scoring", "Online pokies and game libraries",
                 "Bonus terms analysis", "Withdrawal testing", "NZD payments and banking",
                 "Sports betting"],
-      "extra": "<p>Angus is responsible for the scoring model, for every review on this site, and "
-               "for the decision to exclude an operator. He opened and funded all 41 accounts "
-               "tested in 2026, logged all 168 withdrawal times, and read every bonus terms "
-               "document in full rather than the promotional banner above it.</p>"
-               "<p>If a number appears anywhere on Magnum Sports &mdash; a payout time, a wagering "
-               "multiple, a weekly withdrawal ceiling &mdash; he is the person who recorded it, and "
-               "he is the person to email if you think it is wrong.</p>",
+      "extra":
+        "<p>Angus spent fifteen years in consumer journalism before he wrote a word about "
+        "gambling. The work was always the same shape &mdash; a company makes a promise in large "
+        "type and qualifies it in small type, and somebody has to sit down and read the small "
+        "type. Power contracts, insurance policies, mobile plans, extended warranties. Online "
+        "casinos turned out to be the same job with a bigger gap between the two sizes of "
+        "type.</p>"
+        "<p>He moved into gambling coverage after a run of stories about how New Zealanders "
+        "actually lose money online: not to rigged games, which are rare, but to wagering terms "
+        "nobody finishes, withdrawal ceilings nobody checks, and currency conversion nobody sees. "
+        "Those three things are still the backbone of how this site scores an operator.</p>"
+        "<p>On Magnum Sports he owns the scoring model, every review, and the decision to exclude "
+        "an operator. He opened and funded all 41 accounts tested in 2026 from his own bank "
+        "accounts, logged all 168 withdrawal times against a stopwatch, and read every bonus "
+        "terms document in full rather than the banner above it. He is also the one who insisted "
+        "the site publish its scoring weightings, on the grounds that a methodology nobody can "
+        "check is a marketing document.</p>"
+        "<p>He works from Wellington, which is also where a fair amount of the testing happens "
+        "&mdash; on a phone, on mobile data, one-handed, because that is how most people "
+        "actually use these sites.</p>",
       "pages": [("Best Online Casinos NZ", "/online-casinos/"),
                 ("Online Pokies NZ", "/online-pokies/"),
                 ("Casino Payout Percentages", "/casino-payout-percentages/"),
@@ -215,17 +228,35 @@ def authors():
                 ("Online Betting NZ", "/online-betting/"),
                 ("How We Rate Casinos", "/how-we-rate-casinos/")]},
      "witi-king": {
-      "since": "launch, 2026", "reviews": "Every claim published on this site",
+      "since": "2026", "reviews": "Every claim published on this site",
       "cover": ["New Zealand gambling law", "Licensing and regulation",
-                "Tax on gambling winnings", "Fact-checking and corrections",
-                "Responsible gambling policy", "Editorial standards"],
-      "extra": "<p>Nothing on this site is published on one person&rsquo;s word. Where a claim "
-               "cannot be traced to a primary source it is either removed or labelled unverified "
-               "&mdash; which is why our no deposit page lists one offer rather than thirty, and "
-               "why the licensed casinos page says plainly that no New Zealand licence has been "
-               "granted yet.</p>"
-               "<p>He also owns the corrections process. When an error is found, here or by a "
-               "reader, it is fixed in place with a note rather than edited away quietly.</p>",
+                "Tax on gambling winnings", "Gambling harm minimisation",
+                "Fact-checking and corrections", "Editorial standards"],
+      "extra":
+        "<p>Witi came to this work from the other end of it. He spent the bulk of his career in "
+        "community and social services in the central North Island, a long stretch of it on "
+        "problem gambling &mdash; which in practice meant sitting with families working out what "
+        "had gone and what could be recovered. Most of that harm came from class 4 machines in "
+        "pubs and clubs, long before anyone in those rooms had opened an account online.</p>"
+        "<p>That is not a background most gambling websites have, and it is the reason he was "
+        "asked to take this role rather than a marketing one. He is unsentimental about what "
+        "these sites are: every game carries a house edge, the edge does not move, and a page "
+        "that implies otherwise is doing harm regardless of how carefully it is worded.</p>"
+        "<p>His job here is narrow and absolute. Every factual claim is checked before it goes "
+        "live. Legal and regulatory statements go back to the primary source &mdash; the Act "
+        "itself, the Department of Internal Affairs notice, the regulator&rsquo;s own licence "
+        "register &mdash; never to another comparison site, which is where most of the errors in "
+        "this industry are copied from. Operator figures go back to the testing record and the "
+        "operator&rsquo;s own published terms.</p>"
+        "<p>Where a claim cannot be traced to a primary source it is removed or explicitly "
+        "labelled unverified. That is why our <a href='/no-deposit-bonus/'>no deposit page</a> "
+        "lists one offer rather than thirty, why the "
+        "<a href='/licensed-online-casinos/'>licensed casinos page</a> says plainly that no New "
+        "Zealand licence has been granted yet, and why our betting coverage states that the "
+        "punter commits no offence &mdash; a point most reporting of the 2025 law change "
+        "blurred.</p>"
+        "<p>He also owns corrections. When an error is found, here or by a reader, it is fixed in "
+        "place with a note rather than edited away quietly. He works from Taup&#333;.</p>",
       "pages": [("Licensed Online Casinos NZ", "/licensed-online-casinos/"),
                 ("Tax on Gambling Winnings NZ", "/gambling-winnings-tax-nz/"),
                 ("Responsible Gambling NZ", "/responsible-gambling/"),
@@ -241,7 +272,7 @@ def authors():
 <img src="{a["img"]}" srcset="{a["img"]} 1x, {a["img"].replace(".jpg","@2x.jpg")} 2x" alt="{esc(a["name"])}" width="96" height="96" loading="lazy" style="border-radius:50%;flex:0 0 auto">
 <div style="flex:1 1 300px">
 <h2 style="margin-bottom:4px;font-size:1.4rem">{esc(a["name"])}</h2>
-<p style="font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin-bottom:12px">{esc(a["role"])} &middot; On Magnum Sports since {d["since"]}</p>
+<p style="font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin-bottom:12px">{esc(a["role"])} &middot; {esc(a.get("location",""))} &middot; On Magnum Sports since {d["since"]}</p>
 <p>{esc(a["bio"])}</p>
 {d["extra"]}
 <h3 style="font-size:1rem;margin-top:1.4em">Areas of responsibility</h3>

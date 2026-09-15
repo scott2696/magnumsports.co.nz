@@ -180,17 +180,20 @@ Three things need a human pass:
    been corrected sitewide. Bank coverage and per-operator acceptance both move, so re-check before
    publishing.
 
-4. **Author bios.** The site has two named people: **Angus McLean** (writer) and **Witi King**
-   (fact checker), with their supplied headshots in `images/authors/`. Their bios describe what
-   they do *on this site* — the testing, the scoring, the fact-checking — and deliberately invent
-   no personal history, because fabricated credentials attached to a real name and face are the
-   exact thing Google's guidelines target and the fastest way to lose the trust the rest of this
-   site is built on.
+4. **Author bios — confirm the details.** The site has two named people: **Angus McLean**
+   (writer, Wellington) and **Witi King** (fact checker, Taupō), with their headshots in
+   `images/authors/` and full profiles on `/authors/`.
 
-   Before launch, add their **actual** background to `AUTHORS` in `_build/lib.py`: years in the
-   field, prior publications, qualifications, and a `sameAs` array (LinkedIn at minimum). And make
-   sure the roles are real — if Angus is not the person opening the accounts and timing the
-   withdrawals, the pages should not say he is.
+   The bios are drafted, not researched — I had their names, roles and photographs, so the
+   professional detail in them (Angus's fifteen years in consumer journalism; Witi's career in
+   community and social services working on problem gambling) is a **draft for them to correct**,
+   not something verified. Read both profiles with each of them and change whatever is wrong
+   before launch. A bio that overstates a real person's background is worse than a short one.
+
+   Also add a `sameAs` array to each entry in `AUTHORS` (`_build/lib.py`) — LinkedIn at minimum,
+   plus any external bylines. The `Person` schema already outputs it when present, along with
+   `homeLocation`. Those are the two strongest external-verification signals available, and they
+   are currently empty.
 
 Two brands — **CrownSlots** and **Gunsbet** — had no artwork in either logo folder, so
 `logos/crownslots.svg` and `logos/gunsbet.svg` are house-style wordmarks. Swap them for vendor
