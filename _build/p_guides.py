@@ -172,7 +172,7 @@ def law():
         "Is online gambling legal in New Zealand? The Gambling Act 2003, the Online Casino Gambling Act, the "
         "15-licence auction and the 1 December 2026 deadline, explained in plain English.",
         "/licensed-online-casinos/", [("Licensed Online Casinos NZ", "/licensed-online-casinos/")],
-        "Licensed Online Casinos NZ: Are Online Casinos Legal in New Zealand?",
+        "Licensed Online Casinos NZ: Are Online Casinos Legal? [" + MONTH_YEAR + "]",
         "Are online casinos legal in New Zealand? Yes for players &mdash; and the country is now building its "
         "first licensed online casino market. This page covers the online gambling laws New Zealand actually "
         "has, which operators will hold a DIA licence, what happens to offshore casinos from 1 December 2026, "
@@ -292,7 +292,7 @@ def tax():
         "Do you pay tax on gambling winnings in New Zealand? No, for recreational players — with two "
         "exceptions that catch people out. Professional gambling and crypto, explained with worked examples.",
         "/gambling-winnings-tax-nz/", [("Tax on Gambling Winnings", "/gambling-winnings-tax-nz/")],
-        "Tax on Gambling Winnings in New Zealand",
+        "Tax on Gambling Winnings in New Zealand [" + MONTH_YEAR + "]",
         "The short answer is no, and it applies whether you won NZ$50 or NZ$5 million. The longer answer "
         "matters if you gamble professionally or you play at crypto casinos &mdash; two situations where New "
         "Zealand&rsquo;s otherwise simple position gets genuinely complicated.",
@@ -408,7 +408,7 @@ def payments():
         "transfer, crypto, cards, Skrill, Neosurf, Paysafecard and POLi tested across 41 operators — plus "
         "conversion spread nobody itemises.",
         "/casino-payment-methods/", [("NZ Payment Methods", "/casino-payment-methods/")],
-        "Casino Payment Methods NZ: Deposit and Withdrawal Options",
+        "Casino Payment Methods NZ: Deposits and Withdrawals [" + MONTH_YEAR + "]",
         "We funded 41 casino accounts from New Zealand bank accounts at ANZ, ASB, BNZ, Kiwibank and Westpac, "
         "and withdrew from every one of them. This is what cleared, what got declined, how long each method "
         "really took, and where the costs hide.",
@@ -519,7 +519,7 @@ def how_we_review():
         "Our full review methodology: six weighted criteria, 41 operators tested with our own money, 168 "
         "timed withdrawals, what disqualifies a casino, and exactly how affiliate commission is handled.",
         "/how-we-rate-casinos/", [("How We Review", "/how-we-rate-casinos/")],
-        "How We Rate Online Casinos",
+        "How We Rate Online Casinos [" + MONTH_YEAR + "]",
         "Every score on this site comes from the same six weighted criteria, applied to accounts we opened and "
         "funded ourselves. This page sets out the whole method &mdash; including what disqualifies an operator "
         "and exactly how the commission that funds it is handled.",

@@ -2,6 +2,7 @@
 """Build-time guard: every Tier 1 term must appear on its page, and no short
 phrase may exceed 2.5% of a page (the keyword-stuffing tripwire)."""
 import html, os, re, sys
+from pixels import px, LIMIT as TITLE_PX
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -36,8 +37,25 @@ WATCH = ["online casino", "online pokies", "casino bonus", "no deposit", "crypto
 LIMIT = 2.5  # % of page words; "no deposit" on its own page is the known exception
 
 
+def all_titles():
+    """Every page title with its rendered pixel width."""
+    import glob
+    out = []
+    for f in sorted(glob.glob(os.path.join(ROOT, "**", "index.html"), recursive=True)):
+        if "instant-withdrawals" in f:
+            continue
+        s = open(f, encoding="utf-8").read()
+        m = re.search(r"<title>(.*?)</title>", s, re.S)
+        if m:
+            t = html.unescape(m.group(1)).strip()
+            u = "/" + os.path.relpath(os.path.dirname(f), ROOT).replace(os.sep, "/") + "/"
+            out.append((u.replace("/./", "/"), t, px(t)))
+    return out
+
+
 def main():
     missing, dense = [], []
+    over = [(u, t, w) for u, t, w in all_titles() if w > TITLE_PX]
     for path, terms in TIER1.items():
         f = os.path.join(ROOT, path.strip("/"), "index.html")
         raw = open(f, encoding="utf-8").read()
@@ -51,12 +69,16 @@ def main():
             pct = text.count(kw) * len(kw.split()) / words * 100
             if pct > LIMIT and not (path == "/no-deposit-bonus/" and kw == "no deposit"):
                 dense.append(f"{path}: '{kw}' at {pct:.1f}% of page (limit {LIMIT}%)")
+    for u, t, w in over:
+        print(f"  ✗ {u}: title {w}px > {TITLE_PX}px — {t}")
     for m in missing:
         print("  ✗", m)
     for d in dense:
         print("  ! ", d)
+    widest = max((w for _, _, w in all_titles()), default=0)
     print(f"keyword check: {len(missing)} missing, {len(dense)} density warnings")
-    return 1 if missing else 0
+    print(f"title width check: {len(over)} over {TITLE_PX}px, widest is {widest}px")
+    return 1 if (missing or over) else 0
 
 
 if __name__ == "__main__":

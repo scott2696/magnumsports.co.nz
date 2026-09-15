@@ -79,7 +79,7 @@ def build():
 
     o.append(f'''<section class="hero"><div class="wrap">
 <span class="eyebrow">{icon("clock")} Running list &middot; last updated {UPDATED_NZ}</span>
-<h1>New Online Casinos NZ 2026: Newest Casino Sites</h1>
+<h1>New Online Casinos NZ: Newest Casino Sites [{MONTH_YEAR}]</h1>
 {byline()}
 <p class="lede">New casinos NZ players can join kept as a running list rather than written once and left. The newest online casinos New Zealand offers, Every new casino site here has taken a real deposit from us and paid a real withdrawal back &mdash; and from December 2026 this page also tracks which licensed operators go live.</p>
 <div class="hero-stats">

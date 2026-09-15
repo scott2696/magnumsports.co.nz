@@ -244,6 +244,37 @@ money"*, *"how do you win on pokies"*, *"is there an instant withdrawal casino w
 verification"* — and answering them honestly is itself a differentiator, because no competitor
 will. Re-harvest quarterly; query patterns shift faster than content does.
 
+### What the ranking pages actually do with their metas
+
+Measured live from the six reachable competitors on the head term:
+
+| Competitor | Title | px |
+|---|---|---|
+| gambling.com | Best Online Casino NZ \| Top Real Money Casino Sites in 2026 | 555 |
+| casinos.com | Best Online Casinos NZ 2026 \| Top 20 NZ Casino Sites Reviewed | **585 — truncates** |
+| bettingtop10 | Best Online Casinos NZ 2026 \| Top 10 Real Money Casino Sites | 572 |
+| casino.com | Best Online Casinos NZ 2026 \| Top NZ Casino Sites Reviewed | 548 |
+| betiton | Best Online Casinos in NZ (2026)- Tested with Real Money | 525 |
+| onlinecasinos.co.nz | Online Casinos New Zealand - Top NZ Casino Sites Of 2026 | 538 |
+
+What that shows:
+
+- **Year: 6/6.** Mandatory for this query class. A title without one looks stale next to the rest.
+- **Month: 0/6.** Nobody uses one. It is the single cheapest freshness and CTR differentiator
+  available on this SERP, and the reason every guide page here carries `[September 2026]`.
+- **Square brackets: 0/6.** Four use a pipe, one parentheses, one a hyphen. Brackets read as a
+  distinct visual block in a column of pipe-separated titles.
+- **"Best" prefix: 5/6**, and a count modifier ("Top 20", "Top 10") in 3/6.
+- **One is already over the pixel budget.** casinos.com at 585px is truncating in the live SERP —
+  which is what happens when you count characters instead of measuring width.
+- **Descriptions** run 141–166 characters, all leading with a command ("Find…", "Compare…",
+  "Looking for…"). The strongest is bettingtop10's, which opens in the first person with a number:
+  *"I've tested 100+ online casinos in New Zealand with real deposits."* Specific, checkable,
+  and impossible for a templated competitor to copy. Our descriptions follow that shape — the
+  proof number goes first, the benefit list second.
+- **H1s differ from titles on 5/6**, which is correct: the title is for the SERP, the H1 for the
+  reader who already clicked.
+
 ### CTR optimisation
 - Every title ≤60 characters, every description ≤158 — verified at build time, so nothing
   truncates.

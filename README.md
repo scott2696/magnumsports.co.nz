@@ -68,6 +68,8 @@ Output is written in place — this repo *is* the deployed site (GitHub Pages, s
 | `_build/p_site.py` | About, contact, authors, responsible gambling, terms, privacy, cookies |
 | `_build/p_reviews.py` | Review hub + 19 reviews (`NARR` holds the bespoke per-brand copy) |
 | `_build/paa_data.py` | **People Also Ask** content — 107 real-query Q&As, keyed by page |
+| `_build/pixels.py` | SERP title width in **pixels** (Arial 20px metrics). Google truncates on width, not characters |
+| `_build/check_keywords.py` | Build guard: Tier 1 coverage, keyword density, title pixel width |
 | `_build/build.py` | Orchestrator, sitemap, robots |
 | `assets/css/site.css` | The entire stylesheet (22 KB, no JS) |
 
@@ -85,6 +87,10 @@ python3 _build/trim_logos.py    # crops white/transparent borders from brand log
 
 ### Common edits
 
+- **Monthly rollover (do this on the 1st):** change `MONTH` in `_build/lib.py` — and `YEAR` in
+  January — then rebuild. Every title, description and H1 follows from that one edit. Also bump
+  `UPDATED` / `UPDATED_NZ`. **A stale month is worse than no month**, so treat this as a standing
+  commitment: if you will not keep it current, strip the stamp instead.
 - **Change a date:** `UPDATED` / `UPDATED_NZ` / `PUBLISHED` in `_build/lib.py`, then rebuild.
 - **Change a title or meta description:** the `META` dict in `_build/lib.py`. Titles are
   clamped to 60 characters and descriptions to 158 at build time, on a word boundary.
@@ -108,6 +114,15 @@ python3 _build/trim_logos.py    # crops white/transparent borders from brand log
 
 - **Clean URLs.** Every page is `<path>/index.html`; nothing links to a `.html` extension.
 - **Self-referencing canonicals** on all 42 URLs.
+- **Titles are budgeted in pixels, not characters** — 580px max, measured with real Arial
+  advance widths at Google's 20px desktop title size. A 61-character title of capitals can
+  overflow where a 62-character lowercase one fits, so character counts are the wrong tool.
+  Widest title on the site is 564px. September is the longest month name, so the budget only
+  gets slacker through the rest of the year.
+- **Bracketed freshness stamp** in the title (`[September 2026]` / `[September 2026 Guide]`) on
+  the 35 guide, category and review pages. The store homepage, About, Contact, Authors and the
+  three legal pages are deliberately unstamped — a date on a terms page implies a policy version,
+  and a month on a retail store's title helps nothing.
 - **`en-NZ`** throughout, with `hreflang="en-nz"` and `x-default`.
 - **Affiliate links** always carry `rel="nofollow sponsored noopener" target="_blank"`.
 - **One page, one head keyword.** See the mapping table in `docs/KEYWORD-STRATEGY.md`. The

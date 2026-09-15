@@ -2,6 +2,7 @@
 """Shared templating, schema and components for magnumsports.co.nz."""
 import json, os, html
 from paa_data import PAA
+from pixels import px, trim_to_px, LIMIT as TITLE_PX
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = "https://magnumsports.co.nz"
@@ -82,6 +83,13 @@ EMAIL = "editor@magnumsports.co.nz"
 PUBLISHED = "2026-02-02"
 UPDATED = "2026-09-14"
 UPDATED_NZ = "14/09/2026"
+
+# Title/description freshness stamp. ONE edit per month — change MONTH (and
+# YEAR in January) and rebuild; every title, description and H1 follows.
+# A stale month is worse than no month, so this is a standing commitment.
+MONTH = "September"
+YEAR = "2026"
+MONTH_YEAR = f"{MONTH} {YEAR}"
 
 OPS = json.load(open(os.path.join(ROOT, "_build", "operators.json")))
 BY = {o["slug"]: o for o in OPS}
@@ -225,36 +233,36 @@ IC = {
 META = {
  "/": ("Magnum Sports | Outdoors Store, Stratford Taranaki",
        "Hunting, fishing, camping and outdoor gear in Stratford, Taranaki. Airguns, ammunition, firearms, apparel, footwear and tackle. Call 06 765 7248."),
- "/online-casinos/": ("Best Online Casino NZ 2026 | Top Real Money Casino Sites",
-       "Compare the best online casinos NZ has for real money play in 2026. 15 NZ casino sites tested with our own NZD — payout speed, NZD banking and bonuses ranked."),
- "/online-pokies/": ("Online Pokies NZ 2026 | Best Real Money Pokies Sites",
-       "The best online pokies NZ players can spin in 2026. Real money pokies sites compared on RTP, free spins and jackpots, plus free pokies and how they work."),
- "/casino-payout-percentages/": ("Casino Payout Percentage NZ | Highest RTP Casinos",
-       "What RTP means, how casino payout percentages work, and the highest RTP casinos NZ players can use. Real return to player figures by game, not marketing."),
- "/fast-payout-casinos/": ("Fast Payout Casinos NZ | Instant Withdrawal Casino",
-       "We timed 168 withdrawals. The fastest paying online casino NZ options for 2026, how long casino withdrawals take by method, and why yours might be pending."),
- "/live-casino/": ("Live Casino NZ 2026 | Best Live Dealer Casino Sites",
-       "The best live casino NZ sites for 2026. Live dealer blackjack, roulette and baccarat from Evolution, with NZD table limits and real minimum bets compared."),
- "/crypto-casinos-nz/": ("Crypto Casinos NZ 2026 | Best Bitcoin Casino Sites",
-       "The best crypto casino NZ sites for 2026. Bitcoin, Ethereum and USDT casinos compared on payout speed and provably fair games, plus the NZ crypto tax rules."),
- "/casino-bonus/": ("Casino Bonus NZ 2026 | Best Welcome Offers Compared",
-       "Every casino bonus NZ players can claim in 2026, compared on wagering, max bet and expiry. $1, $5 and $10 deposit casino bonuses with the real turnover shown."),
- "/no-deposit-bonus/": ("No Deposit Bonus NZ 2026 | Free Spins No Deposit",
-       "Every no deposit bonus NZ casinos advertise, checked. One free spins no deposit offer is genuinely live — with the wagering, max cashout and codes explained."),
- "/casino-reviews/": ("Casino Reviews NZ | 19 Sites Tested With Our Money",
-       "Hands-on online casino reviews NZ players can trust. Real NZD deposits, timed withdrawals, published scores, and the 22 operators we refused to list."),
- "/online-betting/": ("Online Betting NZ | Best Sports Betting Sites 2026",
-       "Online betting NZ explained: what the 2025 TAB monopoly law changed, which sports betting sites still accept Kiwis, NZD deposits, rugby markets and odds."),
- "/licensed-online-casinos/": ("Licensed Online Casinos NZ | Is Online Gambling Legal?",
-       "Which online casinos are licensed in NZ, and are online casinos legal in New Zealand? The DIA 15-licence auction, the 1 December 2026 deadline and the law."),
- "/gambling-winnings-tax-nz/": ("Gambling Winnings Tax NZ | Do You Pay Tax on Wins?",
-       "Do you pay tax on gambling winnings in NZ? No, for recreational players — with two exceptions. Professional gambling and crypto, with worked examples."),
- "/casino-payment-methods/": ("Casino Payment Methods NZ | Deposits & Withdrawals",
-       "Which casino payment methods NZ banks clear: POLi, Paysafecard, Neosurf, Skrill, bank transfer, crypto and cards, tested across 41 sites and five NZ banks."),
- "/how-we-rate-casinos/": ("How We Rate Casinos | Our Review Methodology",
-       "How to choose an online casino NZ players can trust, how to tell if a casino is legit, and the six weighted criteria behind every score on this site."),
- "/responsible-gambling/": ("Responsible Gambling NZ | Free Help and Support",
-       "Free, confidential gambling help in NZ. Gambling Helpline 0800 654 655, deposit limits, self-exclusion, blocking software and bank gambling blocks."),
+ "/online-casinos/": (f"Best Online Casinos NZ [{MONTH_YEAR}] | Real Money Sites",
+       f"Compare the best online casinos NZ has for real money play, updated {MONTH_YEAR}. 15 NZ casino sites tested with our own NZD — payouts and bonuses ranked."),
+ "/online-pokies/": (f"Online Pokies NZ [{MONTH_YEAR}] | Real Money Pokies",
+       f"The best online pokies NZ players can spin, updated {MONTH_YEAR}. Real money pokies sites compared on RTP, free spins and jackpots, plus free pokies explained."),
+ "/casino-payout-percentages/": (f"Casino Payout Percentage NZ [{MONTH_YEAR}] | Highest RTP",
+       f"What RTP means and how casino payout percentages work, updated {MONTH_YEAR}. The highest RTP casinos NZ players can use, with real figures by game."),
+ "/fast-payout-casinos/": (f"Fast Payout Casinos NZ [{MONTH_YEAR}] | Fast Withdrawals",
+       f"We timed 168 withdrawals. The fastest paying online casino NZ options as at {MONTH_YEAR}, how long casino withdrawals take by method, and why yours is pending."),
+ "/live-casino/": (f"Live Casino NZ [{MONTH_YEAR} Guide] | Best Live Dealers",
+       f"The best live casino NZ sites as at {MONTH_YEAR}. Live dealer blackjack, roulette and baccarat from Evolution, with NZD table limits and minimum bets compared."),
+ "/crypto-casinos-nz/": (f"Crypto Casinos NZ [{MONTH_YEAR} Guide] | Bitcoin Casinos",
+       f"The best crypto casino NZ sites, updated {MONTH_YEAR}. Bitcoin, Ethereum and USDT casinos compared on payout speed and provably fair games, plus NZ crypto tax."),
+ "/casino-bonus/": (f"Casino Bonus NZ [{MONTH_YEAR} Guide] | Best Offers",
+       f"Every casino bonus NZ players can claim, updated {MONTH_YEAR}. Compared on wagering, max bet and expiry, with $1, $5 and $10 deposit offers and the real turnover."),
+ "/no-deposit-bonus/": (f"No Deposit Bonus NZ [{MONTH_YEAR}] | Free Spins Offers",
+       f"Every no deposit bonus NZ casinos advertise, checked {MONTH_YEAR}. One free spins no deposit offer is genuinely live — with the wagering and max cashout explained."),
+ "/casino-reviews/": (f"Casino Reviews NZ [{MONTH_YEAR}] | 19 Sites Tested",
+       f"Hands-on online casino reviews NZ players can trust, updated {MONTH_YEAR}. Real NZD deposits, timed withdrawals, and the 22 operators we refused to list."),
+ "/online-betting/": (f"Online Betting NZ [{MONTH_YEAR} Guide] | Betting Sites",
+       f"Online betting NZ explained, current to {MONTH_YEAR}: what the 2025 TAB monopoly law changed, which sports betting sites accept Kiwis, NZD deposits and odds."),
+ "/licensed-online-casinos/": (f"Licensed Online Casinos NZ [{MONTH_YEAR}] | Is It Legal?",
+       f"Are online casinos legal in New Zealand? Updated {MONTH_YEAR}: the DIA 15-licence auction, the 1 December 2026 deadline and which casinos are licensed."),
+ "/gambling-winnings-tax-nz/": (f"Gambling Winnings Tax NZ [{MONTH_YEAR} Guide]",
+       f"Do you pay tax on gambling winnings in NZ? No, for recreational players — with two exceptions. Professional gambling and crypto, current to {MONTH_YEAR}."),
+ "/casino-payment-methods/": (f"Casino Payment Methods NZ [{MONTH_YEAR} Guide]",
+       f"Which casino payment methods NZ banks clear, checked {MONTH_YEAR}: POLi, Paysafecard, Neosurf, Skrill, bank transfer, crypto and cards across 41 sites."),
+ "/how-we-rate-casinos/": (f"How We Rate Online Casinos [{MONTH_YEAR}] | Methodology",
+       f"How to choose an online casino NZ players can trust, and the six weighted criteria behind every score on this site. Methodology current to {MONTH_YEAR}."),
+ "/responsible-gambling/": (f"Responsible Gambling NZ [{MONTH_YEAR}] | Free Help",
+       f"Free, confidential gambling help in NZ. Gambling Helpline 0800 654 655, deposit limits, self-exclusion, blocking software and bank gambling blocks."),
  "/about/": ("About Magnum Sports | Independent NZ Casino Reviews",
        "Who we are, how we test online casinos with our own NZD, how affiliate commission is handled, and what we will not do. Independent reviews for Kiwis."),
  "/contact/": ("Contact Magnum Sports | NZ Casino & Betting Guide",
@@ -267,8 +275,8 @@ META = {
        "How Magnum Sports collects, uses and protects personal information under the Privacy Act 2020, and how to access, correct or delete your data."),
  "/cookie-policy/": ("Cookie Policy | Magnum Sports",
        "Which cookies magnumsports.co.nz sets, what each does, which need consent, and how to refuse or delete them in any browser."),
- "/new-casinos-nz/": ("New Online Casinos NZ 2026 | Newest Casino Sites",
-       "New online casinos NZ players can join in 2026, updated as licensed operators launch. What to check before joining a new casino site, and which are safe."),
+ "/new-casinos-nz/": (f"New Online Casinos NZ [{MONTH_YEAR}] | Newest Sites",
+       f"New online casinos NZ players can join, updated {MONTH_YEAR} as licensed operators launch. What to check before joining a new casino site, and which are safe."),
 }
 
 
@@ -301,7 +309,8 @@ def esc(s):
 def head(title, desc, path, schema=None, image="/images/og-magnum.jpg", robots=None):
     if path in META:
         title, desc = META[path]
-    title, desc = clamp(title, 60), clamp(desc, 158)
+    title = trim_to_px(clamp(title, 90), TITLE_PX)
+    desc = clamp(desc, 158)
     url = SITE + path
     r = robots or "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
     s = f'''<!DOCTYPE html>

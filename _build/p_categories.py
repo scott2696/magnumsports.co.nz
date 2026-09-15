@@ -158,7 +158,7 @@ def pokies():
         "The best online pokies sites for New Zealand players in 2026. Compare RTP, volatility, studios "
         "and free spins across 10 tested casinos — plus how online pokies compare to NZ pub machines.",
         "/online-pokies/", [("Online Casinos NZ", "/online-casinos/"), ("Online Pokies NZ", "/online-pokies/")],
-        "Online Pokies NZ 2026: Best Real Money Pokies Sites",
+        "Online Pokies NZ: Best Real Money Pokies Sites [" + MONTH_YEAR + "]",
         "Online pokies real money play is what most Kiwis actually do, so we ranked these real money pokies NZ "
         "pokies session &mdash; which studios they stock, whether RTP is published, whether the lobby can be "
         "searched, and how the free spins really work.",
@@ -267,7 +267,7 @@ def fast_payout():
         "2026, with real withdrawal times by method, weekly caps and what actually causes delays.",
         "/fast-payout-casinos/",
         [("Online Casinos NZ", "/online-casinos/"), ("Fast Payout Casinos NZ", "/fast-payout-casinos/")],
-        "Fast Payout Casinos NZ 2026: Instant Withdrawal Casino Sites",
+        "Fast Payout Casinos NZ: Instant Withdrawal Sites [" + MONTH_YEAR + "]",
         "We requested a withdrawal at every casino we tested and timed it with a stopwatch, from request to "
         "money in the account. No advertised figures, no &ldquo;up to&rdquo; claims &mdash; just the times we "
         "actually recorded, and the two things you can do to halve them.",
@@ -377,7 +377,7 @@ def high_payout():
         "which sites publish them, and the five decisions that genuinely improve your return.",
         "/casino-payout-percentages/",
         [("Online Casinos NZ", "/online-casinos/"), ("Casino Payout Percentages", "/casino-payout-percentages/")],
-        "Casino Payout Percentages: Highest RTP Casinos NZ 2026",
+        "Casino Payout Percentages: Highest RTP Casinos NZ [" + MONTH_YEAR + "]",
         "&ldquo;High payout&rdquo; is the most abused phrase in this industry. Here is what it actually means, "
         "which games genuinely return the most, which New Zealand-facing casinos publish their figures honestly, "
         "and the five decisions that move your return more than any bonus ever will.",
@@ -473,7 +473,7 @@ def live_casinos():
         "NZD table limits, RTP by game and which studios are open at 9pm New Zealand time.",
         "/live-casino/",
         [("Online Casinos NZ", "/online-casinos/"), ("Live Casino NZ", "/live-casino/")],
-        "Live Casino NZ 2026: Best Live Dealer Casino Sites",
+        "Live Casino NZ: Best Live Dealer Casino Sites [" + MONTH_YEAR + "]",
         "Real dealers, real cards, streamed to Auckland at nine in the evening. We ranked New Zealand-facing "
         "live casinos on which Evolution and Pragmatic Live tables they carry, NZD limits, stream quality on a "
         "Kiwi connection, and whether live play counts toward the bonus you were offered.",
@@ -592,7 +592,7 @@ def crypto():
         "crypto players out.",
         "/crypto-casinos-nz/",
         [("Online Casinos NZ", "/online-casinos/"), ("Crypto Casinos NZ", "/crypto-casinos-nz/")],
-        "Crypto Casinos NZ 2026: Best Bitcoin Casino Sites",
+        "Crypto Casinos NZ: Best Bitcoin Casino Sites [" + MONTH_YEAR + "]",
         "Crypto is the fastest way to get money out of an online casino and into a New Zealand wallet &mdash; "
         "ten minutes at the best sites against several days by bank. Here is which coins to use, which casinos "
         "handle them properly, and the New Zealand tax wrinkle that catches people out.",
@@ -711,7 +711,7 @@ def bonuses():
         "to, max bet, game contribution and expiry. Worked examples in NZD, no hype.",
         "/casino-bonus/",
         [("Online Casinos NZ", "/online-casinos/"), ("Casino Bonus NZ", "/casino-bonus/")],
-        "Casino Bonus NZ 2026: Best Welcome Offers Compared",
+        "Casino Bonus NZ: Best Welcome Offers Compared [" + MONTH_YEAR + "]",
         "A 600% bonus is not six times better than a 100% one. This page compares every welcome offer available "
         "to New Zealanders on the terms that actually decide its value &mdash; wagering, contribution, max bet, "
         "expiry and win caps &mdash; with the arithmetic worked through in New Zealand dollars.",
@@ -830,7 +830,7 @@ def no_deposit():
         "live. Here it is, with the wagering, the cap and the arithmetic stated plainly.",
         "/no-deposit-bonus/",
         [("Online Casinos NZ", "/online-casinos/"), ("No Deposit Bonus NZ", "/no-deposit-bonus/")],
-        "No Deposit Bonus NZ 2026: Free Spins No Deposit, Verified",
+        "No Deposit Bonus NZ: Free Spins No Deposit [" + MONTH_YEAR + "]",
         "Most &ldquo;no deposit bonus&rdquo; pages list thirty offers that no longer exist. We checked, and "
         "found exactly one live for New Zealand players. This page tells you what it is, what it is worth once "
         "the wagering and the cap are applied, and what to do instead.",

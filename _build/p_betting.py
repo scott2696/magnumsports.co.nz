@@ -142,7 +142,7 @@ def build():
 
     o.append(f'''<section class="hero"><div class="wrap">
 <span class="eyebrow">{icon("scale")} Law current to {UPDATED_NZ} &middot; 4 books listed</span>
-<h1>Online Betting NZ: Best Sports Betting Sites 2026</h1>
+<h1>Online Betting NZ: Best Sports Betting Sites [{MONTH_YEAR}]</h1>
 {byline("daniel-ashworth", "tama-whitiora")}
 <p class="lede">New Zealand&rsquo;s online betting rules changed fundamentally in June 2025 and most comparison sites have not caught up. This page explains exactly what the law now says, what it means for you rather than for operators, and ranks every sports betting site that still accepts New Zealand punters &mdash; with the risks stated plainly rather than buried.</p>
 <div class="hero-stats">

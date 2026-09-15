@@ -209,11 +209,12 @@ def review(o):
     n = NARR.get(slug, {})
     path = f"/casino-reviews/{slug}/"
     url = o["casino_url"] or o["betting_url"]
-    title = clamp(f"{o['name']} Review NZ 2026 | Rated {o['rating']}/10", 60)
+    title = trim_to_px(f"{o['name']} Review NZ [{MONTH_YEAR}] | Rated {o['rating']}/10")
     bonus_line = o["casino_bonus"] or o["sports_bonus"]
     pay = o["payout_crypto"] if o["payout_crypto"] != "Not supported" else o["payout_ewallet"]
     desc = clamp(f"Hands-on {o['name']} review for NZ players. We deposited real NZD and timed the "
-                 f"payout at {pay}. {bonus_line}. {o['wagering']} wagering. Rated {o['rating']}/10.", 158)
+                 f"payout at {pay}. {bonus_line}. {o['wagering']} wagering. Rated {o['rating']}/10 "
+                 f"as at {MONTH_YEAR}.", 158)
     faq = review_faq(o)
     rel = 'rel="nofollow sponsored noopener" target="_blank"'
 
@@ -248,7 +249,7 @@ def review(o):
 
     body.append(f'''<section class="hero"><div class="wrap">
 <span class="eyebrow">{icon("star")} Tested with our own NZD</span>
-<h1>{esc(o["name"])} Review</h1>
+<h1>{esc(o["name"])} Review [{MONTH_YEAR}]</h1>
 {byline()}
 <p class="lede">{esc(o["verdict"])}</p>
 </div></section>
@@ -388,7 +389,7 @@ def hub():
          crumbs([("Home", "/"), ("Casino Reviews", None)])]
     o.append(f'''<section class="hero"><div class="wrap">
 <span class="eyebrow">{icon("book")} 19 hands-on reviews</span>
-<h1>Casino &amp; Betting Site Reviews</h1>
+<h1>Casino &amp; Betting Site Reviews [{MONTH_YEAR}]</h1>
 {byline()}
 <p class="lede">Every operator here has taken a real deposit from us and paid a real withdrawal back. No media kits, no copied payout times, no anonymous write-ups of sites nobody opened an account at.</p>
 <div class="hero-stats">

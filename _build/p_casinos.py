@@ -180,7 +180,7 @@ def build():
 
     o.append(f'''<section class="hero"><div class="wrap">
 <span class="eyebrow">{icon("shield")} 41 sites tested &middot; Updated {UPDATED_NZ}</span>
-<h1>Best Online Casinos NZ 2026: Top Real Money Casino Sites</h1>
+<h1>Best Online Casinos NZ: Top Real Money Casino Sites [{MONTH_YEAR}]</h1>
 {byline()}
 <p class="lede">We opened and funded accounts at 41 online casinos this year using our own New Zealand dollars, then timed every single withdrawal with a stopwatch. These 15 are the sites that paid us, each scored on payout speed, NZD banking, pokies range and bonus terms a Kiwi player can genuinely clear.</p>
 <div class="hero-stats">
@@ -194,7 +194,7 @@ def build():
 
     o.append(leaderboard(
         ops, "casino",
-        heading="Best online casinos NZ: real money casino sites ranked",
+        heading="Best online casinos NZ 2026: real money casino sites ranked",
         intro="Every site below took a real deposit from us and paid a real withdrawal back, and each "
               "carries its score from our <a href='/how-we-rate-casinos/'>published methodology</a>. This is our "
               "editorial line-up rather than a strict score ladder &mdash; compare the scores row by row "

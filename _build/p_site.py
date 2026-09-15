@@ -421,7 +421,7 @@ def responsible():
         "Free, confidential gambling help in New Zealand. Gambling Helpline 0800 654 655, deposit limits, "
         "self-exclusion, blocking software and bank gambling blocks — plus how to help someone else.",
         "/responsible-gambling/", [("Responsible Gambling", "/responsible-gambling/")],
-        "Responsible Gambling in New Zealand",
+        "Responsible Gambling in New Zealand [" + MONTH_YEAR + "]",
         "Every game we write about has a house edge, which means the expected outcome of playing is a loss. "
         "This page is about keeping it that way &mdash; a cost you chose &mdash; rather than something worse. "
         "Free help is available 24 hours a day on <strong>0800 654 655</strong>.",
