@@ -237,11 +237,17 @@ licence. Gambling content is strictly 18+. Gambling can be harmful — Gambling 
 
 ## Above-the-fold audit
 
-`/_fold.html` loads any page in a fixed 390x844 iframe and measures where the
-key elements land against a 714px fold line (iPhone 14 with Safari chrome).
-It exists because Chrome refuses to resize its window below roughly 1500px on
-this machine, so a real phone viewport can't be screenshotted directly.
+`/_fold.html` renders any page at any viewport width inside a scaled iframe
+and measures where the key elements land against a fold line. It exists
+because Chrome on this machine will not resize its own window below roughly
+1500px, so neither a phone viewport nor a reliable desktop one can be
+screenshotted directly.
 
-Run the preview server and open http://localhost:8811/_fold.html — change the
-iframe `src` to audit a different page. It is disallowed in robots.txt and is
-a development tool only.
+Run the preview server and open http://localhost:8811/_fold.html. Width,
+height, fold position and page are editable in the form, or passed as query
+parameters:
+
+    /_fold.html?w=390&h=844&fold=714&src=/online-casinos/
+    /_fold.html?w=1400&h=1150&src=/online-betting/
+
+It is disallowed in robots.txt and is a development tool only.
