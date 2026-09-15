@@ -130,11 +130,13 @@ def og_card():
 if __name__ == "__main__":
     os.makedirs(os.path.join(ROOT, "images", "authors"), exist_ok=True)
     write_favicons()
-    wordmark(os.path.join(ROOT, "logos", "crownslots.svg"), "Crown Slots", "#c9a227", "CASINO")
-    wordmark(os.path.join(ROOT, "logos", "gunsbet.svg"), "Guns Bet", "#e11d2e", "SPORTSBOOK")
     # Author headshots are supplied, not generated:
     #   headshot("<source>.png", "images/authors/angus-mclean.jpg")
     #   headshot("<source>.png", "images/authors/witi-king.jpg")
+    # Vendor artwork is supplied for every operator now, so no wordmarks are
+    # generated here. wordmark() is kept for a future operator that arrives
+    # without a logo — never point it at a path that already holds real
+    # artwork, because it overwrites in place.
     og_card()
     print("images generated")
 
