@@ -27,7 +27,6 @@ def shell(title, desc, path, crumb, h1, lede, eyebrow, ops, lb_head, lb_intro,
 {st}
 </div></section>
 ''')
-    o.append('<section class="sec" style="padding-bottom:0"><div class="wrap">' + disclosure() + '</div></section>')
     o.append(leaderboard(ops, mode, heading=lb_head, intro=lb_intro))
     o.append(body)
     o.append(rg_block())
@@ -35,6 +34,7 @@ def shell(title, desc, path, crumb, h1, lede, eyebrow, ops, lb_head, lb_intro,
     o.append(paa_for(path, haze=False))
     o.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
              + authorbox(author) + '</div></div></section>')
+    o.append(disclosure_section())
     o.append(footer())
     return write(path, "".join(o))
 

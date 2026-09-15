@@ -28,6 +28,7 @@ def guide(title, desc, path, crumb, h1, lede, eyebrow, body, faq, author, checke
     o.append(paa_for(path, haze=False))
     o.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
              + authorbox(author) + '</div></div></section>')
+    o.append(disclosure_section())
     o.append(footer())
     return write(path, "".join(o))
 
@@ -78,8 +79,7 @@ def law():
       "than optional. The trade-off is a much smaller choice of operators.</p>"),
     ]
     body = f'''<section class="sec"><div class="wrap"><div class="prose prose--wide">
-{disclosure("Nothing on this page is legal advice. It is a plain-English summary of publicly available "
-            "legislation and Department of Internal Affairs material, current to " + UPDATED_NZ + ".")}
+
 {keyfacts([("Playing offshore", "Not an offence"), ("Operating from NZ", "Prohibited"),
            ("Licences available", "Up to 15"), ("Allocation method", "Auction, Sept 2026"),
            ("Unlicensed cut-off", "1 Dec 2026"), ("Licence term", "3 yrs + 5 renewal"),
@@ -228,9 +228,7 @@ def tax():
       "only against winnings and only if you itemise.</p>"),
     ]
     body = f'''<section class="sec"><div class="wrap"><div class="prose prose--wide">
-{disclosure("This page is general information, not tax advice. Tax treatment depends on your particular "
-            "circumstances. For anything beyond recreational play — and for any crypto position of size — "
-            "speak to a New Zealand chartered accountant.")}
+
 {keyfacts([("Recreational winnings", "Not taxable"), ("Jackpot / Lotto", "Not taxable"),
            ("Losses", "Not deductible"), ("Declaration required", "No"),
            ("Professional gambling", "Can be taxable"), ("Crypto gains", "Can be taxable")])}

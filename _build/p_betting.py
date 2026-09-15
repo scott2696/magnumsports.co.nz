@@ -154,9 +154,21 @@ def build():
 </div></section>
 ''')
 
-    o.append('<section class="sec" style="padding-bottom:0"><div class="wrap">'
-             + disclosure("This page describes the legal position for players as at "
-                          + UPDATED_NZ + " and is general information, not legal advice.")
+
+    o.append(leaderboard(
+        ops, "sports", hid="sites",
+        heading="Best sports betting sites for New Zealand punters",
+        intro="These four books currently accept New Zealand registrations and run a sportsbook as their "
+              "own product rather than as a tab on a casino. Each score comes from our own testing of market "
+              "depth, price, in-play quality, banking and withdrawal speed. None of them except TAB NZ is "
+              "authorised to offer betting here &mdash; read the legal position below before you open an account."))
+
+    o.append('''<section class="sec" style="padding-top:0"><div class="wrap">
+<div class="note note--amber" style="margin-top:0"><b>Read this before you open an account</b>
+<p>New Zealand&rsquo;s betting rules changed on <strong>28 June 2025</strong>. Only TAB NZ and its partner may lawfully offer or promote racing and sports betting to a person in New Zealand, so none of the books above is authorised here &mdash; though the Act expressly provides that <strong>you cannot be convicted for placing a bet</strong> with an offshore operator. What you give up is recourse: no New Zealand regulator stands behind them. <a href="#law">The full position is below</a>, and it is worth reading before you deposit.</p></div>
+</div></section>
+''')
+    o.append('<section class="sec" style="padding-top:0;padding-bottom:0"><div class="wrap">'
              + toc([("What the 2025 law actually changed", "law"),
                     ("Where you can legally bet", "where"),
                     ("Best sports betting sites, ranked", "sites"),
@@ -216,20 +228,12 @@ def build():
 </div></section>
 ''')
 
-    o.append(leaderboard(
-        ops, "sports", hid="sites",
-        heading="Best sports betting sites for New Zealand punters",
-        intro="These four books currently accept New Zealand registrations and run a sportsbook as their "
-              "own product rather than as a tab on a casino. Each score comes from our own testing of market "
-              "depth, price, in-play quality, banking and withdrawal speed. None of them except TAB NZ is "
-              "authorised to offer betting here &mdash; read the section above before you open an account."))
-
     # --- PICKS
     o.append(f'''<section id="picks" class="sec sec--haze"><div class="wrap">
 <div class="sec-head"><span class="kicker">Straight to it</span><h2>Best betting site by what you want</h2>
 <p>No single book leads on everything, and the right account depends entirely on what you bet on and how often you cash out.</p></div>
 {picks([
- ("Best overall &amp; fastest payouts","rooster-bet","The deepest rugby union and rugby league markets of any offshore book, a real casino attached on the same wallet, and payouts inside six hours."),
+ ("Best overall & fastest payouts","rooster-bet","The deepest rugby union and rugby league markets of any offshore book, a real casino attached on the same wallet, and payouts inside six hours."),
  ("Best in-play","betandplay","Live prices refresh faster than anything else we tested and bets are accepted without the constant freezes that ruin live betting elsewhere. The fairest free bet terms here too, at 5x on odds of 1.80 or better."),
  ("Biggest welcome offer","gunsbet","285% up to €7,500 plus 285 free spins, from an operator running since 2016. Euro-denominated and no crypto, so budget for the conversion spread."),
  ("Best niche markets","ivibet-sportsbook","Netball, handball and table tennis priced properly rather than ignored. Worth an account if you bet outside the mainstream."),
@@ -430,5 +434,8 @@ def build():
 </div></div></section>
 ''')
 
+    o.append(disclosure_section(
+        "This page describes the legal position for players as at " + UPDATED_NZ
+        + " and is general information, not legal advice."))
     o.append(footer())
     return write(PATH, "".join(o))

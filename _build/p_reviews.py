@@ -255,7 +255,6 @@ def review(o):
 ''')
 
     body.append(f'''<section class="sec"><div class="wrap"><div class="prose prose--wide">
-{disclosure()}
 <div class="rev-hd">
 <img class="rev-logo" src="{o["logo"]}" alt="{esc(o["name"])} logo" width="132" height="72" loading="eager" decoding="async">
 <div class="rev-hd-main">
@@ -325,6 +324,7 @@ def review(o):
                           f"taken from autosuggest rather than guessed.", haze=False))
     body.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
                 + authorbox("tama-whitiora") + '</div></div></section>')
+    body.append(disclosure_section())
     body.append(footer())
     return write(path, "".join(body))
 
@@ -398,7 +398,6 @@ def hub():
 <div class="hero-stat"><b>168</b><span>Withdrawals timed</span></div>
 </div></div></section>
 ''')
-    o.append('<section class="sec" style="padding-bottom:0"><div class="wrap">' + disclosure() + '</div></section>')
     o.append(f'''<section class="sec"><div class="wrap">
 <div class="sec-head"><span class="kicker">All reviews</span><h2>Every site we have tested and scored</h2></div>
 {table(["Site","Score","Best for","Products","Welcome offer","Wagering","Crypto payout","Licence"], rows, minw=1080)}
@@ -426,6 +425,7 @@ def hub():
     o.append(paa_for(HUB_PATH, haze=False))
     o.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
              + authorbox("tama-whitiora") + '</div></div></section>')
+    o.append(disclosure_section())
     o.append(footer())
     return write(HUB_PATH, "".join(o))
 

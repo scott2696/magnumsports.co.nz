@@ -129,7 +129,6 @@ def build():
 <div class="sec-head"><span class="kicker">The other side of the shop</span>
 <h2>Sports betting in New Zealand</h2>
 <p>Alongside the gear, we publish independent guides to online betting for Kiwi punters &mdash; written by a named team, tested with real money, and funded by affiliate commission that we disclose rather than hide. Rugby, league, cricket, netball and racing, priced and compared properly.</p></div>
-{disclosure()}
 <div class="note"><b>Read the law before you open an account</b>
 <p>New Zealand&rsquo;s betting rules changed on <strong>28 June 2025</strong>. The Racing Industry Amendment Act extended TAB NZ&rsquo;s monopoly to online racing and sports betting, so only TAB NZ and its partner may lawfully offer or promote betting to a person in New Zealand. The Act expressly provides that <strong>an individual may not be convicted for placing a bet</strong> with an offshore operator &mdash; the restriction sits on the supply side. What it does mean is that an offshore book is not accountable to any New Zealand regulator. Our <a href="/online-betting/">online betting guide</a> sets the whole position out before it lists anything.</p></div>
 <div class="lb" style="margin-top:22px">
@@ -170,5 +169,6 @@ def build():
 </div></div></section>
 ''')
 
+    o.append(disclosure_section())
     o.append(footer())
     return write(PATH, "".join(o))

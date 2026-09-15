@@ -58,3 +58,35 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def crop_to_content_on_bg(src, dest, pad_ratio=0.10, tol=26):
+    """For logos supplied as light artwork on a solid coloured square.
+
+    The background cannot be stripped (the artwork would vanish on the white
+    tile), so instead crop the square down to the wordmark plus padding and
+    keep the background as a badge. Turns a 500x500 square that would
+    letterbox to nothing in an 88x46 tile into a usable wide mark.
+    """
+    im = Image.open(src).convert("RGB")
+    w, h = im.size
+    px = im.load()
+    bg = px[2, 2]
+
+    def differs(p):
+        return sum(abs(a - b) for a, b in zip(p, bg)) > tol
+
+    x0, y0, x1, y1 = w, h, -1, -1
+    for y in range(0, h, 2):
+        for x in range(0, w, 2):
+            if differs(px[x, y]):
+                x0, y0 = min(x0, x), min(y0, y)
+                x1, y1 = max(x1, x), max(y1, y)
+    if x1 < 0:
+        raise SystemExit(f"{src}: no content found against background {bg}")
+    pad = int(max(x1 - x0, y1 - y0) * pad_ratio)
+    box = (max(0, x0 - pad), max(0, y0 - pad), min(w, x1 + pad), min(h, y1 + pad))
+    out = im.crop(box)
+    out.thumbnail((440, 440), Image.LANCZOS)
+    out.save(dest, quality=94)
+    print(f"  {os.path.basename(src)} {w}x{h} -> {out.size[0]}x{out.size[1]}  bg={bg}  ({os.path.basename(dest)})")

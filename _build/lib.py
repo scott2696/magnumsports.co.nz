@@ -168,7 +168,7 @@ NAV = [
 ]
 
 FOOTER = [
-    ("Outdoors Store", [("Shop by Department", "/#shop"), ("Firearms &amp; Ammunition", "/#firearms-and-accessories"),
+    ("Outdoors Store", [("Shop by Department", "/#shop"), ("Firearms & Ammunition", "/#firearms-and-accessories"),
                         ("Fishing", "/#fishing"), ("Hunting Accessories", "/#hunting-accessories"),
                         ("Visit Us in Stratford", "/#visit")]),
     ("Casinos", [("Best Online Casinos NZ", "/online-casinos/"), ("Licensed Online Casinos NZ", "/licensed-online-casinos/"),
@@ -249,7 +249,7 @@ META = {
        "Which online casinos are licensed in NZ, and are online casinos legal in New Zealand? The DIA 15-licence auction, the 1 December 2026 deadline and the law."),
  "/gambling-winnings-tax-nz/": ("Gambling Winnings Tax NZ | Do You Pay Tax on Wins?",
        "Do you pay tax on gambling winnings in NZ? No, for recreational players — with two exceptions. Professional gambling and crypto, with worked examples."),
- "/casino-payment-methods/": ("Casino Payment Methods NZ | Deposits &amp; Withdrawals",
+ "/casino-payment-methods/": ("Casino Payment Methods NZ | Deposits & Withdrawals",
        "Which casino payment methods NZ banks clear: POLi, Paysafecard, Neosurf, Skrill, bank transfer, crypto and cards, tested across 41 sites and five NZ banks."),
  "/how-we-rate-casinos/": ("How We Rate Casinos | Our Review Methodology",
        "How to choose an online casino NZ players can trust, how to tell if a casino is legit, and the six weighted criteria behind every score on this site."),
@@ -257,7 +257,7 @@ META = {
        "Free, confidential gambling help in NZ. Gambling Helpline 0800 654 655, deposit limits, self-exclusion, blocking software and bank gambling blocks."),
  "/about/": ("About Magnum Sports | Independent NZ Casino Reviews",
        "Who we are, how we test online casinos with our own NZD, how affiliate commission is handled, and what we will not do. Independent reviews for Kiwis."),
- "/contact/": ("Contact Magnum Sports | NZ Casino &amp; Betting Guide",
+ "/contact/": ("Contact Magnum Sports | NZ Casino & Betting Guide",
        "Contact the Magnum Sports team. Corrections, operator complaints, privacy requests and commercial enquiries, with a two-working-day reply."),
  "/authors/": ("Our Authors | Who Writes Magnum Sports",
        "Meet the three people who write Magnum Sports: backgrounds, areas of responsibility, the pages they write and how to contact them directly."),
@@ -273,13 +273,17 @@ META = {
 
 
 def clamp(text, n):
-    """Trim to n characters on a word boundary, entity-aware."""
+    """Trim to n characters on a word boundary and return PLAIN text.
+
+    Always returns unescaped text, whether or not it was truncated — callers
+    escape once at render. Returning the original (entity-bearing) string when
+    it fitted was double-escaping "&amp;" into "&amp;amp;".
+    """
     import html as _h
     plain = _h.unescape(text)
     if len(plain) <= n:
-        return text
-    cut = plain[:n].rsplit(" ", 1)[0].rstrip(" ,;:-\u2014")
-    return _h.escape(cut, quote=True).replace("&#x27;", "'")
+        return plain
+    return plain[:n].rsplit(" ", 1)[0].rstrip(" ,;:-\u2014")
 
 
 def icon(k, cls=""):
@@ -445,6 +449,14 @@ def disclosure(extra=""):
             'it does not buy a position on this page &mdash; scores come from the criteria set out in '
             '<a href="/how-we-rate-casinos/">our review methodology</a>, and sites we cannot recommend are '
             'left off regardless of what they offer to pay. ' + extra + '</p></div>')
+
+
+def disclosure_section(extra=""):
+    """Advertising disclosure as a standalone section, placed at the foot of
+    the page (above the footer) rather than above the affiliate table."""
+    return ('<section id="disclosure" class="sec sec--haze" style="padding-top:34px;padding-bottom:34px">'
+            '<div class="wrap"><div class="prose prose--wide">' + disclosure(extra)
+            + '</div></div></section>\n')
 
 
 def byline(author="tama-whitiora", checker="daniel-ashworth", updated=None):

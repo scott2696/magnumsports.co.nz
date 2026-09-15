@@ -90,7 +90,6 @@ def build():
 </div>
 </div></section>
 ''')
-    o.append('<section class="sec" style="padding-bottom:0"><div class="wrap">' + disclosure() + '</div></section>')
 
     o.append(leaderboard(
         ops, "casino",
@@ -154,5 +153,6 @@ def build():
     o.append(paa_for(PATH, haze=False))
     o.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
              + authorbox("tama-whitiora") + '</div></div></section>')
+    o.append(disclosure_section())
     o.append(footer())
     return write(PATH, "".join(o))
