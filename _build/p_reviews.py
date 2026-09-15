@@ -102,7 +102,7 @@ def review_faq(o):
           if o["operator_co"] == "Not published" else
           "As with any offshore operator, complete your identity verification early and withdraw winnings "
           "rather than letting a balance accumulate.")
-       + " See our <a href='/how-we-review/'>methodology</a> for what we check.</p>")),
+       + " See our <a href='/how-we-rate-casinos/'>methodology</a> for what we check.</p>")),
      (f"How long does a {name} withdrawal take?",
       (f"<p>In our testing: <strong>{payout}</strong> by cryptocurrency, "
        f"{o['payout_ewallet'].lower()} by e-wallet and {o['payout_card'].lower()} by card or bank transfer. "
@@ -116,7 +116,7 @@ def review_faq(o):
           if any(x in o["wagering"] for x in ("0x", "10x", "15x", "5x")) else
           "That is around the market norm &mdash; worth taking if you were going to put that much through "
           "the site anyway, and not worth chasing if you were not.")
-       + " Our <a href='/online-casinos/bonuses/'>bonus guide</a> compares every offer clause by "
+       + " Our <a href='/casino-bonus/'>bonus guide</a> compares every offer clause by "
          "clause.</p>")),
      (f"Does {name} accept New Zealand dollars?",
       ("<p><strong>Yes</strong>, NZD is a native account currency, so you avoid paying a conversion spread "
@@ -126,7 +126,7 @@ def review_faq(o):
        "account before you can deposit." if o["slug"] == "spino" else
        "Balances are held in euros, which means your bank converts twice and takes a spread of roughly "
        "2&ndash;3% each way. On a NZ$500 deposit that is about NZ$25 of cost that never appears as a fee.")
-       + " See our <a href='/payment-methods/'>NZ payment methods guide</a>.</p>")),
+       + " See our <a href='/casino-payment-methods/'>NZ payment methods guide</a>.</p>")),
      (f"Can I play {name} on my phone?",
       (f"<p>Yes. There is no app in the New Zealand App Store or Google Play &mdash; both platforms restrict "
        f"real-money gambling apps here &mdash; but {name} runs as a mobile web app in Safari or Chrome. Add it "
@@ -166,7 +166,7 @@ def review_paa(o):
        f"{esc(o['min_deposit'])} or more. No-deposit bonuses have become genuinely rare for New "
        f"Zealand players &mdash; we verified exactly one across every operator we cover, at "
        f"<a href='/casino-reviews/lucky7even/'>Lucky7even</a>. Our "
-       f"<a href='/no-deposit-casinos/'>no deposit page</a> explains what the others are worth once "
+       f"<a href='/no-deposit-bonus/'>no deposit page</a> explains what the others are worth once "
        f"the wagering and caps are applied.</p>")),
      (f"Is there a {n} bonus code?",
       (f"<p>No code is needed. The welcome offer &mdash; {esc(o['casino_bonus'] or o['sports_bonus'])} "
@@ -288,7 +288,7 @@ def review(o):
 <h2>Bonuses and promotions</h2>
 <p>The welcome offer is <strong>{esc(bonus_line)}</strong>{(", with " + esc(o["casino_bonus_terms"])) if o["casino_bonus_terms"] else ""}. The wagering requirement is <strong>{esc(o["wagering"])}</strong> and the minimum qualifying deposit is {esc(o["min_deposit"])}.</p>
 {"<p>On the sportsbook side the offer is <strong>" + esc(o["sports_bonus"]) + "</strong>, running on the same wallet as the casino balance.</p>" if o["sports_bonus"] and o["sports_bonus"] != o["casino_bonus"] else ""}
-<p>Before you accept it, check the four clauses that decide whether any bonus is worth taking: the maximum bet permitted while wagering (usually NZ$5&ndash;NZ$8, and breaching it voids the bonus), the game contribution table (pokies normally 100%, live dealer often 10%), the expiry window, and any cap on what bonus winnings can convert to. Our <a href="/online-casinos/bonuses/">casino bonuses guide</a> compares every offer on this site clause by clause.</p>
+<p>Before you accept it, check the four clauses that decide whether any bonus is worth taking: the maximum bet permitted while wagering (usually NZ$5&ndash;NZ$8, and breaching it voids the bonus), the game contribution table (pokies normally 100%, live dealer often 10%), the expiry window, and any cap on what bonus winnings can convert to. Our <a href="/casino-bonus/">casino bonuses guide</a> compares every offer on this site clause by clause.</p>
 
 <h2>Banking: deposits and withdrawals for New Zealanders</h2>
 <p>{esc(o["name"])} accepts {", ".join(esc(p) for p in o["payments"][:-1])} and {esc(o["payments"][-1])}.</p>
@@ -297,11 +297,11 @@ def review(o):
  ["E-wallet (Skrill / Neteller)", esc(o["payout_ewallet"]), "Check whether e-wallet deposits qualify for the welcome bonus &mdash; at many sites they do not."],
  ["Card / NZD bank transfer", esc(o["payout_card"]), "Most reliable, slowest. Some New Zealand banks decline gambling card transactions."],
 ], minw=620)}
-<p>The weekly withdrawal ceiling is <strong>{esc(o["withdrawal_limit"])}</strong>. If you play at a level where a five-figure win is plausible, that number deserves more attention than the welcome bonus does. Our <a href="/payment-methods/">NZ payment methods guide</a> covers what clears from ANZ, ASB, BNZ, Kiwibank and Westpac accounts.</p>
+<p>The weekly withdrawal ceiling is <strong>{esc(o["withdrawal_limit"])}</strong>. If you play at a level where a five-figure win is plausible, that number deserves more attention than the welcome bonus does. Our <a href="/casino-payment-methods/">NZ payment methods guide</a> covers what clears from ANZ, ASB, BNZ, Kiwibank and Westpac accounts.</p>
 
 <h2>Licensing and trust</h2>
 <p>{esc(o["name"])} operates under a <strong>{esc(o["licence"])}</strong> licence{(", held by " + esc(o["operator_co"])) if o["operator_co"] != "Not published" else ""}, and has been running since {esc(o["founded"])}.</p>
-{'<div class="note"><b>A disclosure gap we think matters</b><p>We could not locate a published licence number or an identified operating company anywhere on this site. That is the one disclosure a casino should never omit, because it is what gives you somewhere to escalate if a dispute arises. We have listed the site because it paid every withdrawal we requested, but we would keep any balance here small and withdraw promptly.</p></div>' if o["operator_co"] == "Not published" else '<p>Verify the licence number against the regulator&rsquo;s public register rather than trusting a footer badge &mdash; anyone can host a logo. We do this for every operator we list, and it is the first check in <a href="/how-we-review/">our methodology</a>.</p>'}
+{'<div class="note"><b>A disclosure gap we think matters</b><p>We could not locate a published licence number or an identified operating company anywhere on this site. That is the one disclosure a casino should never omit, because it is what gives you somewhere to escalate if a dispute arises. We have listed the site because it paid every withdrawal we requested, but we would keep any balance here small and withdraw promptly.</p></div>' if o["operator_co"] == "Not published" else '<p>Verify the licence number against the regulator&rsquo;s public register rather than trusting a footer badge &mdash; anyone can host a logo. We do this for every operator we list, and it is the first check in <a href="/how-we-rate-casinos/">our methodology</a>.</p>'}
 
 <h2>Mobile experience</h2>
 <p>There is no {esc(o["name"])} app in the New Zealand App Store or on Google Play, because both platforms restrict real-money gambling apps here. What you get instead is a mobile web app: open the site in Safari or Chrome, use the share menu, and choose <em>Add to Home Screen</em>. It then opens full-screen with no address bar, behaves like a native app, needs no app store account and never asks you to install an update.</p>
@@ -310,7 +310,7 @@ def review(o):
 
 <h2>Our verdict on {esc(o["name"])}</h2>
 <p>{esc(o["verdict"])}</p>
-<p><strong>Score: {o["rating"]}/10.</strong> {esc(o["best_for"])}. Read how we arrive at these scores in our <a href="/how-we-review/">review methodology</a>, and compare {esc(o["short"])} against the rest of the field on our <a href="/online-casinos/">best online casino sites NZ</a> page.</p>
+<p><strong>Score: {o["rating"]}/10.</strong> {esc(o["best_for"])}. Read how we arrive at these scores in our <a href="/how-we-rate-casinos/">review methodology</a>, and compare {esc(o["short"])} against the rest of the field on our <a href="/online-casinos/">best online casino sites NZ</a> page.</p>
 </div></div></section>
 ''')
 
@@ -363,7 +363,7 @@ def hub():
       "times including at least once in the New Zealand evening, request a withdrawal and time it. Then we "
       "score against six weighted criteria &mdash; withdrawal speed 25%, NZD banking 20%, bonus terms 20%, "
       "games 15%, licensing 12%, support and mobile 8%. The whole method is published on our "
-      "<a href='/how-we-review/'>methodology page</a>.</p>"),
+      "<a href='/how-we-rate-casinos/'>methodology page</a>.</p>"),
      ("Do you review casinos you do not recommend?",
       "<p>We publish reviews of operators that paid us and met our minimum standards, including ones with "
       "meaningful problems &mdash; <a href='/casino-reviews/roby-casino/'>Roby</a> does not publish a licence "
@@ -419,7 +419,7 @@ def hub():
 <li><strong>Licensing</strong> is verified against the regulator&rsquo;s public register. &ldquo;Not published&rdquo; means exactly that, and we flag it prominently.</li>
 <li><strong>Cons are real cons.</strong> If a review has no meaningful criticism in it, it is an advertisement rather than a review.</li>
 </ul>
-<p>Read the full <a href="/how-we-review/">review methodology</a>, including what disqualifies an operator outright and exactly how affiliate commission is handled.</p>
+<p>Read the full <a href="/how-we-rate-casinos/">review methodology</a>, including what disqualifies an operator outright and exactly how affiliate commission is handled.</p>
 </div></div></section>
 ''')
     o.append(faq_block(faq))

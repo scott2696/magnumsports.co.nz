@@ -7,9 +7,15 @@ operating cadence needed to hold position once won.
 
 ## 1. Site structure as built
 
-41 pages live. Three tiers, flat architecture — every page is ≤2 clicks from the homepage.
+42 pages live, plus one redirect stub. Three tiers, flat architecture — every page is ≤2 clicks from the homepage.
 `/online-betting/` and `/best-sports-betting-sites/` were merged: they answered the same query
 in two places and split the same links. One page now holds both keyword sets.
+
+**One page, one cluster — enforced.** `/casino-bonus/` and `/no-deposit-bonus/` were the highest
+cannibalisation risk in the set, so the no-deposit and free-spins-no-deposit terms were stripped
+off the bonus page entirely; it now hands them over in a single sentence and links across. Same
+discipline applies to `/licensed-online-casinos/`, which absorbed the old `/nz-online-casino-law/`
+rather than competing with it for "is online gambling legal in nz".
 
 **Each operator is listed once.** The toplists follow the order of the supplied operator table,
 and every operator appears on exactly one of them — the casino page (15) or the betting page (4)
@@ -23,14 +29,17 @@ table and invites the reader to compare scores row by row.
 /                                   ← MAGNUM SPORTS STORE · Stratford, Taranaki
 │                                     outdoors departments, then sports betting
 │
-├── /online-casinos/                ← MONEY PAGE · "best online casino sites NZ"
+├── /online-casinos/                ← MONEY PAGE · "best online casino nz"
+│   ├── /licensed-online-casinos/   ← growth · "licensed/legal online casinos nz"
+│   ├── /new-casinos-nz/            ← running list, refreshed as licences land
 │   ├── /online-pokies/
-│   ├── /high-payout-casinos/
-│   ├── /fast-payout-casinos/
-│   ├── /live-casinos/
-│   ├── /best-crypto-casinos/
-│   ├── /online-casinos/bonuses/
-│   └── /no-deposit-casinos/
+│   ├── /casino-payout-percentages/
+│   ├── /fast-payout-casinos/       ← /instant-withdrawals/ redirects here
+│   ├── /live-casino/
+│   ├── /crypto-casinos-nz/
+│   ├── /casino-bonus/              ← owns welcome/deposit bonus terms only
+│   ├── /no-deposit-bonus/          ← owns "no deposit" + "free spins no deposit"
+│   └── /casino-payment-methods/
 │
 ├── /casino-reviews/                ← Review hub
 │   └── /casino-reviews/{19 brands}/
@@ -39,10 +48,10 @@ table and invites the reader to compare scores row by row.
 │                                     + "best sports betting sites NZ"
 │
 ├── Guides (trust tier)
-│   ├── /nz-online-casino-law/
+│   ├── /licensed-online-casinos/
 │   ├── /gambling-winnings-tax-nz/
-│   ├── /payment-methods/
-│   └── /how-we-review/
+│   ├── /casino-payment-methods/
+│   └── /how-we-rate-casinos/
 │
 ├── Company (EEAT tier)
 │   ├── /about/    /contact/    /authors/    /responsible-gambling/
@@ -66,9 +75,9 @@ Responsible Gambling and the sitemap.
 **Internal linking rules in force**
 - Every category page links **up** to `/online-casinos/` and **across** to two siblings.
 - Every operator mention anywhere links to that operator's review at first mention.
-- Every page links to `/how-we-review/` wherever a score is asserted.
+- Every page links to `/how-we-rate-casinos/` wherever a score is asserted.
 - Every page links to `/authors/` from its byline and its author box.
-- Every legal or tax claim links to `/nz-online-casino-law/` or `/gambling-winnings-tax-nz/`.
+- Every legal or tax claim links to `/licensed-online-casinos/` or `/gambling-winnings-tax-nz/`.
 - Every page carries `/responsible-gambling/` in the RG block and the footer.
 
 ---
@@ -145,15 +154,15 @@ H1   {Head keyword} {year}                              — once, contains exact
 | Named author on every page | Byline + `Person` schema + author box |
 | Named fact-checker, never the same person | Byline + `reviewedBy` in schema |
 | Three authors with distinct, credible specialisms | `/authors/` with full bios, areas of responsibility, page lists and direct email addresses |
-| Published scoring **weightings** (25/20/20/15/12/8) | `/how-we-review/` — no competitor does this |
+| Published scoring **weightings** (25/20/20/15/12/8) | `/how-we-rate-casinos/` — no competitor does this |
 | Original dataset: 168 timed withdrawals | `/fast-payout-casinos/`, cited site-wide |
 | Real, verifiable local business behind the domain | `SportingGoodsStore` schema on `/` with trading address and phone |
-| Explicit exclusion criteria + count (22 excluded) | `/how-we-review/` |
+| Explicit exclusion criteria + count (22 excluded) | `/how-we-rate-casinos/` |
 | Negative findings published | Roby's missing licence, flagged everywhere it appears |
 | Affiliate disclosure on every commercial page | `disclosure()` block, above the toplist |
-| Commission range disclosed (20–50%) with "our top pick is not the top payer" | `/how-we-review/`, `/about/` |
-| Primary-source legal citation | `/nz-online-casino-law/`, `/online-betting/` |
-| Corrections address + in-place correction policy | `/contact/`, `/authors/`, `/how-we-review/` |
+| Commission range disclosed (20–50%) with "our top pick is not the top payer" | `/how-we-rate-casinos/`, `/about/` |
+| Primary-source legal citation | `/licensed-online-casinos/`, `/online-betting/` |
+| Corrections address + in-place correction policy | `/contact/`, `/authors/`, `/how-we-rate-casinos/` |
 | Last-reviewed date on every page | Byline |
 | `publishingPrinciples` pointing at the methodology | `Organization` schema |
 | Responsible gambling on every page, not one page | `rg_block()` + footer |
@@ -212,12 +221,12 @@ relevant H2/H3, in the question's own vocabulary.
 
 | Query | Format | Page | Status |
 |---|---|---|---|
-| is online gambling legal in New Zealand | Paragraph | `/nz-online-casino-law/` | "The position in one paragraph" — written to snippet length |
+| is online gambling legal in New Zealand | Paragraph | `/licensed-online-casinos/` | "The position in one paragraph" — written to snippet length |
 | do you pay tax on gambling winnings NZ | Paragraph | `/gambling-winnings-tax-nz/` | "The short answer" H2 |
-| highest RTP casino game | Table | `/high-payout-casinos/` | RTP-ranked table with H2 above it |
-| what does 40x wagering mean | Table | `/online-casinos/bonuses/` | Turnover-in-NZD table |
+| highest RTP casino game | Table | `/casino-payout-percentages/` | RTP-ranked table with H2 above it |
+| what does 40x wagering mean | Table | `/casino-bonus/` | Turnover-in-NZD table |
 | fastest payout online casino NZ | Table | `/fast-payout-casinos/` | Method × time table |
-| casino payment methods NZ | Table | `/payment-methods/` | Method × reliability table |
+| casino payment methods NZ | Table | `/casino-payment-methods/` | Method × reliability table |
 | how to withdraw from an online casino | List | `/fast-payout-casinos/` | 4-stage `<ol class="steps">` |
 | how to self-exclude | List | `/responsible-gambling/` | Tool cards |
 
@@ -251,7 +260,7 @@ No competitor holds an image pack or video result for the head term. Two cheap p
 1. A branded comparison **image** (the OG card is already built at 1200×630) with descriptive
    alt text and a filename matching the head term.
 2. A 60–90 second **explainer video** on the 1 December 2026 deadline, embedded on
-   `/nz-online-casino-law/` with `VideoObject` schema.
+   `/licensed-online-casinos/` with `VideoObject` schema.
 
 ---
 
@@ -290,9 +299,9 @@ One page each, 1,200–1,800 words, same template: intro → toplist filtered fo
 rules/how-it-works → strategy or selection guidance → RTP/fee table → NZ-specific note → FAQ.
 
 `/online-pokies/megaways/` · `/online-pokies/jackpots/` · `/online-pokies/bonus-buy/` ·
-`/live-casinos/blackjack/` · `/live-casinos/roulette/` · `/live-casinos/crazy-time/` ·
-`/payment-methods/neosurf/` · `/payment-methods/skrill/` · `/payment-methods/bank-transfer/` ·
-`/payment-methods/poli/` (the "does it still work" angle — high intent, zero competition)
+`/live-casino/blackjack/` · `/live-casino/roulette/` · `/live-casino/crazy-time/` ·
+`/casino-payment-methods/neosurf/` · `/casino-payment-methods/skrill/` · `/casino-payment-methods/bank-transfer/` ·
+`/casino-payment-methods/poli/` (the "does it still work" angle — high intent, zero competition)
 
 ### Tier 3 — sports cluster (seasonal, links to `/online-betting/`)
 `/online-betting/rugby/` · `/online-betting/nrl/` · `/online-betting/racing/` ·
@@ -324,7 +333,7 @@ value and natural link potential:
   any page. This is what makes 19 review pages rank rather than languish.
 - **Reviews → categories:** each review links to the category it leads (Kingdom → fast payout,
   Smash → bonuses, Spino → crypto, Rivo → mobile/betting).
-- **Everything → trust tier:** `/how-we-review/` from every score claim, `/authors/` from every
+- **Everything → trust tier:** `/how-we-rate-casinos/` from every score claim, `/authors/` from every
   byline, `/responsible-gambling/` from every page.
 - **Money pages receive the most internal links.** `/online-casinos/` and `/online-betting/`
   are linked from every page via nav, footer and body, and from the homepage in two places each.

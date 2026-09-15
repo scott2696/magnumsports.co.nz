@@ -47,7 +47,7 @@ FAQ = [
   "by a named team, funded by affiliate commission which we disclose on every page, and they are "
   "kept entirely separate from the shop. If you are here for a rod or a pair of boots, the "
   "gambling pages will not follow you around. If you are here for the guides, they are "
-  "<a href='/how-we-review/'>tested properly</a>. Strictly 18+.</p>"),
+  "<a href='/how-we-rate-casinos/'>tested properly</a>. Strictly 18+.</p>"),
 ]
 
 
@@ -153,7 +153,7 @@ def build():
  ("star","Best online casino sites NZ","Sixteen tested sites ranked on payout speed, NZD banking, pokies range and bonus terms a Kiwi can actually clear.","/online-casinos/","See the rankings"),
  ("dice","Online pokies NZ","Which studios matter, what RTP and volatility really mean, and how online pokies compare to New Zealand pub machines.","/online-pokies/","Best pokies sites"),
  ("bolt","Fast payout casinos","168 withdrawals timed with a stopwatch. Real times by method, weekly caps, and the two habits that halve the wait.","/fast-payout-casinos/","Fastest payouts"),
- ("scale","NZ online casino law","The Gambling Act 2003, the 15-licence auction and the 1 December 2026 deadline, checked against the primary sources.","/nz-online-casino-law/","Read the law"),
+ ("scale","NZ online casino law","The Gambling Act 2003, the 15-licence auction and the 1 December 2026 deadline, checked against the primary sources.","/licensed-online-casinos/","Read the law"),
 ])}
 </div></section>
 ''')
@@ -165,7 +165,7 @@ def build():
     o.append(f'''<section class="sec"><div class="wrap"><div class="prose prose--wide">
 <h2>About Magnum Sports</h2>
 <p>Magnum Sports is an outdoors and sporting goods store at {esc(STORE["street"])}, {esc(STORE["suburb"])}, in {esc(STORE["region"])}. Hunting, fishing, camping, clothing and more &mdash; the gear Taranaki people actually use, sold by people who use it.</p>
-<p>The same business publishes the independent betting and casino guides on this site. Those pages are written by a <a href="/authors/">named team</a>, follow a <a href="/how-we-review/">published review methodology</a>, and carry an advertising disclosure wherever they contain a commercial link. They are strictly for readers aged 18 and over.</p>
+<p>The same business publishes the independent betting and casino guides on this site. Those pages are written by a <a href="/authors/">named team</a>, follow a <a href="/how-we-rate-casinos/">published review methodology</a>, and carry an advertising disclosure wherever they contain a commercial link. They are strictly for readers aged 18 and over.</p>
 <p><a href="/about/">More about us</a> &middot; <a href="/contact/">Contact us</a> &middot; <a href="tel:{STORE["phone_tel"]}">{esc(STORE["phone_display"])}</a></p>
 </div></div></section>
 ''')

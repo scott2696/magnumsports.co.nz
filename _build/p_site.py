@@ -61,13 +61,13 @@ def about():
 <h2>How we are funded, in plain terms</h2>
 <p>We earn a commission when a reader opens an account through a link on this site. That is the entire business model and we would rather state it in the first paragraph than bury it in a footer.</p>
 <p>Here is what that does and does not mean. It does not cost you anything and it does not change the offer you receive. It does not buy a ranking &mdash; commission rates across the operators we list range from 20% to 50%, and our top-rated casino is not the highest payer. We have excluded 22 operators this year, several paying well above average, for refusing withdrawals, hiding licensing or publishing terms that contradict their own advertising.</p>
-<p>What it does mean is that we have a commercial interest in you opening an account. The honest way to manage that is to make the methodology public and the scoring mechanical, so that any deviation would be visible to you. That is what our <a href="/how-we-review/">review methodology page</a> is for, and we would encourage you to read it sceptically.</p>
+<p>What it does mean is that we have a commercial interest in you opening an account. The honest way to manage that is to make the methodology public and the scoring mechanical, so that any deviation would be visible to you. That is what our <a href="/how-we-rate-casinos/">review methodology page</a> is for, and we would encourage you to read it sceptically.</p>
 
 <h2>What we will not do</h2>
 <ul>
 <li><strong>Sell a ranking position.</strong> No paid placements, no purchased &ldquo;editor&rsquo;s choice&rdquo; badges, no sponsored rows in a comparison table. We have declined these offers.</li>
 <li><strong>Let an operator see a review before publication.</strong> No pre-approval, and no post-publication edits except to correct a factual error we can verify.</li>
-<li><strong>Publish an offer we have not checked.</strong> Our <a href="/no-deposit-casinos/">no deposit page</a> lists one offer because one is what we could verify as live. Pages listing thirty are not checking.</li>
+<li><strong>Publish an offer we have not checked.</strong> Our <a href="/no-deposit-bonus/">no deposit page</a> lists one offer because one is what we could verify as live. Pages listing thirty are not checking.</li>
 <li><strong>Pretend gambling is a way to make money.</strong> Every game we cover has a house edge. We write about how to lose more slowly and enjoy it more, not about how to win.</li>
 <li><strong>Market to people who should not be gambling.</strong> Strictly 18+, responsible gambling information on every page, and no content designed to appeal to under-18s.</li>
 </ul>
@@ -148,7 +148,7 @@ def contact():
 <p style="font-size:.86rem;color:var(--mute);margin-bottom:0">Access, correction or deletion requests under the Privacy Act 2020. We respond within 20 working days as required.</p></div>
 <div class="card"><div class="card-ic">{icon("chart")}</div>
 <h3>Commercial enquiries</h3><p><a href="mailto:partnerships@magnumsports.co.nz">partnerships@magnumsports.co.nz</a></p>
-<p style="font-size:.86rem;color:var(--mute);margin-bottom:0">Please note before writing: we do not sell ranking positions, sponsored placements or editorial. See <a href="/how-we-review/">our methodology</a>.</p></div>
+<p style="font-size:.86rem;color:var(--mute);margin-bottom:0">Please note before writing: we do not sell ranking positions, sponsored placements or editorial. See <a href="/how-we-rate-casinos/">our methodology</a>.</p></div>
 </div>
 </div>
 </div></section>
@@ -201,9 +201,9 @@ def authors():
                "decision to exclude an operator. He personally opened and funded all 41 accounts tested in "
                "2026 and logged all 168 withdrawal times.</p>",
       "pages": [("Best Online Casino Sites NZ", "/"), ("Online Casinos NZ", "/online-casinos/"),
-                ("Online Pokies NZ", "/online-pokies/"), ("High Payout Casinos", "/high-payout-casinos/"),
-                ("Live Casinos NZ", "/live-casinos/"), ("Casino Bonuses NZ", "/online-casinos/bonuses/"),
-                ("No Deposit Casinos", "/no-deposit-casinos/"), ("How We Review", "/how-we-review/")]},
+                ("Online Pokies NZ", "/online-pokies/"), ("High Payout Casinos", "/casino-payout-percentages/"),
+                ("Live Casinos NZ", "/live-casino/"), ("Casino Bonuses NZ", "/casino-bonus/"),
+                ("No Deposit Casinos", "/no-deposit-bonus/"), ("How We Review", "/how-we-rate-casinos/")]},
      "holly-mcgrath": {
       "since": "2021", "reviews": "5 NZ banks tested across 41 operators",
       "cover": ["NZD deposits and withdrawals", "Bank declines and payment friction",
@@ -216,8 +216,8 @@ def authors():
                "goes.</p>"
                "<p>She runs all payment testing, maintains the withdrawal timing dataset, and writes the "
                "banking and crypto coverage.</p>",
-      "pages": [("NZ Payment Methods", "/payment-methods/"), ("Fast Payout Casinos", "/fast-payout-casinos/"),
-                ("Best Crypto Casinos NZ", "/best-crypto-casinos/")]},
+      "pages": [("NZ Payment Methods", "/casino-payment-methods/"), ("Fast Payout Casinos", "/fast-payout-casinos/"),
+                ("Best Crypto Casinos NZ", "/crypto-casinos-nz/")]},
      "daniel-ashworth": {
       "since": "2019", "reviews": "Every legal claim on this site",
       "cover": ["New Zealand gambling legislation", "Sports betting and odds analysis",
@@ -230,7 +230,7 @@ def authors():
                "<p>He is the reason a number of claims that appear on competing New Zealand casino sites do "
                "not appear on this one, and the reason our betting pages say plainly that the punter commits "
                "no offence &mdash; a point most coverage of the 2025 law change has blurred.</p>",
-      "pages": [("NZ Online Casino Law", "/nz-online-casino-law/"),
+      "pages": [("NZ Online Casino Law", "/licensed-online-casinos/"),
                 ("Tax on Gambling Winnings NZ", "/gambling-winnings-tax-nz/"),
                 ("Online Betting NZ", "/online-betting/"),
                 ("Responsible Gambling", "/responsible-gambling/")]},
@@ -269,10 +269,10 @@ def authors():
 <div class="prose prose--wide" style="margin-top:8px">
 <h2>How we work together</h2>
 <p>Every page on this site has an <strong>author</strong> and a <strong>fact-checker</strong>, and they are never the same person. Tama writes the casino and pokies coverage and Daniel checks it. Daniel writes the legal, tax and betting coverage and Tama or Holly checks it. Holly writes the payments and crypto coverage and Tama checks it.</p>
-<p>Factual claims about the law are checked against the legislation or the Department of Internal Affairs notice. Claims about an operator are checked against the operator&rsquo;s own published terms and against our testing data. Numbers in our tables come from the testing dataset, not from operator marketing. Where we cannot verify something, we either leave it out or say explicitly that it is unverified &mdash; which is why our <a href="/no-deposit-casinos/">no deposit page</a> lists one offer rather than thirty.</p>
+<p>Factual claims about the law are checked against the legislation or the Department of Internal Affairs notice. Claims about an operator are checked against the operator&rsquo;s own published terms and against our testing data. Numbers in our tables come from the testing dataset, not from operator marketing. Where we cannot verify something, we either leave it out or say explicitly that it is unverified &mdash; which is why our <a href="/no-deposit-bonus/">no deposit page</a> lists one offer rather than thirty.</p>
 <h2>Corrections</h2>
 <p>We get things wrong. Bonus terms change without notice, operators alter payment methods quietly, and legislation moves. When we find an error, or you tell us about one, we correct it in place and note the change rather than editing silently.</p>
-<p>Email <a href="mailto:corrections@magnumsports.co.nz">corrections@magnumsports.co.nz</a> with a link to the page and what you believe is wrong. It goes straight to Daniel. Read our full <a href="/how-we-review/">methodology and editorial standards</a>.</p>
+<p>Email <a href="mailto:corrections@magnumsports.co.nz">corrections@magnumsports.co.nz</a> with a link to the page and what you believe is wrong. It goes straight to Daniel. Read our full <a href="/how-we-rate-casinos/">methodology and editorial standards</a>.</p>
 </div>
 </div></section>
 '''
@@ -446,7 +446,7 @@ def terms():
 
 <h2>4. Affiliate relationships</h2>
 <p>We earn commission when a reader opens an account with an operator through a link on this site. This does not cost you anything and does not alter the offer available to you.</p>
-<p>Commission does not determine our rankings. Scores are calculated from the weighted criteria published in our <a href="/how-we-review/">review methodology</a>, and operators are excluded on editorial grounds regardless of commercial terms. We do not sell ranking positions, badges or placement. Our commercial relationships are disclosed on every page carrying affiliate links.</p>
+<p>Commission does not determine our rankings. Scores are calculated from the weighted criteria published in our <a href="/how-we-rate-casinos/">review methodology</a>, and operators are excluded on editorial grounds regardless of commercial terms. We do not sell ranking positions, badges or placement. Our commercial relationships are disclosed on every page carrying affiliate links.</p>
 
 <h2>5. Third-party sites</h2>
 <p>This site links to third-party websites, including gambling operators. We do not control those sites and we are not responsible for their content, terms, privacy practices, security or conduct. Following a link means leaving this site and entering into a relationship governed entirely by that operator&rsquo;s terms.</p>

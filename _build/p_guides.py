@@ -84,8 +84,23 @@ def law():
            ("Licences available", "Up to 15"), ("Allocation method", "Auction, Sept 2026"),
            ("Unlicensed cut-off", "1 Dec 2026"), ("Licence term", "3 yrs + 5 renewal"),
            ("Max licences per company", "3"), ("Tax on winnings", "None (recreational)")])}
-<h2>The position in one paragraph</h2>
-<p>It is not an offence for a New Zealander to gamble at an online casino based overseas, and it never has been. It is an offence to operate remote interactive gambling from within New Zealand. That has been the settled position since the Gambling Act 2003, and it produced a large offshore market with no New Zealand oversight, no New Zealand tax and no New Zealand harm-minimisation requirements. The Online Casino Gambling Act replaces that with a licensed market of up to 15 operators, with the first licences allocated by auction in September 2026 and unlicensed operators required to leave from 1 December 2026.</p>
+<h2>Is online gambling legal in NZ? The position in one paragraph</h2>
+<p><strong>Yes &mdash; online gambling is legal in NZ for players.</strong> It is not an offence for a New Zealander to gamble at an online casino based overseas, and it never has been. It is an offence to operate remote interactive gambling from within New Zealand. That has been the settled position since the Gambling Act 2003, and it produced a large offshore market with no New Zealand oversight, no New Zealand tax and no New Zealand harm-minimisation requirements. The Online Casino Gambling Act replaces that with a licensed market of up to 15 operators, with the first licences allocated by auction in September 2026 and unlicensed operators required to leave from 1 December 2026.</p>
+
+<h2>Which online casinos are licensed in NZ?</h2>
+<p>The short answer to &ldquo;where can I find legal online casinos NZ players can use&rdquo; is that legality and licensing are two different questions here, and conflating them is the most common error in this market.</p>
+<p>As at {UPDATED_NZ}, <strong>none yet &mdash; and that is the honest answer</strong>. The Department of Internal Affairs ran its auction in September 2026 and is processing applications from October, so the first New Zealand online casino licence holders will not be confirmed until the applications are determined. Any site claiming today to be a &ldquo;DIA licensed online casino&rdquo; is claiming something that does not exist yet.</p>
+<p>What operators do hold are <strong>offshore licences</strong> &mdash; Cura&ccedil;ao Gaming Control Board, Anjouan Gaming, Malta Gaming Authority, Tobique. Those are real regulation of varying weight, and they are what stands behind every site currently accepting New Zealand players. The distinction matters because a regulated online casino in New Zealand and a casino regulated <em>somewhere</em> are not the same claim.</p>
+{table(["", "Offshore licensed (now)", "NZ licensed (from 2027)"], [
+ ["Regulator", "Curaçao GCB, Anjouan, Malta, Tobique", "Department of Internal Affairs"],
+ ["Your complaints path", "The operator's own foreign regulator", "<span class='t-yes'>A New Zealand body with jurisdiction</span>"],
+ ["Harm-minimisation tools", "Offered at the operator's discretion", "<span class='t-yes'>Mandatory</span>"],
+ ["Advertising rules", "Restricted under s10, lightly enforced", "<span class='t-yes'>NZ-specific, enforceable</span>"],
+ ["Number of operators", "Hundreds reachable", "<span class='t-no'>Up to 15 brands</span>"],
+ ["Legal for you to play", "<span class='t-yes'>Yes</span>", "<span class='t-yes'>Yes</span>"],
+], minw=680)}
+<div class="note note--amber"><b>We will publish the licence holder list here</b>
+<p>As each New Zealand online casino licence is granted we will list the holder on this page with the date, and track which brands exit instead. If you are trying to work out whether a site will still be available to you in 2027, this is the page to check &mdash; and our <a href="/new-casinos-nz/">new online casinos NZ page</a> tracks launches as they happen.</p></div>
 
 <h2>The Gambling Act 2003: the twenty-year baseline</h2>
 <p>The Gambling Act 2003 was written before online casinos were a meaningful consumer product, and it deals with them by prohibiting <strong>remote interactive gambling</strong> conducted from within New Zealand. Two carve-outs exist for the domestic operators &mdash; Lotto NZ and TAB NZ &mdash; and everything else offered from inside the country is unlawful.</p>
@@ -135,6 +150,9 @@ def law():
 <p>The <strong>Racing Industry Amendment Act 2025</strong>, in force <strong>28 June 2025</strong>, extended TAB NZ&rsquo;s land-based monopoly on racing and sports betting to cover online betting. It is now unlawful for any person other than TAB NZ or its partner organisation to offer or promote racing betting, sports betting or other sports betting to a person in New Zealand. The stated purpose was to protect the financial sustainability of the racing industry, which had been losing an estimated NZ$180&ndash;200 million a year in turnover offshore.</p>
 <p>Critically, the Act expressly provides that <strong>an individual may not be convicted of an offence for placing a bet with an offshore betting operator</strong>. The obligation is on the supply side. Our <a href="/online-betting/">online betting guide</a> covers what this means in practice.</p>
 
+<h2>Unlicensed online casinos: what changes for you</h2>
+<p>An unlicensed operator after 1 December 2026 is one that either did not apply or was declined. It is not an offence for you to play at one, and that does not change. What changes is everything around it: no New Zealand regulator has jurisdiction, advertising to you is prohibited, payment providers become more cautious, and the operator may exit the market at short notice with your balance still in the account. Our practical advice through the transition is unchanged &mdash; keep balances working rather than parked, withdraw winnings as you make them, and keep verification current so nothing can be stalled.</p>
+
 <h2>Other rules worth knowing</h2>
 <h3>Age</h3>
 <p>18 for online gambling and class 4 pub gaming machines. 20 to enter a physical casino venue. Operators verify age during identity checks and forfeit winnings on accounts opened with false details.</p>
@@ -153,13 +171,13 @@ def law():
         "NZ Online Casino Law 2026 | Is Online Gambling Legal in New Zealand?",
         "Is online gambling legal in New Zealand? The Gambling Act 2003, the Online Casino Gambling Act, the "
         "15-licence auction and the 1 December 2026 deadline, explained in plain English.",
-        "/nz-online-casino-law/", [("NZ Online Casino Law", "/nz-online-casino-law/")],
-        "NZ Online Casino Law: Is Online Gambling Legal in 2026?",
-        "New Zealand is halfway through the biggest change to its gambling laws in twenty years. This page "
-        "explains what the law says today, what changes on 1 December 2026, and &mdash; the part most guides "
-        "get wrong &mdash; why the rules for casino games and the rules for sports betting are moving in "
-        "opposite directions.",
-        icon("scale") + " Checked against primary sources", body, faq, "daniel-ashworth", "tama-whitiora",
+        "/licensed-online-casinos/", [("Licensed Online Casinos NZ", "/licensed-online-casinos/")],
+        "Licensed Online Casinos NZ: Are Online Casinos Legal in New Zealand?",
+        "Are online casinos legal in New Zealand? Yes for players &mdash; and the country is now building its "
+        "first licensed online casino market. This page covers the online gambling laws New Zealand actually "
+        "has, which operators will hold a DIA licence, what happens to offshore casinos from 1 December 2026, "
+        "and why the rules for casino games and sports betting are moving in opposite directions.",
+        icon("scale") + " DIA licensing &middot; checked against primary sources", body, faq, "daniel-ashworth", "tama-whitiora",
         stats=[("15", "Licences available"), ("1 Dec 2026", "Unlicensed cut-off"),
                ("Legal", "For players"), ("18+", "Minimum age")])
 
@@ -252,13 +270,13 @@ def tax():
 ], minw=760)}
 <p>The NZ$825 of winnings at step 3 is not taxable. The NZ$125 of currency movement at step 6 may be. That is a genuinely awkward distinction to track, and it gets considerably harder with a volatile coin such as Bitcoin where the price can move 20% during a single session.</p>
 <div class="note note--mint"><b>How to keep this manageable</b>
-<p><strong>Use a stablecoin.</strong> USDT and USDC are pegged to the US dollar, so the only movement is the NZD/USD rate rather than crypto volatility. <strong>Keep records</strong> of the NZD value at every acquisition and every disposal &mdash; exchanges such as Easy Crypto and Independent Reserve export this. And if your crypto position is significant, get advice. See our <a href="/best-crypto-casinos/">crypto casinos page</a> for the practical side.</p></div>
+<p><strong>Use a stablecoin.</strong> USDT and USDC are pegged to the US dollar, so the only movement is the NZD/USD rate rather than crypto volatility. <strong>Keep records</strong> of the NZD value at every acquisition and every disposal &mdash; exchanges such as Easy Crypto and Independent Reserve export this. And if your crypto position is significant, get advice. See our <a href="/crypto-casinos-nz/">crypto casinos page</a> for the practical side.</p></div>
 
 <h2>What about the money after you win it?</h2>
 <p>The win is not taxable. What the money subsequently earns is. If you put NZ$200,000 of winnings into a term deposit, the interest is taxable income. Dividends from shares bought with it are taxable. Rental income from a property is taxable, and the bright-line rules apply to the property as they would to any other. The winnings arrive tax-free and then enter the ordinary tax system like any other capital.</p>
 
 <h2>Will the new online casino licensing change any of this?</h2>
-<p>Not for players. The Online Casino Gambling Act imposes a levy on <strong>licensed operators&rsquo; profits</strong> &mdash; a tax on the operator, not on you. Nothing in the framework proposes taxing player winnings, and doing so would be a fundamental departure from how New Zealand treats windfalls. Our <a href="/nz-online-casino-law/">law page</a> covers the new regime in full.</p>
+<p>Not for players. The Online Casino Gambling Act imposes a levy on <strong>licensed operators&rsquo; profits</strong> &mdash; a tax on the operator, not on you. Nothing in the framework proposes taxing player winnings, and doing so would be a fundamental departure from how New Zealand treats windfalls. Our <a href="/licensed-online-casinos/">law page</a> covers the new regime in full.</p>
 
 <h2>How New Zealand compares</h2>
 {table(["Country", "Tax on player winnings", "Notes"], [
@@ -294,10 +312,13 @@ def payments():
       "time but are declined by some New Zealand banks. If speed of withdrawal is what you care about, use "
       "USDT on the Tron network &mdash; it clears in hours rather than days.</p>"),
      ("Does POLi work for online casinos in New Zealand?",
-      "<p>Rarely, and we do not recommend planning around it. POLi is <strong>deposit-only</strong>, so it can "
-      "never be your withdrawal method. The major New Zealand banks have tightened their terms on sharing "
-      "internet-banking credentials with third parties, and POLi-to-gambling transactions are frequently "
-      "declined outright. Use an NZD bank transfer instead.</p>"),
+      "<p>Yes, and better than it used to. POLi is a <strong>New Zealand-owned</strong> bank-transfer service "
+      "&mdash; operated by Merco since Australia Post shut the Australian arm in 2023 &mdash; that pays a "
+      "merchant straight from your bank account with no card involved. Following New Zealand&rsquo;s move to "
+      "<strong>Open Banking</strong> it has been moving off the old credential-sharing method onto bank-approved "
+      "APIs, which was the banks&rsquo; original objection. Two things have not changed: it is "
+      "<strong>deposit-only</strong>, so it can never be your withdrawal method, and some banks still restrict "
+      "gambling transactions regardless of the rail.</p>"),
      ("Can I use online EFTPOS at a casino?",
       "<p>At a small number of sites, and deposit-only. Online EFTPOS lets you pay from your bank account "
       "without sharing card details, which is appealing, but casino support for it is thin and you will need a "
@@ -339,7 +360,7 @@ def payments():
  ["Jeton","<span class='t-yes'>Yes</span>","<span class='t-yes'>Yes</span>","6–24 hours","Varies","Good"],
  ["Neosurf","<span class='t-yes'>Yes</span>","<span class='t-no'>No</span>","—","Voucher cost","<span class='t-yes'>High for deposits</span>"],
  ["Online EFTPOS","<span class='t-yes'>Limited</span>","<span class='t-no'>No</span>","—","None","Few sites support it"],
- ["POLi","<span class='t-no'>Patchy</span>","<span class='t-no'>No</span>","—","None","<span class='t-no'>Low — often declined</span>"],
+ ["POLi","<span class='t-yes'>Yes</span>","<span class='t-no'>No</span>","—","None","Good — improved since Open Banking"],
  ["PayPal","<span class='t-no'>No</span>","<span class='t-no'>No</span>","—","—","<span class='t-no'>Not available at NZ-facing casinos</span>"],
 ], minw=920)}
 
@@ -357,15 +378,19 @@ def payments():
 <h3>NZD bank transfer</h3>
 <p>The most reliable route we tested, and the only one with a 100% success rate across every operator and every New Zealand bank we used. Deposits arrive instantly to within a day; withdrawals take one to three business days. No fees at almost every operator. The downside is speed on the way out and the fact that gambling transactions appear plainly on your bank statement, which matters to some people.</p>
 <h3>Cryptocurrency</h3>
-<p>The fastest way to get money out of an online casino, by a wide margin, and completely immune to New Zealand bank declines. Buy USDT on the Tron network through Easy Crypto, Independent Reserve or Binance, send a small test transaction first, and match the network at both ends. Our <a href="/best-crypto-casinos/">crypto casinos page</a> covers the setup, and our <a href="/gambling-winnings-tax-nz/">tax guide</a> covers the New Zealand tax wrinkle that comes with it.</p>
+<p>The fastest way to get money out of an online casino, by a wide margin, and completely immune to New Zealand bank declines. Buy USDT on the Tron network through Easy Crypto, Independent Reserve or Binance, send a small test transaction first, and match the network at both ends. Our <a href="/crypto-casinos-nz/">crypto casinos page</a> covers the setup, and our <a href="/gambling-winnings-tax-nz/">tax guide</a> covers the New Zealand tax wrinkle that comes with it.</p>
 <h3>Visa and Mastercard debit</h3>
 <p>Convenient, instant on deposit, and unreliable in a way that is entirely outside the casino&rsquo;s control. New Zealand banks apply their own policies to gambling merchant category codes and these differ between banks and sometimes between card products at the same bank. When a card deposit is declined, retrying will not help &mdash; switch methods. Credit card gambling deposits are increasingly blocked outright and we would not recommend them regardless.</p>
 <h3>Skrill and Neteller</h3>
 <p>A genuinely good middle ground: faster out than a bank, more widely accepted than crypto, and not subject to New Zealand bank gambling blocks because the transaction to the wallet is not a gambling transaction. The catch that costs people money: <strong>many casinos exclude e-wallet deposits from bonus eligibility</strong>. If you are claiming a welcome offer, check this clause before you fund the account.</p>
 <h3>Neosurf</h3>
 <p>A prepaid voucher bought with cash at dairies and service stations across New Zealand. The only method that keeps gambling entirely off your bank statement, and genuinely useful as a spending control because you can only lose what is on the voucher. Deposit-only, so you must plan a separate withdrawal route &mdash; usually bank transfer, which will require full verification.</p>
-<h3>POLi &mdash; and why we advise against it</h3>
-<p>POLi works by having you enter your internet banking credentials into a third-party interface. New Zealand banks have tightened their terms considerably on exactly this, and POLi-to-gambling transactions are declined more often than they succeed in our experience. It is also deposit-only. There is no scenario in which POLi is your best option for casino banking in 2026.</p>
+<h3>POLi &mdash; how it works now</h3>
+<p>POLi is a bank-transfer service rather than a card or wallet: you choose POLi at the cashier, authorise the payment through your bank, and the funds move from your account to the merchant. It is New Zealand-owned, operated by Merco since Australia Post closed the Australian arm in 2023, and used by well over a thousand New Zealand merchants outside gambling.</p>
+<p>The reputational problem POLi carried for years was its method &mdash; it used to work by having you enter internet banking credentials into a third-party interface, which the banks objected to loudly. <strong>New Zealand&rsquo;s move to Open Banking has been changing that</strong>, with POLi shifting onto bank-approved APIs so payments are authorised in your own banking app instead. If you last tried POLi a few years ago and had it declined, it is worth another look.</p>
+<p>Two caveats remain, and neither is going away. It is <strong>deposit-only</strong> &mdash; there is no POLi payout rail, so you must plan a separate withdrawal route, usually NZD bank transfer, which requires full verification. And a bank that restricts gambling transactions will restrict them whatever the payment rail, so POLi does not route around a gambling block you have enabled.</p>
+<div class="note note--amber"><b>Check before you rely on it</b>
+<p>POLi&rsquo;s bank coverage and its acceptance at individual gambling merchants both move. Confirm on the operator&rsquo;s own cashier page that POLi is listed for New Zealand before you plan a deposit around it, rather than trusting any comparison page &mdash; including this one &mdash; to be current on the day.</p></div>
 
 <h2>Verification: what you will be asked for</h2>
 <p>Every operator will require identity verification before processing a withdrawal. Doing it on day one rather than at withdrawal is the single most useful habit in online gambling. You will need:</p>
@@ -382,16 +407,16 @@ def payments():
     return guide(
         "NZ Casino Payment Methods 2026 | What Actually Works From a Kiwi Bank",
         "Which payment methods actually clear from a New Zealand bank account at online casinos. NZD bank "
-        "transfer, crypto, cards, Skrill, Neosurf and POLi tested across 41 operators — plus the 2–3% "
+        "transfer, crypto, cards, Skrill, Neosurf, Paysafecard and POLi tested across 41 operators — plus "
         "conversion spread nobody itemises.",
-        "/payment-methods/", [("NZ Payment Methods", "/payment-methods/")],
-        "NZ Casino Payment Methods: What Actually Works",
+        "/casino-payment-methods/", [("NZ Payment Methods", "/casino-payment-methods/")],
+        "Casino Payment Methods NZ: Deposit and Withdrawal Options",
         "We funded 41 casino accounts from New Zealand bank accounts at ANZ, ASB, BNZ, Kiwibank and Westpac, "
         "and withdrew from every one of them. This is what cleared, what got declined, how long each method "
         "really took, and where the costs hide.",
         icon("wallet") + " Tested across 5 NZ banks", body, faq, "holly-mcgrath",
         stats=[("100%", "Bank transfer success"), ("10 min", "Fastest crypto out"),
-               ("2–3%", "Hidden EUR spread"), ("POLi", "The one to avoid")])
+               ("2–3%", "Hidden EUR spread"), ("POLi", "NZ-owned, deposit-only")])
 
 
 # ========================================================== HOW WE REVIEW
@@ -495,8 +520,8 @@ def how_we_review():
         "How We Review Online Casinos | Magnum Sports Methodology",
         "Our full review methodology: six weighted criteria, 41 operators tested with our own money, 168 "
         "timed withdrawals, what disqualifies a casino, and exactly how affiliate commission is handled.",
-        "/how-we-review/", [("How We Review", "/how-we-review/")],
-        "How We Review Online Casinos",
+        "/how-we-rate-casinos/", [("How We Review", "/how-we-rate-casinos/")],
+        "How We Rate Online Casinos",
         "Every score on this site comes from the same six weighted criteria, applied to accounts we opened and "
         "funded ourselves. This page sets out the whole method &mdash; including what disqualifies an operator "
         "and exactly how the commission that funds it is handled.",

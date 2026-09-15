@@ -3,10 +3,54 @@ import os, sys, importlib, datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lib import ROOT, SITE, UPDATED
 
-MODULES = ["p_home", "p_casinos", "p_categories", "p_betting", "p_guides", "p_site", "p_reviews"]
+MODULES = ["p_home", "p_casinos", "p_categories", "p_betting", "p_guides", "p_new",
+           "p_site", "p_reviews"]
 
 PRIORITY = {"/": "1.0", "/online-casinos/": "1.0", "/online-betting/": "0.9",
-            "/online-pokies/": "0.9"}
+            "/online-pokies/": "0.9",
+            "/licensed-online-casinos/": "0.9", "/new-casinos-nz/": "0.9"}
+
+
+# Paths that exist only to redirect. Kept OUT of the sitemap deliberately.
+#
+# GitHub Pages serves static files and cannot issue a real 301 — there is no
+# server config to write one into. What is generated below is the strongest
+# signal available to a static host: a zero-delay meta refresh plus a
+# rel=canonical pointing at the destination, which Google treats as a
+# permanent redirect in practice. It is NOT an HTTP 301.
+#
+# To make it a true 301, the redirect must be issued at the edge:
+#   Cloudflare  ->  Rules > Redirect Rules, /instant-withdrawals/* -> target, 301
+#   Netlify     ->  a _redirects file:  /instant-withdrawals/ /fast-payout-casinos/ 301!
+#   Apache      ->  RedirectMatch 301 ^/instant-withdrawals/?$ /fast-payout-casinos/
+#   Nginx       ->  return 301 /fast-payout-casinos/;
+REDIRECTS = {
+    "/instant-withdrawals/": "/fast-payout-casinos/",
+}
+
+
+def write_redirects():
+    for src, dest in REDIRECTS.items():
+        url = SITE + dest
+        html = f"""<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="0; url={dest}">
+<link rel="canonical" href="{url}">
+<title>Redirecting to Fast Payout Casinos NZ</title>
+<meta name="robots" content="noarchive">
+<script>window.location.replace("{dest}");</script>
+</head>
+<body>
+<p>This page has moved to <a href="{dest}">{url}</a>.</p>
+</body>
+</html>
+"""
+        d = os.path.join(ROOT, src.strip("/"))
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(html)
+    return list(REDIRECTS)
 
 
 def main():
@@ -20,6 +64,7 @@ def main():
         r = mod.build()
         built += r if isinstance(r, list) else [r]
     built = sorted(set(built))
+    redirects = write_redirects()
 
     # sitemap.xml
     urls = []
@@ -48,7 +93,13 @@ def main():
     open(os.path.join(ROOT, "robots.txt"), "w").write("\n".join(r))
 
     print(f"\n✓ {len(built)} pages built")
+    print(f"✓ {len(redirects)} redirect stub(s): {', '.join(redirects)} (meta-refresh + canonical, NOT a 301 — see REDIRECTS in build.py)")
     print("✓ sitemap.xml, robots.txt")
+    try:
+        import check_keywords
+        check_keywords.main()
+    except Exception as e:
+        print(f"  (keyword check skipped: {e})")
     return built
 
 

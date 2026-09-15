@@ -143,22 +143,25 @@ NAV = [
     ]),
     ("Betting", "/online-betting/", None),
     ("Online Casinos", "/online-casinos/", [
-        ("Best Online Casino Sites NZ", "/online-casinos/"),
-        ("Online Pokies", "/online-pokies/"),
-        ("High Payout Casinos", "/high-payout-casinos/"),
+        ("Best Online Casinos NZ", "/online-casinos/"),
+        ("Licensed Online Casinos NZ", "/licensed-online-casinos/"),
+        ("New Online Casinos NZ", "/new-casinos-nz/"),
+        ("Online Pokies NZ", "/online-pokies/"),
+        ("Casino Payout Percentages", "/casino-payout-percentages/"),
         ("Fast Payout Casinos", "/fast-payout-casinos/"),
-        ("Live Dealer Casinos", "/live-casinos/"),
-        ("Crypto Casinos", "/best-crypto-casinos/"),
-        ("Casino Bonuses", "/online-casinos/bonuses/"),
-        ("No Deposit Bonuses", "/no-deposit-casinos/"),
+        ("Live Casino NZ", "/live-casino/"),
+        ("Crypto Casinos NZ", "/crypto-casinos-nz/"),
+        ("Casino Bonus NZ", "/casino-bonus/"),
+        ("No Deposit Bonus NZ", "/no-deposit-bonus/"),
+        ("Casino Payment Methods", "/casino-payment-methods/"),
         ("Casino Reviews", "/casino-reviews/"),
     ]),
     ("Guides", None, [
-        ("NZ Online Casino Law", "/nz-online-casino-law/"),
-        ("Tax on Gambling Winnings", "/gambling-winnings-tax-nz/"),
-        ("NZ Payment Methods", "/payment-methods/"),
-        ("How We Review", "/how-we-review/"),
-        ("Responsible Gambling", "/responsible-gambling/"),
+        ("Is Online Gambling Legal in NZ?", "/licensed-online-casinos/"),
+        ("Tax on Gambling Winnings NZ", "/gambling-winnings-tax-nz/"),
+        ("Casino Payment Methods NZ", "/casino-payment-methods/"),
+        ("How We Rate Casinos", "/how-we-rate-casinos/"),
+        ("Responsible Gambling NZ", "/responsible-gambling/"),
     ]),
     ("About", "/about/", None),
     ("Contact", "/contact/", None),
@@ -168,14 +171,15 @@ FOOTER = [
     ("Outdoors Store", [("Shop by Department", "/#shop"), ("Firearms &amp; Ammunition", "/#firearms-and-accessories"),
                         ("Fishing", "/#fishing"), ("Hunting Accessories", "/#hunting-accessories"),
                         ("Visit Us in Stratford", "/#visit")]),
-    ("Casinos", [("Online Casinos NZ", "/online-casinos/"), ("Online Pokies", "/online-pokies/"),
-                 ("High Payout Casinos", "/high-payout-casinos/"), ("Fast Payout Casinos", "/fast-payout-casinos/"),
-                 ("Live Dealer Casinos", "/live-casinos/"), ("Crypto Casinos", "/best-crypto-casinos/")]),
-    ("Bonuses & Betting", [("Casino Bonuses", "/online-casinos/bonuses/"), ("No Deposit Bonuses", "/no-deposit-casinos/"),
+    ("Casinos", [("Best Online Casinos NZ", "/online-casinos/"), ("Licensed Online Casinos NZ", "/licensed-online-casinos/"),
+                 ("New Online Casinos NZ", "/new-casinos-nz/"), ("Online Pokies NZ", "/online-pokies/"),
+                 ("Casino Payout Percentages", "/casino-payout-percentages/"), ("Fast Payout Casinos NZ", "/fast-payout-casinos/"),
+                 ("Live Casino NZ", "/live-casino/"), ("Crypto Casinos NZ", "/crypto-casinos-nz/")]),
+    ("Bonuses & Betting", [("Casino Bonus NZ", "/casino-bonus/"), ("No Deposit Bonus NZ", "/no-deposit-bonus/"),
                            ("Online Betting NZ", "/online-betting/"),
-                           ("Casino Reviews", "/casino-reviews/")]),
-    ("Guides", [("NZ Online Casino Law", "/nz-online-casino-law/"), ("Tax on Winnings", "/gambling-winnings-tax-nz/"),
-                ("Payment Methods", "/payment-methods/"), ("How We Review", "/how-we-review/")]),
+                           ("Casino Reviews NZ", "/casino-reviews/")]),
+    ("Guides", [("Is Online Gambling Legal in NZ?", "/licensed-online-casinos/"), ("Tax on Winnings NZ", "/gambling-winnings-tax-nz/"),
+                ("Casino Payment Methods NZ", "/casino-payment-methods/"), ("How We Rate Casinos", "/how-we-rate-casinos/")]),
     ("Company", [("About Us", "/about/"), ("Contact Us", "/contact/"), ("Our Authors", "/authors/"),
                  ("Responsible Gambling", "/responsible-gambling/")]),
     ("Legal", [("Terms and Conditions", "/terms/"), ("Privacy Policy", "/privacy/"),
@@ -221,34 +225,34 @@ IC = {
 META = {
  "/": ("Magnum Sports | Outdoors Store, Stratford Taranaki",
        "Hunting, fishing, camping and outdoor gear in Stratford, Taranaki. Airguns, ammunition, firearms, apparel, footwear and tackle. Call 06 765 7248."),
- "/online-casinos/": ("Best Online Casino Sites NZ 2026 | Top 15 Tested",
-       "Compare the best online casino sites NZ players can use in 2026. 41 casinos tested with real NZD, every withdrawal timed. Payouts, bonuses and pokies ranked."),
+ "/online-casinos/": ("Best Online Casino NZ 2026 | Top Real Money Casino Sites",
+       "Compare the best online casinos NZ has for real money play in 2026. 15 NZ casino sites tested with our own NZD — payout speed, NZD banking and bonuses ranked."),
  "/online-pokies/": ("Online Pokies NZ 2026 | Best Real Money Pokies Sites",
-       "The best online pokies NZ sites for real money in 2026. Compare RTP, volatility, studios and free spins, plus how online pokies beat NZ pub machines."),
- "/high-payout-casinos/": ("High Payout Casinos NZ | Highest RTP Sites 2026",
-       "The highest payout online casino NZ options for 2026. Real RTP by game, which sites publish their figures, and five changes that lift your actual return."),
- "/fast-payout-casinos/": ("Fast Payout Casinos NZ | Fastest Withdrawals 2026",
-       "We timed 168 withdrawals across 41 sites. The fastest payout online casino NZ picks for 2026, with real times by method, weekly caps and what causes delays."),
- "/live-casinos/": ("Live Casinos NZ 2026 | Best Live Dealer Sites",
-       "The best live dealer casino NZ sites for 2026. Evolution and Pragmatic Live coverage, NZD table limits, RTP by game and which tables run at 9pm NZT."),
- "/best-crypto-casinos/": ("Best Crypto Casinos NZ 2026 | Bitcoin &amp; USDT Sites",
-       "The best crypto casino NZ sites for 2026. Bitcoin, USDT and Litecoin casinos compared on payout speed, provably fair games and the NZ crypto tax rules."),
- "/online-casinos/bonuses/": ("Casino Bonuses NZ 2026 | Best Welcome Offers",
-       "Every online casino bonus NZ players can claim, compared on wagering, max bet, game contribution and expiry. Worked examples in NZD, no hype."),
- "/no-deposit-casinos/": ("No Deposit Bonus Casinos NZ 2026 | Verified Offers",
-       "We checked every no deposit bonus NZ casinos advertise and found one that is genuinely live. Here it is, with the wagering, the cap and the real value."),
+       "The best online pokies NZ players can spin in 2026. Real money pokies sites compared on RTP, free spins and jackpots, plus free pokies and how they work."),
+ "/casino-payout-percentages/": ("Casino Payout Percentage NZ | Highest RTP Casinos",
+       "What RTP means, how casino payout percentages work, and the highest RTP casinos NZ players can use. Real return to player figures by game, not marketing."),
+ "/fast-payout-casinos/": ("Fast Payout Casinos NZ | Instant Withdrawal Casino",
+       "We timed 168 withdrawals. The fastest paying online casino NZ options for 2026, how long casino withdrawals take by method, and why yours might be pending."),
+ "/live-casino/": ("Live Casino NZ 2026 | Best Live Dealer Casino Sites",
+       "The best live casino NZ sites for 2026. Live dealer blackjack, roulette and baccarat from Evolution, with NZD table limits and real minimum bets compared."),
+ "/crypto-casinos-nz/": ("Crypto Casinos NZ 2026 | Best Bitcoin Casino Sites",
+       "The best crypto casino NZ sites for 2026. Bitcoin, Ethereum and USDT casinos compared on payout speed and provably fair games, plus the NZ crypto tax rules."),
+ "/casino-bonus/": ("Casino Bonus NZ 2026 | Best Welcome Offers Compared",
+       "Every casino bonus NZ players can claim in 2026, compared on wagering, max bet and expiry. $1, $5 and $10 deposit casino bonuses with the real turnover shown."),
+ "/no-deposit-bonus/": ("No Deposit Bonus NZ 2026 | Free Spins No Deposit",
+       "Every no deposit bonus NZ casinos advertise, checked. One free spins no deposit offer is genuinely live — with the wagering, max cashout and codes explained."),
  "/casino-reviews/": ("Casino Reviews NZ | 19 Sites Tested With Our Money",
        "Hands-on online casino reviews NZ players can trust. Real NZD deposits, timed withdrawals, published scores, and the 22 operators we refused to list."),
  "/online-betting/": ("Online Betting NZ | Best Sports Betting Sites 2026",
        "Online betting NZ explained: what the 2025 TAB monopoly law changed, which sports betting sites still accept Kiwis, NZD deposits, rugby markets and odds."),
- "/nz-online-casino-law/": ("NZ Online Casino Law | Is Online Gambling Legal?",
-       "Is online gambling legal in New Zealand? The Gambling Act 2003, the 15-licence auction and the 1 December 2026 deadline, explained in plain English."),
+ "/licensed-online-casinos/": ("Licensed Online Casinos NZ | Is Online Gambling Legal?",
+       "Which online casinos are licensed in NZ, and are online casinos legal in New Zealand? The DIA 15-licence auction, the 1 December 2026 deadline and the law."),
  "/gambling-winnings-tax-nz/": ("Gambling Winnings Tax NZ | Do You Pay Tax on Wins?",
        "Do you pay tax on gambling winnings in NZ? No, for recreational players — with two exceptions. Professional gambling and crypto, with worked examples."),
- "/payment-methods/": ("NZ Casino Payment Methods | Deposits &amp; Withdrawals",
-       "Which casino payment methods NZ banks actually clear. Bank transfer, crypto, cards, Skrill, Neosurf and POLi tested across 41 sites and 5 NZ banks."),
- "/how-we-review/": ("How We Review Online Casinos | Our Methodology",
-       "Our review methodology: six weighted criteria, 41 operators tested with our own money, 168 timed withdrawals, and exactly how affiliate commission is handled."),
+ "/casino-payment-methods/": ("Casino Payment Methods NZ | Deposits &amp; Withdrawals",
+       "Which casino payment methods NZ banks clear: POLi, Paysafecard, Neosurf, Skrill, bank transfer, crypto and cards, tested across 41 sites and five NZ banks."),
+ "/how-we-rate-casinos/": ("How We Rate Casinos | Our Review Methodology",
+       "How to choose an online casino NZ players can trust, how to tell if a casino is legit, and the six weighted criteria behind every score on this site."),
  "/responsible-gambling/": ("Responsible Gambling NZ | Free Help and Support",
        "Free, confidential gambling help in NZ. Gambling Helpline 0800 654 655, deposit limits, self-exclusion, blocking software and bank gambling blocks."),
  "/about/": ("About Magnum Sports | Independent NZ Casino Reviews",
@@ -263,6 +267,8 @@ META = {
        "How Magnum Sports collects, uses and protects personal information under the Privacy Act 2020, and how to access, correct or delete your data."),
  "/cookie-policy/": ("Cookie Policy | Magnum Sports",
        "Which cookies magnumsports.co.nz sets, what each does, which need consent, and how to refuse or delete them in any browser."),
+ "/new-casinos-nz/": ("New Online Casinos NZ 2026 | Newest Casino Sites",
+       "New online casinos NZ players can join in 2026, updated as licensed operators launch. What to check before joining a new casino site, and which are safe."),
 }
 
 
@@ -412,12 +418,12 @@ def footer():
 <span class="brand-txt"><span class="brand-word">MAGNUM<i>.</i></span><span class="brand-tag">{esc(TAG)}</span></span></a>
 <p>Hunting, fishing, camping and outdoor gear from our Stratford shop, plus independent guides to online betting and casino sites for New Zealanders.</p>
 <p><b style="color:#c3cddf">220 Broadway, Stratford<br>Taranaki 4332</b><br><a href="tel:+6467657248">06 765 7248</a></p>
-<p><a href="/#shop">Shop by department</a> &middot; <a href="/how-we-review/">How we review</a></p>
+<p><a href="/#shop">Shop by department</a> &middot; <a href="/how-we-rate-casinos/">How we review</a></p>
 </div>
 {cols}
 </div>
 <div class="foot-bot">
-<p><strong>18+ only. Gambling can be harmful.</strong> Magnum Sports is an independent comparison site. We earn commission when readers open an account through links on this page, which funds our testing and never changes a ranking &mdash; see <a href="/how-we-review/">how we review</a> and our <a href="/terms/">terms</a>. Information is provided for general purposes and is not legal or financial advice. Free, confidential help is available from the Gambling Helpline on <a href="tel:0800654655">0800 654 655</a>, 24 hours a day.</p>
+<p><strong>18+ only. Gambling can be harmful.</strong> Magnum Sports is an independent comparison site. We earn commission when readers open an account through links on this page, which funds our testing and never changes a ranking &mdash; see <a href="/how-we-rate-casinos/">how we review</a> and our <a href="/terms/">terms</a>. Information is provided for general purposes and is not legal or financial advice. Free, confidential help is available from the Gambling Helpline on <a href="tel:0800654655">0800 654 655</a>, 24 hours a day.</p>
 <div class="foot-badges">
 <span class="badge18" aria-label="Eighteen plus only">18+</span>
 <a href="/responsible-gambling/">Responsible Gambling</a>
@@ -437,7 +443,7 @@ def disclosure(extra=""):
             'read because operators pay us a commission when a reader opens an account through one of '
             'our links. It does not cost you anything, it does not change the price of anything, and '
             'it does not buy a position on this page &mdash; scores come from the criteria set out in '
-            '<a href="/how-we-review/">our review methodology</a>, and sites we cannot recommend are '
+            '<a href="/how-we-rate-casinos/">our review methodology</a>, and sites we cannot recommend are '
             'left off regardless of what they offer to pay. ' + extra + '</p></div>')
 
 
@@ -460,7 +466,7 @@ def authorbox(author="tama-whitiora"):
 <img src="{a["img"]}" srcset="{a["img"]} 1x, {a["img"].replace(".jpg","@2x.jpg")} 2x" alt="{esc(a["name"])}" width="78" height="78" loading="lazy" decoding="async">
 <div><h4>{esc(a["name"])}</h4><div class="role">{esc(a["role"])}</div>
 <p>{esc(a["bio"])}</p>
-<p><a href="/authors/#{author}">Full profile and review history &rarr;</a> &middot; <a href="/how-we-review/">How we test</a></p></div></aside>'''
+<p><a href="/authors/#{author}">Full profile and review history &rarr;</a> &middot; <a href="/how-we-rate-casinos/">How we test</a></p></div></aside>'''
 
 
 # ------------------------------------------------------------ components ----
@@ -639,7 +645,7 @@ def org_schema():
         "description": ("Outdoors retailer in Stratford, Taranaki, and independent New Zealand "
                         "guide to online betting, online casinos and pokies."),
         "telephone": STORE["phone_tel"],
-        "publishingPrinciples": f"{SITE}/how-we-review/",
+        "publishingPrinciples": f"{SITE}/how-we-rate-casinos/",
         "founder": {"@id": f"{SITE}/#author-tama-whitiora"},
     }
 

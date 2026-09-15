@@ -191,7 +191,7 @@ def build():
 <li><strong>Your protections got thinner, not thicker.</strong> This is the honest consequence. An operator that is not authorised here is not accountable to the Department of Internal Affairs, so if a dispute arises your only route is that operator&rsquo;s own licensing body.</li>
 </ul>
 <h3>How this differs from the online casino rules</h3>
-<p>The two regimes are moving in opposite directions and it is worth being clear about the difference. <strong>Casino gambling</strong> is being opened up: the Online Casino Gambling Act creates up to 15 New Zealand licences, allocated by auction in September 2026, with unlicensed operators required to exit from 1 December 2026. <strong>Sports and racing betting</strong> has been closed down to a single authorised domestic operator. A site can therefore be perfectly positioned to hold a New Zealand casino licence next year while its sportsbook remains outside the authorised framework. Our <a href="/nz-online-casino-law/">NZ online casino law page</a> tracks the casino side in detail.</p>
+<p>The two regimes are moving in opposite directions and it is worth being clear about the difference. <strong>Casino gambling</strong> is being opened up: the Online Casino Gambling Act creates up to 15 New Zealand licences, allocated by auction in September 2026, with unlicensed operators required to exit from 1 December 2026. <strong>Sports and racing betting</strong> has been closed down to a single authorised domestic operator. A site can therefore be perfectly positioned to hold a New Zealand casino licence next year while its sportsbook remains outside the authorised framework. Our <a href="/licensed-online-casinos/">NZ online casino law page</a> tracks the casino side in detail.</p>
 </div></div></section>
 ''')
 
@@ -272,7 +272,7 @@ def build():
 <li><strong>Banking (10%).</strong> Native NZD balances, which methods clear from New Zealand banks, and whether withdrawals fail.</li>
 <li><strong>Trust and transparency (5%).</strong> Verifiable licence number, named operating company, and withdrawal terms that do not reserve unlimited discretion.</li>
 </ul>
-<p>Full detail is on our <a href="/how-we-review/">review methodology page</a>, including what disqualifies an operator outright &mdash; we excluded 22 operators this year, several paying well above average commission.</p>
+<p>Full detail is on our <a href="/how-we-rate-casinos/">review methodology page</a>, including what disqualifies an operator outright &mdash; we excluded 22 operators this year, several paying well above average commission.</p>
 </div></div></section>
 ''')
 
@@ -317,10 +317,10 @@ def build():
  ["Visa / Mastercard debit","Instant","2–5 business days","<span class='t-yes'>Yes</span>","Convenient but the most likely to be declined. Some NZ banks block gambling merchant codes outright."],
  ["Skrill / Neteller","Instant","4–24 hours","<span class='t-yes'>Usually</span>","A good compromise on speed. Check whether e-wallet deposits qualify for the free bet — at several books they do not."],
  ["Neosurf","Instant","<span class='t-no'>No</span>","<span class='t-yes'>Yes</span>","Cash voucher from a dairy or service station. Deposit-only, so plan a different withdrawal route from the start."],
- ["POLi","Patchy","<span class='t-no'>No</span>","<span class='t-yes'>Yes</span>","<b>Not recommended.</b> Deposit-only and frequently declined by New Zealand banks since they tightened credential-sharing terms."],
+ ["POLi","Instant","<span class='t-no'>No</span>","<span class='t-yes'>Yes</span>","Pays direct from your bank account, now via Open Banking APIs. <b>Deposit-only</b> &mdash; plan a separate withdrawal route."],
 ], minw=860)}
 <div class="note note--amber"><b>The 2–3% nobody itemises</b>
-<p>If a book holds your balance in euros &mdash; <a href="/casino-reviews/gunsbet/">Gunsbet</a> does &mdash; your bank converts twice, once on the way in and once on the way out, taking roughly 2 to 3% each time. On NZ$2,000 of turnover that is around NZ$100. It is larger than the margin difference between almost any two books, and it is the reason we weight NZD support heavily. <a href="/payment-methods/">Full NZ payment methods guide &rarr;</a></p></div>
+<p>If a book holds your balance in euros &mdash; <a href="/casino-reviews/gunsbet/">Gunsbet</a> does &mdash; your bank converts twice, once on the way in and once on the way out, taking roughly 2 to 3% each time. On NZ$2,000 of turnover that is around NZ$100. It is larger than the margin difference between almost any two books, and it is the reason we weight NZD support heavily. <a href="/casino-payment-methods/">Full NZ payment methods guide &rarr;</a></p></div>
 </div></section>
 ''')
 

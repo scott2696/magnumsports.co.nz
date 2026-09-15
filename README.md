@@ -16,7 +16,7 @@ library (plus Pillow for the one-off image generation scripts).
 
 ## What's here
 
-41 pages, ~90,000 words of original content.
+42 pages, ~99,000 words of original content.
 
 Every content page carries a **People Also Ask** section built from real search queries —
 4,358 harvested from Google, Bing and DuckDuckGo autosuggest for New Zealand, filtered to NZ
@@ -28,9 +28,11 @@ pages, all included in the pages' `FAQPage` schema. The four pages without one (
 |---|---|
 | Store | `/` — Magnum Sports, Stratford |
 | Money pages | `/online-casinos/`, `/online-betting/` |
-| Categories | `/online-pokies/`, `/high-payout-casinos/`, `/fast-payout-casinos/`, `/live-casinos/`, `/best-crypto-casinos/`, `/online-casinos/bonuses/`, `/no-deposit-casinos/` |
+| Growth | `/licensed-online-casinos/`, `/new-casinos-nz/` |
+| Categories | `/online-pokies/`, `/casino-payout-percentages/`, `/fast-payout-casinos/`, `/live-casino/`, `/crypto-casinos-nz/`, `/casino-bonus/`, `/no-deposit-bonus/` |
+| Redirect stub | `/instant-withdrawals/` → `/fast-payout-casinos/` (see caveat below) |
 | Reviews | `/casino-reviews/` + 19 operator reviews |
-| Guides | `/nz-online-casino-law/`, `/gambling-winnings-tax-nz/`, `/payment-methods/`, `/how-we-review/` |
+| Guides | `/licensed-online-casinos/`, `/gambling-winnings-tax-nz/`, `/casino-payment-methods/`, `/how-we-rate-casinos/` |
 | Company | `/about/`, `/contact/`, `/authors/`, `/responsible-gambling/` |
 | Legal | `/terms/`, `/privacy/`, `/cookie-policy/` |
 | Machine | `/sitemap.xml`, `/robots.txt` |
@@ -48,7 +50,7 @@ Strategy documents live in [`docs/`](docs/):
 python3 _build/build.py
 ```
 
-Regenerates all 41 pages plus `sitemap.xml` and `robots.txt` in about a second.
+Regenerates all 42 pages plus the redirect stub, `sitemap.xml` and `robots.txt` in about a second.
 Output is written in place — this repo *is* the deployed site (GitHub Pages, see `CNAME`).
 
 ### Where things live
@@ -61,6 +63,7 @@ Output is written in place — this repo *is* the deployed site (GitHub Pages, s
 | `_build/p_casinos.py` | `/online-casinos/` — the casino money page |
 | `_build/p_categories.py` | The 7 category pages |
 | `_build/p_betting.py` | `/online-betting/` — the single betting page |
+| `_build/p_new.py` | `/new-casinos-nz/` — running list, update `LAUNCHES` |
 | `_build/p_guides.py` | Law, tax, payments, methodology |
 | `_build/p_site.py` | About, contact, authors, responsible gambling, terms, privacy, cookies |
 | `_build/p_reviews.py` | Review hub + 19 reviews (`NARR` holds the bespoke per-brand copy) |
@@ -104,7 +107,7 @@ python3 _build/trim_logos.py    # crops white/transparent borders from brand log
 ## Conventions
 
 - **Clean URLs.** Every page is `<path>/index.html`; nothing links to a `.html` extension.
-- **Self-referencing canonicals** on all 41 URLs.
+- **Self-referencing canonicals** on all 42 URLs.
 - **`en-NZ`** throughout, with `hreflang="en-nz"` and `x-default`.
 - **Affiliate links** always carry `rel="nofollow sponsored noopener" target="_blank"`.
 - **One page, one head keyword.** See the mapping table in `docs/KEYWORD-STRATEGY.md`. The
@@ -115,6 +118,27 @@ python3 _build/trim_logos.py    # crops white/transparent borders from brand log
 ---
 
 ## Before this goes live
+
+### `/instant-withdrawals/` is not a real 301
+
+GitHub Pages serves static files and **cannot issue an HTTP 301** — there is no server config to
+put one in. The stub at `/instant-withdrawals/` is the strongest signal a static host allows: a
+zero-delay meta refresh plus `rel=canonical` to `/fast-payout-casinos/`, kept out of the sitemap.
+Google treats that as a permanent redirect in practice, but it is not one.
+
+To make it a true 301, issue it at the edge — one line, whichever you use:
+
+```
+Cloudflare   Rules > Redirect Rules:  /instant-withdrawals/*  ->  /fast-payout-casinos/  (301)
+Netlify      _redirects:              /instant-withdrawals/  /fast-payout-casinos/  301!
+Apache       .htaccess:               RedirectMatch 301 ^/instant-withdrawals/?$ /fast-payout-casinos/
+Nginx                                 location = /instant-withdrawals/ { return 301 /fast-payout-casinos/; }
+```
+
+Add more redirect pairs to `REDIRECTS` in `_build/build.py`. No internal link points at the stub —
+all instant-withdrawal keyword variants are targeted on the destination page.
+
+---
 
 Three things need a human pass:
 
@@ -134,7 +158,14 @@ Three things need a human pass:
    The three featured products are the only ones evidenced — add the real stock list rather
    than inventing SKUs.
 
-3. **Author photographs.** `images/authors/*.jpg` are generated monogram avatars. Replace them
+3. **POLi's status.** Verified September 2026: POLi is New Zealand-owned (Merco, since Australia
+   Post closed the Australian arm in 2023), actively trading, and moving from credential-sharing
+   onto Open Banking APIs with the major banks. It remains **deposit-only**. Earlier drafts of this
+   site described it as "not recommended / frequently declined", which was out of date — that has
+   been corrected sitewide. Bank coverage and per-operator acceptance both move, so re-check before
+   publishing.
+
+4. **Author photographs.** `images/authors/*.jpg` are generated monogram avatars. Replace them
    with real headshots and add `sameAs` links to the `AUTHORS` entries in `_build/lib.py`.
 
 Two brands — **CrownSlots** and **Gunsbet** — had no artwork in either logo folder, so
@@ -160,7 +191,7 @@ games**, and the gap widened in 2025:
 
 The site is written to handle this honestly — `/online-betting/` explains the law before it
 lists anything, the homepage's betting section carries the same warning before its toplist, and
-`/nz-online-casino-law/` tracks the casino regime.
+`/licensed-online-casinos/` tracks the casino regime.
 
 **Take New Zealand legal advice on the affiliate model before launch**, particularly on the
 sports betting pages. This matters more here than it would on a standalone affiliate domain:

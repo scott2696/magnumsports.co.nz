@@ -103,19 +103,19 @@ These are the gaps the new site is built to exploit. Each maps to a section we n
 | # | Gap | Who has it | How magnumsports.co.nz fills it |
 |---|---|---|---|
 | 1 | **Sports betting law is wrong or absent.** Almost every page still describes NZ sports betting as an open offshore market. The Racing Industry Amendment Act 2025 (in force 28 June 2025) closed it — and expressly protects the punter from prosecution. | Nearly all | `/online-betting/` leads with it, cites the Act, and states plainly that the punter commits no offence |
-| 2 | **No published scoring weights.** "Six criteria" with no arithmetic is unfalsifiable. | All | `/how-we-review/` publishes 25/20/20/15/12/8 weightings |
+| 2 | **No published scoring weights.** "Six criteria" with no arithmetic is unfalsifiable. | All | `/how-we-rate-casinos/` publishes 25/20/20/15/12/8 weightings |
 | 3 | **Payout times are copied from operator marketing.** No competitor publishes a timed dataset. | All | 168 timed withdrawals, medians by method, on `/fast-payout-casinos/` |
-| 4 | **The FX spread on euro-denominated sites is never mentioned.** Costs a Kiwi ~2–3% each way — often more than the bonus is worth. | All | Quantified on `/payment-methods/`, `/online-betting/` and flagged per operator |
+| 4 | **The FX spread on euro-denominated sites is never mentioned.** Costs a Kiwi ~2–3% each way — often more than the bonus is worth. | All | Quantified on `/casino-payment-methods/`, `/online-betting/` and flagged per operator |
 | 5 | **POLi is listed as if it works.** It is deposit-only and now routinely declined by NZ banks. | Most | Explicitly marked "not recommended", with the reason |
-| 6 | **No-deposit pages list 20–30 dead offers.** | All | `/no-deposit-casinos/` lists the **one** verified live offer and says why the others are gone |
+| 6 | **No-deposit pages list 20–30 dead offers.** | All | `/no-deposit-bonus/` lists the **one** verified live offer and says why the others are gone |
 | 7 | **Nobody publishes negative findings.** Every operator is "great". | All | Roby's missing licence disclosure is flagged on every page it appears on |
 | 8 | **Crypto tax treatment ignored.** IRD treats crypto as property — the gain is taxable even though the win is not. | All | Worked 6-step example on `/gambling-winnings-tax-nz/` |
-| 9 | **Bonus maths never shown.** "40x wagering" stated, never converted to dollars. | All | Turnover-in-NZD tables on the homepage and `/online-casinos/bonuses/` |
+| 9 | **Bonus maths never shown.** "40x wagering" stated, never converted to dollars. | All | Turnover-in-NZD tables on the homepage and `/casino-bonus/` |
 | 10 | **Withdrawal caps buried or absent.** The number that actually decides a big win. | All | Every weekly cap published, plus a comparison table |
 | 11 | **Support hours never tested in NZT.** Offshore desks are in Europe; 9pm NZT is 9am CET. | All | Four support contacts per site, at least one 7–11pm NZT |
 | 12 | **No side-by-side comparison table.** Card layouts only — impossible to scan 10 sites on one variable. | gambling.com, casinos.com | Sortable-style comparison tables on every category page |
 | 13 | **Netball, NPC rugby and NZ racing pools ignored.** The sports Kiwis actually bet on. | All | Covered on `/online-betting/` |
-| 14 | **Free spin value never stated.** "300 free spins" is NZ$60 of play, not NZ$300. | All | Per-spin value table on `/no-deposit-casinos/` |
+| 14 | **Free spin value never stated.** "300 free spins" is NZ$60 of play, not NZ$300. | All | Per-spin value table on `/no-deposit-bonus/` |
 | 15 | **Reverse-withdrawal windows unexplained.** The mechanic that costs players the most money. | All | Explained in the 4-stage payout anatomy on `/fast-payout-casinos/` |
 
 ---

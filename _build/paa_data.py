@@ -68,7 +68,7 @@ PAA = {
    "SkyCity Hamilton, two in Queenstown, Christchurch Casino and Grand Casino Dunedin. The Gambling "
    "Act 2003 froze the number &mdash; no new casino licence can be issued. That cap is a large part "
    "of why online play grew the way it did, and why the "
-   "<a href='/nz-online-casino-law/'>new online licensing regime</a> matters.</p>"),
+   "<a href='/licensed-online-casinos/'>new online licensing regime</a> matters.</p>"),
   ("Do online casinos pay real money?",
    "<p>Yes &mdash; the good ones do, and we test exactly that. We requested and timed 168 "
    "withdrawals across 41 operators using our own New Zealand dollars. The ones that paid are on "
@@ -93,7 +93,7 @@ PAA = {
    "with 175 free spins. On actual value, <a href='/casino-reviews/smash/'>Smash</a> &mdash; its 10x "
    "wagering requires roughly NZ$4,000 of turnover on a NZ$200 deposit where a 40x bonus-only offer "
    "requires NZ$8,000 and a 45x one NZ$9,000. The biggest number and the best offer are almost never "
-   "the same thing. Our <a href='/online-casinos/bonuses/'>bonus guide</a> shows the arithmetic.</p>"),
+   "the same thing. Our <a href='/casino-bonus/'>bonus guide</a> shows the arithmetic.</p>"),
   ("Which NZ online casino is best for pokies?",
    "<p><a href='/casino-reviews/spinjo/'>Spinjo</a>, on library depth &mdash; roughly 8,000 titles "
    "from 90-plus studios, with every Pragmatic Play, Hacksaw, Nolimit City, Play&rsquo;n GO and Push "
@@ -117,7 +117,7 @@ PAA = {
    "New Zealand but has never made it an offence to play at a site hosted overseas. From "
    "<strong>1 December 2026</strong>, operators without a New Zealand licence application must stop "
    "serving New Zealanders &mdash; a change to who may supply the game, not to whether you may play "
-   "it. See our <a href='/nz-online-casino-law/'>law page</a>.</p>"),
+   "it. See our <a href='/licensed-online-casinos/'>law page</a>.</p>"),
   ("How do you win on pokies in New Zealand?",
    "<p>You cannot, reliably, and anyone telling you otherwise is wrong or selling something. Every "
    "spin is generated independently by a random number generator on the studio&rsquo;s servers. There "
@@ -158,7 +158,7 @@ PAA = {
  ]),
 
 # ------------------------------------------------------ high payout / RTP
-"/high-payout-casinos/": ("Everything people ask about RTP",
+"/casino-payout-percentages/": ("Everything people ask about RTP",
       "RTP is the most-searched and least-understood number in online gambling. These are the "
       "questions New Zealanders actually type.",
  [("How does casino RTP work?",
@@ -238,7 +238,7 @@ PAA = {
  ]),
 
 # ------------------------------------------------------------ live casino
-"/live-casinos/": ("Live dealer questions people search",
+"/live-casino/": ("Live dealer questions people search",
       "Mostly about whether any of it is real. It is &mdash; here is how it works.",
  [("Are online casino dealers real people?",
    "<p><strong>Yes.</strong> Live dealer games are filmed in purpose-built studios with real dealers, "
@@ -277,7 +277,7 @@ PAA = {
  ]),
 
 # ---------------------------------------------------------- crypto casinos
-"/best-crypto-casinos/": ("Crypto questions Kiwis search",
+"/crypto-casinos-nz/": ("Crypto questions Kiwis search",
       "Crypto gambling raises a set of New Zealand-specific questions that generic guides skip "
       "entirely &mdash; particularly the tax one.",
  [("Is cryptocurrency legal in New Zealand?",
@@ -319,7 +319,7 @@ PAA = {
  ]),
 
 # --------------------------------------------------------- casino bonuses
-"/online-casinos/bonuses/": ("Bonus questions people actually search",
+"/casino-bonus/": ("Bonus questions people actually search",
       "Wagering requirements generate more confused searching than any other topic in online "
       "gambling. Here is the plain version.",
  [("How do wagering requirements work?",
@@ -362,7 +362,7 @@ PAA = {
  ]),
 
 # ------------------------------------------------------ no deposit bonuses
-"/no-deposit-casinos/": ("No deposit questions, answered honestly",
+"/no-deposit-bonus/": ("No deposit questions, answered honestly",
       "The search volume around free bonuses is enormous and most of what it returns is out of "
       "date or untrue. These answers are not flattering, but they are accurate.",
  [("What is a no deposit bonus?",
@@ -442,7 +442,7 @@ PAA = {
  ]),
 
 # ------------------------------------------------------------------- law
-"/nz-online-casino-law/": ("Legality questions, answered directly",
+"/licensed-online-casinos/": ("Legality questions, answered directly",
       "&ldquo;Is online gambling legal in New Zealand&rdquo; and its variants are the most-searched "
       "gambling questions in the country. Here is each one, answered without hedging.",
  [("Is online gambling illegal in New Zealand?",
@@ -528,7 +528,7 @@ PAA = {
  ]),
 
 # -------------------------------------------------------------- payments
-"/payment-methods/": ("Deposit and banking questions people search",
+"/casino-payment-methods/": ("Deposit and banking questions people search",
       "Most of the search volume here is about minimum deposits and whether particular methods still "
       "work from a New Zealand bank. Both answers have changed recently.",
  [("What is the minimum deposit at an NZ online casino?",
@@ -642,7 +642,7 @@ PAA = {
    "The questions worth asking: does it publish its <strong>scoring weightings</strong>? Does it say "
    "what disqualifies an operator? Does it ever <strong>criticise</strong> a site it links to? Does it "
    "disclose commission plainly? Our answers are on the "
-   "<a href='/how-we-review/'>methodology page</a>, and we would rather you read it sceptically than "
+   "<a href='/how-we-rate-casinos/'>methodology page</a>, and we would rather you read it sceptically than "
    "not at all.</p>"),
   ("Is SkyCity online legit?",
    "<p>SkyCity is a New Zealand-listed company operating the country&rsquo;s largest land-based "
@@ -680,7 +680,7 @@ PAA = {
  ]),
 
 # ------------------------------------------------------------ methodology
-"/how-we-review/": ("What people ask about review sites",
+"/how-we-rate-casinos/": ("What people ask about review sites",
       "Reasonable scepticism about commission-funded reviews, including this one. We would rather "
       "answer it than have you assume.",
  [("How do casino review sites make money?",
@@ -742,5 +742,48 @@ PAA = {
    "requires, and usually much sooner. If you are writing about gambling harm rather than about the "
    "site, please contact the <a href='/responsible-gambling/'>Gambling Helpline on 0800 654 655</a> "
    "instead &mdash; they are trained for it and available right now.</p>"),
+ ]),
+
+# ------------------------------------------------------- new casinos nz
+"/new-casinos-nz/": ("What people ask about new casino sites",
+      "New brands attract a specific set of searches &mdash; mostly about whether they can be "
+      "trusted, which is the right instinct.",
+ [("Are new online casinos safe in NZ?",
+   "<p>Some are. A 2024 launch is not automatically worse than a 2019 one &mdash; several of the "
+   "strongest sites we rate are new. What a new casino site lacks is a complaint history, and there "
+   "is no substitute for that, only proxies: a verifiable licence number, a named operating company, "
+   "withdrawal terms without unlimited operator discretion, and a small test withdrawal in week "
+   "one.</p>"),
+  ("Which are the best new casino sites NZ 2026?",
+   "<p>On our testing, <a href='/casino-reviews/kingdom/'>Kingdom</a> for payout speed, "
+   "<a href='/casino-reviews/smash/'>Smash</a> for the 10x wagering, "
+   "<a href='/casino-reviews/rivo/'>Rivo</a> for mobile and "
+   "<a href='/casino-reviews/crownslots/'>CrownSlots</a> for the largest welcome package. All four "
+   "launched within the last two years. <a href='/casino-reviews/roby-casino/'>Roby</a> is the new "
+   "brand we would avoid &mdash; it publishes neither a licence number nor an operating "
+   "company.</p>"),
+  ("Do new online casinos have no deposit bonuses in NZ?",
+   "<p>Almost never. New operators put their acquisition spend into large matched deposits rather "
+   "than unconditional giveaways, because a deposit filters for genuine intent. Across every new "
+   "casino site we checked, none had a verified no deposit offer &mdash; the only one live in this "
+   "market sits at a 2022 brand. See our <a href='/no-deposit-bonus/'>no deposit bonus page</a>.</p>"),
+  ("When do new licensed casinos launch in New Zealand?",
+   "<p>From <strong>December 2026 onwards</strong>. The DIA auction ran in September 2026 and "
+   "applications are processed from October, so the first licence holders are determined after that. "
+   "Up to 15 brands will go live under New Zealand supervision. We add each one to this page with "
+   "the date as it launches, and track the licences themselves on our "
+   "<a href='/licensed-online-casinos/'>licensed online casinos page</a>.</p>"),
+  ("Are there new crypto casinos for NZ players?",
+   "<p>Yes &mdash; crypto is where most recent launches concentrate, because it sidesteps the bank "
+   "declines that make card deposits unreliable here. <a href='/casino-reviews/spino/'>Spino</a> is "
+   "the clearest example: crypto-only, launched 2024, with a zero-wagering welcome offer and "
+   "ten-minute withdrawals. Our <a href='/crypto-casinos-nz/'>crypto casinos NZ page</a> covers the "
+   "coins and the tax position.</p>"),
+  ("Do new NZ casinos accept NZD?",
+   "<p>Most of the recent launches do &mdash; Kingdom, Smash, Rivo and MadCasino all hold New Zealand "
+   "dollar balances. The exceptions matter: <a href='/casino-reviews/crownslots/'>CrownSlots</a> is "
+   "euro-denominated and <a href='/casino-reviews/spino/'>Spino</a> is crypto-only. A non-NZD account "
+   "costs you roughly 2&ndash;3% in conversion each way, which on a NZ$500 deposit is about NZ$25 "
+   "that never appears as a fee.</p>"),
  ]),
 }
