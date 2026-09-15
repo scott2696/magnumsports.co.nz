@@ -514,12 +514,18 @@ def lb_row(o, i, mode="casino", feat=False):
     flag = (f'<span class="lb-flag">{icon("bolt")}{esc(o["highlights"][0])}</span>'
             if o.get("highlights") else "")
     rel = 'rel="nofollow sponsored noopener" target="_blank"'
+    # The money line carries the display type; anything after the first "+"
+    # (free spins, free bet) drops to a second line so neither has to shrink.
+    _head, _, _tail = bonus.partition(" + ")
+    _head = _head.strip()
+    _tail = _tail.strip()
+
     return f'''<li class="lb-row{' lb-row--feat' if feat else ''}">
 <a class="lb-cover" href="{esc(url)}" {rel} aria-label="Visit {esc(o["name"])} (opens in a new tab)"></a>
 <span class="lb-rank">{i}</span>
-<div class="lb-brand"><img class="lb-logo" src="{o["logo"]}" alt="{esc(o["name"])} logo" loading="lazy" decoding="async" width="88" height="46"><span class="lb-name">{esc(o["name"])}<span class="lb-sub">{esc(o["sub"])}</span></span></div>
+<div class="lb-brand"><img class="lb-logo" src="{o["logo"]}" alt="{esc(o["name"])} logo" loading="lazy" decoding="async" width="136" height="72"><span class="lb-name">{esc(o["name"])}<span class="lb-sub">{esc(o["sub"])}</span></span></div>
 <div class="lb-score"><span class="lb-score-top">{icon("star")}<b>{o["rating"]}/10</b></span><span class="lb-bar"><span style="width:{o["bar"]}%"></span></span>{flag}</div>
-<div class="lb-bonus"><span class="lb-bonus-l">{'Welcome offer' if mode=='casino' else 'Betting offer'}</span><span class="lb-bonus-v">{esc(bonus)}</span></div>
+<div class="lb-bonus"><span class="lb-bonus-l">{'Welcome offer' if mode=='casino' else 'Betting offer'}</span><span class="lb-bonus-v">{esc(_head)}</span>{f'<span class="lb-bonus-x">+ {esc(_tail)}</span>' if _tail else ''}</div>
 <div class="lb-cta"><a class="btn btn--wide" href="{esc(url)}" {rel}>Get bonus</a><span class="lb-terms">{terms}</span><span class="lb-review"><a href="/casino-reviews/{o["slug"]}/">Read review</a></span></div>
 </li>'''
 

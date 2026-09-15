@@ -220,48 +220,77 @@ small{font-size:.86rem}
 .btn--sm{font-size:.83rem;padding:9px 15px;min-height:38px}
 .btn--wide{width:100%}
 
-/* ---------- leaderboard ---------- */
+/* ---------- leaderboard ----------
+   The offer is the reason the row exists, so it carries the display type
+   and everything else is sized beneath it. Logos are big enough to be
+   recognised at a glance, on a chalk plate because most operator artwork
+   is drawn for a light ground. */
 .lb{border-radius:var(--radius);overflow:hidden;background:var(--slate);box-shadow:var(--shadow)}
-.lb-head{display:grid;grid-template-columns:44px minmax(190px,1.5fr) 128px minmax(150px,1.2fr) 190px;
-  gap:14px;align-items:center;padding:12px 18px;background:var(--asphalt);
+.lb-cols{grid-template-columns:54px minmax(320px,1.15fr) 130px minmax(212px,1.25fr) 212px}
+.lb-head{display:grid;grid-template-columns:54px minmax(320px,1.15fr) 130px minmax(212px,1.25fr) 212px;
+  gap:18px;align-items:center;padding:12px 20px;background:var(--asphalt);
   border-bottom:1px solid var(--graphite);font-family:var(--mono);font-size:.66rem;
-  letter-spacing:.11em;text-transform:uppercase;color:var(--faint)}
+  letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
 .lb-rows{list-style:none;margin:0;padding:0}
-.lb-row{display:grid;grid-template-columns:44px minmax(190px,1.5fr) 128px minmax(150px,1.2fr) 190px;
-  gap:14px;align-items:center;padding:16px 18px;border-bottom:1px solid var(--graphite);
+.lb-row{display:grid;grid-template-columns:54px minmax(320px,1.15fr) 130px minmax(212px,1.25fr) 212px;
+  gap:18px;align-items:center;padding:20px;border-bottom:1px solid var(--graphite);
   position:relative;margin:0;transition:background var(--t-hover) var(--ease-std)}
 .lb-row:last-child{border-bottom:0}
 .lb-row:hover{background:var(--graphite)}
-.lb-row--feat{background:linear-gradient(90deg,rgba(245,165,36,.1),rgba(245,165,36,0) 46%)}
+.lb-row--feat{background:linear-gradient(90deg,rgba(245,165,36,.11),rgba(245,165,36,0) 52%)}
 .lb-row--feat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--sodium)}
 .lb-row > *{position:relative;z-index:2}
 .lb-row > .lb-cover{position:absolute;inset:0;z-index:1}
 .lb-cta,.lb-cta *{position:relative;z-index:3}
-.lb-rank{font-family:var(--mono);font-weight:700;font-size:1.22rem;color:var(--ink);
-  text-align:center;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.lb-brand{display:flex;align-items:center;gap:13px;min-width:0}
-.lb-logo{width:88px;height:46px;object-fit:contain;background:var(--ink);
-  border:1px solid var(--graphite-2);border-radius:var(--radius-sm);padding:5px;flex:0 0 auto}
-.lb-name{font-family:var(--disp);font-weight:700;font-size:1rem;color:var(--ink);
-  display:flex;flex-direction:column;gap:3px;min-width:0;font-variation-settings:'wdth' 106}
-.lb-sub{font-family:var(--sans);font-weight:400;font-size:.78rem;color:var(--mute);line-height:1.4}
-.lb-score{display:flex;flex-direction:column;gap:6px}
-.lb-score-top{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-weight:700;
-  font-size:1rem;color:var(--ink);font-variant-numeric:tabular-nums}
-.lb-score-top svg,.lb-score-top .ic{width:15px;height:15px;color:var(--sodium);flex:0 0 auto}
-.lb-bar{height:4px;background:var(--graphite);border-radius:var(--radius-pill);overflow:hidden}
+
+.lb-rank{font-family:var(--mono);font-weight:700;font-size:1.55rem;color:var(--mute);
+  text-align:center;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1}
+.lb-row--feat .lb-rank{color:var(--sodium)}
+
+/* brand */
+.lb-brand{display:flex;align-items:center;gap:16px;min-width:0}
+.lb-logo{width:136px;height:72px;object-fit:contain;background:var(--ink);
+  border-radius:var(--radius);padding:9px 11px;flex:0 0 auto;
+  box-shadow:0 0 0 1px var(--graphite-2), 0 6px 18px -8px rgba(0,0,0,.7);
+  transition:box-shadow var(--t-hover) var(--ease-std),transform var(--t-hover) var(--ease-std)}
+.lb-row:hover .lb-logo{box-shadow:0 0 0 1px var(--chalk-edge,var(--graphite-2)),
+  0 10px 26px -10px rgba(0,0,0,.8), 0 0 28px -14px rgba(245,165,36,.55);transform:translateY(-1px)}
+.lb-name{font-family:var(--disp);font-weight:700;font-size:1.06rem;color:var(--ink);
+  display:flex;flex-direction:column;gap:5px;min-width:0;font-variation-settings:'wdth' 106;
+  letter-spacing:-.018em}
+.lb-sub{font-family:var(--sans);font-weight:400;font-size:.8rem;color:var(--mute);line-height:1.45;
+  letter-spacing:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* score */
+.lb-score{display:flex;flex-direction:column;gap:7px;align-items:flex-start}
+.lb-score-top{display:flex;align-items:baseline;gap:6px;font-family:var(--mono);font-weight:700;
+  font-size:1.06rem;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.lb-score-top svg,.lb-score-top .ic{width:14px;height:14px;color:var(--sodium);flex:0 0 auto;
+  align-self:center}
+.lb-bar{height:4px;width:100%;background:var(--graphite);border-radius:var(--radius-pill);overflow:hidden}
 .lb-bar span{display:block;height:100%;border-radius:var(--radius-pill);
   background:linear-gradient(90deg,var(--sodium-hi),var(--sodium))}
-.lb-flag{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.62rem;
-  letter-spacing:.07em;text-transform:uppercase;color:var(--sodium);
-  background:rgba(245,165,36,.1);padding:3px 8px;border-radius:var(--radius-sm);width:fit-content}
-.lb-flag .ic{width:11px;height:11px}
-.lb-bonus{display:flex;flex-direction:column;gap:3px}
-.lb-bonus-l{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
-.lb-bonus-v{font-weight:600;font-size:.92rem;color:var(--ink);line-height:1.38}
-.lb-cta{display:flex;flex-direction:column;gap:7px;align-items:stretch}
+.lb-flag{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:.6rem;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--sodium);
+  background:rgba(245,165,36,.1);border:1px solid rgba(245,165,36,.24);
+  padding:4px 8px;border-radius:var(--radius-sm);width:fit-content;line-height:1.35;
+  text-wrap:balance}
+.lb-flag .ic{width:10px;height:10px;flex:0 0 auto}
+
+/* the offer — the loudest thing in the row */
+.lb-bonus{display:flex;flex-direction:column;gap:5px;min-width:0}
+.lb-bonus-l{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faint)}
+.lb-bonus-v{font-family:var(--disp);font-weight:800;font-variation-settings:'wdth' 112;
+  font-size:clamp(1.18rem,1.65vw,1.52rem);line-height:1.06;letter-spacing:-.032em;
+  color:var(--ink);text-wrap:balance}
+.lb-bonus-x{font-family:var(--mono);font-size:.78rem;color:var(--sodium);letter-spacing:-.01em}
+
+/* cta */
+.lb-cta{display:flex;flex-direction:column;gap:9px;align-items:stretch}
+.lb-cta .btn{min-height:50px;font-size:.96rem;padding:13px 20px}
 .lb-terms{font-family:var(--mono);font-size:.7rem;color:var(--mute);line-height:1.55;text-align:center}
-.lb-review{font-size:.76rem;text-align:center}
+.lb-review{font-size:.78rem;text-align:center}
 
 /* ---------- cards ---------- */
 .grid{display:grid;gap:18px}
@@ -502,20 +531,26 @@ td b,th b{color:var(--ink)}
 @media (max-width:1040px){
   .foot-top{grid-template-columns:repeat(3,minmax(0,1fr))}
   .foot-about{grid-column:1/-1}
-  .lb-head,.lb-row{grid-template-columns:38px minmax(160px,1.4fr) 108px minmax(130px,1fr) 166px;
-    gap:11px;padding:14px}
-  .lb-logo{width:74px;height:40px}
+  .lb-head,.lb-row{grid-template-columns:46px minmax(232px,1fr) 112px minmax(180px,1.3fr) 186px;
+    gap:13px;padding:16px}
+  .lb-logo{width:112px;height:60px;padding:7px 9px}
+  .lb-name{font-size:1.02rem}
 }
 @media (max-width:860px){
   .nav-links{display:none}
   .menu{display:block}
   .nav .wrap{min-height:60px}
   .lb-head{display:none}
-  .lb-row{grid-template-columns:1fr 1fr;gap:12px;padding:16px;align-items:start}
-  .lb-rank{position:absolute;left:auto;right:14px;top:12px;font-size:.95rem;color:var(--faint);
+  .lb-row{grid-template-columns:1fr;gap:16px;padding:18px;align-items:start}
+  .lb-rank{position:absolute;left:auto;right:16px;top:14px;font-size:1.05rem;color:var(--faint);
     z-index:2;text-align:right}
-  .lb-brand{grid-column:1/-1;padding-right:34px}
+  .lb-brand{grid-column:1/-1;padding-right:36px;gap:14px}
+  .lb-logo{width:124px;height:66px}
   .lb-score,.lb-bonus,.lb-cta{grid-column:1/-1}
+  .lb-bonus{padding-top:14px;border-top:1px solid var(--graphite)}
+  .lb-bonus-v{font-size:1.38rem}
+  .lb-score{flex-direction:row;align-items:center;gap:12px;flex-wrap:wrap}
+  .lb-bar{width:110px}
   .toc ol{columns:1}
   .rev-hd-cta{flex:1 1 100%}
   .hero{padding:42px 0 46px}
