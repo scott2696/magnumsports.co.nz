@@ -77,13 +77,18 @@ def build():
     # ------------------------------------------------------- departments
     dept_cards = []
     for name, slug, ic, blurb in DEPARTMENTS:
+        img = dept_image(slug)
+        media = (f'<img src="{img}" alt="{esc(name)} at Magnum Sports, Stratford" '
+                 f'width="800" height="450" loading="lazy" decoding="async">'
+                 if img else f'<span class="dept-ic">{icon(ic)}</span>')
         dept_cards.append(
-            f'<div id="{slug}" class="card card--link" style="scroll-margin-top:90px">'
-            f'<div class="card-ic">{icon(ic)}</div><h3>{esc(name)}</h3><p>{blurb}</p></div>')
+            f'<div id="{slug}" class="dept" style="scroll-margin-top:90px">'
+            f'<div class="dept-media{"" if img else " dept-media--empty"}">{media}</div>'
+            f'<div class="dept-body"><h3>{esc(name)}</h3><p>{blurb}</p></div></div>')
     o.append(f'''<section id="shop" class="sec sec--haze"><div class="wrap">
 <div class="sec-head"><span class="kicker">The shop</span><h2>Shop by department</h2>
 <p>Twelve departments and roughly {STORE["products"]} lines on the floor. Stock moves, so if you want something specific put a call through before you make the trip &mdash; we will check the shelf and put it aside.</p></div>
-<div class="grid grid--3">{"".join(dept_cards)}</div>
+<div class="depts">{"".join(dept_cards)}</div>
 <div class="note note--amber" style="margin-top:26px"><b>Firearms, ammunition and reloading</b>
 <p>These are sold <strong>in store only</strong>, to holders of a valid New Zealand firearms licence, with the required endorsement or permit to procure where the law calls for one. We do not sell or ship them online and we complete the paperwork properly, every time. Everything else on this page &mdash; airguns, fishing, camping, apparel, footwear and sporting goods &mdash; is unrestricted. Not sure which applies to you? <a href="tel:{STORE["phone_tel"]}">Give us a ring on {esc(STORE["phone_display"])}</a> before you drive over.</p></div>
 </div></section>

@@ -229,6 +229,21 @@ td b,th b{color:var(--ink)}
 .pc-pro h4{color:var(--mint)}
 .pc-con h4{color:var(--red)}
 
+/* department cards — photo-ready */
+.depts{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(296px,1fr))}
+.dept{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:.18s}
+.dept:hover{border-color:var(--red);box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.dept-media{aspect-ratio:16/9;background:var(--haze-2);position:relative;overflow:hidden}
+.dept-media img{width:100%;height:100%;object-fit:cover;display:block;transition:.4s}
+.dept:hover .dept-media img{transform:scale(1.04)}
+.dept-media--empty{display:flex;align-items:center;justify-content:center;background:linear-gradient(140deg,var(--ink) 0%,var(--navy) 58%,#24365c 100%)}
+.dept-media--empty::after{content:"";position:absolute;right:-40px;top:-40px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(225,29,46,.34),transparent 68%)}
+.dept-ic{position:relative;z-index:1;width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;color:#fff}
+.dept-ic .ic{width:26px;height:26px}
+.dept-body{padding:20px 22px 22px}
+.dept-body h3{margin:0 0 8px;font-size:1.08rem}
+.dept-body p{margin:0;font-size:.92rem;color:var(--mute);line-height:1.6}
+
 /* people also ask */
 .paa{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(324px,1fr))}
 .paa-item{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:19px 22px;box-shadow:var(--shadow)}

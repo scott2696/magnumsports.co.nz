@@ -27,6 +27,9 @@ STORE = {
     "products": 678,
 }
 
+# (name, slug, icon, blurb). A photo at images/departments/<slug>.jpg is used
+# automatically when present; until then the card shows a brand gradient tile
+# with the icon. Drop files in and rebuild — no markup changes needed.
 DEPARTMENTS = [
     ("Airguns", "airguns", "target",
      "Air rifles and air pistols, pellets, targets and scopes. The sensible "
@@ -574,6 +577,15 @@ def paa_block(items, heading, intro=None, haze=True, hid="people-also-ask"):
             f'<p class="paa-src">{icon("search")} Questions sourced from Google, Bing and DuckDuckGo '
             f'autosuggest for New Zealand &middot; checked {UPDATED_NZ}</p></div>'
             f'<div class="paa">' + "".join(out) + '</div></div></section>\n')
+
+
+def dept_image(slug):
+    """Path to a department photo if one has been added, else None."""
+    for ext in ("jpg", "webp", "png"):
+        rel = f"images/departments/{slug}.{ext}"
+        if os.path.exists(os.path.join(ROOT, rel)):
+            return "/" + rel
+    return None
 
 
 def paa_items(path):
