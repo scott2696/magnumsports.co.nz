@@ -222,9 +222,18 @@ relevant H2/H3, in the question's own vocabulary.
 | how to self-exclude | List | `/responsible-gambling/` | Tool cards |
 
 ### People Also Ask
-All 20 FAQ blocks carry `FAQPage` schema with answers written to stand alone — first sentence
-answers the question outright, remainder adds the qualifier. PAA answers are extracted from the
-schema text, so the schema copy is stripped of markup and reads as prose.
+Two layers. Every page's FAQ block carries `FAQPage` schema with answers written to stand alone.
+On top of that, **37 pages carry a dedicated People Also Ask section built from harvested query
+data** — 4,358 real queries pulled from Google (`gl=nz`), Bing (`en-NZ`) and DuckDuckGo
+(`nz-en`) autosuggest by `_build/harvest_queries.py`, filtered to New Zealand intent, deduped
+against each page's existing FAQ, and answered at snippet length. 240 Q&As in total, every one
+also in the page's `FAQPage` schema.
+
+Why this matters more than an invented FAQ: the questions are the exact strings people type, so
+the H3 matches the query verbatim. Several are commercially awkward — *"are casinos a waste of
+money"*, *"how do you win on pokies"*, *"is there an instant withdrawal casino with no
+verification"* — and answering them honestly is itself a differentiator, because no competitor
+will. Re-harvest quarterly; query patterns shift faster than content does.
 
 ### CTR optimisation
 - Every title ≤60 characters, every description ≤158 — verified at build time, so nothing

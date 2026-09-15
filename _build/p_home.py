@@ -57,7 +57,7 @@ def build():
         "WebPage", TITLE, DESC, PATH,
         extra=[store_schema(),
                crumb_schema([("Home", "/")]),
-               faq_schema(FAQ, f"{SITE}/#faq")])
+               faq_schema(FAQ + paa_items(PATH), f"{SITE}/#faq")])
     o = [head(TITLE, DESC, PATH, schema)]
 
     # ------------------------------------------------------------ hero
@@ -160,6 +160,7 @@ def build():
 
     o.append(rg_block())
     o.append(faq_block(FAQ, "Magnum Sports: common questions"))
+    o.append(paa_for(PATH, haze=False))
 
     o.append(f'''<section class="sec"><div class="wrap"><div class="prose prose--wide">
 <h2>About Magnum Sports</h2>

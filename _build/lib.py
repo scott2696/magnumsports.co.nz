@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Shared templating, schema and components for magnumsports.co.nz."""
 import json, os, html
+from paa_data import PAA
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = "https://magnumsports.co.nz"
@@ -517,6 +518,41 @@ def faq_schema(items, pid="#faq"):
             "mainEntity": [{"@type": "Question", "name": strip(q),
                             "acceptedAnswer": {"@type": "Answer", "text": strip(a)}}
                            for q, a in items]}
+
+
+def paa_block(items, heading, intro=None, haze=True, hid="people-also-ask"):
+    """Real-query section. `items` is [(question, answer_html)].
+
+    Questions come from search autosuggest (Google gl=nz, Bing en-NZ,
+    DuckDuckGo nz-en) harvested by _build/harvest_queries.py — they are what
+    New Zealanders actually type, not what we guessed they type. Answers lead
+    with the direct response in the first sentence, which is the format Google
+    extracts for featured snippets and People Also Ask.
+    """
+    out = []
+    for i, (q, a) in enumerate(items, 1):
+        out.append(f'<div class="paa-item"><h3><span>{i:02d}</span>{q}</h3>{a}</div>')
+    i_html = f'<p>{intro}</p>' if intro else ""
+    return (f'<section id="{hid}" class="sec{" sec--haze" if haze else ""}"><div class="wrap">'
+            f'<div class="sec-head"><span class="kicker">People also ask</span><h2>{heading}</h2>{i_html}'
+            f'<p class="paa-src">{icon("search")} Questions sourced from Google, Bing and DuckDuckGo '
+            f'autosuggest for New Zealand &middot; checked {UPDATED_NZ}</p></div>'
+            f'<div class="paa">' + "".join(out) + '</div></div></section>\n')
+
+
+def paa_items(path):
+    """The (question, answer) pairs harvested for a page, or []."""
+    e = PAA.get(path)
+    return e[2] if e else []
+
+
+def paa_for(path, haze=True):
+    """Render a page's People Also Ask section, or nothing if it has none."""
+    e = PAA.get(path)
+    if not e:
+        return ""
+    heading, intro, items = e
+    return paa_block(items, heading, intro, haze=haze)
 
 
 def picks(items):

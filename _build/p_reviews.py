@@ -136,6 +136,74 @@ def review_faq(o):
     return f
 
 
+def review_paa(o):
+    """Per-brand People Also Ask, built from the query patterns the harvest
+    found around operator names: "is <brand> legit", "<brand> bonus code",
+    "<brand> no deposit", "<brand> withdrawal time", "<brand> login",
+    "<brand> app". Deliberately distinct from the page's FAQ above."""
+    n = esc(o["name"])
+    short = esc(o["short"])
+    lic = esc(o["licence"])
+    named = o["operator_co"] != "Not published"
+    return [
+     (f"Is {n} legit?",
+      (f"<p>It paid every withdrawal we requested, within the times on this page, and it operates "
+       f"under a <strong>{lic}</strong> licence"
+       + (f" held by {esc(o['operator_co'])}, a named company with a traceable history. "
+          if named else
+          ". Our reservation, and it is a real one, is that the site publishes neither a licence "
+          "number nor an operating company &mdash; which leaves you with no identifiable regulator "
+          "to escalate to. ")
+       + "Verify the licence number on the regulator&rsquo;s public register yourself rather than "
+         "trusting a footer badge, and test with a small withdrawal in your first week.</p>")),
+     (f"Does {n} have a no deposit bonus?",
+      ("<p><strong>Yes</strong> &mdash; 20 free spins credited on registration, before you deposit. "
+       "It is the only genuine no-deposit offer we could verify as live for New Zealand players at "
+       "any operator on this site. The spins carry 50x wagering and a NZ$100 conversion cap, so "
+       "treat them as a free look at the lobby rather than a route to a payout.</p>"
+       if o["slug"] == "lucky7even" else
+       f"<p><strong>No.</strong> {n}&rsquo;s welcome offer requires a deposit of "
+       f"{esc(o['min_deposit'])} or more. No-deposit bonuses have become genuinely rare for New "
+       f"Zealand players &mdash; we verified exactly one across every operator we cover, at "
+       f"<a href='/casino-reviews/lucky7even/'>Lucky7even</a>. Our "
+       f"<a href='/no-deposit-casinos/'>no deposit page</a> explains what the others are worth once "
+       f"the wagering and caps are applied.</p>")),
+     (f"Is there a {n} bonus code?",
+      (f"<p>No code is needed. The welcome offer &mdash; {esc(o['casino_bonus'] or o['sports_bonus'])} "
+       f"&mdash; applies automatically when you register through the links on this page and make a "
+       f"qualifying deposit of {esc(o['min_deposit'])} or more. Be sceptical of third-party sites "
+       f"advertising exclusive {short} codes; in this market they are almost always either the "
+       f"standard offer or expired.</p>")),
+     (f"What are the minimum deposit and withdrawal at {n}?",
+      (f"<p>The minimum deposit is <strong>{esc(o['min_deposit'])}</strong>. The weekly withdrawal "
+       f"ceiling is <strong>{esc(o['withdrawal_limit'])}</strong> &mdash; the number most people "
+       f"check too late, because a large win metered out weekly sits in your casino balance where it "
+       f"is very easy to play. If a five-figure win is plausible at your stakes, that ceiling "
+       f"deserves more attention than the welcome bonus.</p>")),
+     (f"How do I verify my {n} account?",
+      ("<p>Upload three things from the account settings: <strong>photo ID</strong> (a New Zealand "
+       "driver licence, both sides, or a passport photo page), a <strong>proof of address</strong> "
+       "dated within three months such as a power bill or council rates notice, and a "
+       "<strong>screenshot of your payment method</strong>. Do it on the day you register, not when "
+       "you want to withdraw &mdash; in our tests the same operator paid a verified account in four "
+       "hours and an unverified one in three days.</p>")),
+     (f"Is there a {n} app?",
+      (f"<p>Not in the New Zealand App Store or on Google Play &mdash; both platforms restrict "
+       f"real-money gambling apps here, so almost no offshore operator ships one. {n} runs as a "
+       f"<strong>mobile web app</strong> instead: open it in Safari or Chrome, use the share menu and "
+       f"choose Add to Home Screen. Full-screen, no address bar, no app store account and nothing to "
+       f"update.</p>")),
+     (f"How do I set limits or self-exclude at {n}?",
+      (f"<p>From the account settings, usually under Responsible Gambling or Account Limits. You can "
+       f"set daily, weekly or monthly <strong>deposit limits</strong>, turn on a "
+       f"<strong>reality check</strong>, take a <strong>time-out</strong> of 24 hours to six weeks, "
+       f"or <strong>self-exclude</strong> for six months or longer. Reductions apply immediately; "
+       f"increases are deliberately delayed. Self-exclusion applies to {short} only, so repeat it at "
+       f"every site where you hold an account. Free help: "
+       f"<a href='/responsible-gambling/'>Gambling Helpline 0800 654 655</a>.</p>")),
+    ]
+
+
 def review(o):
     slug = o["slug"]
     n = NARR.get(slug, {})
@@ -167,7 +235,7 @@ def review(o):
     schema = page_schema("ReviewNewsArticle" if False else "WebPage", title, desc, path,
                          extra=[crumb_schema([("Home", "/"), ("Casino Reviews", HUB_PATH),
                                               (o["name"], path)]),
-                                review_schema, faq_schema(faq, f"{SITE}{path}#faq")])
+                                review_schema, faq_schema(faq + review_paa(o), f"{SITE}{path}#faq")])
 
     products = ["Online casino"]
     if o["sports"]:
@@ -252,6 +320,9 @@ def review(o):
                      f"Visit {o['short']}", url, external=True))
     body.append(rg_block())
     body.append(faq_block(faq, f"{o['name']}: frequently asked questions"))
+    body.append(paa_block(review_paa(o), f"More about {esc(o['name'])}",
+                          f"The questions New Zealanders search most often around {esc(o['short'])}, "
+                          f"taken from autosuggest rather than guessed.", haze=False))
     body.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
                 + authorbox("tama-whitiora") + '</div></div></section>')
     body.append(footer())
@@ -312,7 +383,7 @@ def hub():
                          extra=[crumb_schema([("Home", "/"), ("Casino Reviews", HUB_PATH)]),
                                 itemlist_schema(OPS,
                                                 "Casino and betting site reviews", HUB_PATH),
-                                faq_schema(faq, f"{SITE}{HUB_PATH}#faq")])
+                                faq_schema(faq + paa_items(HUB_PATH), f"{SITE}{HUB_PATH}#faq")])
     o = [head(HUB_TITLE, HUB_DESC, HUB_PATH, schema),
          crumbs([("Home", "/"), ("Casino Reviews", None)])]
     o.append(f'''<section class="hero"><div class="wrap">
@@ -352,6 +423,7 @@ def hub():
 </div></div></section>
 ''')
     o.append(faq_block(faq))
+    o.append(paa_for(HUB_PATH, haze=False))
     o.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
              + authorbox("tama-whitiora") + '</div></div></section>')
     o.append(footer())

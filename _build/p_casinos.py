@@ -172,7 +172,7 @@ def build():
         extra=[person_schema("holly-mcgrath"), person_schema("daniel-ashworth"),
                crumb_schema(cr),
                itemlist_schema(ops[:12], "Best online casino sites NZ 2026", PATH),
-               faq_schema(FAQ, f"{SITE}{PATH}#faq")])
+               faq_schema(FAQ + paa_items(PATH), f"{SITE}{PATH}#faq")])
     o = [head(TITLE, DESC, PATH, schema),
          crumbs([("Home", "/"), ("Online Casinos", None)])]
 
@@ -401,6 +401,7 @@ def build():
 
     o.append(rg_block())
     o.append(faq_block(FAQ, "Best online casino sites NZ: your questions answered"))
+    o.append(paa_for(PATH, haze=False))
     o.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
              + authorbox("tama-whitiora") + '</div></div></section>')
     o.append(footer())

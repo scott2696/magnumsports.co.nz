@@ -229,6 +229,17 @@ td b,th b{color:var(--ink)}
 .pc-pro h4{color:var(--mint)}
 .pc-con h4{color:var(--red)}
 
+/* people also ask */
+.paa{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(324px,1fr))}
+.paa-item{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:19px 22px;box-shadow:var(--shadow)}
+.paa-item h3{font-size:1.01rem;margin:0 0 9px;display:flex;gap:10px;align-items:baseline;line-height:1.35}
+.paa-item h3 > span{color:var(--red);font-family:var(--mono);font-size:.76rem;flex:0 0 auto;font-weight:500}
+.paa-item p{font-size:.92rem;margin:0 0 .7em;color:var(--text)}
+.paa-item p:last-child{margin-bottom:0}
+.paa-src{font-family:var(--mono);font-size:.67rem;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);display:flex;align-items:flex-start;gap:7px;margin-top:12px;line-height:1.55}
+.paa-src .ic{width:12px;height:12px;margin-top:3px}
+.sec--haze .paa-item{background:#fff}
+
 /* chips */
 .chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 1.5em;padding:0;list-style:none}
 .chips li{margin:0}

@@ -8,7 +8,7 @@ def shell(title, desc, path, crumb, h1, lede, eyebrow, ops, lb_head, lb_intro,
           stats=None, mode="casino", extra_schema=None):
     ex = [crumb_schema([("Home", "/")] + crumb),
           itemlist_schema(ops, h1, path, mode),
-          faq_schema(faq, f"{SITE}{path}#faq")]
+          faq_schema(faq + paa_items(path), f"{SITE}{path}#faq")]
     if extra_schema:
         ex += extra_schema
     schema = page_schema("CollectionPage", title, desc, path, author=author, extra=ex)
@@ -32,6 +32,7 @@ def shell(title, desc, path, crumb, h1, lede, eyebrow, ops, lb_head, lb_intro,
     o.append(body)
     o.append(rg_block())
     o.append(faq_block(faq))
+    o.append(paa_for(path, haze=False))
     o.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
              + authorbox(author) + '</div></div></section>')
     o.append(footer())

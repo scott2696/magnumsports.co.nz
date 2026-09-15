@@ -16,7 +16,13 @@ library (plus Pillow for the one-off image generation scripts).
 
 ## What's here
 
-41 pages, ~76,000 words of original content.
+41 pages, ~90,000 words of original content.
+
+Every content page carries a **People Also Ask** section built from real search queries —
+4,358 harvested from Google, Bing and DuckDuckGo autosuggest for New Zealand, filtered to NZ
+intent, deduped against each page's FAQ, and answered at snippet length. 240 Q&As across 37
+pages, all included in the pages' `FAQPage` schema. The four pages without one (`/authors/`,
+`/terms/`, `/privacy/`, `/cookie-policy/`) have no genuine query demand to answer.
 
 | Tier | Pages |
 |---|---|
@@ -58,12 +64,16 @@ Output is written in place — this repo *is* the deployed site (GitHub Pages, s
 | `_build/p_guides.py` | Law, tax, payments, methodology |
 | `_build/p_site.py` | About, contact, authors, responsible gambling, terms, privacy, cookies |
 | `_build/p_reviews.py` | Review hub + 19 reviews (`NARR` holds the bespoke per-brand copy) |
+| `_build/paa_data.py` | **People Also Ask** content — 107 real-query Q&As, keyed by page |
 | `_build/build.py` | Orchestrator, sitemap, robots |
 | `assets/css/site.css` | The entire stylesheet (22 KB, no JS) |
 
 ### One-off asset scripts
 
 ```bash
+python3 _build/harvest_queries.py  # re-harvest real user queries from Google (gl=nz),
+                                # Bing (en-NZ) and DuckDuckGo autosuggest -> queries.json
+                                # Takes ~4 minutes. Run before refreshing paa_data.py.
 python3 _build/gen_images.py    # favicons (16→512 + .ico + SVG + apple-touch), OG card,
                                 # author avatars, wordmarks for brands with no vendor artwork
 python3 _build/trim_logos.py    # crops white/transparent borders from brand logos so they
@@ -78,6 +88,10 @@ python3 _build/trim_logos.py    # crops white/transparent borders from brand log
 - **Add or reorder an operator:** edit `_build/operators.json` (`rank` for the casino list,
   `sports_rank` for the betting list) and rebuild. Add bespoke review copy in
   `_build/p_reviews.py` → `NARR`.
+- **Refresh the People Also Ask sections:** run `python3 _build/harvest_queries.py`, inspect
+  `_build/queries.json`, then edit `_build/paa_data.py`. Questions must come from the harvest;
+  answers lead with the direct response in the first sentence, which is what Google lifts for
+  snippets and PAA.
 - **Change a store detail, department or featured product:** `STORE`, `DEPARTMENTS` and
   `FEATURED` in `_build/lib.py`. Departments render as anchored cards on the homepage and feed
   the `OfferCatalog` in the store schema, so adding one updates both.

@@ -7,7 +7,7 @@ def guide(title, desc, path, crumb, h1, lede, eyebrow, body, faq, author, checke
           stats=None, kind="Article", extra=None):
     ex = [crumb_schema([("Home", "/")] + crumb)]
     if faq:
-        ex.append(faq_schema(faq, f"{SITE}{path}#faq"))
+        ex.append(faq_schema(faq + paa_items(path), f"{SITE}{path}#faq"))
     if extra:
         ex += extra
     schema = page_schema(kind, title, desc, path, author=author, extra=ex)
@@ -25,6 +25,7 @@ def guide(title, desc, path, crumb, h1, lede, eyebrow, body, faq, author, checke
     o.append(body)
     if faq:
         o.append(faq_block(faq))
+    o.append(paa_for(path, haze=False))
     o.append('<section class="sec"><div class="wrap"><div class="prose prose--wide">'
              + authorbox(author) + '</div></div></section>')
     o.append(footer())

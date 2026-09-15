@@ -136,7 +136,7 @@ def build():
         extra=[person_schema("tama-whitiora"),
                crumb_schema(cr),
                itemlist_schema(ops, "Best sports betting sites NZ 2026", PATH, "sports"),
-               faq_schema(FAQ, f"{SITE}{PATH}#faq")])
+               faq_schema(FAQ + paa_items(PATH), f"{SITE}{PATH}#faq")])
     o = [head(TITLE, DESC, PATH, schema),
          crumbs([("Home", "/"), ("Online Betting NZ", None)])]
 
@@ -419,6 +419,7 @@ def build():
     o.append('<section id="rg" class="sec" style="padding:0"></section>')
     o.append(rg_block())
     o.append(faq_block(FAQ, "Online betting NZ: frequently asked questions"))
+    o.append(paa_for(PATH, haze=False))
 
     o.append(f'''<section class="sec"><div class="wrap"><div class="prose prose--wide">
 <h2>The bottom line on online betting in New Zealand</h2>

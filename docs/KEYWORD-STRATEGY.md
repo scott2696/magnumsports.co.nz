@@ -143,6 +143,15 @@ do not build a page for any of them until it earns impressions in Search Console
 Every one of these is already answered verbatim in an on-page FAQ carrying `FAQPage` schema.
 That is deliberate — it is the cheapest route to a PAA slot.
 
+**Since the query harvest, this table is no longer the whole picture.** `_build/harvest_queries.py`
+pulls live autosuggest from Google (`gl=nz`), Bing (`en-NZ`) and DuckDuckGo (`nz-en`) — 4,358
+queries at last run, in `_build/queries.json` — and 240 of them are now answered in dedicated
+People Also Ask sections across 37 pages. Work from that file rather than from this table when
+planning new content: it is measured rather than assumed, and it surfaces demand no keyword tool
+groups sensibly (for example the entire `$1 / $5 / $10 deposit casino nz` cluster, and the
+volume of `... nz reddit` suffixes signalling that searchers want peer opinion rather than an
+affiliate page).
+
 | Question | Page carrying the schema |
 |---|---|
 | What is the best online casino site in NZ right now? | `/` |

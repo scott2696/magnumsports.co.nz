@@ -6,8 +6,10 @@ from lib import *
 def simple(title, desc, path, crumb, h1, lede, body, author="tama-whitiora",
            eyebrow=None, kind="WebPage", extra=None, faq=None, noindex=False, show_author=True):
     ex = [crumb_schema([("Home", "/")] + crumb)]
+    if not faq and paa_items(path):
+        ex.append(faq_schema(paa_items(path), f"{SITE}{path}#faq"))
     if faq:
-        ex.append(faq_schema(faq, f"{SITE}{path}#faq"))
+        ex.append(faq_schema(faq + paa_items(path), f"{SITE}{path}#faq"))
     if extra:
         ex += extra
     schema = page_schema(kind, title, desc, path, author=author, extra=ex)
@@ -22,6 +24,7 @@ def simple(title, desc, path, crumb, h1, lede, body, author="tama-whitiora",
     o.append(body)
     if faq:
         o.append(faq_block(faq))
+    o.append(paa_for(path, haze=not faq))
     o.append(footer())
     return write(path, "".join(o))
 
