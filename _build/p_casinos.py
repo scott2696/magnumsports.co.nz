@@ -4,7 +4,7 @@
 reverted to the Magnum Sports outdoors store."""
 from lib import *
 
-TITLE = "Best Online Casino Sites NZ 2026 | Top 16 Tested"
+TITLE = "Best Online Casino Sites NZ 2026 | Top 15 Tested"
 DESC = ("Compare the best online casino sites NZ players can use in 2026. 41 casinos tested "
         "with real NZD, every withdrawal timed. Payouts, bonuses and pokies ranked.")
 PATH = "/online-casinos/"
@@ -16,7 +16,7 @@ FAQ = [
   "every test we ran. The honest answer, though, is that &ldquo;best&rdquo; depends on what you actually want. "
   "Choose <a href='/casino-reviews/kingdom/'>Kingdom</a> if payout speed is the priority, "
   "<a href='/casino-reviews/smash/'>Smash</a> if you intend to clear the welcome bonus and want 10x rather than 40x "
-  "wagering, and <a href='/casino-reviews/rooster-bet/'>Rooster Bet</a> if you want a real sportsbook on the same "
+  "wagering, and <a href='/casino-reviews/madcasino/'>MadCasino</a> if you want a full sportsbook on the same "
   "account. Our full <a href='/how-we-review/'>review methodology</a> explains how each score is built.</p>"),
  ("Are online casinos legal in New Zealand?",
   "<p>Yes, for players. The <strong>Gambling Act 2003</strong> made it an offence to <em>operate</em> remote "
@@ -46,9 +46,9 @@ FAQ = [
  ("Can I deposit and withdraw in New Zealand dollars?",
   "<p>Yes at most, but not all, of the sites on this page. Native NZD accounts matter more than people realise: "
   "if a casino holds your balance in euros or US dollars, you pay a conversion spread of roughly 2&ndash;3% going "
-  "in <em>and</em> coming out, which can quietly cost more than the bonus is worth. Spinjo, Kingdom, Rooster Bet, "
-  "Fortune Play, Smash, Rivo, Lucky Vibe, Lucky Circus, MadCasino and Bet&amp;Play all run NZD balances. CrownSlots "
-  "and Gunsbet are euro-denominated, and Spino is crypto-only. Our "
+  "in <em>and</em> coming out, which can quietly cost more than the bonus is worth. Spinjo, Kingdom, Fortune Play, "
+  "Smash, Rivo, Lucky Vibe, Lucky Circus and MadCasino all run NZD balances. CrownSlots is euro-denominated, "
+  "Spino is crypto-only, and Ivibet, Hellspin, Slotsgem and Roby settle in other currencies. Our "
   "<a href='/payment-methods/'>NZ payment methods guide</a> lists what works from a New Zealand bank account.</p>"),
  ("Does POLi still work for casino deposits in NZ?",
   "<p>Rarely, and we would not plan around it. POLi has always been <strong>deposit-only</strong>, so it can never "
@@ -66,7 +66,7 @@ FAQ = [
   "<a href='/online-casinos/bonuses/'>casino bonuses guide</a>.</p>"),
  ("How many online casinos accept New Zealand players?",
   "<p>Several hundred will take a registration from a New Zealand IP address. Far fewer are worth your time. We "
-  "assessed 41 this year and publish 16, having excluded the rest for slow or refused payouts, unverifiable "
+  "assessed 41 this year and publish 15 casinos and four sportsbooks, having excluded the rest for slow or refused payouts, unverifiable "
   "licensing, bonus terms that contradict the advertised offer, or an inability to handle NZD without punitive "
   "conversion. That number will fall further from <strong>1 December 2026</strong>, when operators without a New "
   "Zealand licence application must stop serving New Zealanders.</p>"),
@@ -126,32 +126,42 @@ FAQ = [
   "top three for exactly this reason.</p>"),
 ]
 
-CMP_ROWS = [
- ["<a href='/casino-reviews/spinjo/'>Spinjo</a>", "9.3", "Best overall", "2–6 hrs", "40x bonus", "NZ$30",
-  "<span class='t-yes'>Yes</span>", "<span class='t-yes'>Yes</span>", "Curaçao GCB"],
- ["<a href='/casino-reviews/kingdom/'>Kingdom</a>", "9.1", "Fastest payouts", "2–4 hrs", "30x bonus", "NZ$20",
-  "<span class='t-yes'>Yes</span>", "<span class='t-yes'>Yes</span>", "Anjouan"],
- ["<a href='/casino-reviews/rooster-bet/'>Rooster Bet</a>", "9.0", "Casino + sportsbook", "2–6 hrs", "40x bonus", "NZ$25",
-  "<span class='t-yes'>Yes</span>", "<span class='t-yes'>Yes</span>", "Curaçao GCB"],
- ["<a href='/casino-reviews/crownslots/'>CrownSlots</a>", "8.9", "Biggest bonus", "1–6 hrs", "40x bonus", "NZ$35",
-  "<span class='t-no'>EUR only</span>", "<span class='t-yes'>Yes</span>", "Curaçao"],
- ["<a href='/casino-reviews/fortune-play/'>Fortune Play</a>", "8.8", "Crash &amp; Aviator", "2–8 hrs", "40x bonus", "NZ$25",
-  "<span class='t-yes'>Yes</span>", "<span class='t-yes'>Yes</span>", "Curaçao GCB"],
- ["<a href='/casino-reviews/smash/'>Smash</a>", "8.8", "Lowest wagering", "3–8 hrs", "<b>10x</b> dep+bonus", "NZ$20",
-  "<span class='t-yes'>Yes</span>", "<span class='t-yes'>Yes</span>", "Anjouan"],
- ["<a href='/casino-reviews/lucky7even/'>Lucky7even</a>", "8.7", "No-deposit spins", "2–8 hrs", "40x / 50x spins", "NZ$20",
-  "<span class='t-yes'>Yes</span>", "<span class='t-yes'>Yes</span>", "Curaçao GCB"],
- ["<a href='/casino-reviews/rivo/'>Rivo</a>", "8.6", "Best on mobile", "3–8 hrs", "35x bonus", "NZ$25",
-  "<span class='t-yes'>Yes</span>", "<span class='t-yes'>Yes</span>", "Anjouan"],
- ["<a href='/casino-reviews/lucky-vibe/'>Lucky Vibe</a>", "8.5", "Best VIP scheme", "4–12 hrs", "40x bonus", "NZ$25",
-  "<span class='t-yes'>Yes</span>", "<span class='t-yes'>Yes</span>", "Curaçao GCB"],
- ["<a href='/casino-reviews/lucky-circus/'>Lucky Circus</a>", "8.4", "Low stakes", "4–12 hrs", "35x bonus", "<b>NZ$10</b>",
-  "<span class='t-yes'>Yes</span>", "<span class='t-yes'>Yes</span>", "Curaçao GCB"],
- ["<a href='/casino-reviews/spino/'>Spino</a>", "8.3", "Zero wagering", "10 min–2 hrs", "<b>0x</b> crypto offer", "20 USDT",
-  "<span class='t-no'>Crypto only</span>", "<span class='t-yes'>Yes</span>", "Tobique"],
- ["<a href='/casino-reviews/roby-casino/'>Roby</a>", "8.1", "Large match bonus", "6–24 hrs", "45x bonus", "NZ$30",
-  "<span class='t-no'>No</span>", "<span class='t-yes'>Yes</span>", "<span class='t-no'>Not published</span>"],
-]
+CMP_ROWS_EXTRA = {
+ "crownslots": ("Biggest bonus", "<span class='t-no'>EUR only</span>"),
+ "spinjo": ("Best overall", "<span class='t-yes'>Yes</span>"),
+ "madcasino": ("Casino + sports, one wallet", "<span class='t-yes'>Yes</span>"),
+ "kingdom": ("Fastest payouts", "<span class='t-yes'>Yes</span>"),
+ "smash": ("Lowest wagering", "<span class='t-yes'>Yes</span>"),
+ "rivo": ("Best on mobile", "<span class='t-yes'>Yes</span>"),
+ "lucky7even": ("No-deposit spins", "<span class='t-yes'>Yes</span>"),
+ "lucky-vibe": ("Best VIP scheme", "<span class='t-yes'>Yes</span>"),
+ "fortune-play": ("Crash &amp; Aviator", "<span class='t-yes'>Yes</span>"),
+ "lucky-circus": ("Low stakes", "<span class='t-yes'>Yes</span>"),
+ "roby-casino": ("Large match bonus", "<span class='t-no'>No</span>"),
+ "spino": ("Zero wagering", "<span class='t-no'>Crypto only</span>"),
+ "ivibet": ("Live dealer range", "<span class='t-no'>No</span>"),
+ "hellspin": ("Pokies tournaments", "<span class='t-no'>No</span>"),
+ "slotsgem": ("Simplest lobby", "<span class='t-no'>No</span>"),
+}
+
+
+def cmp_rows():
+    rows = []
+    for c in CASINOS:
+        best, nzd = CMP_ROWS_EXTRA[c["slug"]]
+        wag = c["wagering"]
+        if c["slug"] in ("smash", "spino"):
+            wag = "<b>" + wag.split(" ")[0] + "</b> " + " ".join(wag.split(" ")[1:])
+        lic = (c["licence"] if c["operator_co"] != "Not published"
+               else "<span class='t-no'>Not published</span>")
+        rows.append([
+            f'<a href="/casino-reviews/{c["slug"]}/">{esc(c["short"])}</a>',
+            f'{c["rating"]}', best, esc(c["payout_crypto"]), wag,
+            esc(c["min_deposit"]), nzd,
+            "<span class='t-yes'>Yes</span>" if c["crypto"] else "<span class='t-no'>No</span>",
+            lic])
+    return rows
+
 
 
 def build():
@@ -170,7 +180,7 @@ def build():
 <span class="eyebrow">{icon("shield")} 41 sites tested &middot; Updated {UPDATED_NZ}</span>
 <h1>Best Online Casino Sites NZ 2026</h1>
 {byline()}
-<p class="lede">We opened and funded accounts at 41 online casinos this year using our own New Zealand dollars, then timed every single withdrawal with a stopwatch. These 16 are the sites that paid us &mdash; ranked on payout speed, NZD banking, pokies range and bonus terms a Kiwi player can genuinely clear.</p>
+<p class="lede">We opened and funded accounts at 41 online casinos this year using our own New Zealand dollars, then timed every single withdrawal with a stopwatch. These 15 are the sites that paid us, each scored on payout speed, NZD banking, pokies range and bonus terms a Kiwi player can genuinely clear.</p>
 <div class="hero-stats">
 <div class="hero-stat"><b>41</b><span>Sites tested</span></div>
 <div class="hero-stat"><b>NZ$14,800</b><span>Our own money staked</span></div>
@@ -185,9 +195,11 @@ def build():
     o.append(leaderboard(
         ops, "casino",
         heading="The best online casino sites NZ players can use in 2026",
-        intro="Ranked by our own testing, not by what operators pay. Every site below accepts New Zealand "
-              "players, and every withdrawal time shown is one we recorded ourselves rather than one the "
-              "operator advertises."))
+        intro="Every site below took a real deposit from us and paid a real withdrawal back, and each "
+              "carries its score from our <a href='/how-we-review/'>published methodology</a>. This is our "
+              "editorial line-up rather than a strict score ladder &mdash; compare the scores row by row "
+              "rather than assuming the top entry is the highest-rated. Every withdrawal time shown is one "
+              "we recorded ourselves, not one the operator advertises."))
 
     o.append(f'''<section class="sec sec--haze"><div class="wrap">
 <div class="sec-head"><span class="kicker">Straight to it</span><h2>Best NZ online casino by category</h2>
@@ -195,7 +207,7 @@ def build():
 {picks([
  ("Best overall","spinjo","Roughly 8,000 games, native NZD accounts and consistently fast crypto payouts. The most complete single casino account a New Zealander can open in 2026."),
  ("Fastest payouts","kingdom","Two to four hours on crypto, no operator fee, and a 30x wagering requirement that is genuinely better than the 40x market norm."),
- ("Best casino + sportsbook","rooster-bet","One wallet, one verification, and the deepest rugby union and rugby league markets of any casino-led sportsbook we tested."),
+ ("Best casino + sportsbook","madcasino","Genuinely two products rather than a casino with a token betting tab, sharing one wallet and one verification."),
  ("Best bonus terms","smash","10x wagering. Even applied to deposit plus bonus, the turnover you need is a fraction of what a 40x bonus-only requirement demands."),
  ("Best for pokies","spinjo","90-plus studios, including every Pragmatic Play, Hacksaw, Nolimit City and Push Gaming release that matters, with proper volatility filtering."),
  ("Best no-deposit offer","lucky7even","20 free spins on registration, before you put a cent in. Rare in 2026, and the only genuine look-before-you-pay offer on this list."),
@@ -208,7 +220,7 @@ def build():
     o.append(f'''<section class="sec"><div class="wrap">
 <div class="sec-head"><span class="kicker">Side by side</span><h2>NZ online casino comparison table</h2>
 <p>The five numbers that decide whether a casino suits you, in one place. Payout times are the crypto figures we recorded ourselves; card and bank withdrawals take one to five business days everywhere.</p></div>
-{table(["Casino","Score","Best for","Crypto payout","Wagering","Min deposit","NZD accounts","Crypto","Licence"], CMP_ROWS, minw=1000)}
+{table(["Casino","Score","Best for","Crypto payout","Wagering","Min deposit","NZD accounts","Crypto","Licence"], cmp_rows(), minw=1000)}
 <p style="font-size:.85rem;color:var(--mute)">Wagering shown is the welcome bonus requirement. &ldquo;Bonus&rdquo; means the multiplier applies to the bonus amount alone; &ldquo;dep+bonus&rdquo; means it applies to your deposit as well, which roughly doubles the turnover required.</p>
 </div></section>
 ''')
@@ -375,14 +387,14 @@ def build():
 
     o.append(band(
         "Not sure where to start?",
-        "If you want one recommendation rather than sixteen: Spinjo for the widest game range with NZD banking, "
+        "If you want one recommendation rather than fifteen: Spinjo for the widest game range with NZD banking, "
         "or Kingdom if getting paid quickly matters more to you than lobby size.",
         "See our #1 pick", BY["spinjo"]["casino_url"], external=True))
 
     o.append(f'''<section class="sec"><div class="wrap"><div class="prose prose--wide">
 <span class="kicker">Sport</span>
 <h2>Casino and sports betting on one account</h2>
-<p>Six of the sites on this page run a full sportsbook alongside the casino on a single wallet and a single verification, which removes a genuine friction point: no moving money between products, no second ID check, no second withdrawal queue. <a href="/casino-reviews/rooster-bet/">Rooster Bet</a> has the deepest rugby union and rugby league coverage of the group, <a href="/casino-reviews/betandplay/">Bet&amp;Play</a> the best in-play interface, and <a href="/casino-reviews/kingdom/">Kingdom</a> the strongest combined welcome offer across both products.</p>
+<p>Eight of the sites on this page run a full sportsbook alongside the casino on a single wallet and a single verification, which removes a genuine friction point: no moving money between products, no second ID check, no second withdrawal queue. <a href="/casino-reviews/kingdom/">Kingdom</a> has the strongest combined welcome offer across both products, and <a href="/casino-reviews/madcasino/">MadCasino</a>, <a href="/casino-reviews/smash/">Smash</a>, <a href="/casino-reviews/rivo/">Rivo</a>, <a href="/casino-reviews/lucky-vibe/">Lucky Vibe</a>, <a href="/casino-reviews/fortune-play/">Fortune Play</a>, <a href="/casino-reviews/roby-casino/">Roby</a> and <a href="/casino-reviews/spino/">Spino</a> all do the same.</p>
 <p>Before you open one, read our <a href="/online-betting/">online betting in New Zealand guide</a>. The legal position for sports and racing betting is materially different from the position for casino games following the Racing Industry Amendment Act 2025, and you should understand that difference before you place a bet rather than after. It also ranks <a href="/online-betting/#sites">every sports betting site</a> that still accepts New Zealanders, on market depth, odds and betting features.</p>
 </div></div></section>
 ''')

@@ -431,7 +431,7 @@ def how_we_review():
     ]
     body = f'''<section class="sec"><div class="wrap"><div class="prose prose--wide">
 <h2>What we actually do</h2>
-<p>Most casino comparison sites are written from operator media kits. We open accounts, deposit our own New Zealand dollars, play, request withdrawals, and time them. In 2026 that meant <strong>41 operators, approximately NZ$14,800 of our own money staked, and 168 timed withdrawals</strong>. Sixteen casinos and twelve sportsbooks survived to publication.</p>
+<p>Most casino comparison sites are written from operator media kits. We open accounts, deposit our own New Zealand dollars, play, request withdrawals, and time them. In 2026 that meant <strong>41 operators, approximately NZ$14,800 of our own money staked, and 168 timed withdrawals</strong>. Fifteen casinos and four sportsbooks survived to publication, and each is listed once &mdash; on the page for the product it actually is, rather than on both.</p>
 {keyfacts([("Operators assessed", "41"), ("Published", "19"), ("Excluded", "22"),
            ("Withdrawals timed", "168"), ("Own funds staked", "~NZ$14,800"), ("Re-test cycle", "Quarterly")])}
 

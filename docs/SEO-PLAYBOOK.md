@@ -11,6 +11,14 @@ operating cadence needed to hold position once won.
 `/online-betting/` and `/best-sports-betting-sites/` were merged: they answered the same query
 in two places and split the same links. One page now holds both keyword sets.
 
+**Each operator is listed once.** The toplists follow the order of the supplied operator table,
+and every operator appears on exactly one of them — the casino page (15) or the betting page (4)
+— decided by which affiliate link exists for it. Nine brands run both products; they sit on the
+casino list because that is where their link points, and their sportsbook is described on their
+review page rather than duplicated into the betting toplist. Because the line-up follows that
+commercial order rather than descending score, the casino page says so explicitly above the
+table and invites the reader to compare scores row by row.
+
 ```
 /                                   ← MAGNUM SPORTS STORE · Stratford, Taranaki
 │                                     outdoors departments, then sports betting
@@ -223,7 +231,7 @@ schema text, so the schema copy is stripped of markup and reads as prose.
   truncates.
 - All 42 titles and descriptions are **unique**; no two pages compete on the same promise.
 - Titles lead with the keyword and close with a differentiator that is a *number*:
-  `| Top 16 Tested`, `| Rated 9.3/10`, `| Verified Offers`, `| 19 Sites Tested With Our Money`.
+  `| Top 15 Tested`, `| Rated 9.3/10`, `| Verified Offers`, `| 19 Sites Tested With Our Money`.
 - Descriptions front-load the proof: "41 casinos tested with real NZD, every withdrawal timed."
   This is the CTR lever competitors leave unused — they all promise "expert reviews."
 - Year in title where the query is year-sensitive; rebuild annually (single constant in

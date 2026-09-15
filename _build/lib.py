@@ -84,8 +84,10 @@ UPDATED_NZ = "14/09/2026"
 
 OPS = json.load(open(os.path.join(ROOT, "_build", "operators.json")))
 BY = {o["slug"]: o for o in OPS}
-CASINOS = sorted([o for o in OPS if o["casino"]], key=lambda o: o["rank"])
-SPORTS = sorted([o for o in OPS if o["sports"]], key=lambda o: o.get("sports_rank", 99))
+# One list per operator, in the order the operator table was supplied.
+OPS.sort(key=lambda o: o["order"])
+CASINOS = [o for o in OPS if o["list"] == "casino"]
+SPORTS = [o for o in OPS if o["list"] == "sports"]
 
 AUTHORS = {
     "tama-whitiora": {
@@ -218,7 +220,7 @@ IC = {
 META = {
  "/": ("Magnum Sports | Outdoors Store, Stratford Taranaki",
        "Hunting, fishing, camping and outdoor gear in Stratford, Taranaki. Airguns, ammunition, firearms, apparel, footwear and tackle. Call 06 765 7248."),
- "/online-casinos/": ("Best Online Casino Sites NZ 2026 | Top 16 Tested",
+ "/online-casinos/": ("Best Online Casino Sites NZ 2026 | Top 15 Tested",
        "Compare the best online casino sites NZ players can use in 2026. 41 casinos tested with real NZD, every withdrawal timed. Payouts, bonuses and pokies ranked."),
  "/online-pokies/": ("Online Pokies NZ 2026 | Best Real Money Pokies Sites",
        "The best online pokies NZ sites for real money in 2026. Compare RTP, volatility, studios and free spins, plus how online pokies beat NZ pub machines."),
@@ -681,7 +683,7 @@ def itemlist_schema(ops, name, path, mode="casino"):
                             "logo": SITE + o["logo"]}})
     return {"@type": "ItemList", "@id": f"{SITE}{path}#ranking", "name": name,
             "numberOfItems": len(ops),
-            "itemListOrder": "https://schema.org/ItemListOrderDescending",
+            "itemListOrder": "https://schema.org/ItemListUnordered",
             "itemListElement": el}
 
 

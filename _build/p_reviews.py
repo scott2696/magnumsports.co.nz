@@ -260,7 +260,7 @@ def review(o):
 
 def hub():
     rows = []
-    for o in sorted(OPS, key=lambda x: -x["rating"]):
+    for o in OPS:
         tags = []
         if o["casino"]:
             tags.append("Casino")
@@ -275,7 +275,7 @@ def hub():
             esc(o["wagering"]), esc(o["payout_crypto"]), esc(o["licence"])])
 
     cardlist = []
-    for o in sorted(OPS, key=lambda x: -x["rating"]):
+    for o in OPS:
         url = o["casino_url"] or o["betting_url"]
         cardlist.append(f'''<div class="card card--link">
 <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
@@ -310,7 +310,7 @@ def hub():
     ]
     schema = page_schema("CollectionPage", HUB_TITLE, HUB_DESC, HUB_PATH,
                          extra=[crumb_schema([("Home", "/"), ("Casino Reviews", HUB_PATH)]),
-                                itemlist_schema(sorted(OPS, key=lambda x: -x["rating"]),
+                                itemlist_schema(OPS,
                                                 "Casino and betting site reviews", HUB_PATH),
                                 faq_schema(faq, f"{SITE}{HUB_PATH}#faq")])
     o = [head(HUB_TITLE, HUB_DESC, HUB_PATH, schema),
@@ -329,7 +329,7 @@ def hub():
 ''')
     o.append('<section class="sec" style="padding-bottom:0"><div class="wrap">' + disclosure() + '</div></section>')
     o.append(f'''<section class="sec"><div class="wrap">
-<div class="sec-head"><span class="kicker">All reviews</span><h2>Every site we have tested, scored and ranked</h2></div>
+<div class="sec-head"><span class="kicker">All reviews</span><h2>Every site we have tested and scored</h2></div>
 {table(["Site","Score","Best for","Products","Welcome offer","Wagering","Crypto payout","Licence"], rows, minw=1080)}
 </div></section>
 <section class="sec sec--haze"><div class="wrap">

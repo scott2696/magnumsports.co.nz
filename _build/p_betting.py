@@ -40,8 +40,8 @@ FAQ = [
  ("What is the best sports betting site in NZ?",
   "<p>For overall market depth and rugby coverage, <a href='/casino-reviews/rooster-bet/'>Rooster Bet</a> was the "
   "strongest offshore book we tested, scoring 9.0. For in-play betting, "
-  "<a href='/casino-reviews/betandplay/'>Bet&amp;Play</a> is clearly ahead. For the fastest payouts, "
-  "<a href='/casino-reviews/kingdom/'>Kingdom</a> at two to four hours on crypto. And for New Zealand "
+  "<a href='/casino-reviews/betandplay/'>Bet&amp;Play</a> is clearly ahead, and it also has the fairest free "
+  "bet terms here. For the biggest welcome offer, <a href='/casino-reviews/gunsbet/'>Gunsbet</a>. And for New Zealand "
   "thoroughbred and harness racing, TAB NZ is both the authorised operator and, on the merits, the better "
   "product because the pools are domestic. Read the legal section above before opening any offshore account.</p>"),
  ("Is online betting legal in New Zealand?",
@@ -82,17 +82,19 @@ FAQ = [
   "board because liquidity is high; the difference between books shows up on the derivative markets &mdash; "
   "handicaps, margins, try-scorers &mdash; rather than the head-to-head.</p>"),
  ("Can I bet in New Zealand dollars?",
-  "<p>At TAB NZ, always. At offshore books, sometimes. <a href='/casino-reviews/rooster-bet/'>Rooster Bet</a>, "
-  "<a href='/casino-reviews/betandplay/'>Bet&amp;Play</a>, <a href='/casino-reviews/kingdom/'>Kingdom</a>, Smash, "
-  "Rivo, MadCasino and Lucky Vibe hold NZD balances. <a href='/casino-reviews/gunsbet/'>Gunsbet</a> is euro-only, "
-  "which costs a New Zealander roughly 2&ndash;3% on the way in and again on the way out. On a NZ$1,000 turnover "
-  "that spread is larger than the margin difference between most books.</p>"),
+  "<p>At TAB NZ, always. At offshore books, sometimes. <a href='/casino-reviews/rooster-bet/'>Rooster Bet</a> and "
+  "<a href='/casino-reviews/betandplay/'>Bet&amp;Play</a> both hold NZD balances. "
+  "<a href='/casino-reviews/gunsbet/'>Gunsbet</a> is euro-only and "
+  "<a href='/casino-reviews/ivibet-sportsbook/'>Ivibet Sportsbook</a> settles in other currencies, which costs "
+  "a New Zealander roughly 2&ndash;3% on the way in and again on the way out. On a NZ$1,000 turnover that "
+  "spread is larger than the margin difference between most books.</p>"),
  ("What is the fastest-paying betting site for Kiwis?",
-  "<p><a href='/casino-reviews/kingdom/'>Kingdom</a> at two to four hours on crypto, with "
-  "<a href='/casino-reviews/rooster-bet/'>Rooster Bet</a> and <a href='/casino-reviews/betandplay/'>Bet&amp;Play</a> "
-  "close behind at two to eight hours. NZD bank withdrawals take one to three business days everywhere. "
-  "Unverified accounts are the main cause of delay, not the payment method &mdash; upload your ID on the day you "
-  "register.</p>"),
+  "<p><a href='/casino-reviews/rooster-bet/'>Rooster Bet</a> at two to six hours on crypto, with "
+  "<a href='/casino-reviews/betandplay/'>Bet&amp;Play</a> close behind at two to eight. "
+  "<a href='/casino-reviews/gunsbet/'>Gunsbet</a> is the slowest of the four because it has no crypto rail at "
+  "all &mdash; e-wallet only, at 12 to 24 hours. NZD bank withdrawals take one to three business days "
+  "everywhere. Unverified accounts are the main cause of delay, not the payment method &mdash; upload your ID "
+  "on the day you register.</p>"),
  ("Do I pay tax on betting winnings in New Zealand?",
   "<p>No, not on recreational betting. Inland Revenue does not treat gambling winnings as assessable income, so a "
   "winning multi on the All Blacks is not declarable. The exceptions are the same as for casino play: professional "
@@ -139,7 +141,7 @@ def build():
          crumbs([("Home", "/"), ("Online Betting NZ", None)])]
 
     o.append(f'''<section class="hero"><div class="wrap">
-<span class="eyebrow">{icon("scale")} Law current to {UPDATED_NZ} &middot; 12 books tested</span>
+<span class="eyebrow">{icon("scale")} Law current to {UPDATED_NZ} &middot; 4 books listed</span>
 <h1>Online Betting NZ: Best Sports Betting Sites 2026</h1>
 {byline("daniel-ashworth", "tama-whitiora")}
 <p class="lede">New Zealand&rsquo;s online betting rules changed fundamentally in June 2025 and most comparison sites have not caught up. This page explains exactly what the law now says, what it means for you rather than for operators, and ranks every sports betting site that still accepts New Zealand punters &mdash; with the risks stated plainly rather than buried.</p>
@@ -217,21 +219,19 @@ def build():
     o.append(leaderboard(
         ops, "sports", hid="sites",
         heading="Best sports betting sites for New Zealand punters",
-        intro="Every book below currently accepts New Zealand registrations, and each score comes from our "
-              "own testing of market depth, price, in-play quality, banking and withdrawal speed. None of "
-              "them except TAB NZ is authorised to offer betting here &mdash; read the section above before "
-              "you open an account."))
+        intro="These four books currently accept New Zealand registrations and run a sportsbook as their "
+              "own product rather than as a tab on a casino. Each score comes from our own testing of market "
+              "depth, price, in-play quality, banking and withdrawal speed. None of them except TAB NZ is "
+              "authorised to offer betting here &mdash; read the section above before you open an account."))
 
     # --- PICKS
     o.append(f'''<section id="picks" class="sec sec--haze"><div class="wrap">
 <div class="sec-head"><span class="kicker">Straight to it</span><h2>Best betting site by what you want</h2>
 <p>No single book leads on everything, and the right account depends entirely on what you bet on and how often you cash out.</p></div>
 {picks([
- ("Best overall","rooster-bet","The deepest rugby union and rugby league markets of any offshore book, a real casino attached on the same wallet, and payouts inside six hours."),
- ("Best in-play","betandplay","Live prices refresh faster than anything else we tested and bets are accepted without the constant freezes that ruin live betting elsewhere."),
- ("Biggest welcome offer","gunsbet","285% up to €7,500 plus 285 free spins, from an operator running since 2016. Euro-denominated, so budget for the conversion spread."),
- ("Best bonus terms","smash","250% up to NZ$9,800 at 15x — a realistic turnover requirement on a large matched offer, which is a rare combination."),
- ("Fastest payouts","kingdom","Two to four hours on crypto with no operator fee, and one wallet shared with a 7,000-game casino."),
+ ("Best overall &amp; fastest payouts","rooster-bet","The deepest rugby union and rugby league markets of any offshore book, a real casino attached on the same wallet, and payouts inside six hours."),
+ ("Best in-play","betandplay","Live prices refresh faster than anything else we tested and bets are accepted without the constant freezes that ruin live betting elsewhere. The fairest free bet terms here too, at 5x on odds of 1.80 or better."),
+ ("Biggest welcome offer","gunsbet","285% up to €7,500 plus 285 free spins, from an operator running since 2016. Euro-denominated and no crypto, so budget for the conversion spread."),
  ("Best niche markets","ivibet-sportsbook","Netball, handball and table tennis priced properly rather than ignored. Worth an account if you bet outside the mainstream."),
 ])}
 </div></section>
@@ -253,7 +253,7 @@ def build():
             sports_cov, live, cash, nzd, esc(pay)])
     o.append(f'''<section id="compare" class="sec"><div class="wrap">
 <div class="sec-head"><span class="kicker">Side by side</span><h2>Online betting sites NZ compared</h2>
-<p>Every book we tested, on the ten things that decide which account is worth opening &mdash; with the free bet turnover condition shown rather than hidden. Scroll the table sideways on a phone.</p></div>
+<p>All four books, on the ten things that decide which account is worth opening &mdash; with the free bet turnover condition shown rather than hidden. Scroll the table sideways on a phone.</p></div>
 {table(["Betting site","Score","Best for","Welcome offer","Turnover condition","Sports covered","Live betting","Cash out","NZD","Payout speed"], rows, minw=1320)}
 <p style="font-size:.85rem;color:var(--mute)">Payout speed is the cryptocurrency figure we recorded, except at Gunsbet which has no crypto rail &mdash; that figure is e-wallet. NZD bank withdrawals take one to three business days everywhere.</p>
 </div></section>
@@ -331,7 +331,7 @@ def build():
 <p>Betting bonuses are structured differently from casino bonuses and are, on the whole, better value &mdash; but only if you read the turnover condition rather than the headline.</p>
 <h3>The three shapes a betting offer takes</h3>
 <ul>
-<li><strong>Matched deposit.</strong> The book matches a percentage of your first deposit in bonus funds, which must be turned over a set number of times before anything can be withdrawn. Gunsbet&rsquo;s 285% and Smash&rsquo;s 250% are this shape. Large headline, substantial turnover.</li>
+<li><strong>Matched deposit.</strong> The book matches a percentage of your first deposit in bonus funds, which must be turned over a set number of times before anything can be withdrawn. Gunsbet&rsquo;s 285% is this shape. Large headline, substantial turnover.</li>
 <li><strong>Free bet / bet credit.</strong> You place a qualifying bet, and the book credits a free bet of equal value. Crucially, the <strong>stake is usually not returned</strong> with your winnings: a NZ$50 free bet at odds of 2.00 returns NZ$50, not NZ$100. Bet&amp;Play and Rooster Bet use this shape.</li>
 <li><strong>Risk-free / bet insurance.</strong> If your first bet loses, you are refunded &mdash; almost always in bonus funds with their own turnover requirement, not in cash. Read whether the refund is cash or credit, because it changes the value by roughly half.</li>
 </ul>
@@ -344,7 +344,7 @@ def build():
  ["Cashed-out bets count","<span class='t-yes'>Yes</span>","—","<span class='t-no'>No (the norm)</span>"],
  ["Max win from bonus","<span class='t-yes'>Uncapped</span>","10x+ bonus","<span class='t-no'>Under 5x bonus</span>"],
 ], minw=680)}
-<p>By that standard, <a href="/casino-reviews/betandplay/">Bet&amp;Play&rsquo;s 5x at odds of 1.80 or better</a> is the strongest offer available to New Zealanders on this page, and <a href="/casino-reviews/smash/">Smash&rsquo;s 15x</a> is the most reasonable of the large matched-deposit offers. Gunsbet&rsquo;s 285% at 40x is a very large number attached to a very large amount of work.</p>
+<p>By that standard, <a href="/casino-reviews/betandplay/">Bet&amp;Play&rsquo;s 5x at odds of 1.80 or better</a> is comfortably the strongest offer available to New Zealanders here, with <a href="/casino-reviews/rooster-bet/">Rooster Bet&rsquo;s 6x free bet</a> next. <a href="/casino-reviews/ivibet-sportsbook/">Ivibet&rsquo;s 5x at odds of 2.00</a> is modest but clearable. Gunsbet&rsquo;s 285% at 40x is a very large number attached to a very large amount of work.</p>
 <div class="note"><b>A note on multi and acca insurance</b>
 <p>Several books offer &ldquo;money back if one leg lets you down&rdquo; on multis of four or more selections. These are genuinely decent promotions when the refund is cash and the minimum odds per leg are around 1.40. They are close to worthless when the refund is a bonus bet with its own 5x turnover attached. The distinction is one line in the terms and it changes the value completely.</p></div>
 </div></div></section>
@@ -390,7 +390,7 @@ def build():
 <h2>Betting on your phone in New Zealand</h2>
 <p>Almost all New Zealand betting turnover happens on a phone, and almost no offshore bookmaker ships an app to the New Zealand App Store or Google Play, because both platforms restrict real-money gambling apps here. That is not the problem it sounds like.</p>
 <p>What operators build instead is a <strong>progressive web app</strong> &mdash; a mobile site that you add to your home screen from the browser share menu, which then opens full-screen with no address bar and behaves like a native app. It does not need an app store account, it never asks you to install an update, and it takes about ten seconds to set up. On iOS: Safari, share button, <em>Add to Home Screen</em>. On Android: Chrome, menu, <em>Install app</em> or <em>Add to Home screen</em>.</p>
-<p>What to check before you commit to a book on mobile: whether the bet slip stays reachable one-handed, whether live prices update without a manual refresh, whether the deposit flow works without bouncing you out to a broken bank redirect, and whether you can complete a withdrawal entirely on the phone. We test all four. <a href="/casino-reviews/rivo/">Rivo</a> had the best mobile build of any operator we looked at, with <a href="/casino-reviews/rooster-bet/">Rooster Bet</a> close behind.</p>
+<p>What to check before you commit to a book on mobile: whether the bet slip stays reachable one-handed, whether live prices update without a manual refresh, whether the deposit flow works without bouncing you out to a broken bank redirect, and whether you can complete a withdrawal entirely on the phone. We test all four. <a href="/casino-reviews/rooster-bet/">Rooster Bet</a> had the best mobile build of the four books here, and <a href="/casino-reviews/betandplay/">Bet&amp;Play</a> handles a patchy connection best &mdash; it queues the bet and confirms on reconnection rather than simply failing.</p>
 <p>One New Zealand-specific point: mobile data coverage outside the main centres is variable, and a betting interface that assumes constant connectivity will reject bets on a patchy 4G signal. Books that queue the bet and confirm on reconnection handle this far better than those that simply fail. It is a small thing that matters if you bet from a farm, a bach or a car park at a provincial ground.</p>
 </div></div></section>
 ''')
@@ -401,7 +401,7 @@ def build():
 <p>With no New Zealand regulator standing behind an offshore book, the due diligence falls to you. These are the checks we run on every operator, and you can run them in about five minutes.</p></div>
 <ol class="steps">
 <li><h4>Find the licence number, then verify it</h4><p>It should be in the footer with a number, not just a badge. Take the number to the regulator&rsquo;s public register &mdash; the Curaçao Gaming Control Board maintains one &mdash; and confirm it is live and matches the company named. A badge image proves nothing; anyone can host a PNG. Any book that does not publish a number is an immediate no.</p></li>
-<li><h4>Identify the operating company</h4><p>You are looking for a named legal entity and a registered address, usually in the terms and conditions. Dama N.V., Rabidi N.V. and Vertikal N.V. are all real companies with traceable histories. &ldquo;Not published&rdquo; is a genuine red flag, and it is why <a href="/casino-reviews/roby-casino/">Roby</a> is marked down on this site.</p></li>
+<li><h4>Identify the operating company</h4><p>You are looking for a named legal entity and a registered address, usually in the terms and conditions. Dama N.V., Rabidi N.V. and Vertikal N.V. are all real companies with traceable histories. &ldquo;Not published&rdquo; is a genuine red flag, and an operator that will not name the company holding its licence is one we mark down wherever it appears on this site.</p></li>
 <li><h4>Read the withdrawal terms before you deposit</h4><p>Specifically: the weekly and monthly withdrawal ceilings, whether withdrawals are processed on weekends, whether a fee applies below a threshold, and whether the book reserves a right to pay large wins in instalments. All of that is in the T&amp;Cs and none of it is in the marketing.</p></li>
 <li><h4>Complete verification on day one</h4><p>Upload a New Zealand driver licence or passport, a proof of address dated within three months, and a screenshot of your payment method, before you have a balance worth withdrawing. Almost every &ldquo;they won&rsquo;t pay me&rdquo; story we investigate is an incomplete KYC file discovered at the worst possible moment.</p></li>
 <li><h4>Test with a small withdrawal early</h4><p>Deposit, place a modest bet, and withdraw whatever is left within the first week. You are buying information about how this operator behaves when it owes you money, and the cost of that information is essentially zero. We do exactly this at every book we review.</p></li>
