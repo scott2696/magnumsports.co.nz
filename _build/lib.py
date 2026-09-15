@@ -794,6 +794,66 @@ def itemlist_schema(ops, name, path, mode="casino"):
             "itemListElement": el}
 
 
+def licence_tracker():
+    """Live status of the NZ online casino licensing process.
+
+    Nothing here is hand-written: every date, status and countdown is derived
+    from _build/licensing.py at build time, so the module cannot quietly go
+    stale between rebuilds.
+    """
+    import licensing as L
+
+    rows = []
+    for d, title, detail, kind in L.STAGES:
+        st = L.status_of(d, kind)
+        when = d.strftime("%-d %b %Y")
+        if st == "estimate":
+            when = "Early " + d.strftime("%Y")
+        note = ""
+        if st == "next":
+            note = f'<span class="lt-in">in {L.days_to(d)} days</span>'
+        elif st == "done":
+            note = '<span class="lt-in lt-in--done">complete</span>'
+        rows.append(
+            f'<li class="lt-row lt-row--{st}">'
+            f'<span class="lt-when">{esc(when)}</span>'
+            f'<span class="lt-body"><b>{esc(title)}</b>{note}'
+            f'<span class="lt-detail">{esc(detail)}</span></span></li>')
+
+    facts = "".join(f'<div class="lt-fact"><span>{esc(k)}</span><b>{esc(v)}</b></div>'
+                    for k, v in L.FACTS)
+    cut = L.days_to(L.CUTOFF)
+
+    return f"""<section class="sec sec--haze" id="licence-tracker"><div class="wrap">
+  <div class="sec-head">
+    <span class="kicker">{icon("shield")} Tracked by us &middot; updated {UPDATED}</span>
+    <h2>New Zealand licensing tracker</h2>
+    <p>The regime that decides which online casinos may legally take New Zealand
+      customers is being settled right now. No other comparison site is tracking it,
+      so we are. Every date below is derived when the page is built, not typed by hand.</p>
+  </div>
+
+  <div class="lt-hero">
+    <div class="lt-count"><b>{cut}</b><span>days until operators without a licence<br>must stop serving New&nbsp;Zealand</span></div>
+    <div class="lt-facts">{facts}</div>
+  </div>
+
+  <ol class="lt">{''.join(rows)}</ol>
+
+  <div class="note note--amber">
+    <b>What this means for the sites listed on this page</b>
+    <p>None of them holds a New Zealand licence, because no New Zealand licence has
+      been issued to anyone yet &mdash; the first one cannot exist before 2027. They
+      operate under offshore licences (Cura&ccedil;ao, Anjouan and similar), which is
+      the only thing available to them today, and which is also why you carry more
+      risk here than you would with a domestic operator. From 1&nbsp;December 2026 an
+      operator that has not applied must stop accepting New Zealand customers.</p>
+    <p>We would rather tell you that eleven weeks out than let you find out on the day.
+      <a href="/licensed-online-casinos/">The full legal position is here</a>.</p>
+  </div>
+</div></section>"""
+
+
 def write(path, body):
     """path: '/online-pokies/' -> online-pokies/index.html"""
     rel = path.strip("/")

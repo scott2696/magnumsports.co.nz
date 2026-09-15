@@ -624,3 +624,56 @@ td b,th b{color:var(--ink)}
   .nav,.foot,.lb-cta,.band{display:none}
   body{font-size:11pt;background:#fff;color:#000}
 }
+
+/* ---------- NZ licensing tracker ----------
+   Derived from _build/licensing.py at build time. Nothing here is a
+   hand-typed date, so the component cannot drift out of step with the
+   regulatory timeline between rebuilds. */
+.lt-hero{display:grid;grid-template-columns:minmax(230px,300px) 1fr;gap:26px;align-items:center;
+  background:linear-gradient(112deg,rgba(245,165,36,.13),transparent 58%),var(--slate);
+  border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 28px;margin-bottom:26px}
+.lt-count{display:flex;flex-direction:column;gap:8px}
+.lt-count b{font-family:var(--disp);font-variation-settings:'wdth' 118;font-size:clamp(3rem,7vw,4.4rem);
+  font-weight:800;line-height:.86;letter-spacing:-.045em;color:var(--sodium)}
+.lt-count span{font-family:var(--mono);font-size:.72rem;line-height:1.6;color:var(--mute);letter-spacing:.02em}
+/* six facts, so a fixed 3 wide gives two clean rows — auto-fit left an orphan */
+.lt-facts{display:grid;gap:1px;grid-template-columns:repeat(3,1fr);
+  background:var(--graphite);border-radius:var(--radius);overflow:hidden}
+.lt-fact{background:var(--asphalt);padding:12px 14px}
+.lt-fact span{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.lt-fact b{font-family:var(--mono);font-size:.86rem;color:var(--ink);font-weight:700;line-height:1.35}
+
+.lt{list-style:none;margin:0 0 26px;padding:0;counter-reset:none}
+.lt-row{display:grid;grid-template-columns:132px 1fr;gap:20px;padding:16px 0 16px 26px;
+  position:relative;margin:0;border-bottom:1px solid var(--graphite)}
+.lt-row:last-child{border-bottom:0}
+.lt-row::before{content:"";position:absolute;left:4px;top:23px;width:9px;height:9px;border-radius:50%;
+  background:var(--graphite);box-shadow:0 0 0 3px var(--haze)}
+.lt-row::after{content:"";position:absolute;left:8px;top:32px;bottom:-16px;width:1px;background:var(--graphite)}
+.lt-row:last-child::after{display:none}
+.lt-row--done::before{background:var(--turf)}
+.lt-row--next::before{background:var(--sodium);box-shadow:0 0 0 3px var(--haze),0 0 0 6px rgba(245,165,36,.22)}
+.lt-row--cutoff::before{background:var(--clay);box-shadow:0 0 0 3px var(--haze),0 0 0 6px rgba(208,64,42,.2)}
+.lt-when{font-family:var(--mono);font-size:.78rem;color:var(--mute);padding-top:2px;letter-spacing:-.01em}
+.lt-row--next .lt-when,.lt-row--cutoff .lt-when{color:var(--ink)}
+.lt-body{display:flex;flex-direction:column;gap:5px;min-width:0}
+.lt-body > b{font-family:var(--disp);font-variation-settings:'wdth' 106;font-size:1rem;color:var(--ink);
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.lt-detail{font-size:.89rem;color:var(--mute);line-height:1.6;max-width:70ch}
+/* the chip sits inside a wrapping flex row, so pin it to its own content
+   width or a wrapped line stretches it edge to edge */
+.lt-in{flex:0 0 auto;align-self:flex-start;width:-moz-fit-content;width:fit-content;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--sodium);background:rgba(245,165,36,.1);border:1px solid rgba(245,165,36,.28);
+  padding:3px 8px;border-radius:var(--radius-sm);font-weight:500}
+.lt-in--done{color:var(--turf);background:rgba(53,193,126,.1);border-color:rgba(53,193,126,.28)}
+.lt-row--cutoff .lt-in{color:var(--clay);background:rgba(208,64,42,.1);border-color:rgba(208,64,42,.3)}
+
+@media (max-width:760px){
+  .lt-hero{grid-template-columns:1fr;gap:20px;padding:20px}
+  .lt-count b{font-size:3.2rem}
+  .lt-facts{grid-template-columns:repeat(2,1fr)}
+  .lt-row{grid-template-columns:1fr;gap:6px;padding-left:24px}
+  .lt-when{padding-top:0;font-size:.72rem}
+}

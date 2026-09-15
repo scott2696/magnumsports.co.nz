@@ -335,6 +335,8 @@ def build():
 </div></div></section>
 ''')
 
+    o.append(licence_tracker())
+
     o.append(f'''<section class="sec"><div class="wrap">
 <div class="sec-head"><span class="kicker">Banking</span><h2>Deposits and withdrawals for New Zealand players</h2>
 <p>What actually clears from a New Zealand bank account, how long it takes, and where the fees hide. Every time below is one we recorded, not one an operator advertises.</p></div>

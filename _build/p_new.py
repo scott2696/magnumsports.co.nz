@@ -156,4 +156,5 @@ def build():
              + authorbox("angus-mclean") + '</div></div></section>')
     o.append(disclosure_section())
     o.append(footer())
+    o.append(licence_tracker())
     return write(PATH, "".join(o))

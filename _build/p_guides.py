@@ -177,7 +177,8 @@ def law():
         "first licensed online casino market. This page covers the online gambling laws New Zealand actually "
         "has, which operators will hold a DIA licence, what happens to offshore casinos from 1 December 2026, "
         "and why the rules for casino games and sports betting are moving in opposite directions.",
-        icon("scale") + " DIA licensing &middot; checked against primary sources", body, faq, "angus-mclean", "witi-king",
+        icon("scale") + " DIA licensing &middot; checked against primary sources",
+        licence_tracker() + body, faq, "angus-mclean", "witi-king",
         stats=[("15", "Licences available"), ("1 Dec 2026", "Unlicensed cut-off"),
                ("Legal", "For players"), ("18+", "Minimum age")])
 
