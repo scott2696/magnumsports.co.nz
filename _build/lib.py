@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Shared templating, schema and components for magnumsports.co.nz."""
-import json, os, html
+import json, os, re, html, hashlib, datetime
 from paa_data import PAA
 from pixels import px, trim_to_px, LIMIT as TITLE_PX
 
@@ -84,8 +84,11 @@ FEATURED = [
 ]
 EMAIL = "editor@magnumsports.co.nz"
 PUBLISHED = "2026-02-02"
-UPDATED = "2026-09-14"
-UPDATED_NZ = "14/09/2026"
+# Resolved per page in write(), from the content-hash manifest below. A page
+# that did not change keeps the date it already had, so "last updated" means
+# something rather than "the day someone last ran the build".
+UPDATED = "@@LASTMOD@@"
+UPDATED_NZ = "@@LASTMOD_NZ@@"
 
 # Title/description freshness stamp. ONE edit per month — change MONTH (and
 # YEAR in January) and rebuild; every title, description and H1 follows.
@@ -834,7 +837,7 @@ def licence_tracker():
   </div>
 
   <div class="lt-hero">
-    <div class="lt-count"><b>{cut}</b><span>days until operators without a licence<br>must stop serving New&nbsp;Zealand</span></div>
+    <div class="lt-count"><b class="lt-n">{cut}</b><span>days until operators without a licence<br>must stop serving New&nbsp;Zealand</span></div>
     <div class="lt-facts">{facts}</div>
   </div>
 
@@ -854,8 +857,46 @@ def licence_tracker():
 </div></section>"""
 
 
+# ---------------------------------------------------------------- lastmod
+_MANIFEST_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lastmod.json")
+try:
+    _MANIFEST = json.load(open(_MANIFEST_FILE))
+except Exception:
+    _MANIFEST = {}
+LASTMOD = {}          # path -> ISO date, filled as pages are written
+
+
+def _hashable(body):
+    """Body with the genuinely volatile bits neutralised.
+
+    The licensing countdown changes every day. That is a real content change
+    but it is not an editorial one, and bumping lastmod daily on a countdown
+    is exactly the noise that teaches a crawler to ignore the field. The date
+    placeholders are still unresolved at this point, so they cost nothing.
+    """
+    b = re.sub(r'(<b class="lt-n">)\d+(</b>)', r"\g<1>#\g<2>", body)
+    b = re.sub(r"in \d+ days", "in # days", b)
+    return b
+
+
+def _stamp(path, body):
+    h = hashlib.sha256(_hashable(body).encode("utf-8")).hexdigest()[:16]
+    prev = _MANIFEST.get(path)
+    date = prev["date"] if (prev and prev.get("hash") == h) \
+        else datetime.date.today().isoformat()
+    LASTMOD[path] = date
+    _MANIFEST[path] = {"hash": h, "date": date}
+    nz = "%s/%s/%s" % (date[8:10], date[5:7], date[:4])
+    return body.replace("@@LASTMOD@@", date).replace("@@LASTMOD_NZ@@", nz)
+
+
+def save_manifest():
+    json.dump(_MANIFEST, open(_MANIFEST_FILE, "w"), indent=1, sort_keys=True)
+
+
 def write(path, body):
     """path: '/online-pokies/' -> online-pokies/index.html"""
+    body = _stamp(path, body)
     rel = path.strip("/")
     d = os.path.join(ROOT, rel) if rel else ROOT
     os.makedirs(d, exist_ok=True)

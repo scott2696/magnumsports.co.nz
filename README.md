@@ -260,3 +260,32 @@ store, it carries no byline, and its casino leaderboard sits deliberately far
 down the page. The audit rules are written for the money pages.
 
 It is disallowed in robots.txt and is a development tool only.
+
+
+## lastmod and dateModified
+
+`_build/lastmod.json` is build state and is committed deliberately. It maps each
+URL to a content hash and the date that content last changed.
+
+On every build each page is hashed *before* its date placeholders are resolved.
+If the hash matches the manifest the page keeps the date it already had; if it
+differs it gets today's. The same date then fills both `<lastmod>` in the
+sitemap and `dateModified` in the page's JSON-LD, so the two can never disagree.
+
+Two deliberate details:
+
+- The licensing countdown is neutralised before hashing. It genuinely changes
+  every day, but bumping `lastmod` daily on a counter is the noise that teaches
+  a crawler to ignore the field.
+- Editing and reverting a page inside one day leaves it stamped with that day.
+  The content matches an earlier state but it did change, twice, so the date is
+  defensible and the alternative is keeping hash history nobody will read.
+
+Delete the manifest to re-baseline everything to today. It cannot be
+reconstructed from git, because a rebuild commits all 42 generated files at
+once and every file then reads as changed on the same date.
+
+The sitemap carries `loc` and `lastmod` only. `changefreq` and `priority` are
+ignored by Google and the values previously emitted were false — "daily" on a
+store homepage that changes a few times a year, "monthly" on terms that have
+not moved since launch.
