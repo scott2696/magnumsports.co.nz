@@ -854,56 +854,8 @@ def licence_tracker():
 </div></section>"""
 
 
-# ---------------------------------------------------------------- expandable text
-_EXP_N = [0]
-
-def _wrap_expandable(cls, inner):
-    """Clamped text with a pure-CSS 'Read more' toggle.
-
-    The site ships no JavaScript and this is not a good reason to start, so
-    the control is a visually-hidden checkbox plus its label. The checkbox
-    stays focusable, which keeps the toggle keyboard-operable; a label alone
-    would not be. Clamping only applies below 760px, so on desktop the text
-    is whole and the control is display:none.
-    """
-    _EXP_N[0] += 1
-    i = _EXP_N[0]
-    return (f'<div class="exp">'
-            f'<input class="exp-t" type="checkbox" id="exp{i}">'
-            f'<p class="{cls} exp-c">{inner}</p>'
-            f'<label class="exp-b" for="exp{i}">'
-            f'<span class="exp-more">Read more</span>'
-            f'<span class="exp-less">Show less</span></label>'
-            f'</div>')
-
-
-def _expandables(html_str):
-    """Applied once, in write(), so no page template has to know about this."""
-    import re
-
-    # 1. every hero lede
-    html_str = re.sub(
-        r'<p class="lede">(.*?)</p>',
-        lambda m: _wrap_expandable("lede", m.group(1)),
-        html_str, flags=re.S)
-
-    # 2. the intro paragraph of any section that carries a leaderboard
-    def section(m):
-        block = m.group(0)
-        if 'class="lb"' not in block:
-            return block
-        return re.sub(
-            r'(<div class="sec-head">(?:(?!</div>).)*?</h2>)<p>(.*?)</p>',
-            lambda mm: mm.group(1) + _wrap_expandable("sec-intro", mm.group(2)),
-            block, count=1, flags=re.S)
-
-    return re.sub(r'<section[^>]*>(?:(?!</section>).)*</section>', section,
-                  html_str, flags=re.S)
-
-
 def write(path, body):
     """path: '/online-pokies/' -> online-pokies/index.html"""
-    body = _expandables(body)
     rel = path.strip("/")
     d = os.path.join(ROOT, rel) if rel else ROOT
     os.makedirs(d, exist_ok=True)

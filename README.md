@@ -243,11 +243,20 @@ because Chrome on this machine will not resize its own window below roughly
 1500px, so neither a phone viewport nor a reliable desktop one can be
 screenshotted directly.
 
-Run the preview server and open http://localhost:8811/_fold.html. Width,
-height, fold position and page are editable in the form, or passed as query
-parameters:
+Run the preview server and open http://localhost:8811/_fold.html. It sweeps
+every money page on load and prints a pass/fail table: H1, author, updated
+date, the toplist H2, the table, the first operator logo, and whether the
+hero lede is correctly hidden. Below the table is a scaled preview of one
+page with the fold drawn on it.
 
-    /_fold.html?w=390&h=844&fold=714&src=/online-casinos/
+Width, height, fold position and the preview page are editable in the form,
+or passed as query parameters:
+
+    /_fold.html?w=390&h=900&fold=714&src=/online-casinos/
     /_fold.html?w=1400&h=1150&src=/online-betting/
+
+The site homepage reports failures and that is expected: it is the outdoors
+store, it carries no byline, and its casino leaderboard sits deliberately far
+down the page. The audit rules are written for the money pages.
 
 It is disallowed in robots.txt and is a development tool only.
