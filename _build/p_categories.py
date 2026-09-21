@@ -648,7 +648,7 @@ def bonuses():
       "<p>On terms rather than headline, <a href='/casino-reviews/smash/'>Smash</a> at "
       "<strong>10x wagering</strong> and <a href='/casino-reviews/spino/'>Spino</a> at "
       "<strong>0x on its crypto offer</strong> are the two genuinely good offers available to New Zealanders. "
-      "<a href='/casino-reviews/crownslots/'>CrownSlots</a> has the largest headline at 390% up to €3,700, but "
+      "<a href='/casino-reviews/crownslots/'>CrownSlots</a> has the largest headline at 390% up to NZ$7,250, but "
       "at 40x on a euro balance. The largest number and the best offer are rarely the same thing.</p>"),
      ("What does 40x wagering actually mean?",
       "<p>You must wager the bonus amount 40 times before any of it &mdash; or anything won with it &mdash; can "
@@ -693,7 +693,7 @@ def bonuses():
  ["<a href='/casino-reviews/lucky-circus/'>Lucky Circus</a>","To NZ$2,500 + 150 FS","35x","Bonus only","NZ$7,000","NZ$5","21 days"],
  ["<a href='/casino-reviews/ivibet/'>Ivibet</a>","100% to NZ$500 + 50 FS","35x","Bonus only","NZ$7,000","NZ$6","14 days"],
  ["<a href='/casino-reviews/spinjo/'>Spinjo</a>","To NZ$5,000 + 300 FS","40x","Bonus only","NZ$8,000","NZ$5","30 days"],
- ["<a href='/casino-reviews/crownslots/'>CrownSlots</a>","390% to €3,700 + 175 FS","40x","Bonus only","NZ$8,000","NZ$5","21 days"],
+ ["<a href='/casino-reviews/crownslots/'>CrownSlots</a>","390% to NZ$7,250 + 175 FS","40x","Bonus only","NZ$8,000","NZ$5","21 days"],
  ["<a href='/casino-reviews/fortune-play/'>Fortune Play</a>","To NZ$5,000 + 300 FS","40x","Bonus only","NZ$8,000","NZ$5","30 days"],
  ["<a href='/casino-reviews/lucky7even/'>Lucky7even</a>","20 no-dep + 100% to NZ$1,700","40x / 50x FS","Bonus only","NZ$8,000","NZ$5","21 days"],
  ["<a href='/casino-reviews/roby-casino/'>Roby</a>","250% to NZ$5,000 + 250 FS","<b>45x</b>","Bonus only","<b>NZ$9,000</b>","NZ$5","14 days"],
@@ -835,7 +835,7 @@ def no_deposit():
  ["<a href='/casino-reviews/spinjo/'>Spinjo</a>","300","<span class='t-no'>Yes</span>","NZ$0.20","NZ$60.00","40x"],
  ["<a href='/casino-reviews/fortune-play/'>Fortune Play</a>","300","<span class='t-no'>Yes</span>","NZ$0.20","NZ$60.00","40x"],
  ["<a href='/casino-reviews/rivo/'>Rivo</a>","250","<span class='t-no'>Yes</span>","NZ$0.20","NZ$50.00","35x"],
- ["<a href='/casino-reviews/crownslots/'>CrownSlots</a>","175","<span class='t-no'>Yes</span>","€0.10","~NZ$32","40x"],
+ ["<a href='/casino-reviews/crownslots/'>CrownSlots</a>","175","<span class='t-no'>Yes</span>","NZ$0.20","NZ$35.00","40x"],
  ["<a href='/casino-reviews/hellspin/'>Hellspin</a>","150","<span class='t-no'>Yes</span>","NZ$0.20","NZ$30.00","40x"],
  ["<a href='/casino-reviews/slotsgem/'>Slotsgem</a>","100","<span class='t-no'>Yes</span>","NZ$0.20","NZ$20.00","40x"],
 ], minw=880)}

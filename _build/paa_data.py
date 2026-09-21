@@ -89,7 +89,7 @@ PAA = {
    "stuck to it. If the answer is no, or if you are chasing losses, the "
    "<a href='/responsible-gambling/'>Gambling Helpline is free on 0800 654 655</a>.</p>"),
   ("Which NZ online casino has the best welcome bonus?",
-   "<p>On headline size, <a href='/casino-reviews/crownslots/'>CrownSlots</a> at 390% up to &euro;3,700 "
+   "<p>On headline size, <a href='/casino-reviews/crownslots/'>CrownSlots</a> at 390% up to NZ$7,250 "
    "with 175 free spins. On actual value, <a href='/casino-reviews/smash/'>Smash</a> &mdash; its 10x "
    "wagering requires roughly NZ$4,000 of turnover on a NZ$200 deposit where a 40x bonus-only offer "
    "requires NZ$8,000 and a 45x one NZ$9,000. The biggest number and the best offer are almost never "

@@ -235,7 +235,7 @@ def build():
 {picks([
  ("Best overall & fastest payouts","rooster-bet","The deepest rugby union and rugby league markets of any offshore book, a real casino attached on the same wallet, and payouts inside six hours."),
  ("Best in-play","betandplay","Live prices refresh faster than anything else we tested and bets are accepted without the constant freezes that ruin live betting elsewhere. The fairest free bet terms here too, at 5x on odds of 1.80 or better."),
- ("Biggest welcome offer","gunsbet","285% up to €7,500 plus 285 free spins, from an operator running since 2016. Euro-denominated and no crypto, so budget for the conversion spread."),
+ ("Biggest welcome offer","gunsbet","285% up to NZ$14,700 plus 285 free spins, from an operator running since 2016. Euro-denominated and no crypto, so budget for the conversion spread."),
  ("Best niche markets","ivibet-sportsbook","Netball, handball and table tennis priced properly rather than ignored. Worth an account if you bet outside the mainstream."),
 ])}
 </div></section>
