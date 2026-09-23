@@ -4,13 +4,13 @@ from lib import *
 
 
 def simple(title, desc, path, crumb, h1, lede, body, eyebrow=None, kind="WebPage", extra=None,
-           faq=None, noindex=False):
+           faq=None, noindex=False, main=None):
     ex = [crumb_schema([("Home", "/")] + crumb)]
     if faq:
         ex.append(faq_schema(faq, f"{SITE}{path}#faq"))
     if extra:
         ex += extra
-    schema = page_schema(kind, title, desc, path, extra=ex)
+    schema = page_schema(kind, title, desc, path, extra=ex, main=main)
     o = [head(title, desc, path, schema, robots="noindex,follow" if noindex else None),
          crumbs([("Home", "/")] + [(c[0], None if i == len(crumb) - 1 else c[1])
                                    for i, c in enumerate(crumb)])]
@@ -53,10 +53,8 @@ def about():
     return simple(*META["/about/"], "/about/", [("About Us", "/about/")], f"About {esc(STORE['name'])}",
                   "A New Zealand online store for outdoor gear: clothing, gloves, bags and hunting accessories, "
                   "delivered NZ-wide.",
-                  body, eyebrow=icon("cart") + " Outdoor gear online",
-                  extra=[store_schema(),
-                         {"@type": "AboutPage", "@id": f"{SITE}/about/#aboutpage",
-                          "mainEntity": {"@id": f"{SITE}/#store"}}])
+                  body, eyebrow=icon("cart") + " Outdoor gear online", kind="AboutPage",
+                  extra=[store_schema()], main=f"{SITE}/#store")
 
 
 # ============================================================== CONTACT
@@ -105,9 +103,7 @@ def contact():
     return simple(*META["/contact/"], "/contact/", [("Contact Us", "/contact/")], "Contact Us",
                   f"Phone {esc(STORE['phone_display'])} or email us about an order, delivery, stock or a product.",
                   body, eyebrow=icon("mail") + " Stock checks, orders and advice", kind="ContactPage",
-                  extra=[store_schema(),
-                         {"@type": "ContactPage", "@id": f"{SITE}/contact/#contactpage",
-                          "mainEntity": {"@id": f"{SITE}/#store"}}])
+                  extra=[store_schema()], main=f"{SITE}/#store")
 
 
 # ================================================================ TERMS

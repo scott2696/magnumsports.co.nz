@@ -217,6 +217,7 @@ IC = {
  "tent": '<path d="M12 3.8 2.6 20.2h18.8z"/><path d="m12 3.8 4.1 16.4M12 3.8 7.9 20.2"/>',
  "gear": '<circle cx="12" cy="12" r="3.1"/><path d="M12 2.2v2.4M12 19.4v2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2.2 12h2.4M19.4 12h2.4M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/>',
  "cart": '<circle cx="9.5" cy="20" r="1.4"/><circle cx="17.5" cy="20" r="1.4"/><path d="M2.5 3.5h2.6l2.4 12h11.3l2-8.5H6.1"/>',
+ "truck": '<path d="M2.5 6.5h11v9h-11zM13.5 9.5h4l3 3.2v2.8h-7z"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
  "tag": '<path d="M20.6 12.6 12.4 20.8 3.2 11.6V3.2h8.4z"/><circle cx="7.9" cy="7.9" r="1.5"/>',
 }
 
@@ -606,8 +607,14 @@ def org_schema():
         "logo": {"@type": "ImageObject", "url": f"{SITE}/favicon-512x512.png", "width": 512, "height": 512},
         "email": EMAIL, "areaServed": {"@type": "Country", "name": "New Zealand"},
         "knowsLanguage": "en-NZ",
-        "description": "Outdoors and sporting goods retailer in Stratford, Taranaki, New Zealand.",
+        "description": "New Zealand online store for outdoor, hunting and tactical gear, delivered NZ-wide.",
         "telephone": STORE["phone_tel"],
+        "address": {"@type": "PostalAddress", "streetAddress": STORE["street"],
+                    "addressLocality": STORE["suburb"], "addressRegion": STORE["region"],
+                    "postalCode": STORE["postcode"], "addressCountry": STORE["country"]},
+        "contactPoint": {"@type": "ContactPoint", "contactType": "customer service",
+                         "telephone": STORE["phone_tel"], "email": EMAIL,
+                         "areaServed": "NZ", "availableLanguage": "en"},
     }
 
 
@@ -649,10 +656,15 @@ def store_schema():
 
 def site_schema():
     return {"@type": "WebSite", "@id": f"{SITE}/#website", "name": NAME, "url": SITE,
-            "publisher": {"@id": f"{SITE}/#organization"}, "inLanguage": "en-NZ"}
+            "publisher": {"@id": f"{SITE}/#organization"}, "inLanguage": "en-NZ",
+            # The site search at /search/?q=... (lets Google offer a search box).
+            "potentialAction": {"@type": "SearchAction",
+                                "target": {"@type": "EntryPoint",
+                                           "urlTemplate": f"{SITE}/search/?q={{search_term_string}}"},
+                                "query-input": "required name=search_term_string"}}
 
 
-def page_schema(kind, title, desc, path, extra=None):
+def page_schema(kind, title, desc, path, extra=None, main=None):
     """Standard @graph for a page."""
     g = [org_schema(), site_schema()]
     wp = {"@type": ["WebPage", kind] if kind and kind != "WebPage" else "WebPage",
@@ -662,6 +674,8 @@ def page_schema(kind, title, desc, path, extra=None):
           "publisher": {"@id": f"{SITE}/#organization"},
           "datePublished": PUBLISHED, "dateModified": UPDATED,
           "primaryImageOfPage": {"@type": "ImageObject", "url": f"{SITE}/images/og-magnum.jpg"}}
+    if main:
+        wp["mainEntity"] = {"@id": main}
     g.append(wp)
     if extra:
         g += extra

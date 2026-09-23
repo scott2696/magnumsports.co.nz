@@ -338,6 +338,26 @@
     });
   }
 
+  // Homepage hero hotspots: one open at a time; close on outside click or Escape.
+  function wireHotspots() {
+    var spots = [].slice.call(document.querySelectorAll(".hs-spot"));
+    if (!spots.length) return;
+    spots.forEach(function (d) {
+      d.addEventListener("toggle", function () {
+        if (d.open) spots.forEach(function (o) { if (o !== d) o.open = false; });
+      });
+    });
+    document.addEventListener("click", function (e) {
+      spots.forEach(function (d) { if (d.open && !d.contains(e.target)) d.open = false; });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      spots.forEach(function (d) {
+        if (d.open) { d.open = false; d.querySelector("summary").focus(); }
+      });
+    });
+  }
+
   function init() {
     if (!document.getElementById("cart-live")) {
       var live = el("div", "sr-only");
@@ -355,6 +375,7 @@
     wireCheckout();
     wirePayNow();
     wireContact();
+    wireHotspots();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();

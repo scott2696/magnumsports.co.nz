@@ -48,8 +48,21 @@ def write_cart_js():
 
 
 def offer(p):
+    """Offer for Google merchant listings: price, availability, and free NZ
+    delivery in 7 to 10 days (1-3 days to dispatch, 6-7 in transit)."""
     return {"@type": "Offer", "price": p["price"], "priceCurrency": "NZD",
-            "url": SITE + product_url(p), "seller": {"@id": f"{SITE}/#store"}}
+            "url": SITE + product_url(p), "seller": {"@id": f"{SITE}/#store"},
+            # Orders are confirmed before payment; stock comes from the supplier.
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition",
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "NZD"},
+                "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "NZ"},
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {"@type": "QuantitativeValue", "minValue": 1, "maxValue": 3, "unitCode": "DAY"},
+                    "transitTime": {"@type": "QuantitativeValue", "minValue": 6, "maxValue": 7, "unitCode": "DAY"}}}}
 
 
 def product_entity(p):
@@ -190,10 +203,13 @@ def product_page(p, siblings):
     desc = clamp(f"{p['blurb']} " + (f"NZ${p['price']} " if SHOW_PRICES else "") + f"from {STORE['name']}. "
                  "Delivered in 7 to 10 days.", 158)
     img = product_image(p["sku"])
-    schema = page_schema("ItemPage", title, desc, path,
-                         extra=[crumb_schema([("Home", "/"), ("Shop Online", PATH), (name, f"/shop/{slug}/"),
-                                              (p["name"], path)]),
-                                product_entity(p)])
+    # Product markup only while prices are shown: Google treats a Product with
+    # no offer as an invalid item. Until then the page is a plain ItemPage.
+    ex = [crumb_schema([("Home", "/"), ("Shop Online", PATH), (name, f"/shop/{slug}/"), (p["name"], path)])]
+    if SHOW_PRICES:
+        ex.append(product_entity(p))
+    schema = page_schema("ItemPage", title, desc, path, extra=ex,
+                         main=f"{SITE}{path}#product" if SHOW_PRICES else None)
     o = [head(title, desc, path, schema, image=img or "/images/og-magnum.jpg"),
          crumbs([("Home", "/"), ("Shop Online", PATH), (name, f"/shop/{slug}/"), (p["name"], None)])]
     media = (f'<img src="{img}" alt="{esc(p["name"])}" width="600" height="600" decoding="async">'

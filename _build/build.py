@@ -30,13 +30,20 @@ def main():
     # not moved since launch. A contradicted signal is worse than an absent
     # one, and lastmod is the field that still does something -- which is why
     # it is now derived from a content hash rather than the build clock.
+    # Each product page also lists its photo (Google image sitemap extension).
+    from lib import PRODUCTS, product_url, product_image
+    photo = {product_url(p): product_image(p["sku"]) for p in PRODUCTS}
     urls = []
     for p in built:
+        img = photo.get(p)
+        img_xml = (f"\n    <image:image>\n      <image:loc>{SITE}{img}</image:loc>\n    </image:image>"
+                   if img else "")
         urls.append(f"  <url>\n    <loc>{SITE}{p}</loc>\n"
-                    f"    <lastmod>{LASTMOD.get(p, UPDATED_FALLBACK)}</lastmod>\n  </url>")
+                    f"    <lastmod>{LASTMOD.get(p, UPDATED_FALLBACK)}</lastmod>{img_xml}\n  </url>")
     open(os.path.join(ROOT, "sitemap.xml"), "w").write(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+        '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n'
         + "\n".join(urls) + "\n</urlset>\n")
 
     # robots.txt
