@@ -13,10 +13,14 @@ PATH = "/shop/"
 
 FAQ = [
  ("How does ordering online work?",
-  "<p>Add what you want to the cart, fill in your details and press <strong>Send order "
-  "request</strong>. Your email app opens with the order written out; send it and we reply, "
-  "usually the same working day, to confirm stock and how to pay. Nothing is charged until we have "
-  "confirmed it with you.</p>"),
+  ("<p>Add what you want to the cart, fill in your details and press <strong>Send order "
+   "request</strong>. Your email app opens with the order written out; send it and we reply, "
+   "usually the same working day, to confirm stock and how to pay. Nothing is charged until we have "
+   "confirmed it with you.</p>") if SHOW_PRICES else
+  ("<p>We are confirming prices with our suppliers, so for now every product is <strong>price on "
+   "request</strong>. Add what you want to your enquiry list, fill in your details and press "
+   "<strong>Send enquiry</strong>. We reply, usually the same working day, with prices, stock and how "
+   "to pay. Nothing is charged until you have agreed the price.</p>")),
  ("How long does delivery take?",
   "<p>Delivery takes <strong>7 to 10 days</strong> from when we confirm your order, and it is free: "
   "every price already includes delivery anywhere in New Zealand.</p>"),
@@ -31,11 +35,12 @@ FAQ = [
 
 
 def write_cart_js():
-    cat = {p["sku"]: {k: p[k] for k in ("name", "price", "options") if k in p}
-           for p in PRODUCTS}
+    keys = ("name", "price", "options") if SHOW_PRICES else ("name", "options")
+    cat = {p["sku"]: {k: p[k] for k in keys if k in p} for p in PRODUCTS}
     src = open(os.path.join(ROOT, "_build", "cart.js"), encoding="utf-8").read()
     src = (src.replace("/*@@CATALOGUE@@*/{}", json.dumps(cat, ensure_ascii=False, separators=(",", ":")))
-              .replace("/*@@ORDER_EMAIL@@*/", ORDER_EMAIL))
+              .replace("/*@@ORDER_EMAIL@@*/", ORDER_EMAIL)
+              .replace("/*@@SHOW_PRICES@@*/true", "true" if SHOW_PRICES else "false"))
     d = os.path.join(ROOT, "assets", "js")
     os.makedirs(d, exist_ok=True)
     open(os.path.join(d, "cart.js"), "w", encoding="utf-8").write(src)
@@ -51,7 +56,9 @@ def product_entity(p):
     img = product_image(p["sku"])
     d = {"@type": "Product", "@id": f"{SITE}{product_url(p)}#product", "name": p["name"],
          "sku": p["sku"], "description": p["blurb"], "category": p["dept"],
-         "url": SITE + product_url(p), "offers": offer(p)}
+         "url": SITE + product_url(p)}
+    if SHOW_PRICES:
+        d["offers"] = offer(p)
     if img:
         d["image"] = SITE + img
     if p.get("model"):
@@ -69,8 +76,8 @@ def itemlist(items, path, name):
 def cart_section():
     o = []
     o.append(f'''<section id="cart" class="sec sec--haze" style="scroll-margin-top:70px"><div class="wrap">
-<div class="sec-head"><span class="kicker">Your cart</span><h2>{"Your cart" if CHECKOUT_URL else "Cart and order request"}</h2>
-<p>{"Pay now by card, or send an order request to pay by bank transfer or by phone. Delivery is included in every price." if CHECKOUT_URL else "No payment is taken here. Send the request and we reply to confirm stock and how to pay. Delivery is included in every price."}</p></div>
+<div class="sec-head"><span class="kicker">{"Your cart" if SHOW_PRICES else "Your enquiry"}</span><h2>{"Your cart" if CHECKOUT_URL else ("Cart and order request" if SHOW_PRICES else "Enquiry list")}</h2>
+<p>{"Pay now by card, or send an order request to pay by bank transfer or by phone. Delivery is included in every price." if CHECKOUT_URL else ("No payment is taken here. Send the request and we reply to confirm stock and how to pay. Delivery is included in every price." if SHOW_PRICES else "We are confirming prices with our suppliers. Add the products you want and send us your enquiry: we reply with prices, stock and how to pay. Delivery anywhere in New Zealand is free.")}</p></div>
 <div class="cart-grid">
 <div class="cart-box"><div id="cart-lines"><p class="cart-empty">Loading your cart&hellip;</p></div>
 {f'<div class="cart-paynow" id="pay-now-wrap" hidden><button class="btn btn--wide" type="button" id="pay-now" data-checkout="{esc(CHECKOUT_URL)}">{icon("lock")} Pay now by card</button><p class="cart-fine">Secure checkout by Stripe. You enter your delivery address there.</p><p class="cart-error" id="pay-now-error" role="alert" hidden></p></div>' if CHECKOUT_URL else ""}
@@ -87,7 +94,7 @@ def cart_section():
 <label><input type="radio" name="payment" value="Bank transfer"{" checked" if CHECKOUT_URL else ""}> Bank transfer</label>
 <label><input type="radio" name="payment" value="Visa or Mastercard (by phone)"> Visa or Mastercard, by phone</label></fieldset>
 <div class="field"><label for="o-notes">Notes</label><textarea id="o-notes" name="notes" style="min-height:90px"></textarea><span class="hint">Sizes, colours, or anything else we should know.</span></div>
-<button class="btn" type="submit">Send order request</button>
+<button class="btn" type="submit">{"Send order request" if SHOW_PRICES else "Send enquiry"}</button>
 <p style="font-size:.79rem;color:var(--mute);margin:0">This opens your email app with the order filled in. We use your details only to handle this order. See our <a href="/privacy/">privacy policy</a>.</p>
 </form>
 <div id="order-sent" class="note" hidden style="margin-top:18px"><b>Almost done: press send in your email app</b>
@@ -182,7 +189,7 @@ def product_page(p, siblings):
     name, slug = p["dept"], DEPT_SLUG[p["dept"]]
     path = product_url(p)
     title = f"{p['name']} | {STORE['name']}"
-    desc = clamp(f"{p['blurb']} NZ${p['price']} from {STORE['name']}. "
+    desc = clamp(f"{p['blurb']} " + (f"NZ${p['price']} " if SHOW_PRICES else "") + f"from {STORE['name']}. "
                  "Delivered in 7 to 10 days.", 158)
     img = product_image(p["sku"])
     schema = page_schema("ItemPage", title, desc, path,
@@ -205,12 +212,12 @@ def product_page(p, siblings):
 <div class="pdp-buy">
 <a class="pick-cat" href="/shop/{slug}/">{esc(name)}</a>
 <h1>{esc(p["name"])}</h1>
-<div class="prod-price pdp-price">NZ${esc(p["price"])}</div>
+{price_html(p, " pdp-price")}
 <p class="pdp-lede">{esc(p["blurb"])}</p>
 <div class="pdp-cta">{product_cta(p, size="")}</div>
-<p class="pdp-fine">Free delivery anywhere in New Zealand, 7 to 10 days. Price in NZD, including GST and delivery.</p>
+<p class="pdp-fine">{"Free delivery anywhere in New Zealand, 7 to 10 days. Price in NZD, including GST and delivery." if SHOW_PRICES else "We are confirming prices: add it to your enquiry and we reply with the price. Free delivery anywhere in New Zealand, 7 to 10 days."}</p>
 {pay_badges()}
-<p class="pdp-fine"><a href="{PATH}#cart">View your cart &rarr;</a></p>
+<p class="pdp-fine"><a href="{PATH}#cart">{"View your cart" if SHOW_PRICES else "View your enquiry list"} &rarr;</a></p>
 </div>
 </div>
 <div class="pdp-desc prose prose--wide">
@@ -236,7 +243,8 @@ def write_search():
     """assets/js/search.js (copied) and search.json, the index it searches."""
     d = os.path.join(ROOT, "assets", "js")
     os.makedirs(d, exist_ok=True)
-    idx = [{"s": p["sku"], "n": p["name"], "d": p["dept"], "p": p["price"], "u": product_url(p),
+    idx = [{"s": p["sku"], "n": p["name"], "d": p["dept"], **({"p": p["price"]} if SHOW_PRICES else {}),
+            "u": product_url(p),
             "i": product_image(p["sku"]) or "", "b": p["blurb"], "m": p.get("model", ""),
             **({"o": 1} if p.get("options") else {})}
            for p in PRODUCTS]

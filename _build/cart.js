@@ -9,6 +9,9 @@
   "use strict";
   var CAT = /*@@CATALOGUE@@*/{};
   var TO = "/*@@ORDER_EMAIL@@*/";
+  // false while prices are unconfirmed: no amounts anywhere, and the order
+  // email becomes an enquiry (the catalogue then carries no prices at all).
+  var PRICES = /*@@SHOW_PRICES@@*/true;
   var KEY = "ms-cart-v1";
 
   function load() {
@@ -98,7 +101,8 @@
     var form = document.getElementById("order-form");
     box.textContent = "";
     if (!lines.length) {
-      box.appendChild(el("p", "cart-empty", "Your cart is empty. Add something from the shelves above."));
+      box.appendChild(el("p", "cart-empty", PRICES ? "Your cart is empty. Add something from the shelves above."
+        : "Your enquiry list is empty. Add products from the departments above."));
       if (form) form.hidden = true;
       return;
     }
@@ -110,7 +114,7 @@
       var info = el("div", "cart-info");
       info.appendChild(el("b", null, p.name));
       if (l.opt) info.appendChild(el("span", "cart-opt", l.opt));
-      info.appendChild(el("span", "cart-each", money(cents(p.price)) + " each"));
+      if (PRICES) info.appendChild(el("span", "cart-each", money(cents(p.price)) + " each"));
       var qty = el("div", "cart-qty");
       var minus = el("button", "cart-step", "−");
       minus.type = "button";
@@ -122,7 +126,7 @@
       plus.setAttribute("aria-label", "One more " + label(l));
       plus.onclick = function () { setQty(i, l.qty + 1); };
       qty.append(minus, n, plus);
-      var sum = el("span", "cart-sum", money(cents(p.price) * l.qty));
+      var sum = el("span", "cart-sum", PRICES ? money(cents(p.price) * l.qty) : "Price on request");
       var rm = el("button", "cart-rm", "Remove");
       rm.type = "button";
       rm.setAttribute("aria-label", "Remove " + label(l));
@@ -132,21 +136,29 @@
     });
     box.appendChild(ul);
     var t = el("div", "cart-total");
-    t.append(el("span", null, "Total (" + count(lines) + " item" + (count(lines) === 1 ? "" : "s") + ")"),
-             el("b", null, money(total(lines))));
+    var items = count(lines) + " item" + (count(lines) === 1 ? "" : "s");
+    if (PRICES) {
+      t.append(el("span", null, "Total (" + items + ")"), el("b", null, money(total(lines))));
+    } else {
+      t.append(el("span", null, "Enquiry (" + items + ")"), el("b", null, "Prices on request"));
+    }
     box.appendChild(t);
-    box.appendChild(el("p", "cart-fine", "Free delivery anywhere in New Zealand, 7 to 10 days. Prices are in New Zealand dollars and include GST and delivery."));
+    box.appendChild(el("p", "cart-fine", PRICES
+      ? "Free delivery anywhere in New Zealand, 7 to 10 days. Prices are in New Zealand dollars and include GST and delivery."
+      : "We are confirming prices. Send your enquiry and we reply with prices, stock and how to pay. Free delivery anywhere in New Zealand."));
   }
 
   // ------------------------------------------------------------ checkout
   function orderText(f) {
     var get = function (n) { return (f.elements[n] && f.elements[n].value || "").trim(); };
-    var out = ["ORDER REQUEST — " + location.hostname, ""];
+    var out = [(PRICES ? "ORDER REQUEST — " : "ENQUIRY — please send prices — ") + location.hostname, ""];
     lines.forEach(function (l) {
-      out.push(l.qty + " x " + label(l) + "  @ " + money(cents(CAT[l.sku].price)) +
-               "  = " + money(cents(CAT[l.sku].price) * l.qty) + "   [" + l.sku + "]");
+      out.push(PRICES
+        ? l.qty + " x " + label(l) + "  @ " + money(cents(CAT[l.sku].price)) +
+          "  = " + money(cents(CAT[l.sku].price) * l.qty) + "   [" + l.sku + "]"
+        : l.qty + " x " + label(l) + "   [" + l.sku + "]");
     });
-    out.push("", "Total: " + money(total(lines)) + " (includes GST and delivery)", "",
+    out.push("", PRICES ? "Total: " + money(total(lines)) + " (includes GST and delivery)" : "Prices: to be quoted", "",
              "Name: " + get("name"), "Email: " + get("email"), "Phone: " + get("phone"),
              "Deliver to: " + get("address").replace(/\s*\n\s*/g, ", "));
     var pay = f.querySelector("input[name=payment]:checked");
@@ -196,7 +208,7 @@
       e.preventDefault();
       if (!lines.length) return;
       var text = orderText(f);
-      var subject = "Order request — " + f.elements.name.value.trim();
+      var subject = (PRICES ? "Order request — " : "Enquiry — ") + f.elements.name.value.trim();
       var sent = document.getElementById("order-sent");
       document.getElementById("order-copy").value = text;
       sent.hidden = false;

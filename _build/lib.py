@@ -118,7 +118,13 @@ EMAIL = "editor@magnumsports.co.nz"
 # key and opens Stripe Checkout for the cart. Paste its address here once it is
 # deployed (e.g. "https://magnumsports-checkout.<you>.workers.dev/checkout");
 # while it is empty the site offers order requests only, as before.
-CHECKOUT_URL = "https://magnumsports-checkout.scott2696.workers.dev/checkout"
+CHECKOUT_WORKER = "https://magnumsports-checkout.scott2696.workers.dev/checkout"
+
+# Prices on the site. While False (prices not yet confirmed with suppliers):
+# no price is shown or published anywhere, the cart is an enquiry list, and
+# card checkout is off. Set True and rebuild to show prices and take payment.
+SHOW_PRICES = False
+CHECKOUT_URL = CHECKOUT_WORKER if SHOW_PRICES else ""
 
 # How online orders can be paid. Edit here and every badge, note and schema follows.
 PAYMENT = ["Stripe", "Visa", "Mastercard", "Bank transfer"]
@@ -203,7 +209,7 @@ META = {
  "/": ("Magnum Sports | Outdoor Gear Online, Delivered NZ-Wide",
        "Shop outdoor gear online from Magnum Sports: gloves, clothing, pouches, packs, bipods and hunting accessories, delivered across New Zealand in 7 to 10 days."),
  "/shop/": ("Shop Online | Magnum Sports",
-       "Order outdoor gear online from Magnum Sports. Free delivery NZ-wide: every price includes delivery and GST. We confirm stock before you pay."),
+       "Order outdoor gear online from Magnum Sports, with free delivery anywhere in New Zealand. Browse by department and send us your order or enquiry."),
  "/about/": ("About Magnum Sports | Outdoor Gear Online",
        "Magnum Sports is a New Zealand online store for outdoor gear: clothing, gloves, bags and hunting accessories, delivered NZ-wide."),
  "/contact/": ("Contact Magnum Sports",
@@ -431,6 +437,13 @@ def product_image(sku):
     return None
 
 
+def price_html(p, extra=""):
+    """The price, or 'Price on request' while prices are hidden."""
+    if SHOW_PRICES:
+        return f'<div class="prod-price{extra}">NZ${esc(p["price"])}</div>'
+    return f'<div class="prod-price prod-price--ask{extra}">Price on request</div>'
+
+
 def product_cta(p, size="btn--sm"):
     """Add-to-cart control (cart.js wires it up). Must sit inside an element
     with data-sku."""
@@ -441,8 +454,9 @@ def product_cta(p, size="btn--sm"):
                 f'<select id="{oid}" data-opt><option value="">Choose&hellip;</option>'
                 + "".join(f'<option>{esc(o)}</option>' for o in p["options"])
                 + '</select></div>')
+    label = "Add to cart" if SHOW_PRICES else "Add to enquiry"
     return (f'{opts}<button class="btn {size}" type="button" data-add="{esc(p["sku"])}">'
-            f'{icon("cart")} Add to cart</button>')
+            f'{icon("cart")} {label}</button>')
 
 
 def product_card(p, anchor=True):
@@ -464,7 +478,7 @@ def product_card(p, anchor=True):
     return (f'<div class="pick prod"{aid} data-sku="{esc(p["sku"])}">{media}<span class="pick-cat">{esc(p["dept"])}</span>'
             f'<div class="pick-brand"><b><a class="prod-link" href="{url}">{esc(p["name"])}</a></b></div>'
             f'<p>{esc(p["blurb"])}</p>'
-            f'<div class="prod-price">NZ${esc(p["price"])}</div>{cta}</div>')
+            f'{price_html(p)}{cta}</div>')
 
 
 # ---------------------------------------------------------------- shop

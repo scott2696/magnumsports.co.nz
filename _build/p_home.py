@@ -43,7 +43,7 @@ def build():
     o.append(f'''<section class="hero"><div class="wrap">
 <span class="eyebrow">{icon("cart")} Outdoor gear online &middot; Delivered across New Zealand</span>
 <h1>{esc(STORE["name"])}: Outdoor Gear, Delivered</h1>
-<p class="lede">Gloves, clothing, pouches, packs, bipods and hunting accessories. Add what you need to your cart, send us the order, and we confirm stock before anything is charged. Every price includes delivery anywhere in New Zealand.</p>
+<p class="lede">Gloves, clothing, pouches, packs, bipods and hunting accessories. {"Add what you need to your cart, send us the order, and we confirm stock before anything is charged. Every price includes delivery anywhere in New Zealand." if SHOW_PRICES else "We are confirming prices with our suppliers: add what you need to your enquiry list, send it, and we reply with prices and stock. Delivery anywhere in New Zealand is free."}</p>
 <div class="hero-stats">
 <div class="hero-stat"><b>{total}</b><span>Products online</span></div>
 <div class="hero-stat"><b>{len(depts)}</b><span>Departments</span></div>
@@ -85,8 +85,8 @@ def build():
     o.append(f'''<section class="sec sec--haze"><div class="wrap">
 <div class="sec-head"><span class="kicker">How it works</span><h2>Ordering, payment and delivery</h2></div>
 {cards([
- ("cart", "1. Add to your cart", "Browse by department or search, and add what you want. Your cart is kept in your browser until you send it.", "/shop/", "Start shopping"),
- ("mail", "2. Send your order", "Fill in your details and delivery address. We reply, usually the same working day, to confirm stock. Delivery is already in the price.", None),
+ ("cart", "1. Add to your cart" if SHOW_PRICES else "1. Add to your enquiry", "Browse by department or search, and add what you want. Your list is kept in your browser until you send it.", "/shop/", "Start shopping"),
+ ("mail", "2. Send your order" if SHOW_PRICES else "2. Send your enquiry", "Fill in your details and delivery address. We reply, usually the same working day, to confirm stock. Delivery is already in the price." if SHOW_PRICES else "Fill in your details and delivery address. We reply, usually the same working day, with prices and stock. Delivery is free.", None),
  ("wallet", "3. Pay and we deliver", "Pay by card online through a secure Stripe link we email you, by bank transfer, or by card over the phone. We deliver anywhere in New Zealand in 7 to 10 days.", None),
 ])}
 <div style="margin-top:22px">{pay_badges()}</div>

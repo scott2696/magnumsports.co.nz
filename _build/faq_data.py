@@ -9,15 +9,19 @@ too terse to read as a question. Answers lead with the direct response in the
 first sentence. Keep them true to the shop: ordering, payment and delivery
 facts come from lib.py (PAY_HOW, PAYMENT) and the terms page.
 """
-from lib import PAY_HOW, STORE, EMAIL
+from lib import PAY_HOW, STORE, EMAIL, SHOW_PRICES
 
 TEL = f"<a href='tel:{STORE['phone_tel']}'>{STORE['phone_display']}</a>"
 
 HOME = [
  ("How does ordering online work?",
-  "<p>Add what you want to the cart and send us an order request with your delivery address. "
-  "We reply, usually the same working day, to confirm stock and how to pay. "
-  "Nothing is charged until we have confirmed your order with you.</p>"),
+  ("<p>Add what you want to the cart and send us an order request with your delivery address. "
+   "We reply, usually the same working day, to confirm stock and how to pay. "
+   "Nothing is charged until we have confirmed your order with you.</p>") if SHOW_PRICES else
+  ("<p>We are confirming prices with our suppliers, so for now every product is price on request. "
+   "Add what you want to your enquiry list and send it with your delivery address. We reply, usually "
+   "the same working day, with prices, stock and how to pay. Nothing is charged until you have agreed "
+   "the price.</p>")),
  ("How long does delivery take?",
   "<p><strong>7 to 10 days</strong> from when we confirm your order, anywhere in New Zealand.</p>"),
  ("How much is delivery?",
@@ -29,7 +33,8 @@ HOME = [
   f"<p>{PAY_HOW} We never ask for card details by email, and our bank account number only ever "
   "comes in our reply to your order.</p>"),
  ("Are your prices in New Zealand dollars?",
-  "<p>Yes. Every price is in NZ dollars and includes GST and delivery.</p>"),
+  "<p>Yes. Every price is in NZ dollars and includes GST and delivery." +
+  ("" if SHOW_PRICES else " We are confirming prices now; send an enquiry and we will quote you.") + "</p>"),
  ("How do I know what size to order?",
   "<p>Sizing varies by maker, so put your usual size, and for gloves your hand measurement, in "
   "the order notes. We check it against the product and confirm the fit with you before you pay. "

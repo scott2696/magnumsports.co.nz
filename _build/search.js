@@ -60,7 +60,8 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
-  function money(p) { return "NZ$" + p; }
+  // No "p" in the index while prices are unconfirmed.
+  function money(p) { return p ? "NZ$" + p : "Price on request"; }
 
   // ------------------------------------------------------------ header box
   function wireHeader() {
@@ -117,7 +118,8 @@
   function card(p) {
     var cta = p.o
         ? '<a class="btn btn--sm" href="' + esc(p.u) + '">Choose options</a>'
-        : '<button class="btn btn--sm" type="button" data-add="' + esc(p.s) + '">Add to cart</button>';
+        : '<button class="btn btn--sm" type="button" data-add="' + esc(p.s) + '">' +
+          (p.p ? "Add to cart" : "Add to enquiry") + '</button>';
     var media = p.i
       ? '<a class="prod-img" href="' + esc(p.u) + '" tabindex="-1" aria-hidden="true"><img src="' + esc(p.i) +
         '" alt="" width="600" height="600" loading="lazy" decoding="async"></a>'
@@ -125,7 +127,7 @@
     return '<div class="pick prod" data-sku="' + esc(p.s) + '">' + media +
       '<span class="pick-cat">' + esc(p.d) + '</span>' +
       '<div class="pick-brand"><b><a class="prod-link" href="' + esc(p.u) + '">' + esc(p.n) + '</a></b></div>' +
-      '<p>' + esc(p.b) + '</p><div class="prod-price">' + money(p.p) + '</div>' + cta + '</div>';
+      '<p>' + esc(p.b) + '</p><div class="prod-price' + (p.p ? "" : " prod-price--ask") + '">' + money(p.p) + '</div>' + cta + '</div>';
   }
 
   function wirePage() {
