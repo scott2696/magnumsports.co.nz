@@ -1,0 +1,13 @@
+# Cloudflare Worker that starts Stripe Checkout for the cart. See README.md.
+# The Stripe key is NOT here: it is added once with
+#   npx wrangler secret put STRIPE_SECRET_KEY
+name = "magnumsports-checkout"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+preview_urls = false
+
+[vars]
+SITE_URL = "https://magnumsports.co.nz"
+CATALOGUE_URL = "https://magnumsports.co.nz/assets/js/search.json"
+ALLOWED_ORIGINS = "https://magnumsports.co.nz,https://www.magnumsports.co.nz"

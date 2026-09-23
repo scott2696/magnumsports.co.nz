@@ -1,0 +1,15 @@
+# SKUs kept off sale after checking the product photos. One per line: sku  # reason
+# reprice.py switches these off whatever the sheet says.
+petram-fma-quick-release  # photo: copy of Safariland QLS system
+petram-mi-01  # photo: stamped Midwest Industries, 'Made in U.S.A.'
+petram-mi-02  # same mount as the Midwest Industries-stamped one
+petram-pt-518  # photo: EOTech logo
+petram-pt-556  # photo: EOTech logo
+petram-pt-bps00125-g  # photo: Swampfox logo
+petram-pt-bps00125-r  # photo: Swampfox logo
+petram-pt-md10rd  # photo: replica of Aimpoint ACRO, with markings
+petram-pt-tps00330-rb-pt-tps00330-gb  # photo: Swampfox logo
+petram-qt-053-qt-054  # photo: SAFARILAND moulded on the fork
+petram-so-007  # photo: 'U.S. ARMY' printed on it
+petram-ty-002  # photo: copy of Safariland QLS system
+petram-so-013  # title copies the C-A-T tourniquet name; an uncertified copy of a life-saving medical device is a safety risk

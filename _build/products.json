@@ -1,0 +1,33 @@
+[
+ {
+  "sku": "hunters-pack-4pc",
+  "name": "4 Piece Hunters Pack",
+  "price": "109.99",
+  "dept": "Hunting Accessories",
+  "blurb": "A starter bundle for anyone getting into the bush — the four things people come back for after their first trip without them.",
+  "featured": true
+ },
+ {
+  "sku": "track-pant-5to9",
+  "name": "5 TO 9 Track Pant",
+  "price": "109.99",
+  "dept": "Apparel",
+  "blurb": "Hard-wearing track pant that works on the hill and in town. One of the steadiest sellers on the apparel wall.",
+  "featured": true
+ },
+ {
+  "sku": "wide-brim-hat-360",
+  "name": "360° Wide Brim Hat",
+  "price": "49.99",
+  "dept": "Apparel",
+  "blurb": "Full-brim sun protection for fishing, farm work and summer tramping. Also stocked in a heavier version.",
+  "featured": true
+ },
+ {
+  "sku": "wide-brim-hat-360-heavy",
+  "name": "360° Wide Brim Hat — Heavy",
+  "price": "59.99",
+  "dept": "Apparel",
+  "blurb": "The heavier-weight version of our best-selling wide brim hat, for a full season of hard use."
+ }
+]

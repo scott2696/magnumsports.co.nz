@@ -27,9 +27,7 @@ Disallow: /
 User-agent: *
 Allow: /
 Disallow: /_build/
-Disallow: /go/
 Disallow: /*?
-Disallow: /_fold.html
 Crawl-delay: 1
 
 Sitemap: https://magnumsports.co.nz/sitemap.xml

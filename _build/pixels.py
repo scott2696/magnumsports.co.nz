@@ -57,13 +57,11 @@ def trim_to_px(text, limit=LIMIT):
 
 
 if __name__ == "__main__":
-    # sanity-check against the competitor titles measured live
+    # sanity-check against a few of this site's own titles
     for t in [
-        "Best Online Casino NZ | Top Real Money Casino Sites in 2026",
-        "Best Online Casinos NZ 2026 | Top 20 NZ Casino Sites Reviewed",
-        "Best Online Casinos NZ 2026 | Top 10 Real Money Casino Sites",
-        "Best Online Casinos in NZ (2026)- Tested with Real Money",
-        "Online Casinos New Zealand - Top NZ Casino Sites Of 2026",
+        "Magnum Sports | Outdoors Store, Stratford Taranaki",
+        "Shop Online | Magnum Sports, Stratford Taranaki",
+        "Hunting Accessories | Shop Online | Magnum Sports",
     ]:
         flag = "OK " if fits(t) else "OVER"
         print(f"  {flag} {px(t):>4}px  [{len(t):>2} chars]  {t}")

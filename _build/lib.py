@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Shared templating, schema and components for magnumsports.co.nz."""
 import json, os, re, html, hashlib, datetime
-from paa_data import PAA
 from pixels import px, trim_to_px, LIMIT as TITLE_PX
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = "https://magnumsports.co.nz"
 NAME = "Magnum Sports"
-TAG = "Outdoors Store & NZ Betting Guide"
+TAG = "Outdoor Gear Online"
 
-# The retail business this domain has always belonged to. Facts here are the
-# store's own published trading details — do not invent additions.
+# The business behind the online shop. Facts here are its published trading
+# details — do not invent additions. The address is shown as the business
+# address (NZ consumer law expects one), not as a shop to visit.
 STORE = {
     "name": "Magnum Sports",
     "legal": "Magnum Sports New Zealand",
@@ -24,65 +24,116 @@ STORE = {
     "country": "NZ",
     "phone_display": "06 765 7248",
     "phone_tel": "+6467657248",
-    "products": 678,
 }
 
-# (name, slug, icon, blurb). A photo at images/departments/<slug>.jpg is used
-# automatically when present; until then the card shows a brand gradient tile
-# with the icon. Drop files in and rebuild — no markup changes needed.
+# (name, slug, icon, blurb). The shop's categories. A department appears on
+# the site only once it has products; the rest are ready for when they do.
 DEPARTMENTS = [
-    ("Airguns", "airguns", "target",
-     "Air rifles and air pistols, pellets, targets and scopes. The sensible "
-     "starting point for pest control on the farm and for target shooting."),
-    ("Ammunition", "ammunition", "cartridge",
-     "Rimfire, centrefire and shotgun ammunition from the calibres Taranaki "
-     "hunters actually use. Firearms licence required — see below."),
     ("Apparel", "apparel", "shirt",
-     "Bush shirts, thermals, rainwear, hunting camo and everyday outdoor "
-     "clothing built for a Taranaki winter rather than a catalogue shoot."),
+     "Gloves, bush shirts, thermals, rainwear, camo and everyday outdoor clothing "
+     "built for a New Zealand winter rather than a catalogue shoot."),
     ("Bags", "bags", "pack",
-     "Day packs, hunting packs, meat packs, dry bags, rod tubes and gun bags "
-     "— carry gear that survives more than one season."),
-    ("Firearms and Accessories", "firearms-and-accessories", "shield",
-     "Rifles, shotguns, scopes, mounts, slings, cases and safes. Licence and "
-     "in-store paperwork required on every firearm we sell."),
+     "Pouches, day packs, hunting packs, dry bags and storage: carry gear that "
+     "survives more than one season."),
     ("Fishing", "fishing", "fish",
-     "Freshwater and saltwater — rods, reels, line, lures, flies, nets and "
-     "terminal tackle for the Taranaki rivers and the coast."),
+     "Freshwater and saltwater: rods, reels, line, lures, flies, nets and "
+     "terminal tackle."),
     ("Footwear", "footwear", "boot",
      "Boots for the bush, gumboots for the paddock, wading boots for the "
      "river, and socks worth the money."),
     ("Hunting Accessories", "hunting-accessories", "compass",
-     "Knives, game bags, calls, rangefinders, headlamps, bipods and the "
-     "hundred small things you notice only when you have forgotten one."),
+     "Bipods, game bags, calls, rangefinders, headlamps and the hundred small "
+     "things you notice only when you have forgotten one."),
     ("Outdoor Leisure", "outdoor-leisure", "tent",
-     "Camping, tramping and family gear — tents, sleeping bags, chilly bins, "
+     "Camping, tramping and family gear: tents, sleeping bags, chilly bins, "
      "cookers, torches and chairs."),
-    ("Reloading", "reloading", "scale",
-     "Presses, dies, powder, primers, projectiles, tumblers and scales for "
-     "handloading your own."),
     ("Sporting Goods", "sporting-goods", "ball",
-     "General sports equipment and club gear — the side of the shop that has "
-     "kept Stratford supplied for years."),
+     "General sports equipment and club gear."),
     ("Clearance", "clearance", "tag",
-     "End-of-line, ex-display and last-season stock at reduced prices. "
-     "Changes constantly; worth a look every visit."),
+     "End-of-line and last-season stock at reduced prices."),
 ]
 
-# The only products we can evidence from the store's own catalogue. Add the
-# rest from the real stock list before launch — do not invent SKUs or prices.
-FEATURED = [
-    ("4 Piece Hunters Pack", "109.99", "Hunting Accessories",
-     "A starter bundle for anyone getting into the bush — the four things "
-     "people come back for after their first trip without them."),
-    ("5 TO 9 Track Pant", "109.99", "Apparel",
-     "Hard-wearing track pant that works on the hill and in town. One of the "
-     "steadiest sellers on the apparel wall."),
-    ("360° Wide Brim Hat", "49.99", "Apparel",
-     "Full-brim sun protection for fishing, farm work and summer tramping. "
-     "Also stocked in a heavier $59.99 version."),
-]
+# The online catalogue, one product per entry in products.json. Only products
+# we can evidence from the store's own catalogue are in it; add the rest from
+# the real stock list — do not invent SKUs or prices. Fields:
+#   sku       stable id, lowercase-hyphenated; the cart stores it, so never reuse one
+#   name      as shown to customers
+#   price     NZD as a string, e.g. "109.99"
+#   dept      exactly one DEPARTMENTS name
+#   blurb     one or two sentences
+#   options   optional list, e.g. sizes ["S", "M", "L"] — the customer must pick one
+#   featured  optional true — also shown on the homepage
+PRODUCTS = json.load(open(os.path.join(ROOT, "_build", "products.json"), encoding="utf-8"))
+
+
+def _supplier_products():
+    """Rows from the supplier price sheets in _build/supplier/*.csv that the
+    shop has chosen to sell (sell = yes) AND priced (retail_nzd). Everything
+    else on a sheet stays off the site."""
+    import csv, glob
+    out = []
+    for path in sorted(glob.glob(os.path.join(ROOT, "_build", "supplier", "*.csv"))):
+        for n, row in enumerate(csv.DictReader(open(path, encoding="utf-8-sig")), 2):
+            if row.get("sell", "").strip().lower() not in ("y", "yes", "1", "true"):
+                continue
+            price = row.get("retail_nzd", "").strip().lstrip("$").replace(",", "")
+            if not price:
+                raise ValueError(f"{os.path.basename(path)} line {n}: sell is yes but retail_nzd is empty")
+            try:
+                price = f"{float(price):.2f}"
+            except ValueError:
+                raise ValueError(f"{os.path.basename(path)} line {n}: retail_nzd {price!r} is not a number")
+            specs = [tuple(x.split(": ", 1)) for x in row.get("specs", "").split(" | ") if ": " in x]
+            out.append({"sku": row["sku"].strip(), "name": row["name"].strip(), "price": price,
+                        "supplier": row.get("supplier", "").strip(),
+                        "dept": row["dept"].strip(), "blurb": row["blurb"].strip(),
+                        "model": row.get("model", "").strip(), "specs": specs,
+                        "origin": row.get("origin", "").strip()})
+    return out
+
+
+PRODUCTS += _supplier_products()
+_depts = {d[0] for d in DEPARTMENTS}
+_skus = set()
+for _p in PRODUCTS:
+    if _p["dept"] not in _depts:
+        raise ValueError(f"products.json: {_p['sku']} has unknown dept {_p['dept']!r}")
+    if not re.fullmatch(r"[a-z0-9-]+", _p["sku"]) or _p["sku"] in _skus:
+        raise ValueError(f"products.json: bad or duplicate sku {_p['sku']!r}")
+    if not re.fullmatch(r"\d+\.\d{2}", _p["price"]):
+        raise ValueError(f"products.json: {_p['sku']} price must look like 109.99")
+    _skus.add(_p["sku"])
+FEATURED = [p for p in PRODUCTS if p.get("featured")]
+DEPT_SLUG = {d[0]: d[1] for d in DEPARTMENTS}
+
+
+def dept_url(dept):
+    return f"/shop/{DEPT_SLUG[dept]}/"
+
+
+def product_url(p):
+    return f"/shop/{DEPT_SLUG[p['dept']]}/{p['sku']}/"
 EMAIL = "editor@magnumsports.co.nz"
+# Card checkout. The Cloudflare Worker in _build/stripe-worker/ holds the Stripe
+# key and opens Stripe Checkout for the cart. Paste its address here once it is
+# deployed (e.g. "https://magnumsports-checkout.<you>.workers.dev/checkout");
+# while it is empty the site offers order requests only, as before.
+CHECKOUT_URL = "https://magnumsports-checkout.scott2696.workers.dev/checkout"
+
+# How online orders can be paid. Edit here and every badge, note and schema follows.
+PAYMENT = ["Stripe", "Visa", "Mastercard", "Bank transfer"]
+if CHECKOUT_URL:
+    PAY_HOW = ("Pay now by card through <strong>Stripe</strong>&rsquo;s secure checkout: Visa, Mastercard, "
+               "Apple Pay or Google Pay. Or send us an order request and pay by <strong>bank transfer</strong> "
+               f"or by card over the phone on {STORE['phone_display']}. If anything you have paid for turns "
+               "out to be unavailable, we refund it in full.")
+else:
+    PAY_HOW = ("Once we confirm stock, we email you a secure <strong>Stripe</strong> payment link "
+               "to pay by card online, or our account number and your order reference to pay by "
+               "<strong>bank transfer</strong>. You can also pay by <strong>Visa or Mastercard</strong> over the "
+               f"phone on {STORE['phone_display']}.")
+# Where cart order requests are emailed. Point this at the shop inbox.
+ORDER_EMAIL = EMAIL
 PUBLISHED = "2026-02-02"
 # Resolved per page in write(), from the content-hash manifest below. A page
 # that did not change keeps the date it already had, so "last updated" means
@@ -90,121 +141,23 @@ PUBLISHED = "2026-02-02"
 UPDATED = "@@LASTMOD@@"
 UPDATED_NZ = "@@LASTMOD_NZ@@"
 
-# Title/description freshness stamp. ONE edit per month — change MONTH (and
-# YEAR in January) and rebuild; every title, description and H1 follows.
-# A stale month is worse than no month, so this is a standing commitment.
-MONTH = "September"
-YEAR = "2026"
-MONTH_YEAR = f"{MONTH} {YEAR}"
-
-OPS = json.load(open(os.path.join(ROOT, "_build", "operators.json")))
-BY = {o["slug"]: o for o in OPS}
-# One list per operator, in the order the operator table was supplied.
-OPS.sort(key=lambda o: o["order"])
-CASINOS = [o for o in OPS if o["list"] == "casino"]
-SPORTS = [o for o in OPS if o["list"] == "sports"]
-
-
-def pick_ops(slugs, listname="casino"):
-    """A curated subset of operators, always returned in the master order from
-    the operator table and filtered to the right toplist — so a casino page can
-    never show a sportsbook-only brand, and a reorder propagates everywhere."""
-    want = set(slugs)
-    unknown = want - {o["slug"] for o in OPS}
-    if unknown:
-        raise KeyError(f"unknown operator slug(s): {sorted(unknown)}")
-    return [o for o in OPS if o["slug"] in want and o["list"] == listname]
-
-AUTHORS = {
-    "angus-mclean": {
-        "name": "Angus McLean", "role": "Writer",
-        "img": "/images/authors/angus-mclean.jpg",
-        "location": "Wellington, New Zealand",
-        "since": "2026",
-        # Add LinkedIn and any external bylines here before launch.
-        "sameAs": [],
-        "knows": ["online casinos", "online pokies", "casino bonus terms",
-                  "withdrawal testing", "NZD payment methods", "sports betting",
-                  "consumer affairs", "New Zealand gambling regulation"],
-        "bio": "Angus McLean writes every review, guide and comparison on Magnum Sports. He came "
-               "to gambling from consumer journalism, where the job was reading the contract "
-               "nobody else had read, and he approaches an online casino the same way: open the "
-               "account, deposit real money, request the withdrawal, and time what actually "
-               "happens rather than what the marketing promises.",
-        "short": "Writes every page on this site, and personally funds and times each withdrawal test.",
-    },
-    "witi-king": {
-        "name": "Witi King", "role": "Fact Checker",
-        "img": "/images/authors/witi-king.jpg",
-        "location": "Taupō, New Zealand",
-        "since": "2026",
-        "sameAs": [],
-        "knows": ["New Zealand gambling law", "Gambling Act 2003", "Racing Industry Act 2020",
-                  "licensing and regulation", "tax on gambling winnings",
-                  "gambling harm minimisation", "editorial standards", "responsible gambling"],
-        "bio": "Witi King checks every factual claim on Magnum Sports before it is published. He "
-               "spent most of his working life on the harm side of gambling rather than the "
-               "marketing side, and he reads the legislation itself rather than someone else's "
-               "summary of it — which is why several claims you will find on rival New Zealand "
-               "sites do not appear on this one.",
-        "short": "Checks every claim on this site against the primary source before it is published.",
-    },
-}
 
 NAV = [
     ("Home", "/", None),
-    ("Outdoors Store", "/#shop", [
-        ("Shop by Department", "/#shop"),
-        ("Airguns", "/#airguns"),
-        ("Ammunition", "/#ammunition"),
-        ("Apparel", "/#apparel"),
-        ("Firearms and Accessories", "/#firearms-and-accessories"),
-        ("Fishing", "/#fishing"),
-        ("Hunting Accessories", "/#hunting-accessories"),
-        ("Outdoor Leisure", "/#outdoor-leisure"),
-        ("Visit the Store", "/#visit"),
-    ]),
-    ("Betting", "/online-betting/", None),
-    ("Online Casinos", "/online-casinos/", [
-        ("Best Online Casinos NZ", "/online-casinos/"),
-        ("Licensed Online Casinos NZ", "/licensed-online-casinos/"),
-        ("New Online Casinos NZ", "/new-casinos-nz/"),
-        ("Online Pokies NZ", "/online-pokies/"),
-        ("Casino Payout Percentages", "/casino-payout-percentages/"),
-        ("Fast Payout Casinos", "/fast-payout-casinos/"),
-        ("Live Casino NZ", "/live-casino/"),
-        ("Crypto Casinos NZ", "/crypto-casinos-nz/"),
-        ("Casino Bonus NZ", "/casino-bonus/"),
-        ("No Deposit Bonus NZ", "/no-deposit-bonus/"),
-        ("Casino Payment Methods", "/casino-payment-methods/"),
-        ("Casino Reviews", "/casino-reviews/"),
-    ]),
-    ("Guides", None, [
-        ("Is Online Gambling Legal in NZ?", "/licensed-online-casinos/"),
-        ("Tax on Gambling Winnings NZ", "/gambling-winnings-tax-nz/"),
-        ("Casino Payment Methods NZ", "/casino-payment-methods/"),
-        ("How We Rate Casinos", "/how-we-rate-casinos/"),
-        ("Responsible Gambling NZ", "/responsible-gambling/"),
-    ]),
+    ("Shop", "/shop/", [("All Departments", "/shop/")]
+                       + [(d[0], f"/shop/{d[1]}/") for d in DEPARTMENTS
+                          if d[0] in {p["dept"] for p in PRODUCTS}]
+                       + [("Search", "/search/"), ("Your Cart", "/shop/#cart")]),
     ("About", "/about/", None),
     ("Contact", "/contact/", None),
 ]
 
 FOOTER = [
-    ("Outdoors Store", [("Shop by Department", "/#shop"), ("Firearms & Ammunition", "/#firearms-and-accessories"),
-                        ("Fishing", "/#fishing"), ("Hunting Accessories", "/#hunting-accessories"),
-                        ("Visit Us in Stratford", "/#visit")]),
-    ("Casinos", [("Best Online Casinos NZ", "/online-casinos/"), ("Licensed Online Casinos NZ", "/licensed-online-casinos/"),
-                 ("New Online Casinos NZ", "/new-casinos-nz/"), ("Online Pokies NZ", "/online-pokies/"),
-                 ("Casino Payout Percentages", "/casino-payout-percentages/"), ("Fast Payout Casinos NZ", "/fast-payout-casinos/"),
-                 ("Live Casino NZ", "/live-casino/"), ("Crypto Casinos NZ", "/crypto-casinos-nz/")]),
-    ("Bonuses & Betting", [("Casino Bonus NZ", "/casino-bonus/"), ("No Deposit Bonus NZ", "/no-deposit-bonus/"),
-                           ("Online Betting NZ", "/online-betting/"),
-                           ("Casino Reviews NZ", "/casino-reviews/")]),
-    ("Guides", [("Is Online Gambling Legal in NZ?", "/licensed-online-casinos/"), ("Tax on Winnings NZ", "/gambling-winnings-tax-nz/"),
-                ("Casino Payment Methods NZ", "/casino-payment-methods/"), ("How We Rate Casinos", "/how-we-rate-casinos/")]),
-    ("Company", [("About Us", "/about/"), ("Contact Us", "/contact/"), ("Our Authors", "/authors/"),
-                 ("Responsible Gambling", "/responsible-gambling/")]),
+    ("Shop Online", [("All Departments", "/shop/")]
+                    + [(d[0], f"/shop/{d[1]}/") for d in DEPARTMENTS
+                       if d[0] in {p["dept"] for p in PRODUCTS}]
+                    + [("Your Cart", "/shop/#cart")]),
+    ("Company", [("About Us", "/about/"), ("Contact Us", "/contact/"), ("Search", "/search/")]),
     ("Legal", [("Terms and Conditions", "/terms/"), ("Privacy Policy", "/privacy/"),
                ("Cookie Policy", "/cookie-policy/"), ("Sitemap", "/sitemap.xml")]),
 ]
@@ -237,6 +190,7 @@ IC = {
  "compass": '<circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.1 5.1-5.1 2.1 2.1-5.1z"/>',
  "tent": '<path d="M12 3.8 2.6 20.2h18.8z"/><path d="m12 3.8 4.1 16.4M12 3.8 7.9 20.2"/>',
  "gear": '<circle cx="12" cy="12" r="3.1"/><path d="M12 2.2v2.4M12 19.4v2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2.2 12h2.4M19.4 12h2.4M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/>',
+ "cart": '<circle cx="9.5" cy="20" r="1.4"/><circle cx="17.5" cy="20" r="1.4"/><path d="M2.5 3.5h2.6l2.4 12h11.3l2-8.5H6.1"/>',
  "tag": '<path d="M20.6 12.6 12.4 20.8 3.2 11.6V3.2h8.4z"/><circle cx="7.9" cy="7.9" r="1.5"/>',
 }
 
@@ -246,52 +200,20 @@ IC = {
 # <= 158, each targeting a different head-keyword variant so pages do not
 # compete with one another in the SERP.
 META = {
- "/": ("Magnum Sports | Outdoors Store, Stratford Taranaki",
-       "Hunting, fishing, camping and outdoor gear in Stratford, Taranaki. Airguns, ammunition, firearms, apparel, footwear and tackle. Call 06 765 7248."),
- "/online-casinos/": (f"Best Online Casinos NZ [{MONTH_YEAR}] | Real Money Sites",
-       f"Compare the best online casinos NZ has for real money play, updated {MONTH_YEAR}. 15 NZ casino sites tested with our own NZD — payouts and bonuses ranked."),
- "/online-pokies/": (f"Online Pokies NZ [{MONTH_YEAR}] | Real Money Pokies",
-       f"The best online pokies NZ players can spin, updated {MONTH_YEAR}. Real money pokies sites compared on RTP, free spins and jackpots, plus free pokies explained."),
- "/casino-payout-percentages/": (f"Casino Payout Percentage NZ [{MONTH_YEAR}] | Highest RTP",
-       f"What RTP means and how casino payout percentages work, updated {MONTH_YEAR}. The highest RTP casinos NZ players can use, with real figures by game."),
- "/fast-payout-casinos/": (f"Fast Payout Casinos NZ [{MONTH_YEAR}] | Fast Withdrawals",
-       f"We timed 168 withdrawals. The fastest paying online casino NZ options as at {MONTH_YEAR}, how long casino withdrawals take by method, and why yours is pending."),
- "/live-casino/": (f"Live Casino NZ [{MONTH_YEAR} Guide] | Best Live Dealers",
-       f"The best live casino NZ sites as at {MONTH_YEAR}. Live dealer blackjack, roulette and baccarat from Evolution, with NZD table limits and minimum bets compared."),
- "/crypto-casinos-nz/": (f"Crypto Casinos NZ [{MONTH_YEAR} Guide] | Bitcoin Casinos",
-       f"The best crypto casino NZ sites, updated {MONTH_YEAR}. Bitcoin, Ethereum and USDT casinos compared on payout speed and provably fair games, plus NZ crypto tax."),
- "/casino-bonus/": (f"Casino Bonus NZ [{MONTH_YEAR} Guide] | Best Offers",
-       f"Every casino bonus NZ players can claim, updated {MONTH_YEAR}. Compared on wagering, max bet and expiry, with $1, $5 and $10 deposit offers and the real turnover."),
- "/no-deposit-bonus/": (f"No Deposit Bonus NZ [{MONTH_YEAR}] | Free Spins Offers",
-       f"Every no deposit bonus NZ casinos advertise, checked {MONTH_YEAR}. One free spins no deposit offer is genuinely live — with the wagering and max cashout explained."),
- "/casino-reviews/": (f"Casino Reviews NZ [{MONTH_YEAR}] | 19 Sites Tested",
-       f"Hands-on online casino reviews NZ players can trust, updated {MONTH_YEAR}. Real NZD deposits, timed withdrawals, and the 22 operators we refused to list."),
- "/online-betting/": (f"Online Betting NZ [{MONTH_YEAR} Guide] | Betting Sites",
-       f"Online betting NZ explained, current to {MONTH_YEAR}: what the 2025 TAB monopoly law changed, which sports betting sites accept Kiwis, NZD deposits and odds."),
- "/licensed-online-casinos/": (f"Licensed Online Casinos NZ [{MONTH_YEAR}] | Is It Legal?",
-       f"Are online casinos legal in New Zealand? Updated {MONTH_YEAR}: the DIA 15-licence auction, the 1 December 2026 deadline and which casinos are licensed."),
- "/gambling-winnings-tax-nz/": (f"Gambling Winnings Tax NZ [{MONTH_YEAR} Guide]",
-       f"Do you pay tax on gambling winnings in NZ? No, for recreational players — with two exceptions. Professional gambling and crypto, current to {MONTH_YEAR}."),
- "/casino-payment-methods/": (f"Casino Payment Methods NZ [{MONTH_YEAR} Guide]",
-       f"Which casino payment methods NZ banks clear, checked {MONTH_YEAR}: POLi, Paysafecard, Neosurf, Skrill, bank transfer, crypto and cards across 41 sites."),
- "/how-we-rate-casinos/": (f"How We Rate Online Casinos [{MONTH_YEAR}] | Methodology",
-       f"How to choose an online casino NZ players can trust, and the six weighted criteria behind every score on this site. Methodology current to {MONTH_YEAR}."),
- "/responsible-gambling/": (f"Responsible Gambling NZ [{MONTH_YEAR}] | Free Help",
-       f"Free, confidential gambling help in NZ. Gambling Helpline 0800 654 655, deposit limits, self-exclusion, blocking software and bank gambling blocks."),
- "/about/": ("About Magnum Sports | Independent NZ Casino Reviews",
-       "Who we are, how we test online casinos with our own NZD, how affiliate commission is handled, and what we will not do. Independent reviews for Kiwis."),
- "/contact/": ("Contact Magnum Sports | NZ Casino & Betting Guide",
-       "Contact the Magnum Sports team. Corrections, operator complaints, privacy requests and commercial enquiries, with a two-working-day reply."),
- "/authors/": ("Our Authors | Who Writes Magnum Sports",
-       "Meet the three people who write Magnum Sports: backgrounds, areas of responsibility, the pages they write and how to contact them directly."),
+ "/": ("Magnum Sports | Outdoor Gear Online, Delivered NZ-Wide",
+       "Shop outdoor gear online from Magnum Sports: gloves, clothing, pouches, packs, bipods and hunting accessories, delivered across New Zealand in 7 to 10 days."),
+ "/shop/": ("Shop Online | Magnum Sports",
+       "Order outdoor gear online from Magnum Sports. Free delivery NZ-wide: every price includes delivery and GST. We confirm stock before you pay."),
+ "/about/": ("About Magnum Sports | Outdoor Gear Online",
+       "Magnum Sports is a New Zealand online store for outdoor gear: clothing, gloves, bags and hunting accessories, delivered NZ-wide."),
+ "/contact/": ("Contact Magnum Sports",
+       "Phone or email Magnum Sports about an order, delivery, stock or a product. We reply to every message."),
  "/terms/": ("Terms and Conditions | Magnum Sports",
-       "Terms for using magnumsports.co.nz: age restriction, affiliate disclosure, third-party operators, limitation of liability and governing law."),
+       "Terms for using magnumsports.co.nz and ordering from our online shop: orders, pricing, payment, delivery, returns and your consumer rights."),
  "/privacy/": ("Privacy Policy | Magnum Sports",
        "How Magnum Sports collects, uses and protects personal information under the Privacy Act 2020, and how to access, correct or delete your data."),
  "/cookie-policy/": ("Cookie Policy | Magnum Sports",
-       "Which cookies magnumsports.co.nz sets, what each does, which need consent, and how to refuse or delete them in any browser."),
- "/new-casinos-nz/": (f"New Online Casinos NZ [{MONTH_YEAR}] | Newest Sites",
-       f"New online casinos NZ players can join, updated {MONTH_YEAR} as licensed operators launch. What to check before joining a new casino site, and which are safe."),
+       "Which cookies and browser storage magnumsports.co.nz uses, what each does, and how to refuse or delete them in any browser."),
 }
 
 
@@ -339,7 +261,6 @@ def head(title, desc, path, schema=None, image="/images/og-magnum.jpg", robots=N
 <meta name="robots" content="{r}">
 <link rel="alternate" hreflang="en-nz" href="{url}">
 <link rel="alternate" hreflang="x-default" href="{url}">
-<meta name="rating" content="adult">
 <meta name="theme-color" content="#0C0B10">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -367,6 +288,8 @@ def head(title, desc, path, schema=None, image="/images/og-magnum.jpg", robots=N
 <meta name="twitter:description" content="{esc(desc)}">
 <meta name="twitter:image" content="{SITE}{image}">
 <link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/cart.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 '''
     if schema:
         s += ('<script type="application/ld+json">\n'
@@ -397,6 +320,10 @@ def nav():
             inner = "".join(f'<a href="{h}">{esc(t)}</a>' for t, h in kids)
             o.append(f'<div class="nav-item">{trig}<div class="nav-dd"><div class="nav-dd-inner">{inner}</div></div></div>')
     o.append('</nav>')
+    o.append(f'<button class="nav-search" type="button" aria-label="Search products" aria-expanded="false" '
+             f'aria-controls="site-search">{icon("search")}</button>')
+    o.append(f'<a class="nav-cart" href="/shop/#cart" aria-label="Cart">{icon("cart")}'
+             '<span class="nav-cart-n" data-cart-count hidden>0</span></a>')
     o.append('<details class="menu"><summary aria-label="Open menu">'
              '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" '
              'stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></summary>'
@@ -408,8 +335,15 @@ def nav():
             o.append(f'<b>{esc(label)}</b>')
             o += [f'<a href="{h}">{esc(t)}</a>' for t, h in kids]
     o.append('<b>Legal</b><a href="/terms/">Terms and Conditions</a><a href="/privacy/">Privacy Policy</a>'
-             '<a href="/cookie-policy/">Cookie Policy</a><a href="/authors/">Our Authors</a>')
-    o.append('</div></details></div></header>\n')
+             '<a href="/cookie-policy/">Cookie Policy</a>')
+    o.append('</div></details></div>')
+    o.append('<div class="search-panel" id="site-search" hidden><div class="wrap">'
+             '<form action="/search/" method="get" role="search" class="search-form">'
+             f'{icon("search")}<label for="site-q" class="sr-only">Search products</label>'
+             '<input id="site-q" type="search" name="q" placeholder="Search products, e.g. gloves, bipod, pouch" '
+             'autocomplete="off" enterkeyhint="search"><button class="btn btn--sm" type="submit">Search</button></form>'
+             '<ul class="search-sugg" aria-live="polite"></ul></div></div>')
+    o.append('</header>\n')
     return "".join(o)
 
 
@@ -444,18 +378,18 @@ def footer():
 <a class="brand" href="/" style="margin-bottom:14px">
 <svg class="brand-mark" width="32" height="32" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#2B2836"/><path d="M20.5 73.5V26.5L50 58.5L79.5 26.5V73.5" fill="none" stroke="#F5A524" stroke-width="11.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="20.5" y="79.5" width="59" height="5.5" rx="2.75" fill="#F2EFE9"/></svg>
 <span class="brand-txt"><span class="brand-word">MAGNUM<i>.</i></span><span class="brand-tag">{esc(TAG)}</span></span></a>
-<p>Hunting, fishing, camping and outdoor gear from our Stratford shop, plus independent guides to online betting and casino sites for New Zealanders.</p>
-<p><b style="color:#c3cddf">220 Broadway, Stratford<br>Taranaki 4332</b><br><a href="tel:+6467657248">06 765 7248</a></p>
-<p><a href="/#shop">Shop by department</a> &middot; <a href="/how-we-rate-casinos/">How we review</a></p>
+<p>Outdoor gear online, delivered across New Zealand in 7 to 10 days.</p>
+<p><a href="tel:+6467657248">06 765 7248</a> &middot; <a href="mailto:{EMAIL}">{EMAIL}</a><br>{esc(STORE["legal"])}, {esc(STORE["street"])}, {esc(STORE["suburb"])} {esc(STORE["postcode"])}</p>
+<p><a href="/shop/">Shop online</a> &middot; <a href="/search/">Search</a></p>
+{pay_badges()}
 </div>
 {cols}
 </div>
 <div class="foot-bot">
-<p><strong>18+ only. Gambling can be harmful.</strong> Magnum Sports is an independent comparison site. We earn commission when readers open an account through links on this page, which funds our testing and never changes a ranking &mdash; see <a href="/how-we-rate-casinos/">how we review</a> and our <a href="/terms/">terms</a>. Information is provided for general purposes and is not legal or financial advice. Free, confidential help is available from the Gambling Helpline on <a href="tel:0800654655">0800 654 655</a>, 24 hours a day.</p>
+<p>Prices are in New Zealand dollars and include GST and delivery anywhere in New Zealand. Orders are confirmed by us before payment and delivered in 7 to 10 days.</p>
 <div class="foot-badges">
-<span class="badge18" aria-label="Eighteen plus only">18+</span>
-<a href="/responsible-gambling/">Responsible Gambling</a>
-<a href="https://www.gamblinghelpline.co.nz/" rel="nofollow noopener" target="_blank">Gambling Helpline</a>
+<a href="/shop/">Shop online</a>
+<a href="tel:+6467657248">06 765 7248</a>
 <a href="/contact/">Contact</a>
 </div>
 </div>
@@ -466,99 +400,7 @@ def footer():
 '''
 
 
-def disclosure(extra=""):
-    return ('<div class="disc"><p><strong>Advertising disclosure.</strong> Magnum Sports is free to '
-            'read because operators pay us a commission when a reader opens an account through one of '
-            'our links. It does not cost you anything, it does not change the price of anything, and '
-            'it does not buy a position on this page &mdash; scores come from the criteria set out in '
-            '<a href="/how-we-rate-casinos/">our review methodology</a>, and sites we cannot recommend are '
-            'left off regardless of what they offer to pay. ' + extra + '</p></div>')
-
-
-def disclosure_section(extra=""):
-    """Advertising disclosure as a standalone section, placed at the foot of
-    the page (above the footer) rather than above the affiliate table."""
-    return ('<section id="disclosure" class="sec sec--haze" style="padding-top:34px;padding-bottom:34px">'
-            '<div class="wrap"><div class="prose prose--wide">' + disclosure(extra)
-            + '</div></div></section>\n')
-
-
-def byline(author="angus-mclean", checker="witi-king", updated=None):
-    a = AUTHORS[author]
-    c = AUTHORS[checker] if checker else None
-    fc = (f' &middot; Fact-checked by <a class="by-link" href="/authors/#{checker}"><b>{esc(c["name"])}</b></a>'
-          if c else "")
-    return f'''<div class="byline">
-<a href="/authors/#{author}" aria-label="{esc(a["name"])}, author"><img src="{a["img"]}" srcset="{a["img"]} 1x, {a["img"].replace(".jpg","@2x.jpg")} 2x" alt="{esc(a["name"])}" width="46" height="46" loading="eager" decoding="async"></a>
-<div class="byline-txt">
-<span>By <a href="/authors/#{author}"><b>{esc(a["name"])}</b></a>, {esc(a["role"])}{fc}</span>
-<span class="byline-date">{icon("clock")} Updated {updated or UPDATED_NZ}</span>
-</div></div>'''
-
-
-def authorbox(author="angus-mclean"):
-    a = AUTHORS[author]
-    return f'''<aside class="authorbox">
-<img src="{a["img"]}" srcset="{a["img"]} 1x, {a["img"].replace(".jpg","@2x.jpg")} 2x" alt="{esc(a["name"])}" width="78" height="78" loading="lazy" decoding="async">
-<div><h4>{esc(a["name"])}</h4><div class="role">{esc(a["role"])}</div>
-<p>{esc(a["bio"])}</p>
-<p><a href="/authors/#{author}">Full profile and review history &rarr;</a> &middot; <a href="/how-we-rate-casinos/">How we test</a></p></div></aside>'''
-
-
 # ------------------------------------------------------------ components ----
-
-def lb_row(o, i, mode="casino", feat=False):
-    url = o["casino_url"] if mode == "casino" else o["betting_url"]
-    url = url or o["casino_url"] or o["betting_url"]
-    bonus = o["casino_bonus"] if mode == "casino" else (o["sports_bonus"] or o["casino_bonus"])
-    terms = o["casino_bonus_terms"] if mode == "casino" else (
-        f'{o["wagering"]} &middot; min deposit {o["min_deposit"]}')
-    terms = terms or f'{o["wagering"]} &middot; min deposit {o["min_deposit"]}'
-    flag = (f'<span class="lb-flag">{icon("bolt")}{esc(o["highlights"][0])}</span>'
-            if o.get("highlights") else "")
-    rel = 'rel="nofollow sponsored noopener" target="_blank"'
-    # The money line carries the display type; anything after the first "+"
-    # (free spins, free bet) drops to a second line so neither has to shrink.
-    _head, _, _tail = bonus.partition(" + ")
-    _head = _head.strip()
-    _tail = _tail.strip()
-
-    return f'''<li class="lb-row{' lb-row--feat' if feat else ''}">
-<a class="lb-cover" href="{esc(url)}" {rel} aria-label="Visit {esc(o["name"])} (opens in a new tab)"></a>
-<span class="lb-rank">{i}</span>
-<div class="lb-brand"><img class="lb-logo" src="{o["logo"]}" alt="{esc(o["name"])} logo" loading="lazy" decoding="async" width="136" height="72"{plate(o)}><span class="lb-name">{esc(o["name"])}<span class="lb-sub">{esc(o["sub"])}</span></span></div>
-<div class="lb-score"><span class="lb-score-top">{icon("star")}<b>{o["rating"]}/10</b></span><span class="lb-bar"><span style="width:{o["bar"]}%"></span></span>{flag}</div>
-<div class="lb-bonus"><span class="lb-bonus-l">{'Welcome offer' if mode=='casino' else 'Betting offer'}</span><span class="lb-bonus-v">{esc(_head)}</span>{f'<span class="lb-bonus-x">+ {esc(_tail)}</span>' if _tail else ''}</div>
-<div class="lb-cta"><a class="btn btn--wide" href="{esc(url)}" {rel}>Get bonus</a><span class="lb-terms">{terms}</span><span class="lb-review"><a href="/casino-reviews/{o["slug"]}/">Read review</a></span></div>
-</li>'''
-
-
-def plate(o):
-    """Inline background for a logo tile.
-
-    Most operator artwork is drawn for a white ground, so the default chalk
-    plate is right. A few are supplied as light artwork on their own dark
-    square — those get a plate matching that square so the crop is seamless
-    instead of a black box floating in a white one.
-    """
-    c = o.get("plate")
-    return f' style="background:{esc(c)}"' if c else ""
-
-
-def leaderboard(ops, mode="casino", heading=None, intro=None, hid="toplist"):
-    rows = "".join(lb_row(o, i, mode, feat=(i == 1)) for i, o in enumerate(ops, 1))
-    head_html = ""
-    if heading:
-        head_html = f'<div class="sec-head"><h2>{heading}</h2>' + (f'<p>{intro}</p>' if intro else "") + '</div>'
-    return f'''<section id="{hid}" class="sec"><div class="wrap">
-{head_html}
-<div class="lb">
-<div class="lb-head" aria-hidden="true"><span>#</span><span>Site</span><span>Our score</span><span>Offer</span><span></span></div>
-<ol class="lb-rows">{rows}</ol>
-</div>
-<p style="font-size:.79rem;color:var(--mute);margin-top:14px">Offers shown are the operator&rsquo;s published welcome promotion at the time of our last check on {UPDATED_NZ}. Terms change without notice &mdash; always read the promotion page before you deposit. 18+ only.</p>
-</div></section>
-'''
 
 
 def faq_block(items, heading="Frequently asked questions", intro=None):
@@ -580,61 +422,107 @@ def faq_schema(items, pid="#faq"):
                            for q, a in items]}
 
 
-def paa_block(items, heading, intro=None, haze=True, hid="people-also-ask"):
-    """Real-query section. `items` is [(question, answer_html)].
-
-    Questions come from search autosuggest (Google gl=nz, Bing en-NZ,
-    DuckDuckGo nz-en) harvested by _build/harvest_queries.py — they are what
-    New Zealanders actually type, not what we guessed they type. Answers lead
-    with the direct response in the first sentence, which is the format Google
-    extracts for featured snippets and People Also Ask.
-    """
-    out = []
-    for i, (q, a) in enumerate(items, 1):
-        out.append(f'<div class="paa-item"><h3><span>{i:02d}</span>{q}</h3>{a}</div>')
-    i_html = f'<p>{intro}</p>' if intro else ""
-    return (f'<section id="{hid}" class="sec{" sec--haze" if haze else ""}"><div class="wrap">'
-            f'<div class="sec-head"><span class="kicker">People also ask</span><h2>{heading}</h2>{i_html}'
-            f'<p class="paa-src">{icon("search")} Questions sourced from Google, Bing and DuckDuckGo '
-            f'autosuggest for New Zealand &middot; checked {UPDATED_NZ}</p></div>'
-            f'<div class="paa">' + "".join(out) + '</div></div></section>\n')
-
-
-def dept_image(slug):
-    """Path to a department photo if one has been added, else None."""
-    for ext in ("jpg", "webp", "png"):
-        rel = f"images/departments/{slug}.{ext}"
+def product_image(sku):
+    """Path to a product photo at images/products/<sku>.webp|jpg, else None."""
+    for ext in ("webp", "jpg", "png"):
+        rel = f"images/products/{sku}.{ext}"
         if os.path.exists(os.path.join(ROOT, rel)):
             return "/" + rel
     return None
 
 
-def paa_items(path):
-    """The (question, answer) pairs harvested for a page, or []."""
-    e = PAA.get(path)
-    return e[2] if e else []
+def product_cta(p, size="btn--sm"):
+    """Add-to-cart control (cart.js wires it up). Must sit inside an element
+    with data-sku."""
+    opts = ""
+    if p.get("options"):
+        oid = f'opt-{p["sku"]}'
+        opts = (f'<div class="field prod-opt"><label for="{oid}">Option</label>'
+                f'<select id="{oid}" data-opt><option value="">Choose&hellip;</option>'
+                + "".join(f'<option>{esc(o)}</option>' for o in p["options"])
+                + '</select></div>')
+    return (f'{opts}<button class="btn {size}" type="button" data-add="{esc(p["sku"])}">'
+            f'{icon("cart")} Add to cart</button>')
 
 
-def paa_for(path, haze=True):
-    """Render a page's People Also Ask section, or nothing if it has none."""
-    e = PAA.get(path)
-    if not e:
-        return ""
-    heading, intro, items = e
-    return paa_block(items, heading, intro, haze=haze)
+def product_card(p, anchor=True):
+    """One catalogue item: photo and name link to its own page. anchor=False
+    drops the id, for a second copy of the same card on one page."""
+    cta = product_cta(p)
+    img = product_image(p["sku"])
+    url = product_url(p)
+    if img:
+        media = (f'<a class="prod-img" href="{url}" tabindex="-1" aria-hidden="true"><img src="{img}" alt="" '
+                 f'width="600" height="600" loading="lazy" decoding="async"></a>')
+    else:
+        # No photo yet: a square tile with the department icon keeps the row even.
+        # Drop images/products/<sku>.jpg (or .webp/.png) in and rebuild to replace it.
+        ic = next((d[2] for d in DEPARTMENTS if d[0] == p["dept"]), "tag")
+        media = (f'<a class="prod-img prod-img--empty" href="{url}" tabindex="-1" aria-hidden="true">'
+                 f'{icon(ic)}</a>')
+    aid = f' id="{esc(p["sku"])}"' if anchor else ""
+    return (f'<div class="pick prod"{aid} data-sku="{esc(p["sku"])}">{media}<span class="pick-cat">{esc(p["dept"])}</span>'
+            f'<div class="pick-brand"><b><a class="prod-link" href="{url}">{esc(p["name"])}</a></b></div>'
+            f'<p>{esc(p["blurb"])}</p>'
+            f'<div class="prod-price">NZ${esc(p["price"])}</div>{cta}</div>')
 
 
-def picks(items):
-    """items: [(category, slug, blurb)]"""
+# ---------------------------------------------------------------- shop
+def by_dept():
+    """(name, slug, icon, blurb, products) for every department with stock online."""
     out = []
-    for cat, slug, blurb in items:
-        o = BY[slug]
-        url = o["casino_url"] or o["betting_url"]
-        out.append(f'''<div class="pick"><span class="pick-cat">{esc(cat)}</span>
-<div class="pick-brand"><img src="{o["logo"]}" alt="{esc(o["name"])} logo" loading="lazy" decoding="async" width="70" height="38"{plate(o)}><b>{esc(o["name"])}</b></div>
-<p>{blurb}</p>
-<a class="btn btn--sm" href="{esc(url)}" rel="nofollow sponsored noopener" target="_blank">Visit {esc(o["short"])}</a></div>''')
-    return '<div class="picks">' + "".join(out) + '</div>'
+    for name, slug, ic, blurb in DEPARTMENTS:
+        items = [p for p in PRODUCTS if p["dept"] == name]
+        if items:
+            out.append((name, slug, ic, blurb, items))
+    return out
+
+
+COVER = {"Apparel": "glove", "Bags": "pouch", "Hunting Accessories": "bipod"}
+
+
+def shop_tiles(depts=None):
+    """One tile per online department: cover photo, name, product count."""
+    depts = depts or by_dept()
+    tiles = []
+    for name, slug, ic, blurb, items in depts:
+        # Cover photo: the first product of the department's most typical kind
+        # (gloves for Apparel, pouches for Bags...), not whatever happens to sort first.
+        want = COVER.get(name, "")
+        pool = [p for p in items if want in p["name"].lower()] + items
+        img = next((product_image(p["sku"]) for p in pool if product_image(p["sku"])), None)
+        media = (f'<img src="{img}" alt="" width="600" height="600" loading="lazy" decoding="async">'
+                 if img else f'<span class="dept-ic">{icon(ic)}</span>')
+        n = len(items)
+        tiles.append(f'''<a class="shop-cat" href="/shop/{slug}/"><span class="shop-cat-img{"" if img else " shop-cat-img--empty"}">{media}</span>
+<span class="shop-cat-body"><b>{esc(name)}</b><span>{n} product{"s" if n != 1 else ""}</span></span></a>''')
+    return '<div class="shop-cats">' + "".join(tiles) + '</div>'
+
+
+_PAY_MARK = {
+ "Bank transfer": ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
+                   'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5"/>'
+                   '<path d="M5 10v7M9.5 10v7M14.5 10v7M19 10v7M3 20h18"/></svg><span>Bank transfer</span>'),
+ "Visa": ('<svg viewBox="0 0 48 16" aria-hidden="true"><text x="24" y="13" text-anchor="middle" '
+          'font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="900" font-style="italic" '
+          'fill="#1A1F71" letter-spacing=".5">VISA</text></svg>'),
+ "Stripe": ('<svg viewBox="0 0 60 25" aria-hidden="true"><text x="30" y="19" text-anchor="middle" '
+            'font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="700" fill="#635BFF" '
+            'letter-spacing="-.4">stripe</text></svg>'),
+ "Mastercard": ('<svg viewBox="0 0 38 24" aria-hidden="true"><circle cx="14" cy="12" r="9" fill="#EB001B"/>'
+                '<circle cx="24" cy="12" r="9" fill="#F79E1B"/><path d="M19 4.6a9 9 0 0 1 0 14.8a9 9 0 0 1 0-14.8z" '
+                'fill="#FF5F00"/></svg>'),
+}
+
+
+def pay_badges(label=True):
+    """The accepted payment methods as small badges."""
+    # Logo-only marks get a hidden text label; marks with visible text do not need one.
+    marks = "".join(f'<li class="pay-{m.split()[0].lower()}" title="{esc(m)}">'
+                    + ("" if "<span>" in _PAY_MARK[m] else f'<span class="sr-only">{esc(m)}</span>')
+                    + f'{_PAY_MARK[m]}</li>' for m in PAYMENT)
+    lead = '<span class="pay-lead">We accept</span>' if label else ""
+    return f'<div class="pay">{lead}<ul class="pay-list">{marks}</ul></div>'
 
 
 def cards(items, cls="grid--3"):
@@ -664,59 +552,21 @@ def keyfacts(pairs):
         f'<div class="keyfact"><span>{esc(k)}</span><b>{v}</b></div>' for k, v in pairs) + '</div>'
 
 
-def proscons(pros, cons, ptitle="What we liked", ctitle="What we didn't"):
-    p = "".join(f"<li>{x}</li>" for x in pros)
-    c = "".join(f"<li>{x}</li>" for x in cons)
-    return (f'<div class="pc"><div class="pc-col pc-pro"><h4>{ptitle}</h4><ul>{p}</ul></div>'
-            f'<div class="pc-col pc-con"><h4>{ctitle}</h4><ul>{c}</ul></div></div>')
-
-
-def toc(items):
-    li = "".join(f'<li><a href="#{a}">{t}</a></li>' for t, a in items)
-    return f'<nav class="toc" aria-label="On this page"><b>On this page</b><ol>{li}</ol></nav>'
-
-
-def band(title, body, cta_text, cta_href, external=False):
-    rel = ' rel="nofollow sponsored noopener" target="_blank"' if external else ""
-    return (f'<section class="sec"><div class="wrap"><div class="band"><div class="band-txt">'
-            f'<h3>{title}</h3><p>{body}</p></div>'
-            f'<a class="btn btn--light" href="{cta_href}"{rel}>{cta_text}</a></div></div></section>\n')
-
-
-def rg_block():
-    return f'''<section class="sec sec--ink"><div class="wrap">
-<div class="sec-head"><span class="kicker" style="color:var(--amber)">Play safe</span>
-<h2>Gambling should cost you time, not your week&rsquo;s wages</h2>
-<p>Every site on this page is built to make money from you over the long run. That is not a scandal, it is arithmetic &mdash; the house edge is published and it does not move. The only thing you control is how much you put through it.</p></div>
-<div class="grid grid--4">
-<div class="card"><div class="card-ic">{icon("wallet")}</div><h3>Set a deposit limit first</h3><p>Every casino here lets you cap daily, weekly or monthly deposits from the account settings. Do it before your first deposit, not after a bad night.</p></div>
-<div class="card"><div class="card-ic">{icon("clock")}</div><h3>Use reality checks</h3><p>A pop-up every 30 or 60 minutes telling you how long you have been playing sounds trivial. In practice it is the single most effective tool these sites offer.</p></div>
-<div class="card"><div class="card-ic">{icon("lock")}</div><h3>Self-exclude if you need to</h3><p>Time-outs run from 24 hours to six weeks. Self-exclusion runs six months or longer and cannot be reversed on request. Both are free and take two minutes.</p></div>
-<div class="card"><div class="card-ic">{icon("chat")}</div><h3>Free help, 24/7</h3><p>The Gambling Helpline is free and confidential on <a href="tel:0800654655" style="color:var(--amber)">0800 654 655</a>. The Problem Gambling Foundation offers free counselling nationwide.</p></div>
-</div>
-<p style="margin-top:22px"><a href="/responsible-gambling/" style="color:var(--amber);font-weight:600">Read our full responsible gambling guide &rarr;</a></p>
-</div></section>
-'''
-
-
 def org_schema():
     return {
         "@type": "Organization", "@id": f"{SITE}/#organization", "name": NAME, "url": SITE,
         "logo": {"@type": "ImageObject", "url": f"{SITE}/favicon-512x512.png", "width": 512, "height": 512},
         "email": EMAIL, "areaServed": {"@type": "Country", "name": "New Zealand"},
         "knowsLanguage": "en-NZ",
-        "description": ("Outdoors retailer in Stratford, Taranaki, and independent New Zealand "
-                        "guide to online betting, online casinos and pokies."),
+        "description": "Outdoors and sporting goods retailer in Stratford, Taranaki, New Zealand.",
         "telephone": STORE["phone_tel"],
-        "publishingPrinciples": f"{SITE}/how-we-rate-casinos/",
-        "founder": {"@id": f"{SITE}/#author-angus-mclean"},
     }
 
 
 def store_schema():
-    """SportingGoodsStore entity for the retail business behind this domain."""
+    """OnlineStore entity for the business behind this domain."""
     return {
-        "@type": ["SportingGoodsStore", "LocalBusiness"],
+        "@type": "OnlineStore",
         "@id": f"{SITE}/#store",
         "name": STORE["legal"],
         "alternateName": STORE["name"],
@@ -735,13 +585,15 @@ def store_schema():
         },
         "areaServed": {"@type": "Country", "name": "New Zealand"},
         "currenciesAccepted": "NZD",
+        "paymentAccepted": ", ".join(PAYMENT),
         "parentOrganization": {"@id": f"{SITE}/#organization"},
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
             "name": "Departments",
             "itemListElement": [
                 {"@type": "OfferCatalog", "name": d[0],
-                 "url": f"{SITE}/#{d[1]}"} for d in DEPARTMENTS
+                 "url": f"{SITE}/shop/{d[1]}/"} for d in DEPARTMENTS
+                if d[0] in {p["dept"] for p in PRODUCTS}
             ],
         },
     }
@@ -752,29 +604,13 @@ def site_schema():
             "publisher": {"@id": f"{SITE}/#organization"}, "inLanguage": "en-NZ"}
 
 
-def person_schema(slug):
-    a = AUTHORS[slug]
-    d = {"@type": "Person", "@id": f"{SITE}/#author-{slug}", "name": a["name"],
-         "url": f"{SITE}/authors/#{slug}", "jobTitle": a["role"],
-         "image": SITE + a["img"],
-         "worksFor": {"@id": f"{SITE}/#organization"}, "knowsAbout": a["knows"],
-         "description": a["short"]}
-    if a.get("location"):
-        d["homeLocation"] = {"@type": "Place", "name": a["location"]}
-    if a.get("sameAs"):
-        d["sameAs"] = a["sameAs"]
-    return d
-
-
-def page_schema(kind, title, desc, path, author="angus-mclean", extra=None):
-    """Standard @graph for a content page."""
-    g = [org_schema(), site_schema(), person_schema(author)]
+def page_schema(kind, title, desc, path, extra=None):
+    """Standard @graph for a page."""
+    g = [org_schema(), site_schema()]
     wp = {"@type": ["WebPage", kind] if kind and kind != "WebPage" else "WebPage",
           "@id": f"{SITE}{path}#webpage", "url": SITE + path, "name": title,
           "description": desc, "inLanguage": "en-NZ",
           "isPartOf": {"@id": f"{SITE}/#website"},
-          "author": {"@id": f"{SITE}/#author-{author}"},
-          "reviewedBy": {"@id": f"{SITE}/#author-witi-king"},
           "publisher": {"@id": f"{SITE}/#organization"},
           "datePublished": PUBLISHED, "dateModified": UPDATED,
           "primaryImageOfPage": {"@type": "ImageObject", "url": f"{SITE}/images/og-magnum.jpg"}}
@@ -782,79 +618,6 @@ def page_schema(kind, title, desc, path, author="angus-mclean", extra=None):
     if extra:
         g += extra
     return {"@context": "https://schema.org", "@graph": g}
-
-
-def itemlist_schema(ops, name, path, mode="casino"):
-    el = []
-    for i, o in enumerate(ops, 1):
-        el.append({"@type": "ListItem", "position": i,
-                   "item": {"@type": "Organization", "name": o["name"],
-                            "url": f"{SITE}/casino-reviews/{o['slug']}/",
-                            "logo": SITE + o["logo"]}})
-    return {"@type": "ItemList", "@id": f"{SITE}{path}#ranking", "name": name,
-            "numberOfItems": len(ops),
-            "itemListOrder": "https://schema.org/ItemListUnordered",
-            "itemListElement": el}
-
-
-def licence_tracker():
-    """Live status of the NZ online casino licensing process.
-
-    Nothing here is hand-written: every date, status and countdown is derived
-    from _build/licensing.py at build time, so the module cannot quietly go
-    stale between rebuilds.
-    """
-    import licensing as L
-
-    rows = []
-    for d, title, detail, kind in L.STAGES:
-        st = L.status_of(d, kind)
-        when = d.strftime("%-d %b %Y")
-        if st == "estimate":
-            when = "Early " + d.strftime("%Y")
-        note = ""
-        if st == "next":
-            note = f'<span class="lt-in">in {L.days_to(d)} days</span>'
-        elif st == "done":
-            note = '<span class="lt-in lt-in--done">complete</span>'
-        rows.append(
-            f'<li class="lt-row lt-row--{st}">'
-            f'<span class="lt-when">{esc(when)}</span>'
-            f'<span class="lt-body"><b>{esc(title)}</b>{note}'
-            f'<span class="lt-detail">{esc(detail)}</span></span></li>')
-
-    facts = "".join(f'<div class="lt-fact"><span>{esc(k)}</span><b>{esc(v)}</b></div>'
-                    for k, v in L.FACTS)
-    cut = L.days_to(L.CUTOFF)
-
-    return f"""<section class="sec sec--haze" id="licence-tracker"><div class="wrap">
-  <div class="sec-head">
-    <span class="kicker">{icon("shield")} Tracked by us &middot; updated {UPDATED}</span>
-    <h2>New Zealand licensing tracker</h2>
-    <p>The regime that decides which online casinos may legally take New Zealand
-      customers is being settled right now. No other comparison site is tracking it,
-      so we are. Every date below is derived when the page is built, not typed by hand.</p>
-  </div>
-
-  <div class="lt-hero">
-    <div class="lt-count"><b class="lt-n">{cut}</b><span>days until operators without a licence<br>must stop serving New&nbsp;Zealand</span></div>
-    <div class="lt-facts">{facts}</div>
-  </div>
-
-  <ol class="lt">{''.join(rows)}</ol>
-
-  <div class="note note--amber">
-    <b>What this means for the sites listed on this page</b>
-    <p>None of them holds a New Zealand licence, because no New Zealand licence has
-      been issued to anyone yet &mdash; the first one cannot exist before 2027. They
-      operate under offshore licences (Cura&ccedil;ao, Anjouan and similar), which is
-      the only thing available to them today, and which is also why you carry more
-      risk here than you would with a domestic operator. From 1&nbsp;December 2026 an
-      operator that has not applied must stop accepting New Zealand customers.</p>
-    <p>We would rather tell you that eleven weeks out than let you find out on the day.
-      <a href="/licensed-online-casinos/">The full legal position is here</a>.</p>
-  </div>
-</div></section>"""
 
 
 # ---------------------------------------------------------------- lastmod
@@ -867,16 +630,9 @@ LASTMOD = {}          # path -> ISO date, filled as pages are written
 
 
 def _hashable(body):
-    """Body with the genuinely volatile bits neutralised.
-
-    The licensing countdown changes every day. That is a real content change
-    but it is not an editorial one, and bumping lastmod daily on a countdown
-    is exactly the noise that teaches a crawler to ignore the field. The date
-    placeholders are still unresolved at this point, so they cost nothing.
-    """
-    b = re.sub(r'(<b class="lt-n">)\d+(</b>)', r"\g<1>#\g<2>", body)
-    b = re.sub(r"in \d+ days", "in # days", b)
-    return b
+    """Body as it is hashed for lastmod. The date placeholders are still
+    unresolved at this point, so a rebuild alone never changes the hash."""
+    return body
 
 
 def _stamp(path, body):
@@ -891,11 +647,13 @@ def _stamp(path, body):
 
 
 def save_manifest():
-    json.dump(_MANIFEST, open(_MANIFEST_FILE, "w"), indent=1, sort_keys=True)
+    # Only pages built this run: a deleted page leaves no entry behind.
+    keep = {p: _MANIFEST[p] for p in LASTMOD}
+    json.dump(keep, open(_MANIFEST_FILE, "w"), indent=1, sort_keys=True)
 
 
 def write(path, body):
-    """path: '/online-pokies/' -> online-pokies/index.html"""
+    """path: '/shop/' -> shop/index.html"""
     body = _stamp(path, body)
     rel = path.strip("/")
     d = os.path.join(ROOT, rel) if rel else ROOT

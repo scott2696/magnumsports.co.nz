@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate favicons, author avatars and the OG card for magnumsports.co.nz."""
+"""Generate the favicons and the social sharing card for magnumsports.co.nz."""
 import os
 from PIL import Image, ImageDraw, ImageFont
 
@@ -67,93 +67,30 @@ def write_favicons():
     open(os.path.join(ROOT, "favicon.svg"), "w").write(svg)
 
 
-def wordmark(path, text, accent, sub=""):
-    """House-style SVG wordmark used where no vendor artwork exists."""
-    svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" role="img" aria-label="{text}">
-<style>.w{{font:700 40px 'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;fill:#101828}}
-.a{{font:700 40px 'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;fill:{accent}}}
-.s{{font:500 12px 'Helvetica Neue',Helvetica,Arial,sans-serif;fill:#6b7688;letter-spacing:3.2px}}</style>
-<text x="10" y="50" class="w">{text.split(" ")[0]}<tspan class="a">{(" " + " ".join(text.split(" ")[1:])) if len(text.split(" ")) > 1 else ""}</tspan></text>
-<text x="12" y="72" class="s">{sub}</text>
-</svg>'''
-    open(path, "w").write(svg)
-
-
-def avatar(path, initials, c1, c2, size=168):
-    S = size * 4
-    im = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    d = ImageDraw.Draw(im)
-    for y in range(S):
-        t = y / S
-        d.line([(0, y), (S, y)], fill=(int(c1[0] + (c2[0] - c1[0]) * t),
-                                       int(c1[1] + (c2[1] - c1[1]) * t),
-                                       int(c1[2] + (c2[2] - c1[2]) * t), 255))
-    mask = Image.new("L", (S, S), 0)
-    ImageDraw.Draw(mask).ellipse([0, 0, S - 1, S - 1], fill=255)
-    im.putalpha(mask)
-    f = font(int(S * 0.38))
-    d = ImageDraw.Draw(im)
-    bb = d.textbbox((0, 0), initials, font=f)
-    d.text(((S - bb[2] + bb[0]) / 2 - bb[0], (S - bb[3] + bb[1]) / 2 - bb[1] - S * 0.02),
-           initials, font=f, fill=WHITE)
-    im.resize((size, size), Image.LANCZOS).convert("RGB").save(path, quality=92)
-    im.resize((size * 2, size * 2), Image.LANCZOS).convert("RGB").save(
-        path.replace(".jpg", "@2x.jpg"), quality=90)
-
-
 def og_card():
+    """1200x630 sharing card: the store, not any one page."""
     W, H = 1200, 630
-    im = Image.new("RGB", (W, H), (10, 16, 32))
-    d = ImageDraw.Draw(im)
-    for y in range(H):
-        t = y / H
-        d.line([(0, y), (W, y)], fill=(int(10 + 12 * t), int(16 + 19 * t), int(32 + 42 * t)))
+    im = Image.new("RGB", (W, H), (12, 11, 16))
     glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     gd = ImageDraw.Draw(glow)
-    for r in range(320, 0, -4):
-        a = int(46 * (1 - r / 320))
-        gd.ellipse([1010 - r, 90 - r, 1010 + r, 90 + r], fill=(225, 29, 46, a))
+    for r in range(340, 0, -4):
+        a = int(40 * (1 - r / 340))
+        gd.ellipse([1000 - r, 110 - r, 1000 + r, 110 + r], fill=(245, 165, 36, a))
     im = Image.alpha_composite(im.convert("RGBA"), glow).convert("RGB")
     d = ImageDraw.Draw(im)
     im.paste(mark(96).convert("RGB"), (80, 76))
-    d.text((196, 88), "MAGNUM", font=font(40), fill=(255, 255, 255))
-    d.text((196, 134), "NZ CASINO & BETTING GUIDE", font=font(17), fill=(141, 154, 181))
-    d.text((80, 236), "Best Online Casino", font=font(78), fill=(255, 255, 255))
-    d.text((80, 322), "Sites NZ 2026", font=font(78), fill=(225, 29, 46))
-    d.text((80, 438), "Independently tested. Real NZD deposits.", font=font(30), fill=(200, 210, 228))
-    d.text((80, 480), "Withdrawal times timed by us.", font=font(30), fill=(200, 210, 228))
-    d.rounded_rectangle([80, 546, 292, 592], radius=10, fill=(255, 183, 3))
-    d.text((100, 559), "18+  ·  T&Cs APPLY", font=font(19), fill=(10, 16, 32))
+    d.text((196, 88), "MAGNUM", font=font(40), fill=(242, 239, 233))
+    d.text((196, 134), "OUTDOOR GEAR ONLINE", font=font(17), fill=(157, 152, 168))
+    d.text((80, 236), "Outdoor Gear,", font=font(78), fill=(242, 239, 233))
+    d.text((80, 322), "Delivered NZ-Wide", font=font(78), fill=(245, 165, 36))
+    d.text((80, 438), "Gloves, clothing, pouches, packs and bipods.", font=font(30), fill=(200, 196, 208))
+    d.text((80, 480), "Order online, delivered in 7 to 10 days.", font=font(30), fill=(200, 196, 208))
+    d.rounded_rectangle([80, 546, 300, 592], radius=10, fill=(245, 165, 36))
+    d.text((100, 559), "06 765 7248", font=font(21), fill=(26, 18, 4))
     im.save(os.path.join(ROOT, "images", "og-magnum.jpg"), quality=88)
 
 
 if __name__ == "__main__":
-    os.makedirs(os.path.join(ROOT, "images", "authors"), exist_ok=True)
     write_favicons()
-    # Author headshots are supplied, not generated:
-    #   headshot("<source>.png", "images/authors/angus-mclean.jpg")
-    #   headshot("<source>.png", "images/authors/witi-king.jpg")
-    # Vendor artwork is supplied for every operator now, so no wordmarks are
-    # generated here. wordmark() is kept for a future operator that arrives
-    # without a logo — never point it at a path that already holds real
-    # artwork, because it overwrites in place.
     og_card()
     print("images generated")
-
-
-def headshot(src, dest, focus_y=0.42):
-    """Square-crop a supplied headshot around the face and write 1x + 2x.
-
-    Bylines and author boxes render the image as a circle, so the crop is
-    centred horizontally and biased upward (faces sit above centre in most
-    portraits) to keep the head inside the circle rather than the chin.
-    """
-    im = Image.open(src).convert("RGB")
-    w, h = im.size
-    side = min(w, h)
-    left = (w - side) // 2
-    top = int(max(0, min(h - side, focus_y * h - side / 2)))
-    sq = im.crop((left, top, left + side, top + side))
-    sq.resize((168, 168), Image.LANCZOS).save(dest, quality=92)
-    sq.resize((336, 336), Image.LANCZOS).save(dest.replace(".jpg", "@2x.jpg"), quality=90)
-    print(f"  {os.path.basename(src)} {w}x{h} -> {os.path.basename(dest)} (168 + 336)")

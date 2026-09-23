@@ -1,3 +1,9 @@
 .DS_Store
 __pycache__/
 *.pyc
+
+# Supplier price sheets hold cost prices and markup: keep them out of this public repo.
+_build/supplier/*.csv
+_build/supplier/*.bak
+__pycache__/
+.DS_Store

@@ -1,48 +1,19 @@
 # magnumsports.co.nz
 
-**Magnum Sports** — the outdoors store at 220 Broadway, Stratford, Taranaki — plus independent
-New Zealand guides to online betting, online casinos and pokies.
+**Magnum Sports**: an online store for outdoor gear, delivered across New Zealand.
 
-Static HTML, generated from Python. No framework, no build dependencies beyond the standard
-library (plus Pillow for the one-off image generation scripts).
+Static HTML, generated from Python. No framework and no build dependencies beyond the standard
+library, plus Pillow for the image scripts.
 
-| | |
+| Page | What it is |
 |---|---|
-| **Homepage** `/` | The retail store. Twelve departments, then sports betting. `LocalBusiness` schema with the real trading details. |
-| **Casino money page** `/online-casinos/` | `best online casino sites NZ` — ~6,700 words |
-| **Betting money page** `/online-betting/` | `online betting NZ` + `best sports betting sites NZ` — ~6,400 words |
-
----
-
-## What's here
-
-42 pages, ~99,000 words of original content.
-
-Every content page carries a **People Also Ask** section built from real search queries —
-4,358 harvested from Google, Bing and DuckDuckGo autosuggest for New Zealand, filtered to NZ
-intent, deduped against each page's FAQ, and answered at snippet length. 240 Q&As across 37
-pages, all included in the pages' `FAQPage` schema. The four pages without one (`/authors/`,
-`/terms/`, `/privacy/`, `/cookie-policy/`) have no genuine query demand to answer.
-
-| Tier | Pages |
-|---|---|
-| Store | `/` — Magnum Sports, Stratford |
-| Money pages | `/online-casinos/`, `/online-betting/` |
-| Growth | `/licensed-online-casinos/`, `/new-casinos-nz/` |
-| Categories | `/online-pokies/`, `/casino-payout-percentages/`, `/fast-payout-casinos/`, `/live-casino/`, `/crypto-casinos-nz/`, `/casino-bonus/`, `/no-deposit-bonus/` |
-| Redirect stub | `/instant-withdrawals/` → `/fast-payout-casinos/` (see caveat below) |
-| Reviews | `/casino-reviews/` + 19 operator reviews |
-| Guides | `/licensed-online-casinos/`, `/gambling-winnings-tax-nz/`, `/casino-payment-methods/`, `/how-we-rate-casinos/` |
-| Company | `/about/`, `/contact/`, `/authors/`, `/responsible-gambling/` |
-| Legal | `/terms/`, `/privacy/`, `/cookie-policy/` |
-| Machine | `/sitemap.xml`, `/robots.txt` |
-
-Strategy documents live in [`docs/`](docs/):
-- [`COMPETITOR-ANALYSIS.md`](docs/COMPETITOR-ANALYSIS.md) — teardown of the ranking pages across NZ/AU/UK/US/CA and the 15 content gaps this site is built to exploit
-- [`KEYWORD-STRATEGY.md`](docs/KEYWORD-STRATEGY.md) — clusters, long-tail, entity coverage, per-page mapping, anchor-text plan
-- [`SEO-PLAYBOOK.md`](docs/SEO-PLAYBOOK.md) — architecture, EEAT programme, schema inventory, SERP plan, scalable content outlines, operating cadence
-
----
+| `/` | Departments, five picks from each, favourites, how ordering works, FAQ |
+| `/shop/` | Online shop front: department tiles, cart and order-request form |
+| `/shop/<department>/` | Every product in one department, and that department's FAQ |
+| `/shop/<department>/<sku>/` | One product: photo, description, full specifications, add to cart |
+| `/search/?q=` | Product search results (not indexed, not in the sitemap) |
+| `/about/`, `/contact/` | The business |
+| `/terms/`, `/privacy/`, `/cookie-policy/` | Legal |
 
 ## Building
 
@@ -50,242 +21,90 @@ Strategy documents live in [`docs/`](docs/):
 python3 _build/build.py
 ```
 
-Regenerates all 42 pages plus the redirect stub, `sitemap.xml` and `robots.txt` in about a second.
-Output is written in place — this repo *is* the deployed site (GitHub Pages, see `CNAME`).
+Regenerates every page, `assets/js/cart.js`, `sitemap.xml` and `robots.txt`. Output is written in
+place: this repo *is* the deployed site (GitHub Pages, see `CNAME`). GitHub Pages does not serve
+folders that start with `_`, so `_build/` stays off the live site. It is still visible to anyone who
+can see the repository.
 
 ### Where things live
 
 | File | Controls |
 |---|---|
-| `_build/lib.py` | Site constants, the **store details** (`STORE`), **departments** (`DEPARTMENTS`), **featured products** (`FEATURED`), **all page titles and descriptions** (`META`), nav and footer structure, authors, schema builders, shared components (leaderboard, tables, FAQ, cards, pros/cons) |
-| `_build/operators.json` | All 19 operators: links, bonuses, wagering, payout times, licensing, payments, pros/cons, verdicts, ranking |
-| `_build/p_home.py` | Homepage — the Magnum Sports store |
-| `_build/p_casinos.py` | `/online-casinos/` — the casino money page |
-| `_build/p_categories.py` | The 7 category pages |
-| `_build/p_betting.py` | `/online-betting/` — the single betting page |
-| `_build/p_new.py` | `/new-casinos-nz/` — running list, update `LAUNCHES` |
-| `_build/p_guides.py` | Law, tax, payments, methodology |
-| `_build/p_site.py` | About, contact, authors, responsible gambling, terms, privacy, cookies |
-| `_build/p_reviews.py` | Review hub + 19 reviews (`NARR` holds the bespoke per-brand copy) |
-| `_build/paa_data.py` | **People Also Ask** content — 107 real-query Q&As, keyed by page |
-| `_build/pixels.py` | SERP title width in **pixels** (Arial 20px metrics). Google truncates on width, not characters |
-| `_build/check_keywords.py` | Build guard: Tier 1 coverage, keyword density, title pixel width |
-| `_build/build.py` | Orchestrator, sitemap, robots |
-| `assets/css/site.css` | The entire stylesheet (22 KB, no JS) |
+| `_build/lib.py` | Business details (`STORE`), departments (`DEPARTMENTS`; one appears only once it has products), the catalogue loader (`PRODUCTS`), order email (`ORDER_EMAIL`), payment methods (`PAYMENT`, `PAY_HOW`), page titles (`META`), nav, footer, schema and shared components |
+| `_build/products.json` | The store's own products. One entry each: `sku`, `name`, `price`, `dept`, `blurb`, optional `options` (sizes etc.) and `featured` |
+| `_build/supplier/` | Supplier price sheets and their scripts (below) |
+| `_build/p_home.py` | Homepage |
+| `_build/p_shop.py` | Shop front, department pages, product pages; writes `assets/js/cart.js` |
+| `_build/p_site.py` | About, contact, terms, privacy, cookies |
+| `_build/search.js` | Search: the header search box and `/search/`. Copied to `assets/js/search.js`; the build writes the index it searches to `assets/js/search.json` |
+| `_build/cart.js` | Cart source. The build bakes the catalogue and `ORDER_EMAIL` into `assets/js/cart.js`, so edit this file, not the output |
+| `_build/faq_data.py` | FAQs: the shop-wide set (`HOME`, on the homepage) and one set per department (`DEPT`). The questions come from real NZ search autosuggest; see the file's header |
+| `_build/pixels.py`, `_build/check_titles.py` | Build check: no page title wider than Google shows before truncating |
+| `_build/gen_images.py` | Favicons and the social sharing card (`images/og-magnum.jpg`) |
+| `assets/css/site.css` | The stylesheet |
 
-### One-off asset scripts
+### The cart
 
-```bash
-python3 _build/harvest_queries.py  # re-harvest real user queries from Google (gl=nz),
-                                # Bing (en-NZ) and DuckDuckGo autosuggest -> queries.json
-                                # Takes ~4 minutes. Run before refreshing paa_data.py.
-python3 _build/gen_images.py    # favicons (16→512 + .ico + SVG + apple-touch), OG card,
-                                # author avatars, wordmarks for brands with no vendor artwork
-python3 _build/trim_logos.py    # crops white/transparent borders from brand logos so they
-                                # fill the 88×46 toplist tile instead of being letterboxed
-```
+The site has no server, so the cart does not take payment. It lives in the visitor's browser
+(`localStorage`), and checkout opens their email app with the order written out, addressed to
+`ORDER_EMAIL`. The shop replies to confirm stock and payment (prices include GST and NZ-wide delivery): bank transfer (account details
+in that reply, never on the site) or Visa/Mastercard over the phone. The shop is online only:
+nothing is sold for collection, and firearms, ammunition, reloading and airguns are not sold.
 
-### Common edits
+### Card checkout (Stripe)
 
-- **Monthly rollover (do this on the 1st):** change `MONTH` in `_build/lib.py` — and `YEAR` in
-  January — then rebuild. Every title, description and H1 follows from that one edit. Also bump
-  `UPDATED` / `UPDATED_NZ`. **A stale month is worse than no month**, so treat this as a standing
-  commitment: if you will not keep it current, strip the stamp instead.
-- **Change a date:** `UPDATED` / `UPDATED_NZ` / `PUBLISHED` in `_build/lib.py`, then rebuild.
-- **Change a title or meta description:** the `META` dict in `_build/lib.py`. Titles are
-  clamped to 60 characters and descriptions to 158 at build time, on a word boundary.
-- **Add or reorder an operator:** edit `_build/operators.json` (`rank` for the casino list,
-  `sports_rank` for the betting list) and rebuild. Add bespoke review copy in
-  `_build/p_reviews.py` → `NARR`.
-- **Refresh the People Also Ask sections:** run `python3 _build/harvest_queries.py`, inspect
-  `_build/queries.json`, then edit `_build/paa_data.py`. Questions must come from the harvest;
-  answers lead with the direct response in the first sentence, which is what Google lifts for
-  snippets and PAA.
-- **Change a store detail, department or featured product:** `STORE`, `DEPARTMENTS` and
-  `FEATURED` in `_build/lib.py`. Departments render as anchored cards on the homepage and feed
-  the `OfferCatalog` in the store schema, so adding one updates both.
-- **Add a nav or footer link:** `NAV` / `FOOTER` in `_build/lib.py`.
-- **Add a page:** write a `build()` function in a new `_build/p_*.py`, add the module name to
-  `MODULES` in `_build/build.py`. It is picked up by the sitemap automatically.
+`_build/stripe-worker/` is a Cloudflare Worker that holds the Stripe key and opens Stripe Checkout for
+the cart; see its README. While `CHECKOUT_URL` in `lib.py` is empty, the site takes order requests
+only (Stripe invoices, bank transfer, card by phone). Set it to the deployed Worker's address and
+rebuild to add "Pay now by card". The Stripe key is never in this repository.
 
----
+### Search
 
-## Conventions
+The site is static, so search runs in the browser. The build writes every product's name,
+department, price, description, model and link to `assets/js/search.json`, fetched the first time
+someone opens search. Every word typed must match; matches in the product name rank first.
+Press `/` on any page to open the search box.
 
-- **Clean URLs.** Every page is `<path>/index.html`; nothing links to a `.html` extension.
-- **Self-referencing canonicals** on all 42 URLs.
-- **Titles are budgeted in pixels, not characters** — 580px max, measured with real Arial
-  advance widths at Google's 20px desktop title size. A 61-character title of capitals can
-  overflow where a 62-character lowercase one fits, so character counts are the wrong tool.
-  Widest title on the site is 564px. September is the longest month name, so the budget only
-  gets slacker through the rest of the year.
-- **Bracketed freshness stamp** in the title (`[September 2026]` / `[September 2026 Guide]`) on
-  the 35 guide, category and review pages. The store homepage, About, Contact, Authors and the
-  three legal pages are deliberately unstamped — a date on a terms page implies a policy version,
-  and a month on a retail store's title helps nothing.
-- **`en-NZ`** throughout, with `hreflang="en-nz"` and `x-default`.
-- **Affiliate links** always carry `rel="nofollow sponsored noopener" target="_blank"`.
-- **One page, one head keyword.** See the mapping table in `docs/KEYWORD-STRATEGY.md`. The
-  homepage targets local retail intent only; casino keywords live on `/online-casinos/`.
-- **Every page** has a named author, a named fact-checker (never the same person), a
-  last-updated date, an advertising disclosure and responsible gambling messaging.
+### Product photos
 
----
+A product shows its photo when `images/products/<sku>.webp` (or `.jpg`/`.png`) exists; otherwise
+its card shows the department icon. Drop a file in and rebuild.
 
-## Before this goes live
+### Suppliers
 
-### `/instant-withdrawals/` is not a real 301
+Every supplier is registered in `_build/supplier/suppliers.json`: name, company, website, its sheet,
+its SKU prefix, how it prices, and its photo settings. Every row of every sheet and every product on
+the site carries its `supplier` key, so any line can be traced back to who makes it. Customers do not
+see it.
 
-GitHub Pages serves static files and **cannot issue an HTTP 301** — there is no server config to
-put one in. The stub at `/instant-withdrawals/` is the strongest signal a static host allows: a
-zero-delay meta refresh plus `rel=canonical` to `/fast-payout-casinos/`, kept out of the sitemap.
-Google treats that as a permanent redirect in practice, but it is not one.
+| Key | Supplier | Sheet | Prices |
+|---|---|---|---|
+| `petram` | Guangzhou PETRAM Technology Co., Ltd | `petram.csv` (1,018 lines) | Published USD ranges |
+| `ultra-safety` | Kunshan New Rich Industry Co., Ltd (Ultra Safe, Vanda) | `ultra-safety.csv` (164 lines) | Quote only: none live until quoted |
 
-To make it a true 301, issue it at the edge — one line, whichever you use:
+A row goes live only when it has **`sell` = `yes`** and a **`retail_nzd`** price. `name`, `dept` and
+`blurb` are drafts and can be edited. Read `flags` before selling a line: it marks titles using
+another company's brand or product name, legal or safety concerns, and the owner's decisions (for
+Ultra Safety: no body armour or bomb blankets, no police uniforms). The `supplier_*` columns are the
+supplier's own data, for reference only.
 
-```
-Cloudflare   Rules > Redirect Rules:  /instant-withdrawals/*  ->  /fast-payout-casinos/  (301)
-Netlify      _redirects:              /instant-withdrawals/  /fast-payout-casinos/  301!
-Apache       .htaccess:               RedirectMatch 301 ^/instant-withdrawals/?$ /fast-payout-casinos/
-Nginx                                 location = /instant-withdrawals/ { return 301 /fast-payout-casinos/; }
-```
+- `python3 _build/supplier/reprice.py [rate]` goes through every supplier. It switches on each row
+  with no flag (a department guess is fine), an origin of China, a supplier price and a department
+  sold online, and prices it at the top of the supplier's USD price × 5, converted to NZD at today's
+  rate or the one given. It overwrites `sell` and `retail_nzd`, so run it before hand-editing prices.
+- `exclude.txt` lists SKUs kept off sale for good: photos showing another brand's marks, and a
+  copied medical tourniquet.
+- `python3 _build/supplier/price_request.py make <supplier>` writes a price request spreadsheet to
+  `~/Documents` for a supplier that quotes; `... load <supplier> <file.xlsx>` reads the quoted prices
+  back into its sheet.
+- `python3 _build/supplier/fetch_images.py` downloads the photo for every line on sale, trimmed per
+  the supplier's settings, as a 600px square. Check new photos by eye before they go live.
 
-Add more redirect pairs to `REDIRECTS` in `_build/build.py`. No internal link points at the stub —
-all instant-withdrawal keyword variants are targeted on the destination page.
+To add a supplier: give it an entry in `suppliers.json`, build its sheet in the same columns as the
+others (the first column is `supplier`), then run the steps above and rebuild.
 
----
+## lastmod
 
-Three things need a human pass:
-
-1. **Operator data.** Bonus amounts, wagering multipliers, minimum deposits, payout times,
-   licence details, game counts, withdrawal caps and the testing statistics in
-   `_build/operators.json` and throughout the copy are working figures assembled during the
-   build. **Verify every one against the operator's current terms and your own testing
-   records before publishing**, and update `UPDATED` when you do. The figures are internally
-   consistent and plausible, but they are not yet your data.
-
-2. **Store content.** Everything on the homepage about the shop is grounded in the store's own
-   published details recovered from the site's archived pages — trading name, address, phone,
-   the twelve departments, the ~678 product count and three real products with prices. Nothing
-   about the business has been invented, which also means some things are missing: **opening
-   hours, years in business, stocked brands and the rest of the catalogue**. Add those, and
-   put `openingHoursSpecification` into `store_schema()` in `_build/lib.py` once you have them.
-   The three featured products are the only ones evidenced — add the real stock list rather
-   than inventing SKUs.
-
-3. **POLi's status.** Verified September 2026: POLi is New Zealand-owned (Merco, since Australia
-   Post closed the Australian arm in 2023), actively trading, and moving from credential-sharing
-   onto Open Banking APIs with the major banks. It remains **deposit-only**. Earlier drafts of this
-   site described it as "not recommended / frequently declined", which was out of date — that has
-   been corrected sitewide. Bank coverage and per-operator acceptance both move, so re-check before
-   publishing.
-
-4. **Author bios — confirm the details.** The site has two named people: **Angus McLean**
-   (writer, Wellington) and **Witi King** (fact checker, Taupō), with their headshots in
-   `images/authors/` and full profiles on `/authors/`.
-
-   The bios are drafted, not researched — I had their names, roles and photographs, so the
-   professional detail in them (Angus's fifteen years in consumer journalism; Witi's career in
-   community and social services working on problem gambling) is a **draft for them to correct**,
-   not something verified. Read both profiles with each of them and change whatever is wrong
-   before launch. A bio that overstates a real person's background is worse than a short one.
-
-   Also add a `sameAs` array to each entry in `AUTHORS` (`_build/lib.py`) — LinkedIn at minimum,
-   plus any external bylines. The `Person` schema already outputs it when present, along with
-   `homeLocation`. Those are the two strongest external-verification signals available, and they
-   are currently empty.
-
-Two brands — **CrownSlots** and **Gunsbet** — had no artwork in either logo folder, so
-`logos/crownslots.svg` and `logos/gunsbet.svg` are house-style wordmarks. Swap them for vendor
-files when they arrive.
-
----
-
-## Legal note
-
-New Zealand's rules for **sports and racing betting** differ from its rules for **casino
-games**, and the gap widened in 2025:
-
-- The **Racing Industry Amendment Act 2025** (in force 28 June 2025) makes it unlawful for
-  anyone other than TAB NZ and its partner to **offer or promote** racing or sports betting to
-  a person in New Zealand. The Act expressly protects the individual punter from conviction,
-  but the restriction on *promotion* is directly relevant to an affiliate publishing to a
-  New Zealand audience.
-- Section 10 of the **Gambling Act 2003** restricts advertising overseas gambling in
-  New Zealand, and the **Online Casino Gambling Act** brings licensed operators under
-  New Zealand advertising rules, with unlicensed providers required to exit from
-  **1 December 2026**.
-
-The site is written to handle this honestly — `/online-betting/` explains the law before it
-lists anything, the homepage's betting section carries the same warning before its toplist, and
-`/licensed-online-casinos/` tracks the casino regime.
-
-**Take New Zealand legal advice on the affiliate model before launch**, particularly on the
-sports betting pages. This matters more here than it would on a standalone affiliate domain:
-Magnum Sports is a real, named, licensed New Zealand retailer with a physical address, so the
-promotion sits against an identifiable local business rather than an anonymous offshore one.
-Worth confirming with your adviser how the Arms Act side of the business interacts with
-gambling promotion on the same domain, too.
-
----
-
-Magnum Sports · 220 Broadway, Stratford, Taranaki 4332 · 06 765 7248
-
-Firearms and ammunition are sold in store only, to holders of a valid New Zealand firearms
-licence. Gambling content is strictly 18+. Gambling can be harmful — Gambling Helpline
-0800 654 655.
-
-## Above-the-fold audit
-
-`/_fold.html` renders any page at any viewport width inside a scaled iframe
-and measures where the key elements land against a fold line. It exists
-because Chrome on this machine will not resize its own window below roughly
-1500px, so neither a phone viewport nor a reliable desktop one can be
-screenshotted directly.
-
-Run the preview server and open http://localhost:8811/_fold.html. It sweeps
-every money page on load and prints a pass/fail table: H1, author, updated
-date, the toplist H2, the table, the first operator logo, and whether the
-hero lede is correctly hidden. Below the table is a scaled preview of one
-page with the fold drawn on it.
-
-Width, height, fold position and the preview page are editable in the form,
-or passed as query parameters:
-
-    /_fold.html?w=390&h=900&fold=714&src=/online-casinos/
-    /_fold.html?w=1400&h=1150&src=/online-betting/
-
-The site homepage reports failures and that is expected: it is the outdoors
-store, it carries no byline, and its casino leaderboard sits deliberately far
-down the page. The audit rules are written for the money pages.
-
-It is disallowed in robots.txt and is a development tool only.
-
-
-## lastmod and dateModified
-
-`_build/lastmod.json` is build state and is committed deliberately. It maps each
-URL to a content hash and the date that content last changed.
-
-On every build each page is hashed *before* its date placeholders are resolved.
-If the hash matches the manifest the page keeps the date it already had; if it
-differs it gets today's. The same date then fills both `<lastmod>` in the
-sitemap and `dateModified` in the page's JSON-LD, so the two can never disagree.
-
-Two deliberate details:
-
-- The licensing countdown is neutralised before hashing. It genuinely changes
-  every day, but bumping `lastmod` daily on a counter is the noise that teaches
-  a crawler to ignore the field.
-- Editing and reverting a page inside one day leaves it stamped with that day.
-  The content matches an earlier state but it did change, twice, so the date is
-  defensible and the alternative is keeping hash history nobody will read.
-
-Delete the manifest to re-baseline everything to today. It cannot be
-reconstructed from git, because a rebuild commits all 42 generated files at
-once and every file then reads as changed on the same date.
-
-The sitemap carries `loc` and `lastmod` only. `changefreq` and `priority` are
-ignored by Google and the values previously emitted were false — "daily" on a
-store homepage that changes a few times a year, "monthly" on terms that have
-not moved since launch.
+`sitemap.xml` `<lastmod>` and each page's `dateModified` come from a content hash kept in
+`_build/lastmod.json`: a page's date changes only when its content does. Pages that are no longer
+built are dropped from the file.
