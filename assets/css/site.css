@@ -498,6 +498,7 @@ table.specs{min-width:0;table-layout:fixed}
 
 /* payment methods */
 .pay{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pay-list + .pay-lead{margin-left:4px}
 .pay-lead{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
 .pay-list{display:flex;gap:8px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
 .pay-list li{height:30px;min-width:48px;padding:0 9px;background:#fff;border-radius:4px;

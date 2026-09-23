@@ -125,7 +125,7 @@ def terms():
 <p>Prices are in New Zealand dollars and include GST and delivery anywhere in New Zealand; there is no separate freight charge. We may change prices at any time, but the price you pay is the one we confirm to you.</p>
 
 <h2>4. Payment</h2>
-<p>We take payment only through Stripe. {PAY_HOW} Stripe processes every payment on its own secure page; we never see or store your card number, and we never ask for payment details by email or phone. Goods are dispatched once payment has cleared.</p>
+<p>We take payment only through Stripe. {PAY_HOW} The full list of methods is in our <a href="/#faq">FAQ</a>. Stripe processes every payment on its own secure page; we never see or store your card number, and we never ask for payment details by email or phone. Goods are dispatched once payment has cleared.</p>
 
 <h2>5. Delivery</h2>
 <p>We deliver within New Zealand. Delivery takes <strong>7 to 10 days</strong> from when we confirm your order. Risk in the goods passes to you on delivery.</p>

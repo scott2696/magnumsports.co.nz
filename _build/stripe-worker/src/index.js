@@ -39,6 +39,30 @@ export default {
     const url = new URL(request.url);
     // GET /selftest: is the Stripe key present and accepted? Says only ok /
     // invalid / missing permission / not set - never anything about the key.
+    // GET /methods: which payment methods Stripe offers this account for an
+    // NZD checkout. Creates an unpaid session that simply expires.
+    if (request.method === "GET" && url.pathname === "/methods") {
+      if (!env.STRIPE_SECRET_KEY) return reply({ stripe: "not set" });
+      const f = new URLSearchParams();
+      f.set("mode", "payment");
+      f.set("success_url", env.SITE_URL + "/");
+      f.set("line_items[0][quantity]", "1");
+      f.set("line_items[0][price_data][currency]", (url.searchParams.get("currency") || "nzd").toLowerCase().slice(0, 3));
+      f.set("line_items[0][price_data][unit_amount]", "5000");
+      f.set("line_items[0][price_data][product_data][name]", "Payment methods check (not a real order)");
+      const r = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`, "Content-Type": "application/x-www-form-urlencoded" },
+        body: f,
+      });
+      const d = await r.json();
+      if (d.id) {
+        await fetch(`https://api.stripe.com/v1/checkout/sessions/${d.id}/expire`, {
+          method: "POST", headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}` },
+        });
+      }
+      return reply(r.ok ? { methods: d.payment_method_types, currency: d.currency } : { error: d.error && d.error.message });
+    }
     if (request.method === "GET" && url.pathname === "/selftest") {
       if (!env.STRIPE_SECRET_KEY) return reply({ stripe: "not set" });
       const r = await fetch("https://api.stripe.com/v1/checkout/sessions?limit=1", {

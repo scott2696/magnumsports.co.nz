@@ -9,7 +9,7 @@ too terse to read as a question. Answers lead with the direct response in the
 first sentence. Keep them true to the shop: ordering, payment and delivery
 facts come from lib.py (PAY_HOW, PAYMENT) and the terms page.
 """
-from lib import PAY_HOW, STORE, EMAIL, SHOW_PRICES
+from lib import PAY_HOW, STORE, EMAIL, SHOW_PRICES, PAYMENT_LOCAL
 
 TEL = f"<a href='tel:{STORE['phone_tel']}'>{STORE['phone_display']}</a>"
 
@@ -32,6 +32,18 @@ HOME = [
  ("How do I pay?",
   f"<p>{PAY_HOW} All payments go through Stripe, so we never see or store your card details, and "
   "we never ask for them by email or phone.</p>"),
+ ("What payment methods can I use?",
+  "<p>Every payment is made through <strong>Stripe</strong>, a secure payment company used by "
+  "millions of businesses. You pay on Stripe&rsquo;s own page, so we never see or store your card or "
+  "account details.</p>"
+  "<p><strong>Available to every customer:</strong></p><ul>"
+  "<li><strong>Visa</strong>, <strong>Mastercard</strong> or <strong>American Express</strong> card</li>"
+  "<li><strong>Apple Pay</strong> or <strong>Google Pay</strong>, on phones and browsers that support them</li>"
+  "<li><strong>PayPal</strong></li>"
+  "<li><strong>Link</strong>, Stripe&rsquo;s one-click checkout that remembers your details</li></ul>"
+  "<p><strong>Also offered at checkout where your country and currency support them:</strong></p><ul>"
+  + "".join(f"<li><strong>{g}:</strong> {', '.join(ms)}</li>" for g, ms in PAYMENT_LOCAL) +
+  "</ul><p>Stripe shows you the methods that apply to you when you pay.</p>"),
  ("Are your prices in New Zealand dollars?",
   "<p>Yes. Every price is in NZ dollars and includes GST and delivery." +
   ("" if SHOW_PRICES else " We are confirming prices now; send an enquiry and we will quote you.") + "</p>"),

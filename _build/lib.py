@@ -131,13 +131,26 @@ CHECKOUT_URL = CHECKOUT_WORKER if SHOW_PRICES else ""
 # customer's email app addressed to ORDER_EMAIL.
 MESSAGE_URL = CHECKOUT_WORKER.rsplit("/", 1)[0] + "/message"
 
-# Payment is through Stripe only. PAYMENT drives the badges and the structured
-# data; METHODS is the plain-English list used in the copy. Only name methods
-# switched on in Stripe (Settings -> Payment methods); Stripe shows each
-# customer the methods that suit their country and device.
-PAYMENT = ["Stripe", "Visa", "Mastercard", "American Express", "Apple Pay", "Google Pay"]
-METHODS = ("Visa, Mastercard and American Express cards, Apple Pay, Google Pay, and any other "
-           "payment method Stripe offers in your country")
+# Payment is through Stripe only. PAYMENT is what the shop's Stripe account
+# offers at checkout (checked 23 Sep 2026 via the Worker's /methods: card, Link,
+# PayPal; cards cover Visa, Mastercard and American Express, with Apple Pay and
+# Google Pay as card wallets). It drives the badges, the copy and the structured
+# data. If you switch methods on or off in Stripe (Settings -> Payment methods),
+# re-check /methods and update this list, so the site never names a method
+# customers can't use.
+PAYMENT = ["Visa", "Mastercard", "American Express", "Apple Pay", "Google Pay", "PayPal", "Link"]
+METHODS = ("Visa, Mastercard and American Express cards, Apple Pay, Google Pay, PayPal and Link, plus "
+           "local payment methods where your country and currency support them")
+# Also enabled in Stripe (dashboard, 23 Sep 2026) but only offered at checkout when
+# the customer's country and currency suit them. Pending approval (Alipay,
+# Cartes Bancaires), disabled and ineligible methods are left out on purpose.
+PAYMENT_LOCAL = [
+    ("Buy now, pay later", ["Klarna", "Scalapay"]),
+    ("Asia", ["Korean cards", "Kakao Pay", "Naver Pay", "PAYCO", "Samsung Pay"]),
+    ("Europe and the UK", ["Revolut Pay", "Bancontact", "iDEAL | Wero", "EPS", "BLIK", "MB WAY", "Multibanco",
+                           "MobilePay", "Satispay", "SEPA Direct Debit", "Pay by Bank"]),
+    ("The Americas", ["ACH Direct Debit", "Pix"]),
+]
 if CHECKOUT_URL:
     PAY_HOW = ("Pay at checkout through <strong>Stripe</strong>&rsquo;s secure payment page, by "
                f"{METHODS}. If anything you have paid for turns out to be unavailable, we refund it in full.")
@@ -521,6 +534,12 @@ def shop_tiles(depts=None):
 
 
 _PAY_MARK = {
+ "PayPal": ('<svg viewBox="0 0 58 24" aria-hidden="true"><text x="29" y="17" text-anchor="middle" '
+            'font-family="Verdana,Arial,Helvetica,sans-serif" font-size="14" font-weight="700" font-style="italic">'
+            '<tspan fill="#003087">Pay</tspan><tspan fill="#009CDE">Pal</tspan></text></svg>'),
+ "Link": ('<svg viewBox="0 0 40 24" aria-hidden="true"><rect width="40" height="24" rx="4" fill="#00D66F"/>'
+          '<text x="20" y="17" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="13" '
+          'font-weight="700" fill="#011E0F">link</text></svg>'),
  "American Express": ('<svg viewBox="0 0 44 24" aria-hidden="true"><rect width="44" height="24" rx="3" fill="#2E77BC"/>'
                       '<text x="22" y="16" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="10" '
                       'font-weight="900" fill="#fff" letter-spacing=".6">AMEX</text></svg>'),
@@ -544,13 +563,14 @@ _PAY_MARK = {
 
 
 def pay_badges(label=True):
-    """The accepted payment methods as small badges."""
+    """'Secure payment by Stripe', then the methods Stripe offers as badges."""
     # Logo-only marks get a hidden text label; marks with visible text do not need one.
-    marks = "".join(f'<li class="pay-{m.split()[0].lower()}" title="{esc(m)}">'
-                    + ("" if "<span>" in _PAY_MARK[m] else f'<span class="sr-only">{esc(m)}</span>')
-                    + f'{_PAY_MARK[m]}</li>' for m in PAYMENT)
-    lead = '<span class="pay-lead">We accept</span>' if label else ""
-    return f'<div class="pay">{lead}<ul class="pay-list">{marks}</ul></div>'
+    mark = lambda m: (f'<li class="pay-{m.split()[0].lower()}" title="{esc(m)}">'
+                      + ("" if "<span>" in _PAY_MARK[m] else f'<span class="sr-only">{esc(m)}</span>')
+                      + f'{_PAY_MARK[m]}</li>')
+    lead = (f'<span class="pay-lead">Secure payment by</span><ul class="pay-list">{mark("Stripe")}</ul>'
+            f'<span class="pay-lead">Pay with</span>' if label else "")
+    return f'<div class="pay">{lead}<ul class="pay-list">{"".join(mark(m) for m in PAYMENT)}</ul></div>'
 
 
 def cards(items, cls="grid--3"):
@@ -613,7 +633,7 @@ def store_schema():
         },
         "areaServed": {"@type": "Country", "name": "New Zealand"},
         "currenciesAccepted": "NZD",
-        "paymentAccepted": ", ".join(PAYMENT),
+        "paymentAccepted": ", ".join(PAYMENT) + " (through Stripe)",
         "parentOrganization": {"@id": f"{SITE}/#organization"},
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
