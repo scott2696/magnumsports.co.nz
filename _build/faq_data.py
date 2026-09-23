@@ -30,8 +30,8 @@ HOME = [
  ("Do you ship overseas?",
   "<p>No. We deliver within New Zealand only.</p>"),
  ("How do I pay?",
-  f"<p>{PAY_HOW} We never ask for card details by email, and our bank account number only ever "
-  "comes in our reply to your order.</p>"),
+  f"<p>{PAY_HOW} All payments go through Stripe, so we never see or store your card details, and "
+  "we never ask for them by email or phone.</p>"),
  ("Are your prices in New Zealand dollars?",
   "<p>Yes. Every price is in NZ dollars and includes GST and delivery." +
   ("" if SHOW_PRICES else " We are confirming prices now; send an enquiry and we will quote you.") + "</p>"),

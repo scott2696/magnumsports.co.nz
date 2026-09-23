@@ -87,7 +87,7 @@ def build():
 {cards([
  ("cart", "1. Add to your cart" if SHOW_PRICES else "1. Add to your enquiry", "Browse by department or search, and add what you want. Your list is kept in your browser until you send it.", "/shop/", "Start shopping"),
  ("mail", "2. Send your order" if SHOW_PRICES else "2. Send your enquiry", "Fill in your details and delivery address. We reply, usually the same working day, to confirm stock. Delivery is already in the price." if SHOW_PRICES else "Fill in your details and delivery address. We reply, usually the same working day, with prices and stock. Delivery is free.", None),
- ("wallet", "3. Pay and we deliver", "Pay by card online through a secure Stripe link we email you, by bank transfer, or by card over the phone. We deliver anywhere in New Zealand in 7 to 10 days.", None),
+ ("wallet", "3. Pay and we deliver", "Pay securely through Stripe by card, Apple Pay, Google Pay or another method it offers in your country. We deliver anywhere in New Zealand in 7 to 10 days.", None),
 ])}
 <div style="margin-top:22px">{pay_badges()}</div>
 </div></section>

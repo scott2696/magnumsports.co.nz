@@ -161,8 +161,6 @@
     out.push("", PRICES ? "Total: " + money(total(lines)) + " (includes GST and delivery)" : "Prices: to be quoted", "",
              "Name: " + get("name"), "Email: " + get("email"), "Phone: " + get("phone"),
              "Deliver to: " + get("address").replace(/\s*\n\s*/g, ", "));
-    var pay = f.querySelector("input[name=payment]:checked");
-    if (pay) out.push("Payment: " + pay.value);
     if (get("notes")) out.push("", "Notes: " + get("notes"));
     return out.join("\n");
   }
@@ -204,17 +202,56 @@
   function wireCheckout() {
     var f = document.getElementById("order-form");
     if (!f) return;
-    f.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (!lines.length) return;
-      var text = orderText(f);
-      var subject = (PRICES ? "Order request — " : "Enquiry — ") + f.elements.name.value.trim();
+    var sendTo = f.getAttribute("data-send");
+    var showFallback = function (text) {
       var sent = document.getElementById("order-sent");
       document.getElementById("order-copy").value = text;
       sent.hidden = false;
       sent.scrollIntoView({ behavior: "smooth", block: "start" });
-      location.href = "mailto:" + TO + "?subject=" + encodeURIComponent(subject) +
-                      "&body=" + encodeURIComponent(text);
+    };
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!lines.length) return;
+      var text = orderText(f);
+      if (!sendTo) {
+        // No Worker: open the customer's email app addressed to the shop.
+        var subject = (PRICES ? "Order request — " : "Enquiry — ") + f.elements.name.value.trim();
+        showFallback(text);
+        location.href = "mailto:" + TO + "?subject=" + encodeURIComponent(subject) +
+                        "&body=" + encodeURIComponent(text);
+        return;
+      }
+      var btn = f.querySelector("button[type=submit]");
+      var err = document.getElementById("order-error");
+      var label = btn.textContent;
+      var get = function (n) { return (f.elements[n] && f.elements[n].value || "").trim(); };
+      btn.disabled = true;
+      btn.textContent = "Sending\u2026";
+      if (err) err.hidden = true;
+      fetch(sendTo, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          kind: PRICES ? "order" : "enquiry", website: get("website"),
+          name: get("name"), email: get("email"), phone: get("phone"), address: get("address"),
+          notes: get("notes"),
+          items: lines.map(function (l) { return { sku: l.sku, qty: l.qty, opt: l.opt || "" }; })
+        })
+      }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (x) {
+          if (!x.ok) throw new Error(x.d.error || "");
+          update([], PRICES ? "Order request sent" : "Enquiry sent");
+          f.reset();
+          var done = document.getElementById("order-done");
+          done.hidden = false;
+          done.focus();
+          done.scrollIntoView({ behavior: "smooth", block: "start" });
+        })
+        .catch(function (e2) {
+          if (err && e2 && e2.message) { err.textContent = e2.message; err.hidden = false; }
+          showFallback(text);
+        })
+        .then(function () { btn.disabled = false; btn.textContent = label; });
     });
     var clear = document.getElementById("order-clear");
     if (clear) clear.onclick = function () {
@@ -266,6 +303,41 @@
     if (e.key === KEY) { lines = load(); badge(); render(); }
   });
 
+  // Contact page form: post to the Worker; if that fails, fall back to the
+  // form's own mailto action so the message is never lost.
+  function wireContact() {
+    var f = document.getElementById("contact-form");
+    if (!f || !f.getAttribute("data-send")) return;
+    var fallback = false;
+    f.addEventListener("submit", function (e) {
+      if (fallback) return;                     // let the browser use mailto
+      e.preventDefault();
+      var get = function (n) { return (f.elements[n] && f.elements[n].value || "").trim(); };
+      var btn = f.querySelector("button[type=submit]");
+      var label = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "Sending\u2026";
+      fetch(f.getAttribute("data-send"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind: "contact", website: get("website"), name: get("name"),
+                               email: get("email"), topic: get("topic"), message: get("message") })
+      }).then(function (r) { if (!r.ok) throw new Error(); })
+        .then(function () {
+          var done = document.getElementById("contact-done");
+          f.hidden = true;
+          done.hidden = false;
+          done.focus();
+        })
+        .catch(function () {
+          fallback = true;
+          btn.disabled = false;
+          btn.textContent = label;
+          f.submit();
+        });
+    });
+  }
+
   function init() {
     if (!document.getElementById("cart-live")) {
       var live = el("div", "sr-only");
@@ -282,6 +354,7 @@
     render();
     wireCheckout();
     wirePayNow();
+    wireContact();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();

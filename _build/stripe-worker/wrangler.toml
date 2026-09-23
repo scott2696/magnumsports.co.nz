@@ -7,7 +7,14 @@ compatibility_date = "2026-09-01"
 workers_dev = true
 preview_urls = false
 
+# Email Routing: sends order requests, enquiries and contact messages to the
+# shop. The destination is the NOTIFY_TO secret (kept out of this public repo);
+# it must be a verified destination address in Cloudflare Email Routing.
+[[send_email]]
+name = "NOTIFY"
+
 [vars]
 SITE_URL = "https://magnumsports.co.nz"
 CATALOGUE_URL = "https://magnumsports.co.nz/assets/js/search.json"
+NOTIFY_FROM = "orders@magnumsports.co.nz"
 ALLOWED_ORIGINS = "https://magnumsports.co.nz,https://www.magnumsports.co.nz"

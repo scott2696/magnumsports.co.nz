@@ -125,20 +125,27 @@ CHECKOUT_WORKER = "https://magnumsports-checkout.scott2696.workers.dev/checkout"
 # card checkout is off. Set True and rebuild to show prices and take payment.
 SHOW_PRICES = False
 CHECKOUT_URL = CHECKOUT_WORKER if SHOW_PRICES else ""
+# Order requests, enquiries and contact messages are posted here; the Worker
+# emails them to the shop's private inbox (its NOTIFY_TO secret), so that
+# address never appears on the site. Empty = fall back to opening the
+# customer's email app addressed to ORDER_EMAIL.
+MESSAGE_URL = CHECKOUT_WORKER.rsplit("/", 1)[0] + "/message"
 
-# How online orders can be paid. Edit here and every badge, note and schema follows.
-PAYMENT = ["Stripe", "Visa", "Mastercard", "Bank transfer"]
+# Payment is through Stripe only. PAYMENT drives the badges and the structured
+# data; METHODS is the plain-English list used in the copy. Only name methods
+# switched on in Stripe (Settings -> Payment methods); Stripe shows each
+# customer the methods that suit their country and device.
+PAYMENT = ["Stripe", "Visa", "Mastercard", "American Express", "Apple Pay", "Google Pay"]
+METHODS = ("Visa, Mastercard and American Express cards, Apple Pay, Google Pay, and any other "
+           "payment method Stripe offers in your country")
 if CHECKOUT_URL:
-    PAY_HOW = ("Pay now by card through <strong>Stripe</strong>&rsquo;s secure checkout: Visa, Mastercard, "
-               "Apple Pay or Google Pay. Or send us an order request and pay by <strong>bank transfer</strong> "
-               f"or by card over the phone on {STORE['phone_display']}. If anything you have paid for turns "
-               "out to be unavailable, we refund it in full.")
+    PAY_HOW = ("Pay at checkout through <strong>Stripe</strong>&rsquo;s secure payment page, by "
+               f"{METHODS}. If anything you have paid for turns out to be unavailable, we refund it in full.")
 else:
-    PAY_HOW = ("Once we confirm stock, we email you a secure <strong>Stripe</strong> payment link "
-               "to pay by card online, or our account number and your order reference to pay by "
-               "<strong>bank transfer</strong>. You can also pay by <strong>Visa or Mastercard</strong> over the "
-               f"phone on {STORE['phone_display']}.")
-# Where cart order requests are emailed. Point this at the shop inbox.
+    PAY_HOW = ("Once we confirm your order, we email you a secure <strong>Stripe</strong> payment link. "
+               f"Pay by {METHODS}.")
+# The shop's public address, shown on the site and used only if the Worker is
+# unreachable. Cloudflare Email Routing forwards it to the private inbox.
 ORDER_EMAIL = EMAIL
 PUBLISHED = "2026-02-02"
 # Resolved per page in write(), from the content-hash manifest below. A page
@@ -514,9 +521,16 @@ def shop_tiles(depts=None):
 
 
 _PAY_MARK = {
- "Bank transfer": ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
-                   'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5"/>'
-                   '<path d="M5 10v7M9.5 10v7M14.5 10v7M19 10v7M3 20h18"/></svg><span>Bank transfer</span>'),
+ "American Express": ('<svg viewBox="0 0 44 24" aria-hidden="true"><rect width="44" height="24" rx="3" fill="#2E77BC"/>'
+                      '<text x="22" y="16" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="10" '
+                      'font-weight="900" fill="#fff" letter-spacing=".6">AMEX</text></svg>'),
+ "Apple Pay": ('<svg viewBox="0 0 62 24" aria-hidden="true"><text x="31" y="17" text-anchor="middle" '
+               'font-family="-apple-system,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" '
+               'fill="#000">Apple Pay</text></svg>'),
+ "Google Pay": ('<svg viewBox="0 0 70 24" aria-hidden="true"><text x="35" y="17" text-anchor="middle" '
+                'font-family="Arial,Helvetica,sans-serif" font-size="13.5" font-weight="600" fill="#3c4043">'
+                '<tspan fill="#4285F4">G</tspan><tspan fill="#EA4335">o</tspan><tspan fill="#FBBC04">o</tspan>'
+                '<tspan fill="#4285F4">g</tspan><tspan fill="#34A853">l</tspan><tspan fill="#EA4335">e</tspan> Pay</text></svg>'),
  "Visa": ('<svg viewBox="0 0 48 16" aria-hidden="true"><text x="24" y="13" text-anchor="middle" '
           'font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="900" font-style="italic" '
           'fill="#1A1F71" letter-spacing=".5">VISA</text></svg>'),

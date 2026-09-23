@@ -66,7 +66,8 @@ def contact():
 <div>
 <h2>Send us a message</h2>
 <p>Stock checks, questions about an order or delivery, or advice on gear. For anything urgent, ring the shop.</p>
-<form class="form" action="mailto:{EMAIL}" method="post" enctype="text/plain">
+<form class="form" id="contact-form" action="mailto:{EMAIL}" method="post" enctype="text/plain" data-send="{esc(MESSAGE_URL)}">
+<div class="hp" aria-hidden="true"><label for="c-website">Leave this empty</label><input id="c-website" name="website" tabindex="-1" autocomplete="off"></div>
 <div class="field"><label for="cname">Your name</label><input id="cname" name="name" type="text" autocomplete="name" required></div>
 <div class="field"><label for="cemail">Email address</label><input id="cemail" name="email" type="email" autocomplete="email" required><span class="hint">We only use this to reply to you. See our <a href="/privacy/">privacy policy</a>.</span></div>
 <div class="field"><label for="ctopic">What is this about?</label>
@@ -83,6 +84,8 @@ def contact():
 <span class="hint">For an order, include the name you ordered under and roughly when.</span></div>
 <button class="btn" type="submit">Send message</button>
 </form>
+<div id="contact-done" class="note note--ok" hidden tabindex="-1"><b>Thank you: your message is on its way</b>
+<p>We reply by email, usually the same working day. Anything urgent? Call {TEL}.</p></div>
 </div>
 <div>
 <h2>Other ways to reach us</h2>
@@ -122,7 +125,7 @@ def terms():
 <p>Prices are in New Zealand dollars and include GST and delivery anywhere in New Zealand; there is no separate freight charge. We may change prices at any time, but the price you pay is the one we confirm to you.</p>
 
 <h2>4. Payment</h2>
-<p>{PAY_HOW} Card payments online are processed by Stripe on its own secure page; we never see or store your card number. We never ask for card details by email. Goods are dispatched once payment has cleared.</p>
+<p>We take payment only through Stripe. {PAY_HOW} Stripe processes every payment on its own secure page; we never see or store your card number, and we never ask for payment details by email or phone. Goods are dispatched once payment has cleared.</p>
 
 <h2>5. Delivery</h2>
 <p>We deliver within New Zealand. Delivery takes <strong>7 to 10 days</strong> from when we confirm your order. Risk in the goods passes to you on delivery.</p>
@@ -162,9 +165,9 @@ def privacy():
 
 <h2>1. What we collect</h2>
 <ul>
-<li><strong>Orders.</strong> When you send an order request: your name, email address, phone number, delivery address, the items you want, your preferred payment method and any notes. These reach us as an email you send.</li>
+<li><strong>Orders.</strong> When you send an order request: your name, email address, phone number, delivery address, the items you want and any notes. These reach us by email, delivered through our website host, Cloudflare.</li>
 <li><strong>Messages.</strong> When you contact us: your name, email address and what you tell us.</li>
-<li><strong>Payments.</strong> If you pay online by card, Stripe processes the payment on its own page and tells us it was paid; your card number goes to Stripe, not to us (see <a href="https://stripe.com/privacy" rel="nofollow noopener" target="_blank">Stripe&rsquo;s privacy policy</a>). If you pay by bank transfer, we see the details your bank shows us. If you pay by card over the phone, the card is processed at the time and we do not keep the card number.</li>
+<li><strong>Payments.</strong> Every payment is made through Stripe on its own secure page. Stripe tells us the order is paid; your card or wallet details go to Stripe, not to us (see <a href="https://stripe.com/privacy" rel="nofollow noopener" target="_blank">Stripe&rsquo;s privacy policy</a>).</li>
 <li><strong>Your cart.</strong> Kept in your own browser until you send the order or clear it. We do not see it until you send us the order.</li>
 <li><strong>Server logs.</strong> Our host records IP addresses and pages requested, for security and diagnostics.</li>
 </ul>
@@ -175,7 +178,7 @@ def privacy():
 <h2>3. Who we share it with</h2>
 <ul>
 <li><strong>Couriers</strong>, who need your name, address and phone number to deliver your order.</li>
-<li><strong>Stripe, our bank and our card processor</strong>, to take payment.</li>
+<li><strong>Stripe</strong>, which processes every payment.</li>
 <li><strong>Our hosting and email providers</strong>, which run the site and carry our email. Some are overseas; where that is the case we take reasonable steps to ensure comparable safeguards, consistent with information privacy principle 12.</li>
 <li><strong>Authorities</strong>, where the law requires it.</li>
 </ul>

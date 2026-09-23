@@ -1,4 +1,5 @@
-/* Magnum Sports checkout: turns a cart into a Stripe Checkout page.
+/* Magnum Sports Worker: Stripe checkout for the cart, and email delivery of
+   order requests, enquiries and contact messages.
 
    POST /checkout  {"items": [{"sku": "petram-a2-blk", "qty": 2}, ...]}
      -> {"url": "https://checkout.stripe.com/..."}
@@ -7,9 +8,16 @@
    from the site's own published catalogue (CATALOGUE_URL), so a price edited
    in someone's browser never reaches Stripe. Prices include GST and delivery.
 
-   Secrets: STRIPE_SECRET_KEY is set with `wrangler secret put` and lives only
-   in Cloudflare. It is never in this repository. Use a *restricted* key that
-   can only write Checkout Sessions. */
+   POST /message   {"kind": "order"|"enquiry"|"contact", "name", "email", ...}
+     -> emails the shop through Cloudflare Email Routing (binding NOTIFY), with
+        Reply-To set to the customer so a reply goes straight to them.
+
+   Secrets (set with `wrangler secret put`, never in this repository):
+     STRIPE_SECRET_KEY  a *restricted* key that can only write Checkout Sessions
+     NOTIFY_TO          where messages are delivered; must be a verified
+                        destination address in Email Routing */
+
+import { EmailMessage } from "cloudflare:email";
 
 const MAX_LINES = 50;
 const MAX_QTY = 99;
@@ -44,6 +52,10 @@ export default {
       if (/invalid api key/i.test(msg)) return reply({ stripe: "invalid key" });
       if (/permission/i.test(msg)) return reply({ stripe: "key accepted; it cannot list sessions (fine for checkout)", mode });
       return reply({ stripe: "error", status: r.status });
+    }
+    if (request.method === "POST" && url.pathname === "/message") {
+      if (!allowed.includes(origin)) return reply({ error: "Origin not allowed" }, 403);
+      return sendMessage(request, env, reply);
     }
     if (request.method !== "POST" || url.pathname !== "/checkout") return reply({ error: "Not found" }, 404);
     if (!allowed.includes(origin)) return reply({ error: "Origin not allowed" }, 403);
@@ -116,3 +128,77 @@ export default {
     return reply({ url: session.url });
   },
 };
+
+
+// ---------------------------------------------------------------- messages
+const one = (v, n = 200) => String(v == null ? "" : v).replace(/[\r\n]+/g, " ").trim().slice(0, n);
+const many = (v, n = 4000) => String(v == null ? "" : v).replace(/\r\n?/g, "\n").trim().slice(0, n);
+const EMAIL_RE = /^[^\s@<>",;]+@[^\s@<>",;]+\.[^\s@<>",;]+$/;
+
+async function sendMessage(request, env, reply) {
+  if (!env.NOTIFY || !env.NOTIFY_TO) return reply({ error: "Messaging is not configured" }, 503);
+  let b;
+  try {
+    b = await request.json();
+  } catch (e) {
+    return reply({ error: "Bad request" }, 400);
+  }
+  if (b.website) return reply({ ok: true });            // honeypot: bots fill hidden fields
+  const kind = ["order", "enquiry", "contact"].includes(b.kind) ? b.kind : "contact";
+  const name = one(b.name, 100), email = one(b.email, 200);
+  if (!name || !EMAIL_RE.test(email)) return reply({ error: "Please give your name and a valid email address." }, 400);
+
+  const lines = [];
+  if (kind !== "contact") {
+    let cat = new Map();
+    try {
+      const r = await fetch(env.CATALOGUE_URL, { cf: { cacheTtl: 300 } });
+      cat = new Map((await r.json()).map((p) => [p.s, p]));
+    } catch (e) { /* names fall back to SKUs */ }
+    const items = Array.isArray(b.items) ? b.items.slice(0, 50) : [];
+    if (!items.length) return reply({ error: "Your list is empty." }, 400);
+    const site = env.SITE_URL.replace(/\/$/, "");
+    for (const it of items) {
+      const sku = one(it.sku, 80), qty = Math.max(1, Math.min(99, parseInt(it.qty, 10) || 1));
+      const p = cat.get(sku);
+      const price = p && p.p ? `  @ NZ$${p.p}` : "";
+      lines.push(`${qty} x ${p ? p.n : sku}${it.opt ? " (" + one(it.opt, 60) + ")" : ""}${price}   [${sku}]`,
+                 p ? `    ${site}${p.u}` : "");
+    }
+  }
+  const title = { order: "Order request", enquiry: "Enquiry", contact: "Contact" }[kind];
+  const body = [
+    `${title} from ${name}`, "",
+    ...(lines.length ? ["ITEMS", ...lines.filter(Boolean), ""] : []),
+    `Name:     ${name}`, `Email:    ${email}`,
+    b.phone ? `Phone:    ${one(b.phone, 40)}` : "",
+    b.address ? `Deliver:  ${one(b.address, 400)}` : "",
+    b.payment ? `Payment:  ${one(b.payment, 80)}` : "",
+    b.topic ? `Topic:    ${one(b.topic, 80)}` : "",
+    b.notes ? `\nNotes:\n${many(b.notes)}` : "",
+    b.message ? `\nMessage:\n${many(b.message)}` : "",
+    "", "Reply to this email to answer the customer directly.",
+  ].filter((l) => l !== "").join("\n");
+
+  const from = env.NOTIFY_FROM || "orders@magnumsports.co.nz";
+  const subject = `${title}: ${name}${lines.length ? ` (${lines.filter((l) => !l.startsWith("    ")).length} item${lines.length > 2 ? "s" : ""})` : ""}`;
+  const raw = [
+    `From: Magnum Sports website <${from}>`,
+    `To: <${env.NOTIFY_TO}>`,
+    `Reply-To: ${name.replace(/["<>]/g, "")} <${email}>`,
+    `Subject: ${subject.replace(/[^\x20-\x7e]/g, "")}`,
+    `Date: ${new Date().toUTCString()}`,
+    `Message-ID: <${crypto.randomUUID()}@magnumsports.co.nz>`,
+    "MIME-Version: 1.0",
+    "Content-Type: text/plain; charset=utf-8",
+    "Content-Transfer-Encoding: 8bit",
+    "", body,
+  ].join("\r\n");
+  try {
+    await env.NOTIFY.send(new EmailMessage(from, env.NOTIFY_TO, raw));
+  } catch (e) {
+    console.log("email error", String(e && e.message || e));
+    return reply({ error: "Your message could not be sent. Please call us instead." }, 502);
+  }
+  return reply({ ok: true });
+}

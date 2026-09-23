@@ -25,8 +25,8 @@ FAQ = [
   "<p>Delivery takes <strong>7 to 10 days</strong> from when we confirm your order, and it is free: "
   "every price already includes delivery anywhere in New Zealand.</p>"),
  ("How do I pay?",
-  f"<p>{PAY_HOW} Nothing is charged until we have confirmed your order. We never ask for card "
-  "details by email, and our bank account number only ever comes in our reply to your order.</p>"),
+  f"<p>{PAY_HOW} All payments go through Stripe: we never see or store your card details, and we "
+  "never ask for them by email or phone.</p>"),
  ("Is my cart saved?",
   "<p>Your cart is kept in this browser on this device until you send the order or clear it. "
   "We never see it until you send us the order email. See our "
@@ -77,28 +77,28 @@ def cart_section():
     o = []
     o.append(f'''<section id="cart" class="sec sec--haze" style="scroll-margin-top:70px"><div class="wrap">
 <div class="sec-head"><span class="kicker">{"Your cart" if SHOW_PRICES else "Your enquiry"}</span><h2>{"Your cart" if CHECKOUT_URL else ("Cart and order request" if SHOW_PRICES else "Enquiry list")}</h2>
-<p>{"Pay now by card, or send an order request to pay by bank transfer or by phone. Delivery is included in every price." if CHECKOUT_URL else ("No payment is taken here. Send the request and we reply to confirm stock and how to pay. Delivery is included in every price." if SHOW_PRICES else "We are confirming prices with our suppliers. Add the products you want and send us your enquiry: we reply with prices, stock and how to pay. Delivery anywhere in New Zealand is free.")}</p></div>
+<p>{"Pay securely by card, Apple Pay or Google Pay through Stripe. Delivery is included in every price." if CHECKOUT_URL else ("No payment is taken here. Send the request and we reply to confirm stock and how to pay. Delivery is included in every price." if SHOW_PRICES else "We are confirming prices with our suppliers. Add the products you want and send us your enquiry: we reply with prices, stock and how to pay. Delivery anywhere in New Zealand is free.")}</p></div>
 <div class="cart-grid">
 <div class="cart-box"><div id="cart-lines"><p class="cart-empty">Loading your cart&hellip;</p></div>
 {f'<div class="cart-paynow" id="pay-now-wrap" hidden><button class="btn btn--wide" type="button" id="pay-now" data-checkout="{esc(CHECKOUT_URL)}">{icon("lock")} Pay now by card</button><p class="cart-fine">Secure checkout by Stripe. You enter your delivery address there.</p><p class="cart-error" id="pay-now-error" role="alert" hidden></p></div>' if CHECKOUT_URL else ""}
 <div class="cart-pay">{pay_badges()}<p>{PAY_HOW}</p></div>
 <noscript><p class="cart-empty">The cart needs JavaScript. Call <a href="tel:{STORE["phone_tel"]}">{esc(STORE["phone_display"])}</a> to order instead.</p></noscript></div>
 <div>
-<form id="order-form" class="form" hidden>
+<form id="order-form" class="form" hidden data-send="{esc(MESSAGE_URL)}">
+<div class="hp" aria-hidden="true"><label for="o-website">Leave this empty</label><input id="o-website" name="website" tabindex="-1" autocomplete="off"></div>
 <div class="field"><label for="o-name">Your name</label><input id="o-name" name="name" type="text" autocomplete="name" required></div>
 <div class="field"><label for="o-email">Email address</label><input id="o-email" name="email" type="email" autocomplete="email" required></div>
 <div class="field"><label for="o-phone">Phone</label><input id="o-phone" name="phone" type="tel" autocomplete="tel" required></div>
 <div class="field"><label for="o-address">Delivery address</label><textarea id="o-address" name="address" autocomplete="street-address" required style="min-height:90px"></textarea><span class="hint">Free delivery anywhere in New Zealand, 7 to 10 days once your order is confirmed.</span></div>
-<fieldset class="field pay-choice"><legend>How would you like to pay?</legend>
-{"" if CHECKOUT_URL else '<label><input type="radio" name="payment" value="Card online (Stripe payment link)" checked> Card online &mdash; we email you a secure Stripe link</label>'}
-<label><input type="radio" name="payment" value="Bank transfer"{" checked" if CHECKOUT_URL else ""}> Bank transfer</label>
-<label><input type="radio" name="payment" value="Visa or Mastercard (by phone)"> Visa or Mastercard, by phone</label></fieldset>
 <div class="field"><label for="o-notes">Notes</label><textarea id="o-notes" name="notes" style="min-height:90px"></textarea><span class="hint">Sizes, colours, or anything else we should know.</span></div>
 <button class="btn" type="submit">{"Send order request" if SHOW_PRICES else "Send enquiry"}</button>
-<p style="font-size:.79rem;color:var(--mute);margin:0">This opens your email app with the order filled in. We use your details only to handle this order. See our <a href="/privacy/">privacy policy</a>.</p>
+<p style="font-size:.79rem;color:var(--mute);margin:0">{"We use your details only to handle this. See our" if MESSAGE_URL else "This opens your email app with the order filled in. We use your details only to handle this order. See our"} <a href="/privacy/">privacy policy</a>.</p>
+<p class="cart-error" id="order-error" role="alert" hidden></p>
 </form>
-<div id="order-sent" class="note" hidden style="margin-top:18px"><b>Almost done: press send in your email app</b>
-<p>If no email opened, copy the order below and email it to <a href="mailto:{ORDER_EMAIL}">{ORDER_EMAIL}</a>, or call <a href="tel:{STORE["phone_tel"]}">{esc(STORE["phone_display"])}</a>.</p>
+<div id="order-done" class="note note--ok" hidden style="margin-top:18px" tabindex="-1"><b>{"Thank you: your order request is on its way" if SHOW_PRICES else "Thank you: your enquiry is on its way"}</b>
+<p>We reply by email, usually the same working day{"" if SHOW_PRICES else ", with prices and stock"}. Questions in the meantime? Call <a href="tel:{STORE["phone_tel"]}">{esc(STORE["phone_display"])}</a>.</p></div>
+<div id="order-sent" class="note" hidden style="margin-top:18px"><b>{"We could not send it just now" if MESSAGE_URL else "Almost done: press send in your email app"}</b>
+<p>{"Copy it below and email it to" if MESSAGE_URL else "If no email opened, copy the order below and email it to"} <a href="mailto:{ORDER_EMAIL}">{ORDER_EMAIL}</a>, or call <a href="tel:{STORE["phone_tel"]}">{esc(STORE["phone_display"])}</a>.</p>
 <div class="field"><label for="order-copy">Your order</label><textarea id="order-copy" readonly style="min-height:160px;font-family:var(--mono);font-size:.8rem"></textarea></div>
 <p style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="btn btn--sm btn--ghost" type="button" id="order-copy-btn">Copy order</button>
 <button class="btn btn--sm btn--ghost" type="button" id="order-clear">Sent it &mdash; clear my cart</button></p></div>
