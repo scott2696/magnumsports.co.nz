@@ -176,8 +176,6 @@ def description(p):
     facts = []
     if p.get("model"):
         facts.append(f"Model <strong>{esc(p['model'])}</strong>")
-    if p.get("origin"):
-        facts.append(esc(p["origin"]))
     if facts:
         parts.append(f"<p>{' &middot; '.join(facts)}.</p>")
     parts.append("<p>Order online and we deliver in <strong>7 to 10 days</strong> once your order is "
@@ -200,7 +198,9 @@ def product_page(p, siblings):
          crumbs([("Home", "/"), ("Shop Online", PATH), (name, f"/shop/{slug}/"), (p["name"], None)])]
     media = (f'<img src="{img}" alt="{esc(p["name"])}" width="600" height="600" decoding="async">'
              if img else f'<span class="dept-ic">{icon("tag")}</span>')
-    specs = p.get("specs") or []
+    # Origin is kept in the price sheets (reprice.py uses it) but not published.
+    specs = [(k, v) for k, v in (p.get("specs") or [])
+             if not re.search(r"(?i)origin|made in|place of", k) and "china" not in v.lower()]
     spec_html = ""
     if specs:
         spec_html = ('<h2>Specifications</h2><div class="tw"><table class="specs"><tbody>'
