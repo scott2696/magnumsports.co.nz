@@ -642,7 +642,7 @@ def org_schema():
                     "addressLocality": STORE["suburb"], "addressRegion": STORE["region"],
                     "postalCode": STORE["postcode"], "addressCountry": STORE["country"]},
         "contactPoint": {"@type": "ContactPoint", "contactType": "customer service",
-                         "email": EMAIL,
+                         "email": EMAIL, "url": f"{SITE}/contact/",
                          "areaServed": "NZ", "availableLanguage": "en"},
     }
 
@@ -685,7 +685,7 @@ def store_schema():
                  "itemListElement": [
                      {"@type": "OfferCatalog", "name": seo.GROUPS[g]["label"], "url": f"{SITE}/shop/{d[1]}/#{g}"}
                      for g in sorted({p["group"] for p in PRODUCTS if p["dept"] == d[0]},
-                                     key=lambda g: -sum(p["group"] == g for p in PRODUCTS))]}
+                                     key=lambda g: (-sum(p["group"] == g for p in PRODUCTS), g))]}
                 for d in DEPARTMENTS if d[0] in {p["dept"] for p in PRODUCTS}
             ],
         },
