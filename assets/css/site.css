@@ -397,6 +397,7 @@ td b,th b{color:var(--ink)}
 .prod{scroll-margin-top:90px}
 .prod-img{margin:-18px -18px 4px;aspect-ratio:1;background:#fff;border-radius:var(--radius) var(--radius) 0 0;overflow:hidden}
 .prod-img img{display:block;width:100%;height:100%;object-fit:contain}
+.prod-pack{display:block;font-family:var(--sans);font-size:.78rem;font-weight:600;color:var(--mute);margin-top:2px}
 .prod-price.prod-price--ask{font-size:1.02rem;color:var(--mute);font-weight:700}
 .pdp-price.prod-price--ask{font-size:1.3rem}
 .prod-price{font-family:var(--disp);font-size:1.5rem;color:var(--sodium);font-weight:800}

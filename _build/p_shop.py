@@ -5,6 +5,7 @@
   /shop/<dept>/<sku>/      one product: photo, full description, specifications
 Also writes assets/js/cart.js from _build/cart.js with the catalogue baked in,
 so the cart can never show a price the page does not."""
+from datetime import date
 from lib import *
 from faq_data import DEPT as DEPT_FAQ
 
@@ -13,6 +14,10 @@ PATH = "/shop/"
 
 FAQ = [
  ("How does ordering online work?",
+  ("<p>Add what you want to the cart and press <strong>Pay now</strong>. You pay on Stripe&rsquo;s "
+   "secure page, by card, Apple Pay, Google Pay, PayPal or Link, and enter your delivery address there. "
+   "We email to confirm and deliver in 7 to 10 days. If an item turns out to be unavailable we refund "
+   "it in full.</p>") if CHECKOUT_URL else
   ("<p>Add what you want to the cart, fill in your details and press <strong>Send order "
    "request</strong>. Your email app opens with the order written out; send it and we reply, "
    "usually the same working day, to confirm stock and how to pay. Nothing is charged until we have "
@@ -35,8 +40,8 @@ FAQ = [
 
 
 def write_cart_js():
-    keys = ("name", "price", "options") if SHOW_PRICES else ("name", "options")
-    cat = {p["sku"]: {k: p[k] for k in keys if k in p} for p in PRODUCTS}
+    keys = ("name", "price", "options", "pack") if SHOW_PRICES else ("name", "options")
+    cat = {p["sku"]: {k: p[k] for k in keys if k in p and p[k]} for p in PRODUCTS}
     src = open(os.path.join(ROOT, "_build", "cart.js"), encoding="utf-8").read()
     src = (src.replace("/*@@CATALOGUE@@*/{}", json.dumps(cat, ensure_ascii=False, separators=(",", ":")))
               .replace("/*@@ORDER_EMAIL@@*/", ORDER_EMAIL)
@@ -50,9 +55,9 @@ def write_cart_js():
 def offer(p):
     """Offer for Google merchant listings: price, availability, and free NZ
     delivery in 7 to 10 days (1-3 days to dispatch, 6-7 in transit)."""
-    return {"@type": "Offer", "price": p["price"], "priceCurrency": "NZD",
+    o = {"@type": "Offer", "price": p["price"], "priceCurrency": "NZD",
             "url": SITE + product_url(p), "seller": {"@id": f"{SITE}/#store"},
-            # Orders are confirmed before payment; stock comes from the supplier.
+            "priceValidUntil": f"{date.today().year + 1}-12-31",
             "availability": "https://schema.org/InStock",
             "itemCondition": "https://schema.org/NewCondition",
             "shippingDetails": {
@@ -62,19 +67,26 @@ def offer(p):
                 "deliveryTime": {
                     "@type": "ShippingDeliveryTime",
                     "handlingTime": {"@type": "QuantitativeValue", "minValue": 1, "maxValue": 3, "unitCode": "DAY"},
-                    "transitTime": {"@type": "QuantitativeValue", "minValue": 6, "maxValue": 7, "unitCode": "DAY"}}}}
+                    "transitTime": {"@type": "QuantitativeValue", "minValue": 6, "maxValue": 7, "unitCode": "DAY"}}},
+            "hasMerchantReturnPolicy": RETURN_POLICY}
+    if p.get("pack"):
+        o["priceSpecification"] = {
+            "@type": "UnitPriceSpecification", "price": p["price"], "priceCurrency": "NZD",
+            "referenceQuantity": {"@type": "QuantitativeValue", "value": p["pack"], "unitCode": "C62"}}
+    return o
 
 
 def product_entity(p):
     img = product_image(p["sku"])
-    d = {"@type": "Product", "@id": f"{SITE}{product_url(p)}#product", "name": p["name"],
+    d = {"@type": "Product", "@id": f"{SITE}{product_url(p)}#product",
+         "name": p["name"] + (f" (pack of {p['pack']})" if p.get("pack") else ""),
          "sku": p["sku"], "description": p["blurb"], "category": p["dept"],
          "url": SITE + product_url(p)}
     if SHOW_PRICES:
         d["offers"] = offer(p)
     if img:
         d["image"] = SITE + img
-    if p.get("model"):
+    if p.get("model") and p["model"].lower() != "custom":
         d["mpn"] = p["model"]
     return d
 
@@ -93,7 +105,7 @@ def cart_section():
 <p>{"Payment is made through Stripe: pay by card, Apple Pay, Google Pay, PayPal or Link. Delivery is included in every price." if CHECKOUT_URL else ("No payment is taken here. Send the request and we reply to confirm stock and how to pay. Delivery is included in every price." if SHOW_PRICES else "We are confirming prices with our suppliers. Add the products you want and send us your enquiry: we reply with prices, stock and how to pay. Delivery anywhere in New Zealand is free.")}</p></div>
 <div class="cart-grid">
 <div class="cart-box"><div id="cart-lines"><p class="cart-empty">Loading your cart&hellip;</p></div>
-{f'<div class="cart-paynow" id="pay-now-wrap" hidden><button class="btn btn--wide" type="button" id="pay-now" data-checkout="{esc(CHECKOUT_URL)}">{icon("lock")} Pay now by card</button><p class="cart-fine">Secure checkout by Stripe. You enter your delivery address there.</p><p class="cart-error" id="pay-now-error" role="alert" hidden></p></div>' if CHECKOUT_URL else ""}
+{f'<div class="cart-paynow" id="pay-now-wrap" hidden><button class="btn btn--wide" type="button" id="pay-now" data-checkout="{esc(CHECKOUT_URL)}">{icon("lock")} Pay now</button><p class="cart-fine">Secure checkout by Stripe: card, Apple Pay, Google Pay, PayPal, Link and more. You enter your delivery address there.</p><p class="cart-error" id="pay-now-error" role="alert" hidden></p></div>' if CHECKOUT_URL else ""}
 <div class="cart-pay">{pay_badges()}<p>{PAY_HOW}</p></div>
 <noscript><p class="cart-empty">The cart needs JavaScript. Call <a href="tel:{STORE["phone_tel"]}">{esc(STORE["phone_display"])}</a> to order instead.</p></noscript></div>
 <div>
@@ -136,7 +148,7 @@ def front(depts):
     o.append(f'''<section class="hero"><div class="wrap">
 <span class="eyebrow">{icon("cart")} Order online &middot; Delivered across New Zealand in 7 to 10 days</span>
 <h1>Shop Online at {esc(STORE["name"])}</h1>
-<p class="lede">Add gear to your cart and send us an order request. We confirm stock with you before anything is charged, and every price includes delivery anywhere in New Zealand. Can&rsquo;t find something? <a href="/search/">Search the shop</a> or <a href="tel:{STORE["phone_tel"]}">ring {esc(STORE["phone_display"])}</a>.</p>
+<p class="lede">{"Add gear to your cart and pay securely through Stripe. Every price includes GST and" if CHECKOUT_URL else "Add gear to your cart and send us an order request. We confirm stock with you before anything is charged, and every price includes"} delivery anywhere in New Zealand. Can&rsquo;t find something? <a href="/search/">Search the shop</a> or <a href="tel:{STORE["phone_tel"]}">ring {esc(STORE["phone_display"])}</a>.</p>
 </div></section>
 ''')
     o.append(f'''<section class="sec"><div class="wrap">
@@ -262,7 +274,7 @@ def write_search():
     idx = [{"s": p["sku"], "n": p["name"], "d": p["dept"], **({"p": p["price"]} if SHOW_PRICES else {}),
             "u": product_url(p),
             "i": product_image(p["sku"]) or "", "b": p["blurb"], "m": p.get("model", ""),
-            **({"o": 1} if p.get("options") else {})}
+            **({"o": 1} if p.get("options") else {}), **({"k": p["pack"]} if SHOW_PRICES and p.get("pack") else {})}
            for p in PRODUCTS]
     json.dump(idx, open(os.path.join(d, "search.json"), "w", encoding="utf-8"),
               ensure_ascii=False, separators=(",", ":"))

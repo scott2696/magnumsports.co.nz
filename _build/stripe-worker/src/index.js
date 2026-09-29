@@ -114,6 +114,12 @@ export default {
     form.set("billing_address_collection", "auto");
     form.set("invoice_creation[enabled]", "true");          // a receipt/invoice for every order
     form.set("submit_type", "pay");
+    // Sizes, colours, hand measurements: shown on Stripe's page, returned on the payment.
+    form.set("custom_fields[0][key]", "notes");
+    form.set("custom_fields[0][label][type]", "custom");
+    form.set("custom_fields[0][label][custom]", "Size, colour or notes");
+    form.set("custom_fields[0][type]", "text");
+    form.set("custom_fields[0][optional]", "true");
     const skus = [];
     let n = 0;
     for (const it of items) {
@@ -127,7 +133,8 @@ export default {
       form.set(`${k}[price_data][currency]`, "nzd");
       form.set(`${k}[price_data][unit_amount]`, String(cents));
       form.set(`${k}[price_data][tax_behavior]`, "inclusive");
-      form.set(`${k}[price_data][product_data][name]`, (it.opt ? `${p.n} (${it.opt})` : p.n).slice(0, 250));
+      const pname = p.n + (p.k ? ` (pack of ${p.k})` : "") + (it.opt ? ` (${it.opt})` : "");
+      form.set(`${k}[price_data][product_data][name]`, pname.slice(0, 250));
       form.set(`${k}[price_data][product_data][metadata][sku]`, p.s);
       if (p.i) form.set(`${k}[price_data][product_data][images][0]`, site + p.i);
       skus.push(`${p.s}x${qty}`);
@@ -186,7 +193,7 @@ async function sendMessage(request, env, reply) {
       const sku = one(it.sku, 80), qty = Math.max(1, Math.min(99, parseInt(it.qty, 10) || 1));
       const p = cat.get(sku);
       const price = p && p.p ? `  @ NZ$${p.p}` : "";
-      lines.push(`${qty} x ${p ? p.n : sku}${it.opt ? " (" + one(it.opt, 60) + ")" : ""}${price}   [${sku}]`,
+      lines.push(`${qty} x ${p ? p.n : sku}${p && p.k ? ` (pack of ${p.k})` : ""}${it.opt ? " (" + one(it.opt, 60) + ")" : ""}${price}   [${sku}]`,
                  p ? `    ${site}${p.u}` : "");
     }
   }

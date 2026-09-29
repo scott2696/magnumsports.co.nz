@@ -11,7 +11,14 @@ A row is sold when:
   - its department is sold online, and its SKU is not in exclude.txt.
 Every other row is switched off.
 
-    retail_nzd = top of the supplier's USD price (range) x MARKUP x USD->NZD
+    With an owner price list (suppliers.json "price_list", NZD unit prices):
+        retail_nzd = unit_nzd x price_markup
+    (price_markup per supplier lives in private.json, git-ignored: with the
+    public site prices it would give away our costs.)
+    and where that list gives a minimum order (moq), the item is sold as a
+    pack of that many: pack = moq, retail_nzd = unit_nzd x price_markup x pack.
+    Otherwise, from the supplier's published price:
+        retail_nzd = top of the supplier's USD price (range) x MARKUP x USD->NZD
 
     python3 _build/supplier/reprice.py            # fetches today's rate
     python3 _build/supplier/reprice.py 1.7467     # or pass one
@@ -21,6 +28,9 @@ import csv, json, os, re, sys, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUPPLIERS = json.load(open(os.path.join(HERE, "suppliers.json"), encoding="utf-8"))
+_priv = os.path.join(HERE, "private.json")
+for _k, _v in (json.load(open(_priv)) if os.path.exists(_priv) else {}).items():
+    SUPPLIERS.get(_k, {}).update(_v)
 MARKUP = 5
 HARMLESS = {"", "Department is a guess - check"}
 # The shop is online only; nothing in these departments is sold.
@@ -58,17 +68,42 @@ def variant(r, group, prefix):
     return r["model"] or r["sku"].replace(prefix, "")
 
 
+def supplier_id(r):
+    m = re.search(r"/product/([^/]+)/", r.get("supplier_url", ""))
+    return m.group(1) if m else ""
+
+
 def reprice(info, rate):
     sheet = os.path.join(HERE, info["sheet"])
     rows = list(csv.DictReader(open(sheet, encoding="utf-8-sig")))
     fields = list(rows[0])
+    for extra in ("unit_nzd", "pack"):
+        if extra not in fields:
+            fields.insert(fields.index("supplier_fob_usd"), extra)
+    plist = {}
+    if info.get("price_list") and not info.get("price_markup"):
+        sys.exit(f"{info['name']}: price_markup missing -- add it to private.json")
+    if info.get("price_list") and os.path.exists(os.path.join(HERE, info["price_list"])):
+        plist = {p["supplier_id"]: p for p in csv.DictReader(open(os.path.join(HERE, info["price_list"]),
+                                                                  encoding="utf-8-sig"))}
     live = []
     for r in rows:
+        own = plist.get(supplier_id(r))
         fob = [float(x) for x in re.findall(r"[\d.]+", r.get("supplier_fob_usd", ""))]
-        ok = (r["flags"].strip() in HARMLESS and "china" in r["origin"].lower() and fob
+        r["unit_nzd"] = own["unit_nzd"] if own else ""
+        pack = int(own["moq"]) if own and own.get("moq", "").strip().isdigit() else 0
+        r["pack"] = str(pack) if pack else ""
+        if own and own.get("moq"):
+            r["supplier_moq"] = f'{own["moq"]} units'
+        ok = (r["flags"].strip() in HARMLESS and "china" in r["origin"].lower() and (own or fob)
               and r["sku"] not in EXCLUDE and r["dept"] not in OFFLINE)
         r["sell"] = "yes" if ok else ""
-        r["retail_nzd"] = f"{max(fob) * MARKUP * rate:.2f}" if ok else ""
+        if not ok:
+            r["retail_nzd"] = ""
+        elif own:
+            r["retail_nzd"] = f'{float(own["unit_nzd"]) * info["price_markup"] * (pack or 1):.2f}'
+        else:
+            r["retail_nzd"] = f"{max(fob) * MARKUP * rate:.2f}"
         if ok:
             live.append(r)
     # Same name twice (usually colourways) -> add the colour so the cards differ.
@@ -96,7 +131,8 @@ def reprice(info, rate):
     waiting = sum(1 for r in rows if r["flags"].strip() in HARMLESS and r["sku"] not in EXCLUDE
                   and r["dept"] not in OFFLINE and not r.get("supplier_fob_usd", "").strip())
     note = f"; {waiting} eligible but awaiting a supplier price" if waiting else ""
-    print(f"  {info['name']}: {len(live)} of {len(rows)} lines set to sell{note}")
+    basis = f"owner NZD prices x{info['price_markup']}" if plist else "supplier USD x5 -> NZD"
+    print(f"  {info['name']}: {len(live)} of {len(rows)} lines set to sell ({basis}){note}")
 
 
 if __name__ == "__main__":

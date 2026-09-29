@@ -7,3 +7,4 @@ _build/supplier/*.csv
 _build/supplier/*.bak
 __pycache__/
 .DS_Store
+_build/supplier/private.json

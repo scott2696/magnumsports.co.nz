@@ -9,12 +9,16 @@ too terse to read as a question. Answers lead with the direct response in the
 first sentence. Keep them true to the shop: ordering, payment and delivery
 facts come from lib.py (PAY_HOW, PAYMENT) and the terms page.
 """
-from lib import PAY_HOW, STORE, EMAIL, SHOW_PRICES, PAYMENT_LOCAL
+from lib import PAY_HOW, STORE, EMAIL, SHOW_PRICES, PAYMENT_LOCAL, CHECKOUT_URL
 
 TEL = f"<a href='tel:{STORE['phone_tel']}'>{STORE['phone_display']}</a>"
 
 HOME = [
  ("How does ordering online work?",
+  ("<p>Add what you want to the cart and press <strong>Pay now</strong>. You pay on Stripe&rsquo;s "
+   "secure page, by card, Apple Pay, Google Pay, PayPal or Link, and enter your delivery address there. "
+   "We email to confirm and deliver in 7 to 10 days. If an item turns out to be unavailable we refund "
+   "it in full.</p>") if CHECKOUT_URL else
   ("<p>Add what you want to the cart and send us an order request with your delivery address. "
    "We reply, usually the same working day, to confirm stock and how to pay. "
    "Nothing is charged until we have confirmed your order with you.</p>") if SHOW_PRICES else
@@ -49,7 +53,7 @@ HOME = [
   ("" if SHOW_PRICES else " We are confirming prices now; send an enquiry and we will quote you.") + "</p>"),
  ("How do I know what size to order?",
   "<p>Sizing varies by maker, so put your usual size, and for gloves your hand measurement, in "
-  "the order notes. We check it against the product and confirm the fit with you before you pay. "
+  "the notes box at checkout. We check it against the product before we dispatch, and contact you if it does not match. "
   "See the <a href='/shop/apparel/'>Apparel</a> questions for how to measure a hand.</p>"),
  ("Can I return something?",
   "<p>If an item is faulty or not as described, we put it right as the Consumer Guarantees Act "
@@ -83,7 +87,7 @@ DEPT = {
   ("How do I measure my hand for gloves?",
    "<p>Wrap a tape measure around your dominant hand at the widest part of the palm, just below "
    "the knuckles, without the thumb. That number in centimetres is your glove measurement. Put it "
-   "in your order notes and we will match it to the glove's sizing before you pay.</p>"),
+   "in the notes box at checkout and we will match it to the glove's sizing before we dispatch.</p>"),
   ("Can you wash these gloves?",
    "<p>Yes. For synthetic and mixed-fabric gloves, hand wash in cool water with a little mild "
    "soap, rinse, press out the water and dry flat away from direct heat. Leather panels should be "

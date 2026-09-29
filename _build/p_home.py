@@ -120,7 +120,7 @@ def build():
     if FEATURED:
         o.append(f'''<section class="sec"><div class="wrap">
 <div class="sec-head"><span class="kicker">Our own range</span><h2>Long-standing favourites</h2>
-<p>Lines our customers keep coming back for. Put your size and colour in the order notes and we confirm them before you pay.</p></div>
+<p>Lines our customers keep coming back for. Put your size and colour in the notes box at checkout and we check them before we dispatch.</p></div>
 <div class="picks">{"".join(product_card(p, anchor=False) for p in FEATURED)}</div>
 </div></section>
 ''')
@@ -129,9 +129,9 @@ def build():
     o.append(f'''<section class="sec sec--haze"><div class="wrap">
 <div class="sec-head"><span class="kicker">How it works</span><h2>Ordering, payment and delivery</h2></div>
 {cards([
- ("cart", "1. Add to your cart" if SHOW_PRICES else "1. Add to your enquiry", "Browse by department or search, and add what you want. Your list is kept in your browser until you send it.", "/shop/", "Start shopping"),
- ("mail", "2. Send your order" if SHOW_PRICES else "2. Send your enquiry", "Fill in your details and delivery address. We reply, usually the same working day, to confirm stock. Delivery is already in the price." if SHOW_PRICES else "Fill in your details and delivery address. We reply, usually the same working day, with prices and stock. Delivery is free.", None),
- ("wallet", "3. Pay and we deliver", "Payment is made through Stripe: Visa, Mastercard, American Express, Apple Pay, Google Pay, PayPal or Link. We deliver anywhere in New Zealand in 7 to 10 days.", None),
+ ("cart", "1. Add to your cart" if SHOW_PRICES else "1. Add to your enquiry", "Browse by department or search, and add what you want. Your cart is kept in your browser until you check out." if CHECKOUT_URL else "Browse by department or search, and add what you want. Your list is kept in your browser until you send it.", "/shop/", "Start shopping"),
+ ("lock", "2. Pay at checkout", "Press Pay now and pay on Stripe's secure page, where you enter your delivery address. Delivery is already in the price.", None) if CHECKOUT_URL else ("mail", "2. Send your order" if SHOW_PRICES else "2. Send your enquiry", "Fill in your details and delivery address. We reply, usually the same working day, to confirm stock. Delivery is already in the price." if SHOW_PRICES else "Fill in your details and delivery address. We reply, usually the same working day, with prices and stock. Delivery is free.", None),
+ ("truck", "3. We deliver", "We email to confirm your order and deliver anywhere in New Zealand in 7 to 10 days.", None) if CHECKOUT_URL else ("wallet", "3. Pay and we deliver", "Payment is made through Stripe: Visa, Mastercard, American Express, Apple Pay, Google Pay, PayPal or Link. We deliver anywhere in New Zealand in 7 to 10 days.", None),
 ])}
 <div style="margin-top:22px">{pay_badges()}</div>
 </div></section>

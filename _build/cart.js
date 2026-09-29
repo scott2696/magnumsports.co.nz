@@ -39,7 +39,8 @@
     return lines.reduce(function (n, l) { return n + cents(CAT[l.sku].price) * l.qty; }, 0);
   }
   function label(l) {
-    return CAT[l.sku].name + (l.opt ? " (" + l.opt + ")" : "");
+    var p = CAT[l.sku];
+    return p.name + (p.pack ? " — pack of " + p.pack : "") + (l.opt ? " (" + l.opt + ")" : "");
   }
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -113,8 +114,9 @@
       var li = el("li", "cart-line");
       var info = el("div", "cart-info");
       info.appendChild(el("b", null, p.name));
+      if (p.pack) info.appendChild(el("span", "cart-opt", "Pack of " + p.pack));
       if (l.opt) info.appendChild(el("span", "cart-opt", l.opt));
-      if (PRICES) info.appendChild(el("span", "cart-each", money(cents(p.price)) + " each"));
+      if (PRICES) info.appendChild(el("span", "cart-each", money(cents(p.price)) + (p.pack ? " per pack" : " each")));
       var qty = el("div", "cart-qty");
       var minus = el("button", "cart-step", "−");
       minus.type = "button";

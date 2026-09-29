@@ -88,7 +88,9 @@ def _supplier_products():
                         "supplier": row.get("supplier", "").strip(),
                         "dept": row["dept"].strip(), "blurb": row["blurb"].strip(),
                         "model": row.get("model", "").strip(), "specs": specs,
-                        "origin": row.get("origin", "").strip()})
+                        "origin": row.get("origin", "").strip(),
+                        # Sold as a pack of this many (the supplier's minimum order); price is per pack.
+                        "pack": int(row["pack"]) if row.get("pack", "").strip().isdigit() else 0})
     return out
 
 
@@ -123,7 +125,7 @@ CHECKOUT_WORKER = "https://magnumsports-checkout.scott2696.workers.dev/checkout"
 # Prices on the site. While False (prices not yet confirmed with suppliers):
 # no price is shown or published anywhere, the cart is an enquiry list, and
 # card checkout is off. Set True and rebuild to show prices and take payment.
-SHOW_PRICES = False
+SHOW_PRICES = True
 CHECKOUT_URL = CHECKOUT_WORKER if SHOW_PRICES else ""
 # Order requests, enquiries and contact messages are posted here; the Worker
 # emails them to the shop's private inbox (its NOTIFY_TO secret), so that
@@ -460,6 +462,10 @@ def product_image(sku):
 
 def price_html(p, extra=""):
     """The price, or 'Price on request' while prices are hidden."""
+    if SHOW_PRICES and p.get("pack"):
+        each = float(p["price"]) / p["pack"]
+        return (f'<div class="prod-price{extra}">NZ${esc(p["price"])}'
+                f'<span class="prod-pack">Pack of {p["pack"]} &middot; NZ${each:.2f} each</span></div>')
     if SHOW_PRICES:
         return f'<div class="prod-price{extra}">NZ${esc(p["price"])}</div>'
     return f'<div class="prod-price prod-price--ask{extra}">Price on request</div>'
@@ -475,7 +481,7 @@ def product_cta(p, size="btn--sm"):
                 f'<select id="{oid}" data-opt><option value="">Choose&hellip;</option>'
                 + "".join(f'<option>{esc(o)}</option>' for o in p["options"])
                 + '</select></div>')
-    label = "Add to cart" if SHOW_PRICES else "Add to enquiry"
+    label = ("Add pack to cart" if p.get("pack") else "Add to cart") if SHOW_PRICES else "Add to enquiry"
     return (f'{opts}<button class="btn {size}" type="button" data-add="{esc(p["sku"])}">'
             f'{icon("cart")} {label}</button>')
 
@@ -618,6 +624,12 @@ def org_schema():
     }
 
 
+# The terms promise Consumer Guarantees Act remedies but no change-of-mind window.
+RETURN_POLICY = {"@type": "MerchantReturnPolicy", "applicableCountry": "NZ",
+                 "returnPolicyCategory": "https://schema.org/MerchantReturnUnspecified",
+                 "merchantReturnLink": f"{SITE}/terms/"}
+
+
 def store_schema():
     """OnlineStore entity for the business behind this domain."""
     return {
@@ -640,6 +652,7 @@ def store_schema():
         },
         "areaServed": {"@type": "Country", "name": "New Zealand"},
         "currenciesAccepted": "NZD",
+        "hasMerchantReturnPolicy": RETURN_POLICY,
         "paymentAccepted": ", ".join(PAYMENT) + " (through Stripe)",
         "parentOrganization": {"@id": f"{SITE}/#organization"},
         "hasOfferCatalog": {

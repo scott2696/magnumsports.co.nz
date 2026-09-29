@@ -62,6 +62,9 @@
   }
   // No "p" in the index while prices are unconfirmed.
   function money(p) { return p ? "NZ$" + p : "Price on request"; }
+  function packNote(p) {
+    return p.k ? '<span class="prod-pack">Pack of ' + p.k + " &middot; NZ$" + (parseFloat(p.p) / p.k).toFixed(2) + " each</span>" : "";
+  }
 
   // ------------------------------------------------------------ header box
   function wireHeader() {
@@ -95,7 +98,7 @@
           (p.i ? '<img src="' + esc(p.i) + '" alt="" width="44" height="44" loading="lazy">'
                : '<span class="search-noimg"></span>') +
           '<span class="search-txt"><b>' + esc(p.n) + '</b><span>' + esc(p.d) + '</span></span>' +
-          '<span class="search-price">' + money(p.p) + '</span></a></li>';
+          '<span class="search-price">' + money(p.p) + (p.k ? '<small> / ' + p.k + '</small>' : "") + '</span></a></li>';
       }).join("") + (res.length > SUGGEST
         ? '<li class="search-all"><a href="/search/?q=' + encodeURIComponent(q) + '">See all ' +
           res.length + ' results &rarr;</a></li>' : "");
@@ -119,7 +122,7 @@
     var cta = p.o
         ? '<a class="btn btn--sm" href="' + esc(p.u) + '">Choose options</a>'
         : '<button class="btn btn--sm" type="button" data-add="' + esc(p.s) + '">' +
-          (p.p ? "Add to cart" : "Add to enquiry") + '</button>';
+          (p.p ? (p.k ? "Add pack to cart" : "Add to cart") : "Add to enquiry") + '</button>';
     var media = p.i
       ? '<a class="prod-img" href="' + esc(p.u) + '" tabindex="-1" aria-hidden="true"><img src="' + esc(p.i) +
         '" alt="" width="600" height="600" loading="lazy" decoding="async"></a>'
@@ -127,7 +130,7 @@
     return '<div class="pick prod" data-sku="' + esc(p.s) + '">' + media +
       '<span class="pick-cat">' + esc(p.d) + '</span>' +
       '<div class="pick-brand"><b><a class="prod-link" href="' + esc(p.u) + '">' + esc(p.n) + '</a></b></div>' +
-      '<p>' + esc(p.b) + '</p><div class="prod-price' + (p.p ? "" : " prod-price--ask") + '">' + money(p.p) + '</div>' + cta + '</div>';
+      '<p>' + esc(p.b) + '</p><div class="prod-price' + (p.p ? "" : " prod-price--ask") + '">' + money(p.p) + packNote(p) + '</div>' + cta + '</div>';
   }
 
   function wirePage() {
