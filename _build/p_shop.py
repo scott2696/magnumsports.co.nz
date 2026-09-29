@@ -108,7 +108,7 @@ def cart_section():
 <div class="cart-box"><div id="cart-lines"><p class="cart-empty">Loading your cart&hellip;</p></div>
 {f'<div class="cart-paynow" id="pay-now-wrap" hidden><button class="btn btn--wide" type="button" id="pay-now" data-checkout="{esc(CHECKOUT_URL)}">{icon("lock")} Pay now</button><p class="cart-fine">Secure checkout by Stripe: card, Apple Pay, Google Pay, PayPal, Link and more. You enter your delivery address there.</p><p class="cart-error" id="pay-now-error" role="alert" hidden></p></div>' if CHECKOUT_URL else ""}
 <div class="cart-pay">{pay_badges()}<p>{PAY_HOW}</p></div>
-<noscript><p class="cart-empty">The cart needs JavaScript. Call <a href="tel:{STORE["phone_tel"]}">{esc(STORE["phone_display"])}</a> to order instead.</p></noscript></div>
+<noscript><p class="cart-empty">The cart needs JavaScript. Email <a href="mailto:{ORDER_EMAIL}">{ORDER_EMAIL}</a> to order instead.</p></noscript></div>
 <div>
 <form id="order-form" class="form" hidden data-send="{esc(MESSAGE_URL)}">
 <div class="hp" aria-hidden="true"><label for="o-website">Leave this empty</label><input id="o-website" name="website" tabindex="-1" autocomplete="off"></div>
@@ -122,9 +122,9 @@ def cart_section():
 <p class="cart-error" id="order-error" role="alert" hidden></p>
 </form>
 <div id="order-done" class="note note--ok" hidden style="margin-top:18px" tabindex="-1"><b>{"Thank you: your order request is on its way" if SHOW_PRICES else "Thank you: your enquiry is on its way"}</b>
-<p>We reply by email, usually the same working day{"" if SHOW_PRICES else ", with prices and stock"}. Questions in the meantime? Call <a href="tel:{STORE["phone_tel"]}">{esc(STORE["phone_display"])}</a>.</p></div>
+<p>We reply by email, usually the same working day{"" if SHOW_PRICES else ", with prices and stock"}. Questions in the meantime? Email <a href="mailto:{ORDER_EMAIL}">{ORDER_EMAIL}</a>.</p></div>
 <div id="order-sent" class="note" hidden style="margin-top:18px"><b>{"We could not send it just now" if MESSAGE_URL else "Almost done: press send in your email app"}</b>
-<p>{"Copy it below and email it to" if MESSAGE_URL else "If no email opened, copy the order below and email it to"} <a href="mailto:{ORDER_EMAIL}">{ORDER_EMAIL}</a>, or call <a href="tel:{STORE["phone_tel"]}">{esc(STORE["phone_display"])}</a>.</p>
+<p>{"Copy it below and email it to" if MESSAGE_URL else "If no email opened, copy the order below and email it to"} <a href="mailto:{ORDER_EMAIL}">{ORDER_EMAIL}</a>.</p>
 <div class="field"><label for="order-copy">Your order</label><textarea id="order-copy" readonly style="min-height:160px;font-family:var(--mono);font-size:.8rem"></textarea></div>
 <p style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="btn btn--sm btn--ghost" type="button" id="order-copy-btn">Copy order</button>
 <button class="btn btn--sm btn--ghost" type="button" id="order-clear">Sent it &mdash; clear my cart</button></p></div>
@@ -149,7 +149,7 @@ def front(depts):
     o.append(f'''<section class="hero"><div class="wrap">
 <span class="eyebrow">{icon("cart")} Order online &middot; Delivered across New Zealand in 7 to 10 days</span>
 <h1>Shop Online at {esc(STORE["name"])}</h1>
-<p class="lede">{"Add gear to your cart and pay securely through Stripe. Every price includes GST and" if CHECKOUT_URL else "Add gear to your cart and send us an order request. We confirm stock with you before anything is charged, and every price includes"} delivery anywhere in New Zealand. Can&rsquo;t find something? <a href="/search/">Search the shop</a> or <a href="tel:{STORE["phone_tel"]}">ring {esc(STORE["phone_display"])}</a>.</p>
+<p class="lede">{"Add gear to your cart and pay securely through Stripe. Every price includes GST and" if CHECKOUT_URL else "Add gear to your cart and send us an order request. We confirm stock with you before anything is charged, and every price includes"} delivery anywhere in New Zealand. Can&rsquo;t find something? <a href="/search/">Search the shop</a> or <a href="/contact/">ask us</a>.</p>
 </div></section>
 ''')
     o.append(f'''<section class="sec"><div class="wrap">

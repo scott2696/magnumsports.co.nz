@@ -22,8 +22,6 @@ STORE = {
     "region": "Taranaki",
     "postcode": "4332",
     "country": "NZ",
-    "phone_display": "06 765 7248",
-    "phone_tel": "+6467657248",
 }
 
 # (name, slug, icon, blurb). The shop's categories. A department appears on
@@ -408,17 +406,16 @@ def footer():
 <svg class="brand-mark" width="32" height="32" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#2B2836"/><path d="M20.5 73.5V26.5L50 58.5L79.5 26.5V73.5" fill="none" stroke="#F5A524" stroke-width="11.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="20.5" y="79.5" width="59" height="5.5" rx="2.75" fill="#F2EFE9"/></svg>
 <span class="brand-txt"><span class="brand-word">MAGNUM<i>.</i></span><span class="brand-tag">{esc(TAG)}</span></span></a>
 <p>Outdoor gear online, delivered across New Zealand in 7 to 10 days.</p>
-<p><a href="tel:+6467657248">06 765 7248</a> &middot; <a href="mailto:{EMAIL}">{EMAIL}</a><br>{esc(STORE["legal"])}, {esc(STORE["street"])}, {esc(STORE["suburb"])} {esc(STORE["postcode"])}</p>
+<p><a href="mailto:{EMAIL}">{EMAIL}</a><br>{esc(STORE["legal"])}, {esc(STORE["street"])}, {esc(STORE["suburb"])} {esc(STORE["postcode"])}</p>
 <p><a href="/shop/">Shop online</a> &middot; <a href="/search/">Search</a></p>
 {pay_badges()}
 </div>
 {cols}
 </div>
 <div class="foot-bot">
-<p>Prices are in New Zealand dollars and include GST and delivery anywhere in New Zealand. Orders are confirmed by us before payment and delivered in 7 to 10 days.</p>
+<p>Prices are in New Zealand dollars and include GST and delivery anywhere in New Zealand. Payment is through Stripe, and orders are delivered in 7 to 10 days.</p>
 <div class="foot-badges">
 <a href="/shop/">Shop online</a>
-<a href="tel:+6467657248">06 765 7248</a>
 <a href="/contact/">Contact</a>
 </div>
 </div>
@@ -614,12 +611,11 @@ def org_schema():
         "email": EMAIL, "areaServed": {"@type": "Country", "name": "New Zealand"},
         "knowsLanguage": "en-NZ",
         "description": "New Zealand online store for outdoor, hunting and tactical gear, delivered NZ-wide.",
-        "telephone": STORE["phone_tel"],
         "address": {"@type": "PostalAddress", "streetAddress": STORE["street"],
                     "addressLocality": STORE["suburb"], "addressRegion": STORE["region"],
                     "postalCode": STORE["postcode"], "addressCountry": STORE["country"]},
         "contactPoint": {"@type": "ContactPoint", "contactType": "customer service",
-                         "telephone": STORE["phone_tel"], "email": EMAIL,
+                         "email": EMAIL,
                          "areaServed": "NZ", "availableLanguage": "en"},
     }
 
@@ -638,7 +634,6 @@ def store_schema():
         "name": STORE["legal"],
         "alternateName": STORE["name"],
         "url": SITE,
-        "telephone": STORE["phone_tel"],
         "image": f"{SITE}/images/og-magnum.jpg",
         "logo": f"{SITE}/favicon-512x512.png",
         "description": f'{STORE["tagline"]} {STORE["blurb"]}',

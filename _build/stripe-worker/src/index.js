@@ -229,7 +229,7 @@ async function sendMessage(request, env, reply) {
     await env.NOTIFY.send(new EmailMessage(from, env.NOTIFY_TO, raw));
   } catch (e) {
     console.log("email error", String(e && e.message || e));
-    return reply({ error: "Your message could not be sent. Please call us instead." }, 502);
+    return reply({ error: "Your message could not be sent. Please email editor@magnumsports.co.nz instead." }, 502);
   }
   return reply({ ok: true });
 }

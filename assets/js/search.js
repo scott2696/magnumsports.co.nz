@@ -153,7 +153,7 @@
       var res = search(v);
       count.textContent = res.length
         ? res.length + " product" + (res.length === 1 ? "" : "s") + " for “" + v + "”"
-        : "No products match “" + v + "”. Try fewer or different words, or ring the shop.";
+        : "No products match “" + v + "”. Try fewer or different words, or ask us through the Contact page.";
       box.innerHTML = res.map(card).join("");
       document.title = (v ? v + " | " : "") + "Search | Magnum Sports";
     }

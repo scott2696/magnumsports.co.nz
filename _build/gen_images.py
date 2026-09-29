@@ -85,8 +85,10 @@ def og_card():
     d.text((80, 322), "Delivered NZ-Wide", font=font(78), fill=(245, 165, 36))
     d.text((80, 438), "Gloves, clothing, pouches, packs and bipods.", font=font(30), fill=(200, 196, 208))
     d.text((80, 480), "Order online, delivered in 7 to 10 days.", font=font(30), fill=(200, 196, 208))
-    d.rounded_rectangle([80, 546, 300, 592], radius=10, fill=(245, 165, 36))
-    d.text((100, 559), "06 765 7248", font=font(21), fill=(26, 18, 4))
+    label = "magnumsports.co.nz"
+    w = d.textlength(label, font=font(21))
+    d.rounded_rectangle([80, 546, 120 + w, 592], radius=10, fill=(245, 165, 36))
+    d.text((100, 559), label, font=font(21), fill=(26, 18, 4))
     im.save(os.path.join(ROOT, "images", "og-magnum.jpg"), quality=88)
 
 

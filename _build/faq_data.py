@@ -11,7 +11,6 @@ facts come from lib.py (PAY_HOW, PAYMENT) and the terms page.
 """
 from lib import PAY_HOW, STORE, EMAIL, SHOW_PRICES, PAYMENT_LOCAL, CHECKOUT_URL
 
-TEL = f"<a href='tel:{STORE['phone_tel']}'>{STORE['phone_display']}</a>"
 
 HOME = [
  ("How does ordering online work?",
@@ -57,7 +56,7 @@ HOME = [
   "See the <a href='/shop/apparel/'>Apparel</a> questions for how to measure a hand.</p>"),
  ("Can I return something?",
   "<p>If an item is faulty or not as described, we put it right as the Consumer Guarantees Act "
-  f"requires. Ring {TEL} or email <a href='mailto:{EMAIL}'>{EMAIL}</a>. If you have simply "
+  f"requires. Email <a href='mailto:{EMAIL}'>{EMAIL}</a> or use our <a href='/contact/'>contact form</a>. If you have simply "
   "changed your mind, get in touch and we will tell you what we can do.</p>"),
  ("What is tactical gear?",
   "<p>Outdoor equipment built the way military and emergency-service gear is: tough nylon, "

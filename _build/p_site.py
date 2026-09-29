@@ -25,7 +25,6 @@ def simple(title, desc, path, crumb, h1, lede, body, eyebrow=None, kind="WebPage
     return write(path, "".join(o))
 
 
-TEL = f'<a href="tel:{STORE["phone_tel"]}">{esc(STORE["phone_display"])}</a>'
 ADDR = f'{esc(STORE["street"])}, {esc(STORE["suburb"])}, {esc(STORE["region"])} {esc(STORE["postcode"])}'
 
 
@@ -46,7 +45,7 @@ def about():
 <p>The details are in our <a href="/terms/">terms</a>, and the answers to common questions are on the <a href="/#faq">homepage</a> and each department page.</p>
 
 <h2>Get in touch</h2>
-{keyfacts([("Phone", TEL), ("Email", f'<a href="mailto:{EMAIL}">{EMAIL}</a>'),
+{keyfacts([("Email", f'<a href="mailto:{EMAIL}">{EMAIL}</a>'),
            ("Business address", ADDR), ("Online shop", '<a href="/shop/">Shop now</a>')])}
 </div></div></section>
 '''
@@ -63,7 +62,7 @@ def contact():
 <div class="grid grid--2">
 <div>
 <h2>Send us a message</h2>
-<p>Stock checks, questions about an order or delivery, or advice on gear. For anything urgent, ring the shop.</p>
+<p>Stock checks, questions about an order or delivery, or advice on gear. We reply by email, usually the same working day.</p>
 <form class="form" id="contact-form" action="mailto:{EMAIL}" method="post" enctype="text/plain" data-send="{esc(MESSAGE_URL)}">
 <div class="hp" aria-hidden="true"><label for="c-website">Leave this empty</label><input id="c-website" name="website" tabindex="-1" autocomplete="off"></div>
 <div class="field"><label for="cname">Your name</label><input id="cname" name="name" type="text" autocomplete="name" required></div>
@@ -83,13 +82,10 @@ def contact():
 <button class="btn" type="submit">Send message</button>
 </form>
 <div id="contact-done" class="note note--ok" hidden tabindex="-1"><b>Thank you: your message is on its way</b>
-<p>We reply by email, usually the same working day. Anything urgent? Call {TEL}.</p></div>
+<p>We reply by email, usually the same working day. Anything urgent? Email <a href="mailto:{EMAIL}">{EMAIL}</a>.</p></div>
 </div>
 <div>
-<h2>Other ways to reach us</h2>
-<div class="card" style="margin-bottom:16px"><div class="card-ic">{icon("chat")}</div>
-<h3>Phone the shop</h3><p>{TEL}</p>
-<p style="font-size:.86rem;color:var(--mute);margin-bottom:0">The quickest way to check stock or ask about an order.</p></div>
+<h2>Email us</h2>
 <div class="card" style="margin-bottom:16px"><div class="card-ic">{icon("mail")}</div>
 <h3>Email</h3><p><a href="mailto:{EMAIL}">{EMAIL}</a></p>
 <p style="font-size:.86rem;color:var(--mute);margin-bottom:0">Orders, delivery and general questions.</p></div>
@@ -101,7 +97,7 @@ def contact():
 </div></section>
 '''
     return simple(*META["/contact/"], "/contact/", [("Contact Us", "/contact/")], "Contact Us",
-                  f"Phone {esc(STORE['phone_display'])} or email us about an order, delivery, stock or a product.",
+                  "Email us or use the form about an order, delivery, stock or a product.",
                   body, eyebrow=icon("mail") + " Stock checks, orders and advice", kind="ContactPage",
                   extra=[store_schema()], main=f"{SITE}/#store")
 
@@ -127,7 +123,7 @@ def terms():
 <p>We deliver within New Zealand. Delivery takes <strong>7 to 10 days</strong> from when we confirm your order. Risk in the goods passes to you on delivery.</p>
 
 <h2>6. Returns and your consumer rights</h2>
-<p>Nothing in these terms limits your rights under the <strong>Consumer Guarantees Act 1993</strong> or the <strong>Fair Trading Act 1986</strong>. If something you buy from us is faulty or not as described, contact us on {TEL} or <a href="mailto:{EMAIL}">{EMAIL}</a> and we will put it right as those Acts require. If you have simply changed your mind, get in touch and we will tell you what we can do.</p>
+<p>Nothing in these terms limits your rights under the <strong>Consumer Guarantees Act 1993</strong> or the <strong>Fair Trading Act 1986</strong>. If something you buy from us is faulty or not as described, email <a href="mailto:{EMAIL}">{EMAIL}</a> and we will put it right as those Acts require. If you have simply changed your mind, get in touch and we will tell you what we can do.</p>
 
 <h2>7. Product information</h2>
 <p>We take care to describe products accurately. Photos are for illustration, and colours on screen can differ from the item. Product specifications come from the manufacturer; if a detail matters to you, ask us before you order.</p>
@@ -145,7 +141,7 @@ def terms():
 <p>We may update these terms; the date above shows when they last changed, and the terms that apply to an order are the ones in place when you placed it. These terms are governed by New Zealand law.</p>
 
 <h2>12. Contact</h2>
-<p>{TEL} &middot; <a href="mailto:{EMAIL}">{EMAIL}</a> &middot; {ADDR}</p>
+<p><a href="mailto:{EMAIL}">{EMAIL}</a> &middot; {ADDR}</p>
 </div></div></section>
 '''
     return simple(*META["/terms/"], "/terms/", [("Terms and Conditions", "/terms/")], "Terms and Conditions",
@@ -186,7 +182,7 @@ def privacy():
 <p>The site is served over HTTPS. Access to order information is limited to the people in the business who need it.</p>
 
 <h2>6. Your rights</h2>
-<p>You may ask to see the personal information we hold about you and ask us to correct it. Email <a href="mailto:{EMAIL}">{EMAIL}</a> or ring {TEL}. We respond within 20 working days, as the Privacy Act requires. If you are not satisfied with our response, you may complain to the <strong>Office of the Privacy Commissioner</strong> at <a href="https://www.privacy.org.nz/" rel="nofollow noopener" target="_blank">privacy.org.nz</a>.</p>
+<p>You may ask to see the personal information we hold about you and ask us to correct it. Email <a href="mailto:{EMAIL}">{EMAIL}</a>. We respond within 20 working days, as the Privacy Act requires. If you are not satisfied with our response, you may complain to the <strong>Office of the Privacy Commissioner</strong> at <a href="https://www.privacy.org.nz/" rel="nofollow noopener" target="_blank">privacy.org.nz</a>.</p>
 
 <h2>7. Changes</h2>
 <p>We may update this policy; the date at the top shows when it last changed.</p>
