@@ -28,11 +28,11 @@ STORE = {
 # the site only once it has products; the rest are ready for when they do.
 DEPARTMENTS = [
     ("Apparel", "apparel", "shirt",
-     "Gloves, bush shirts, thermals, rainwear, camo and everyday outdoor clothing "
-     "built for a New Zealand winter rather than a catalogue shoot."),
+     "Tactical gloves, motorcycle and cycling gloves, fingerless, winter and work gloves, "
+     "and tactical belts."),
     ("Bags", "bags", "pack",
-     "Pouches, day packs, hunting packs, dry bags and storage: carry gear that "
-     "survives more than one season."),
+     "MOLLE pouches, magazine, first aid, radio and EDC pouches, tactical waist bags, "
+     "sling bags and a tactical backpack."),
     ("Fishing", "fishing", "fish",
      "Freshwater and saltwater: rods, reels, line, lures, flies, nets and "
      "terminal tackle."),
@@ -40,8 +40,8 @@ DEPARTMENTS = [
      "Boots for the bush, gumboots for the paddock, wading boots for the "
      "river, and socks worth the money."),
     ("Hunting Accessories", "hunting-accessories", "compass",
-     "Bipods, game bags, calls, rangefinders, headlamps and the hundred small "
-     "things you notice only when you have forgotten one."),
+     "Rifle bipods from 6 to 27 inches, carbon and M-Lok bipods, drop leg platforms "
+     "and a cotton shemagh."),
     ("Outdoor Leisure", "outdoor-leisure", "tent",
      "Camping, tramping and family gear: tents, sleeping bags, chilly bins, "
      "cookers, torches and chairs."),
@@ -103,6 +103,17 @@ for _p in PRODUCTS:
     if not re.fullmatch(r"\d+\.\d{2}", _p["price"]):
         raise ValueError(f"products.json: {_p['sku']} price must look like 109.99")
     _skus.add(_p["sku"])
+# Keyword group and search copy (seo.py). The supplier's one-line summary is
+# kept as spec_blurb; cards, search and schema use the written blurb.
+import seo
+for _p in PRODUCTS:
+    _p["group"] = seo.group_of(_p)
+seo.check(PRODUCTS)
+_dd = seo._DEPT_DEFAULT
+for _p in PRODUCTS:
+    _p["group"] = _p["group"] or _dd.get(_p["dept"], "molle-pouch")
+    _p["spec_blurb"] = _p["blurb"]
+    _p["blurb"] = seo.blurb(_p)
 FEATURED = [p for p in PRODUCTS if p.get("featured")]
 DEPT_SLUG = {d[0]: d[1] for d in DEPARTMENTS}
 
@@ -130,6 +141,11 @@ CHECKOUT_URL = CHECKOUT_WORKER if SHOW_PRICES else ""
 # address never appears on the site. Empty = fall back to opening the
 # customer's email app addressed to ORDER_EMAIL.
 MESSAGE_URL = CHECKOUT_WORKER.rsplit("/", 1)[0] + "/message"
+# Live chat (Tawk.to, answered by us as "Magnum Sports Support"). From the
+# widget's embed code, https://embed.tawk.to/<property>/<widget>. Empty = no chat.
+TAWK_PROPERTY = "6abbffe0ed6c2d3444240cc8"
+TAWK_WIDGET = "1k3n5v1pa"
+CHAT = bool(TAWK_PROPERTY and TAWK_WIDGET)
 
 # Payment is through Stripe only. PAYMENT is what the shop's Stripe account
 # offers at checkout (checked 23 Sep 2026 via the Worker's /methods: card, Link,
@@ -227,14 +243,14 @@ IC = {
 # <= 158, each targeting a different head-keyword variant so pages do not
 # compete with one another in the SERP.
 META = {
- "/": ("Magnum Sports | Outdoor Gear Online, Delivered NZ-Wide",
-       "Shop outdoor gear online from Magnum Sports: gloves, clothing, pouches, packs, bipods and hunting accessories, delivered across New Zealand in 7 to 10 days."),
- "/shop/": ("Shop Online | Magnum Sports",
-       "Order outdoor gear online from Magnum Sports, with free delivery anywhere in New Zealand. Browse by department and send us your order or enquiry."),
+ "/": ("Tactical Gear NZ: Gloves, Pouches & Bipods | Magnum Sports",
+       "Tactical gear online in NZ: tactical, motorcycle and cycling gloves, MOLLE and magazine pouches, rifle bipods and more. Free delivery in 7 to 10 days."),
+ "/shop/": ("Shop Tactical & Outdoor Gear Online NZ | Magnum Sports",
+       "Shop tactical gloves, MOLLE pouches, tactical bags and rifle bipods online. Prices include GST and free delivery anywhere in New Zealand."),
  "/about/": ("About Magnum Sports | Outdoor Gear Online",
        "Magnum Sports is a New Zealand online store for outdoor gear: clothing, gloves, bags and hunting accessories, delivered NZ-wide."),
  "/contact/": ("Contact Magnum Sports",
-       "Phone or email Magnum Sports about an order, delivery, stock or a product. We reply to every message."),
+       "Email Magnum Sports or use the form about an order, delivery, stock or a product. We reply to every message, usually the same working day."),
  "/terms/": ("Terms and Conditions | Magnum Sports",
        "Terms for using magnumsports.co.nz and ordering from our online shop: orders, pricing, payment, delivery, returns and your consumer rights."),
  "/privacy/": ("Privacy Policy | Magnum Sports",
@@ -394,6 +410,16 @@ def crumb_schema(items):
     return {"@type": "BreadcrumbList", "@id": "#breadcrumb", "itemListElement": el}
 
 
+def chat_script():
+    """Tawk.to live chat bubble, loaded after the page so it never slows it."""
+    if not CHAT:
+        return ""
+    return ("<script>var Tawk_API=Tawk_API||{},Tawk_LoadStart=new Date();"
+            "window.addEventListener('load',function(){var s=document.createElement('script');s.async=true;"
+            f"s.src='https://embed.tawk.to/{TAWK_PROPERTY}/{TAWK_WIDGET}';s.charset='UTF-8';"
+            "s.setAttribute('crossorigin','*');document.body.appendChild(s);});</script>")
+
+
 def footer():
     cols = "".join(
         f'<div class="foot-col"><h4>{esc(h)}</h4><ul>'
@@ -421,6 +447,7 @@ def footer():
 </div>
 <p style="margin-top:22px;font-size:.78rem">&copy; 2026 {esc(NAME)}. All rights reserved. magnumsports.co.nz</p>
 </div></footer>
+{chat_script()}
 </body>
 </html>
 '''
@@ -654,9 +681,12 @@ def store_schema():
             "@type": "OfferCatalog",
             "name": "Departments",
             "itemListElement": [
-                {"@type": "OfferCatalog", "name": d[0],
-                 "url": f"{SITE}/shop/{d[1]}/"} for d in DEPARTMENTS
-                if d[0] in {p["dept"] for p in PRODUCTS}
+                {"@type": "OfferCatalog", "name": d[0], "url": f"{SITE}/shop/{d[1]}/",
+                 "itemListElement": [
+                     {"@type": "OfferCatalog", "name": seo.GROUPS[g]["label"], "url": f"{SITE}/shop/{d[1]}/#{g}"}
+                     for g in sorted({p["group"] for p in PRODUCTS if p["dept"] == d[0]},
+                                     key=lambda g: -sum(p["group"] == g for p in PRODUCTS))]}
+                for d in DEPARTMENTS if d[0] in {p["dept"] for p in PRODUCTS}
             ],
         },
     }

@@ -10,7 +10,7 @@
      cards is handled by cart.js, which listens for [data-add] clicks. */
 (function () {
   "use strict";
-  var INDEX_URL = "/assets/js/search.json?v=b685987122";
+  var INDEX_URL = "/assets/js/search.json?v=d94fb7e0f5";
   var SUGGEST = 8;
   var items = null, loading = null;
 

@@ -465,6 +465,16 @@ a.prod-img--empty{display:flex;align-items:center;justify-content:center;backgro
 .shop-other{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;margin-top:30px;
   padding-top:18px;border-top:1px solid var(--graphite);font-size:.92rem}
 .shop-other b{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+/* department page: products under a heading per type */
+.dept-jump{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.dept-jump a{display:inline-flex;gap:6px;align-items:center;padding:7px 12px;border:1px solid var(--graphite);
+  border-radius:999px;font-size:.86rem;color:var(--text,inherit);text-decoration:none}
+.dept-jump a:hover{border-color:var(--sodium);color:var(--sodium)}
+.dept-jump span{font-family:var(--mono);font-size:.72rem;color:var(--mute)}
+.dept-group{scroll-margin-top:80px;margin-top:38px}
+.dept-group h2{margin:0 0 6px}
+.dept-group-lede{color:var(--mute);max-width:68ch;margin:0 0 18px}
+.pdp-desc h3{margin:22px 0 8px;font-size:1.05rem}
 /* product page */
 .pdp{display:grid;gap:34px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
 .pdp-img{background:#fff;border-radius:var(--radius);overflow:hidden;aspect-ratio:1;
@@ -712,3 +722,4 @@ table.specs{min-width:0;table-layout:fixed}
   .hs-card,.hs-spot summary,.hs-pop{animation:none}
   .hs-card{transition:none}
 }
+.cart-grid--solo{grid-template-columns:minmax(0,760px)}

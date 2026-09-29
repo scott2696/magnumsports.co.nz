@@ -85,6 +85,7 @@ def contact():
 <p>We reply by email, usually the same working day. Anything urgent? Email <a href="mailto:{EMAIL}">{EMAIL}</a>.</p></div>
 </div>
 <div>
+{'<div class="card" style="margin-bottom:16px"><div class="card-ic">' + icon("chat") + '</div><h3>Live chat</h3><p><button class="btn btn--sm" type="button" onclick="window.Tawk_API&&Tawk_API.maximize&&Tawk_API.maximize()">Chat with Magnum Sports Support</button></p><p style="font-size:.86rem;color:var(--mute);margin-bottom:0">Questions about a product, sizing, delivery or an order. If we are offline, leave a message and we reply by email.</p></div>' if CHAT else ""}
 <h2>Email us</h2>
 <div class="card" style="margin-bottom:16px"><div class="card-ic">{icon("mail")}</div>
 <h3>Email</h3><p><a href="mailto:{EMAIL}">{EMAIL}</a></p>
@@ -159,6 +160,7 @@ def privacy():
 <ul>
 <li><strong>Orders.</strong> {"When you pay at checkout: your name, email address, phone number, delivery address and the items you bought. Stripe collects these and passes them to us." if CHECKOUT_URL else "When you send an order request: your name, email address, phone number, delivery address, the items you want and any notes. These reach us by email, delivered through our website host, Cloudflare."}</li>
 <li><strong>Messages.</strong> When you contact us: your name, email address and what you tell us.</li>
+{"<li><strong>Live chat.</strong> When you use the chat: your messages, and the name and email address you give. The chat is run by Tawk.to, which also records your IP address and the page you are on (see <a href='https://www.tawk.to/privacy-policy/' rel='nofollow noopener' target='_blank'>Tawk.to&rsquo;s privacy policy</a>).</li>" if CHAT else ""}
 <li><strong>Payments.</strong> Every payment is made through Stripe on its own secure page. Stripe tells us the order is paid; your card or wallet details go to Stripe, not to us (see <a href="https://stripe.com/privacy" rel="nofollow noopener" target="_blank">Stripe&rsquo;s privacy policy</a>).</li>
 <li><strong>Your cart.</strong> Kept in your own browser until you send the order or clear it. We do not see it until you send us the order.</li>
 <li><strong>Server logs.</strong> Our host records IP addresses and pages requested, for security and diagnostics.</li>
@@ -171,6 +173,7 @@ def privacy():
 <ul>
 <li><strong>Couriers</strong>, who need your name, address and phone number to deliver your order.</li>
 <li><strong>Stripe</strong>, which processes every payment.</li>
+{"<li><strong>Tawk.to</strong>, which runs our live chat.</li>" if CHAT else ""}
 <li><strong>Our hosting and email providers</strong>, which run the site and carry our email. Some are overseas; where that is the case we take reasonable steps to ensure comparable safeguards, consistent with information privacy principle 12.</li>
 <li><strong>Authorities</strong>, where the law requires it.</li>
 </ul>
@@ -202,9 +205,10 @@ def cookies():
 
 <h2>What this site stores</h2>
 {table(["What", "What it does", "Set without asking?", "How long"], [
- ["<b>Shopping cart</b>", "Local storage in your browser holding the items in your cart. Set only when you add an item; never sent to us unless you send an order request", "<span class='t-yes'>Yes &mdash; you asked for it</span>", "Until you clear the cart"],
+ ["<b>Shopping cart</b>", "Local storage in your browser holding the items in your cart. Set only when you add an item; the items are sent to Stripe only when you press Pay now", "<span class='t-yes'>Yes &mdash; you asked for it</span>", "Until you clear the cart"],
 ], minw=620)}
 <p>That is the only thing the site itself stores. We do not use analytics, advertising or tracking cookies.</p>
+{"<p><strong>Live chat.</strong> The chat bubble is provided by Tawk.to, which sets its own cookies and local storage to keep your conversation open as you move between pages and to recognise you if you come back. They are needed for the chat to work.</p>" if CHAT else ""}
 
 <h2>Third parties</h2>
 <p><strong>Google Fonts</strong> serves the typefaces on this site. It does not set advertising cookies. If you pay online, you do so on <strong>Stripe</strong>&rsquo;s own payment page, which sets its own cookies for security and fraud prevention under Stripe&rsquo;s policies, not ours. Links to other websites are governed by those sites&rsquo; own policies once you follow them.</p>

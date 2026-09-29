@@ -102,6 +102,14 @@ DEPT = {
    "<p>Snug enough not to slide or sag when it is loaded, but not so tight it digs in when you "
    "sit or bend. Try it with everything you plan to hang on it: weight on the belt is what makes a "
    "loose one sag.</p>"),
+  ("Are these motorcycle gloves certified?",
+   "<p>Our riding gloves have knuckle protection and anti-slip palms, but unless a listing says "
+   "otherwise they are not certified to the motorcycle glove standard (EN 13594). They suit "
+   "commuting, trail riding and mountain biking; for fast road riding wear certified gloves.</p>"),
+  ("Tactical gloves or work gloves: which do I need?",
+   "<p>Tactical gloves are thinner and closer-fitting, so you keep the feel for triggers, zips and "
+   "phones. Work gloves add more palm reinforcement for fencing, firewood and tools. For hunting "
+   "and shooting pick tactical gloves; for rough jobs on the section pick work gloves.</p>"),
  ],
  "Bags": [
   ("What is MOLLE?",
@@ -136,6 +144,15 @@ DEPT = {
    "<p>Yes, by hand. Empty it, brush out the dirt, then wash with cool water and mild soap and a "
    "soft brush. Rinse well and hang it upside down to dry in the shade. Skip the washing machine, "
    "the dryer and bleach: they damage the coatings and the webbing.</p>"),
+  ("What should go in a first aid pouch?",
+   "<p>For tramping and hunting: plasters, blister dressings, a crepe bandage, wound dressings, "
+   "antiseptic wipes, tape, gloves, pain relief and any personal medication, plus a tourniquet and "
+   "shears if you work with firearms, chainsaws or blades. Our first aid pouches are sold empty so you "
+   "can build the kit you need.</p>"),
+  ("What is an EDC pouch?",
+   "<p>EDC stands for everyday carry. An EDC pouch organises the small things you carry every day "
+   "(multi-tool, torch, keys, lighter, cards, cables) in one place, on your belt, in a bag or on MOLLE "
+   "webbing.</p>"),
  ],
  "Hunting Accessories": [
   ("What is a bipod?",
@@ -159,5 +176,13 @@ DEPT = {
    "to raise the rifle's aim a touch, or relax your grip to lower it, while the front rests on a "
    "bipod or front bag. Check a bag's specifications to see whether it comes filled; empty bags "
    "are filled with sand, rice or plastic pellets.</p>"),
+  ("How do you tie a shemagh?",
+   "<p>As a neck scarf: fold it corner to corner into a triangle, put the point at the front and wrap "
+   "the two ends around the back of your neck and forward again, then tie them under the point. As a "
+   "head wrap: drape the triangle over your head, pull one end across your face and over the opposite "
+   "shoulder, and tuck or tie it at the back.</p>"),
+  ("What is the difference between a shemagh and a keffiyeh?",
+   "<p>They are the same kind of large square cotton scarf. Shemagh is the name most used for outdoor "
+   "and military-style scarves; keffiyeh is the traditional name.</p>"),
  ],
 }

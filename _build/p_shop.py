@@ -8,6 +8,9 @@ so the cart can never show a price the page does not."""
 from datetime import date
 import hashlib
 from lib import *
+import seo
+from seo import split_name
+FAMILY = seo.families(PRODUCTS)
 from faq_data import DEPT as DEPT_FAQ
 
 TITLE, DESC = META["/shop/"]
@@ -81,7 +84,8 @@ def product_entity(p):
     img = product_image(p["sku"])
     d = {"@type": "Product", "@id": f"{SITE}{product_url(p)}#product",
          "name": p["name"] + (f" (pack of {p['pack']})" if p.get("pack") else ""),
-         "sku": p["sku"], "description": p["blurb"], "category": p["dept"],
+         "sku": p["sku"], "description": p["blurb"] + " " + seo.GROUPS[p["group"]]["intro"],
+         "category": f'{p["dept"]} > {seo.GROUPS[p["group"]]["label"]}',
          "url": SITE + product_url(p)}
     if SHOW_PRICES:
         d["offers"] = offer(p)
@@ -89,27 +93,29 @@ def product_entity(p):
         d["image"] = SITE + img
     if p.get("model") and p["model"].lower() != "custom":
         d["mpn"] = p["model"]
+    c, mat = seo.colour(p), seo.spec(p, "Material")
+    if c:
+        d["color"] = c
+    if mat:
+        d["material"] = mat
+    d["keywords"] = ", ".join(seo.GROUPS[p["group"]]["keywords"])
+    fam = FAMILY.get(p["sku"])
+    if fam:
+        # Colourways of one product: Google groups them as variants.
+        fid, base, skus = fam
+        d["isVariantOf"] = {"@type": "ProductGroup", "@id": f"{SITE}/#group-{fid}",
+                            "productGroupID": fid, "name": base, "variesBy": ["https://schema.org/color"]}
     return d
 
 
 def itemlist(items, path, name):
     return {"@type": "ItemList", "@id": f"{SITE}{path}#catalogue", "name": name,
             "numberOfItems": len(items),
-            "itemListElement": [{"@type": "ListItem", "position": i, "url": SITE + product_url(p)}
+            "itemListElement": [{"@type": "ListItem", "position": i, "url": SITE + product_url(p), "name": p["name"]}
                                 for i, p in enumerate(items, 1)]}
 
 
-def cart_section():
-    o = []
-    o.append(f'''<section id="cart" class="sec sec--haze" style="scroll-margin-top:70px"><div class="wrap">
-<div class="sec-head"><span class="kicker">{"Your cart" if SHOW_PRICES else "Your enquiry"}</span><h2>{"Your cart" if CHECKOUT_URL else ("Cart and order request" if SHOW_PRICES else "Enquiry list")}</h2>
-<p>{"Payment is made through Stripe: pay by card, Apple Pay, Google Pay, PayPal or Link. Delivery is included in every price." if CHECKOUT_URL else ("No payment is taken here. Send the request and we reply to confirm stock and how to pay. Delivery is included in every price." if SHOW_PRICES else "We are confirming prices with our suppliers. Add the products you want and send us your enquiry: we reply with prices, stock and how to pay. Delivery anywhere in New Zealand is free.")}</p></div>
-<div class="cart-grid">
-<div class="cart-box"><div id="cart-lines"><p class="cart-empty">Loading your cart&hellip;</p></div>
-{f'<div class="cart-paynow" id="pay-now-wrap" hidden><button class="btn btn--wide" type="button" id="pay-now" data-checkout="{esc(CHECKOUT_URL)}">{icon("lock")} Pay now</button><p class="cart-fine">Secure checkout by Stripe: card, Apple Pay, Google Pay, PayPal, Link and more. You enter your delivery address there.</p><p class="cart-error" id="pay-now-error" role="alert" hidden></p></div>' if CHECKOUT_URL else ""}
-<div class="cart-pay">{pay_badges()}<p>{PAY_HOW}</p></div>
-<noscript><p class="cart-empty">The cart needs JavaScript. Email <a href="mailto:{ORDER_EMAIL}">{ORDER_EMAIL}</a> to order instead.</p></noscript></div>
-<div>
+ORDER_FORM = f'''<div>
 <form id="order-form" class="form" hidden data-send="{esc(MESSAGE_URL)}">
 <div class="hp" aria-hidden="true"><label for="o-website">Leave this empty</label><input id="o-website" name="website" tabindex="-1" autocomplete="off"></div>
 <div class="field"><label for="o-name">Your name</label><input id="o-name" name="name" type="text" autocomplete="name" required></div>
@@ -128,7 +134,20 @@ def cart_section():
 <div class="field"><label for="order-copy">Your order</label><textarea id="order-copy" readonly style="min-height:160px;font-family:var(--mono);font-size:.8rem"></textarea></div>
 <p style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="btn btn--sm btn--ghost" type="button" id="order-copy-btn">Copy order</button>
 <button class="btn btn--sm btn--ghost" type="button" id="order-clear">Sent it &mdash; clear my cart</button></p></div>
-</div>
+</div>'''
+
+
+def cart_section():
+    o = []
+    o.append(f'''<section id="cart" class="sec sec--haze" style="scroll-margin-top:70px"><div class="wrap">
+<div class="sec-head"><span class="kicker">{"Your cart" if SHOW_PRICES else "Your enquiry"}</span><h2>{"Your cart" if CHECKOUT_URL else ("Cart and order request" if SHOW_PRICES else "Enquiry list")}</h2>
+<p>{"Payment is made through Stripe: pay by card, Apple Pay, Google Pay, PayPal or Link. Delivery is included in every price." if CHECKOUT_URL else ("No payment is taken here. Send the request and we reply to confirm stock and how to pay. Delivery is included in every price." if SHOW_PRICES else "We are confirming prices with our suppliers. Add the products you want and send us your enquiry: we reply with prices, stock and how to pay. Delivery anywhere in New Zealand is free.")}</p></div>
+<div class="cart-grid{" cart-grid--solo" if CHECKOUT_URL else ""}">
+<div class="cart-box"><div id="cart-lines"><p class="cart-empty">Loading your cart&hellip;</p></div>
+{f'<div class="cart-paynow" id="pay-now-wrap" hidden><button class="btn btn--wide" type="button" id="pay-now" data-checkout="{esc(CHECKOUT_URL)}">{icon("lock")} Pay now</button><p class="cart-fine">Secure checkout by Stripe: card, Apple Pay, Google Pay, PayPal, Link and more. You enter your delivery address there.</p><p class="cart-error" id="pay-now-error" role="alert" hidden></p></div>' if CHECKOUT_URL else ""}
+<div class="cart-pay">{pay_badges()}<p>{PAY_HOW}</p></div>
+<noscript><p class="cart-empty">The cart needs JavaScript. Email <a href="mailto:{ORDER_EMAIL}">{ORDER_EMAIL}</a> to order instead.</p></noscript></div>
+{"" if CHECKOUT_URL else ORDER_FORM}
 </div>
 </div></section>
 ''')
@@ -167,10 +186,17 @@ def front(depts):
 # ------------------------------------------------------------ departments
 def dept_page(name, slug, ic, blurb, items):
     path = f"/shop/{slug}/"
-    title = f"{name} | Shop Online | {STORE['name']}"
-    desc = clamp(f"Shop {name.lower()} online from {STORE['name']}. "
+    ds = seo.DEPTS.get(name)
+    title = f"{ds['title']} | {STORE['name']}" if ds else f"{name} | Shop Online | {STORE['name']}"
+    if ds and seo.px(title) > seo.TITLE_PX:
+        title = ds["title"]
+    desc = clamp(ds["desc"] if ds else f"Shop {name.lower()} online from {STORE['name']}. "
                  f"{len(items)} products, delivered across New Zealand in 7 to 10 days.", 158)
     faq = DEPT_FAQ.get(name, [])
+    _g = {}
+    for p in items:
+        _g.setdefault(p["group"], []).append(p)
+    items = [p for k in sorted(_g, key=lambda k: -len(_g[k])) for p in _g[k]]
     schema = page_schema("CollectionPage", title, desc, path,
                          extra=[crumb_schema([("Home", "/"), ("Shop Online", PATH), (name, path)]),
                                 itemlist(items, path, f"{name} at {STORE['name']}")]
@@ -179,13 +205,25 @@ def dept_page(name, slug, ic, blurb, items):
          crumbs([("Home", "/"), ("Shop Online", PATH), (name, None)])]
     o.append(f'''<section class="hero"><div class="wrap">
 <span class="eyebrow">{icon(ic)} Shop Online &middot; {len(items)} product{"s" if len(items) != 1 else ""}</span>
-<h1>{esc(name)}</h1>
-<p class="lede">{blurb}</p>
+<h1>{esc(ds["h1"]) if ds else esc(name)}</h1>
+<p class="lede">{ds["lede"] if ds else blurb}</p>
 </div></section>
 ''')
     others = "".join(f'<a href="/shop/{s}/">{esc(n)}</a>' for n, s, *_ in by_dept() if s != slug)
+    # Products under a heading per keyword group, biggest group first.
+    groups = {}
+    for p in items:
+        groups.setdefault(p["group"], []).append(p)
+    order = sorted(groups, key=lambda k: -len(groups[k]))
+    jump = "".join(f'<a href="#{k}">{esc(seo.GROUPS[k]["label"])} <span>{len(groups[k])}</span></a>' for k in order)
+    secs = "".join(
+        f'<section class="dept-group" id="{k}" aria-labelledby="{k}-h"><h2 id="{k}-h">{esc(seo.GROUPS[k]["label"])}</h2>'
+        f'<p class="dept-group-lede">{esc(seo.GROUPS[k]["section"])}</p>'
+        f'<div class="picks">{"".join(product_card(p) for p in groups[k])}</div></section>'
+        for k in order)
     o.append(f'''<section class="sec"><div class="wrap">
-<div class="picks">{"".join(product_card(p) for p in items)}</div>
+<nav class="dept-jump" aria-label="Jump to a type">{jump}</nav>
+{secs}
 <nav class="shop-other" aria-label="Other departments"><b>Other departments</b>{others}<a href="{PATH}#cart">Your cart &rarr;</a></nav>
 </div></section>
 ''')
@@ -197,13 +235,14 @@ def dept_page(name, slug, ic, blurb, items):
 
 # --------------------------------------------------------------- products
 def description(p):
-    """The full description: our summary, then what the listing tells us."""
-    parts = [f"<p>{esc(p['blurb'])}</p>"]
-    facts = []
-    if p.get("model"):
-        facts.append(f"Model <strong>{esc(p['model'])}</strong>")
-    if facts:
-        parts.append(f"<p>{' &middot; '.join(facts)}.</p>")
+    """The full description (seo.py), then delivery."""
+    pack = ""
+    if SHOW_PRICES and p.get("pack"):
+        each = float(p["price"]) / p["pack"]
+        pack = (f"Sold as a pack of <strong>{p['pack']}</strong> (the maker's minimum order): "
+                f"NZ${float(p['price']):,.2f} a pack, NZ${each:,.2f} each. A good fit for clubs, teams, "
+                "outfitters and resellers buying in bulk.")
+    parts = [seo.description_html(p, pack)]
     parts.append("<p>Order online and we deliver in <strong>7 to 10 days</strong> once your order is "
                  "confirmed. Delivery anywhere in New Zealand is included in the price.</p>")
     return "".join(parts)
@@ -212,9 +251,12 @@ def description(p):
 def product_page(p, siblings):
     name, slug = p["dept"], DEPT_SLUG[p["dept"]]
     path = product_url(p)
-    title = f"{p['name']} | {STORE['name']}"
-    desc = clamp(f"{p['blurb']} " + (f"NZ${p['price']} " if SHOW_PRICES else "") + f"from {STORE['name']}. "
-                 "Delivered in 7 to 10 days.", 158)
+    title = seo.title(p, STORE["name"])
+    if SHOW_PRICES and p.get("pack"):
+        price_text = f"NZ${float(p['price']):,.2f} for a pack of {p['pack']}. "
+    else:
+        price_text = f"NZ${float(p['price']):,.2f}. " if SHOW_PRICES else ""
+    desc = clamp(seo.meta_description(p, price_text), 158)
     img = product_image(p["sku"])
     # Product markup only while prices are shown: Google treats a Product with
     # no offer as an invalid item. Until then the page is a plain ItemPage.
@@ -225,7 +267,7 @@ def product_page(p, siblings):
                          main=f"{SITE}{path}#product" if SHOW_PRICES else None)
     o = [head(title, desc, path, schema, image=img or "/images/og-magnum.jpg"),
          crumbs([("Home", "/"), ("Shop Online", PATH), (name, f"/shop/{slug}/"), (p["name"], None)])]
-    media = (f'<img src="{img}" alt="{esc(p["name"])}" width="600" height="600" decoding="async">'
+    media = (f'<img src="{img}" alt="{esc(seo.alt(p))}" width="600" height="600" decoding="async">'
              if img else f'<span class="dept-ic">{icon("tag")}</span>')
     # Origin is kept in the price sheets (reprice.py uses it) but not published.
     specs = [(k, v) for k, v in (p.get("specs") or [])
@@ -256,12 +298,15 @@ def product_page(p, siblings):
 </div>
 </div></section>
 ''')
-    more = [s for s in siblings if s["sku"] != p["sku"]][:4]
+    # Same keyword group first (internal links with a descriptive heading), then the department.
+    g = seo.GROUPS[p["group"]]
+    same = [s for s in siblings if s["group"] == p["group"] and split_name(s) != split_name(p)]
+    more = (same + [s for s in siblings if s["group"] != p["group"]])[:4]
     if more:
         o.append(f'''<section class="sec sec--haze"><div class="wrap">
-<div class="sec-head"><span class="kicker">{esc(name)}</span><h2>More in {esc(name)}</h2></div>
+<div class="sec-head"><span class="kicker">{esc(name)}</span><h2>{"More " + esc(g["label"].lower()) if same else "More in " + esc(name)}</h2></div>
 <div class="picks">{"".join(product_card(s) for s in more)}</div>
-<p style="margin-top:18px"><a href="/shop/{slug}/">See all {esc(name.lower())} &rarr;</a></p>
+<p style="margin-top:18px"><a href="/shop/{slug}/#{p["group"]}">See all {esc(g["label"].lower())} &rarr;</a></p>
 </div></section>
 ''')
     o.append(footer())
