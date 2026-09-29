@@ -9,6 +9,23 @@ MODULES = ["p_home", "p_shop", "p_site"]
 UPDATED_FALLBACK = __import__("datetime").date.today().isoformat()
 
 
+ASSETS = ["/assets/css/site.css", "/assets/js/cart.js", "/assets/js/search.js"]
+
+
+def version_assets(built):
+    """Point every page at ?v=<hash> of each asset, so a changed stylesheet or
+    script is fetched at once instead of after the 4-hour edge cache."""
+    import hashlib
+    ver = {a: hashlib.sha1(open(os.path.join(ROOT, a.lstrip("/")), "rb").read()).hexdigest()[:10]
+           for a in ASSETS}
+    for p in built:
+        f = os.path.join(ROOT, p.strip("/"), "index.html")
+        s = open(f, encoding="utf-8").read()
+        for a, v in ver.items():
+            s = s.replace(f'"{a}"', f'"{a}?v={v}"')
+        open(f, "w", encoding="utf-8").write(s)
+
+
 def main():
     built = []
     for m in MODULES:
@@ -20,6 +37,7 @@ def main():
         r = mod.build()
         built += r if isinstance(r, list) else [r]
     built = sorted(set(built))
+    version_assets(built)
 
     # sitemap.xml
     # loc + lastmod only.
@@ -53,7 +71,7 @@ def main():
     for b in blocked:
         r += ["", f"User-agent: {b}", "Disallow: /"]
     r += ["", "# Everyone else", "User-agent: *", "Allow: /",
-          "Disallow: /_build/", "Disallow: /*?",
+          "Allow: /assets/", "Disallow: /_build/", "Disallow: /*?",
           "Crawl-delay: 1", "",
           f"Sitemap: {SITE}/sitemap.xml", ""]
     open(os.path.join(ROOT, "robots.txt"), "w").write("\n".join(r))

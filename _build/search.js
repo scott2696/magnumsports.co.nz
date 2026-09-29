@@ -61,9 +61,10 @@
     });
   }
   // No "p" in the index while prices are unconfirmed.
-  function money(p) { return p ? "NZ$" + p : "Price on request"; }
+  function nz(n) { return "NZ$" + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+  function money(p) { return p ? nz(parseFloat(p)) : "Price on request"; }
   function packNote(p) {
-    return p.k ? '<span class="prod-pack">Pack of ' + p.k + " &middot; NZ$" + (parseFloat(p.p) / p.k).toFixed(2) + " each</span>" : "";
+    return p.k ? '<span class="prod-pack">Pack of ' + p.k + " &middot; " + nz(parseFloat(p.p) / p.k) + " each</span>" : "";
   }
 
   // ------------------------------------------------------------ header box

@@ -464,10 +464,10 @@ def price_html(p, extra=""):
     """The price, or 'Price on request' while prices are hidden."""
     if SHOW_PRICES and p.get("pack"):
         each = float(p["price"]) / p["pack"]
-        return (f'<div class="prod-price{extra}">NZ${esc(p["price"])}'
-                f'<span class="prod-pack">Pack of {p["pack"]} &middot; NZ${each:.2f} each</span></div>')
+        return (f'<div class="prod-price{extra}">NZ${float(p["price"]):,.2f}'
+                f'<span class="prod-pack">Pack of {p["pack"]} &middot; NZ${each:,.2f} each</span></div>')
     if SHOW_PRICES:
-        return f'<div class="prod-price{extra}">NZ${esc(p["price"])}</div>'
+        return f'<div class="prod-price{extra}">NZ${float(p["price"]):,.2f}</div>'
     return f'<div class="prod-price prod-price--ask{extra}">Price on request</div>'
 
 

@@ -6,6 +6,7 @@
 Also writes assets/js/cart.js from _build/cart.js with the catalogue baked in,
 so the cart can never show a price the page does not."""
 from datetime import date
+import hashlib
 from lib import *
 from faq_data import DEPT as DEPT_FAQ
 
@@ -278,7 +279,10 @@ def write_search():
            for p in PRODUCTS]
     json.dump(idx, open(os.path.join(d, "search.json"), "w", encoding="utf-8"),
               ensure_ascii=False, separators=(",", ":"))
+    # Versioned, so browsers fetch the new index as soon as prices change.
+    ver = hashlib.sha1(open(os.path.join(d, "search.json"), "rb").read()).hexdigest()[:10]
     src = open(os.path.join(ROOT, "_build", "search.js"), encoding="utf-8").read()
+    src = src.replace('"/assets/js/search.json"', f'"/assets/js/search.json?v={ver}"')
     open(os.path.join(d, "search.js"), "w", encoding="utf-8").write(src)
 
 

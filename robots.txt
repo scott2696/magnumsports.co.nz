@@ -26,6 +26,7 @@ Disallow: /
 # Everyone else
 User-agent: *
 Allow: /
+Allow: /assets/
 Disallow: /_build/
 Disallow: /*?
 Crawl-delay: 1
