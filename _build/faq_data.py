@@ -18,9 +18,10 @@ HOME = [
    "secure page, by card, Apple Pay, Google Pay, PayPal or Link, and enter your delivery address there. "
    "We email to confirm and deliver in 7 to 10 days. If an item turns out to be unavailable we refund "
    "it in full.</p>") if CHECKOUT_URL else
-  ("<p>Add what you want to the cart and send us an order request with your delivery address. "
-   "We reply, usually the same working day, to confirm stock and how to pay. "
-   "Nothing is charged until we have confirmed your order with you.</p>") if SHOW_PRICES else
+  ("<p>Add what you want to the cart, then fill in your name, email and delivery address and press "
+   "<strong>Request my total</strong>. We reply, usually the same working day, with the total including "
+   "delivery and a secure Stripe payment link. Nothing is charged until you have seen the total and "
+   "paid it.</p>") if SHOW_PRICES else
   ("<p>We are confirming prices with our suppliers, so for now every product is price on request. "
    "Add what you want to your enquiry list and send it with your delivery address. We reply, usually "
    "the same working day, with prices, stock and how to pay. Nothing is charged until you have agreed "
@@ -28,8 +29,9 @@ HOME = [
  ("How long does delivery take?",
   "<p><strong>7 to 10 days</strong> from when we confirm your order, anywhere in New Zealand.</p>"),
  ("How much is delivery?",
-  "<p>Nothing extra. Every price already includes delivery anywhere in New Zealand, so the price "
-  "you see is the price you pay.</p>"),
+  "<p>Delivery depends on what you order and where it is going, so it is quoted per order: add "
+  "your items to the cart and request your total, and we reply with the delivered price, usually the "
+  "same working day. Nothing is charged until you have seen and accepted it.</p>"),
  ("Do you ship overseas?",
   "<p>No. We deliver within New Zealand only.</p>"),
  ("How do I pay?",
@@ -48,7 +50,7 @@ HOME = [
   + "".join(f"<li><strong>{g}:</strong> {', '.join(ms)}</li>" for g, ms in PAYMENT_LOCAL) +
   "</ul><p>Stripe shows you the methods that apply to you when you pay.</p>"),
  ("Are your prices in New Zealand dollars?",
-  "<p>Yes. Every price is in NZ dollars and includes GST and delivery." +
+  "<p>Yes. Every price is in NZ dollars and includes GST. Delivery is extra and quoted with your order." +
   ("" if SHOW_PRICES else " We are confirming prices now; send an enquiry and we will quote you.") + "</p>"),
  ("How do I know what size to order?",
   "<p>Sizing varies by maker, so put your usual size, and for gloves your hand measurement, in "

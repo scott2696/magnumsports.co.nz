@@ -6,7 +6,7 @@
 
    The browser sends only SKUs and quantities. Names, prices and photos come
    from the site's own published catalogue (CATALOGUE_URL), so a price edited
-   in someone's browser never reaches Stripe. Prices include GST and delivery.
+   in someone's browser never reaches Stripe. Prices include GST (delivery: see the site's QUOTE_DELIVERY).
 
    POST /message   {"kind": "order"|"enquiry"|"contact", "name", "email", ...}
      -> emails the shop through Cloudflare Email Routing (binding NOTIFY), with
@@ -180,6 +180,7 @@ async function sendMessage(request, env, reply) {
   if (!name || !EMAIL_RE.test(email)) return reply({ error: "Please give your name and a valid email address." }, 400);
 
   const lines = [];
+  let subtotal = "";
   if (kind !== "contact") {
     let cat = new Map();
     try {
@@ -189,18 +190,22 @@ async function sendMessage(request, env, reply) {
     const items = Array.isArray(b.items) ? b.items.slice(0, 50) : [];
     if (!items.length) return reply({ error: "Your list is empty." }, 400);
     const site = env.SITE_URL.replace(/\/$/, "");
+    let sub = 0;
     for (const it of items) {
       const sku = one(it.sku, 80), qty = Math.max(1, Math.min(99, parseInt(it.qty, 10) || 1));
       const p = cat.get(sku);
       const price = p && p.p ? `  @ NZ$${p.p}` : "";
+      if (p && p.p) sub += Math.round(parseFloat(p.p) * 100) * qty;
       lines.push(`${qty} x ${p ? p.n : sku}${p && p.k ? ` (pack of ${p.k})` : ""}${it.opt ? " (" + one(it.opt, 60) + ")" : ""}${price}   [${sku}]`,
                  p ? `    ${site}${p.u}` : "");
     }
+    if (sub) subtotal = `Subtotal: NZ$${(sub / 100).toFixed(2)} incl. GST, EXCLUDING delivery.\n` +
+      "Reply with the total including delivery and a Stripe payment link.";
   }
-  const title = { order: "Order request", enquiry: "Enquiry", contact: "Contact" }[kind];
+  const title = { order: "Quote request", enquiry: "Enquiry", contact: "Contact" }[kind];
   const body = [
     `${title} from ${name}`, "",
-    ...(lines.length ? ["ITEMS", ...lines.filter(Boolean), ""] : []),
+    ...(lines.length ? ["ITEMS", ...lines.filter(Boolean), "", ...(subtotal ? [subtotal, ""] : [])] : []),
     `Name:     ${name}`, `Email:    ${email}`,
     b.phone ? `Phone:    ${one(b.phone, 40)}` : "",
     b.address ? `Deliver:  ${one(b.address, 400)}` : "",

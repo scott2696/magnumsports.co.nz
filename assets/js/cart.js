@@ -140,27 +140,27 @@
     var t = el("div", "cart-total");
     var items = count(lines) + " item" + (count(lines) === 1 ? "" : "s");
     if (PRICES) {
-      t.append(el("span", null, "Total (" + items + ")"), el("b", null, money(total(lines))));
+      t.append(el("span", null, "Subtotal (" + items + "), excl. delivery"), el("b", null, money(total(lines))));
     } else {
       t.append(el("span", null, "Enquiry (" + items + ")"), el("b", null, "Prices on request"));
     }
     box.appendChild(t);
     box.appendChild(el("p", "cart-fine", PRICES
-      ? "Free delivery anywhere in New Zealand, 7 to 10 days. Prices are in New Zealand dollars and include GST and delivery."
-      : "We are confirming prices. Send your enquiry and we reply with prices, stock and how to pay. Free delivery anywhere in New Zealand."));
+      ? "Prices are in New Zealand dollars and include GST. Delivery is extra: request your total and we reply with the delivered price and a secure payment link."
+      : "We are confirming prices. Send your enquiry and we reply with prices, stock and how to pay."));
   }
 
   // ------------------------------------------------------------ checkout
   function orderText(f) {
     var get = function (n) { return (f.elements[n] && f.elements[n].value || "").trim(); };
-    var out = [(PRICES ? "ORDER REQUEST — " : "ENQUIRY — please send prices — ") + location.hostname, ""];
+    var out = [(PRICES ? "QUOTE REQUEST (total with delivery) — " : "ENQUIRY — please send prices — ") + location.hostname, ""];
     lines.forEach(function (l) {
       out.push(PRICES
         ? l.qty + " x " + label(l) + "  @ " + money(cents(CAT[l.sku].price)) +
           "  = " + money(cents(CAT[l.sku].price) * l.qty) + "   [" + l.sku + "]"
         : l.qty + " x " + label(l) + "   [" + l.sku + "]");
     });
-    out.push("", PRICES ? "Total: " + money(total(lines)) + " (includes GST and delivery)" : "Prices: to be quoted", "",
+    out.push("", PRICES ? "Subtotal: " + money(total(lines)) + " (incl. GST, excl. delivery)" : "Prices: to be quoted", "",
              "Name: " + get("name"), "Email: " + get("email"), "Phone: " + get("phone"),
              "Deliver to: " + get("address").replace(/\s*\n\s*/g, ", "));
     if (get("notes")) out.push("", "Notes: " + get("notes"));
@@ -217,7 +217,7 @@
       var text = orderText(f);
       if (!sendTo) {
         // No Worker: open the customer's email app addressed to the shop.
-        var subject = (PRICES ? "Order request — " : "Enquiry — ") + f.elements.name.value.trim();
+        var subject = (PRICES ? "Quote request — " : "Enquiry — ") + f.elements.name.value.trim();
         showFallback(text);
         location.href = "mailto:" + TO + "?subject=" + encodeURIComponent(subject) +
                         "&body=" + encodeURIComponent(text);
@@ -242,7 +242,7 @@
       }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
         .then(function (x) {
           if (!x.ok) throw new Error(x.d.error || "");
-          update([], PRICES ? "Order request sent" : "Enquiry sent");
+          update([], PRICES ? "Request sent" : "Enquiry sent");
           f.reset();
           var done = document.getElementById("order-done");
           done.hidden = false;

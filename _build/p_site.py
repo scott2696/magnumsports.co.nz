@@ -41,7 +41,7 @@ def about():
 {cards([(ic, esc(n), b, f"/shop/{slug}/", f"Shop {len(items)} products") for n, slug, ic, b, items in depts])}
 
 <h2>How ordering works</h2>
-<p>{"Add what you want to your cart and pay securely through Stripe. We email to confirm your order and deliver" if CHECKOUT_URL else "Add what you want to your cart and send us the order. We reply to confirm stock and how to pay before anything is charged, and deliver"} in 7 to 10 days. Every price includes delivery anywhere in New Zealand and GST. {PAY_HOW}</p>
+<p>{"Add what you want to your cart and pay securely through Stripe. We email to confirm your order and deliver in 7 to 10 days." if CHECKOUT_URL else "Add what you want to your cart and request your total. Prices shown include GST and exclude delivery; we reply, usually the same working day, with the total including delivery anywhere in New Zealand, and deliver in 7 to 10 days once you have paid."} {PAY_HOW}</p>
 <p>The details are in our <a href="/terms/">terms</a>, and the answers to common questions are on the <a href="/#faq">homepage</a> and each department page.</p>
 
 <h2>Get in touch</h2>
@@ -112,10 +112,10 @@ def terms():
 
 <h2>2. Orders</h2>
 {"<p>If you pay at checkout, your payment is an offer to buy at the price shown. We check stock and dispatch; if an item is unavailable, or a price was shown in error, we tell you and refund it in full within five working days.</p>" if CHECKOUT_URL else ""}
-{"" if CHECKOUT_URL else "<p>Sending an order request from the cart is an offer to buy. It is not a contract until we reply to confirm stock and how to pay. We may decline or cancel an order &mdash; for example if an item is out of stock or a price is shown in error &mdash; and if you have already paid we will refund you in full.</p>"}
+{"" if CHECKOUT_URL else "<p>Requesting your total from the cart is not an order. When we reply with the total including delivery, paying it through the Stripe link is your offer to buy, and we accept it by dispatching your order. We may decline or cancel an order &mdash; for example if an item is out of stock or a price is shown in error &mdash; and if you have already paid we will refund you in full.</p>"}
 
 <h2>3. Prices</h2>
-<p>Prices are in New Zealand dollars and include GST and delivery anywhere in New Zealand; there is no separate freight charge. We may change prices at any time, but the price you pay is the one shown at checkout.</p>
+<p>Prices are in New Zealand dollars and include GST. They exclude delivery, which depends on what you order and where it is going: we quote it with your total before you pay. We may change prices at any time, but the price you pay is the total we quote to you.</p>
 
 <h2>4. Payment</h2>
 <p>We take payment only through Stripe. {PAY_HOW} The full list of methods is in our <a href="/#faq">FAQ</a>. Stripe processes every payment on its own secure page; we never see or store your card number, and we never ask for payment details by email or phone. Goods are dispatched once payment has cleared.</p>
@@ -158,7 +158,7 @@ def privacy():
 
 <h2>1. What we collect</h2>
 <ul>
-<li><strong>Orders.</strong> {"When you pay at checkout: your name, email address, phone number, delivery address and the items you bought. Stripe collects these and passes them to us." if CHECKOUT_URL else "When you send an order request: your name, email address, phone number, delivery address, the items you want and any notes. These reach us by email, delivered through our website host, Cloudflare."}</li>
+<li><strong>Orders.</strong> {"When you pay at checkout: your name, email address, phone number, delivery address and the items you bought. Stripe collects these and passes them to us." if CHECKOUT_URL else "When you request your total: your name, email address, phone number, delivery address, the items you want and any notes. These reach us by email, delivered through our website host, Cloudflare."}</li>
 <li><strong>Messages.</strong> When you contact us: your name, email address and what you tell us.</li>
 {"<li><strong>Live chat.</strong> When you use the chat: your messages, and the name and email address you give. The chat is run by Tawk.to, which also records your IP address and the page you are on (see <a href='https://www.tawk.to/privacy-policy/' rel='nofollow noopener' target='_blank'>Tawk.to&rsquo;s privacy policy</a>).</li>" if CHAT else ""}
 <li><strong>Payments.</strong> Every payment is made through Stripe on its own secure page. Stripe tells us the order is paid; your card or wallet details go to Stripe, not to us (see <a href="https://stripe.com/privacy" rel="nofollow noopener" target="_blank">Stripe&rsquo;s privacy policy</a>).</li>

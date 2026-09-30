@@ -22,17 +22,17 @@ FAQ = [
    "secure page, by card, Apple Pay, Google Pay, PayPal or Link, and enter your delivery address there. "
    "We email to confirm and deliver in 7 to 10 days. If an item turns out to be unavailable we refund "
    "it in full.</p>") if CHECKOUT_URL else
-  ("<p>Add what you want to the cart, fill in your details and press <strong>Send order "
-   "request</strong>. Your email app opens with the order written out; send it and we reply, "
-   "usually the same working day, to confirm stock and how to pay. Nothing is charged until we have "
-   "confirmed it with you.</p>") if SHOW_PRICES else
+  ("<p>Add what you want to the cart, then fill in your name, email and delivery address and press "
+   "<strong>Request my total</strong>. We reply, usually the same working day, with the total including "
+   "delivery and a secure Stripe payment link. Nothing is charged until you have seen the total and "
+   "paid it.</p>") if SHOW_PRICES else
   ("<p>We are confirming prices with our suppliers, so for now every product is <strong>price on "
    "request</strong>. Add what you want to your enquiry list, fill in your details and press "
    "<strong>Send enquiry</strong>. We reply, usually the same working day, with prices, stock and how "
    "to pay. Nothing is charged until you have agreed the price.</p>")),
  ("How long does delivery take?",
-  "<p>Delivery takes <strong>7 to 10 days</strong> from when we confirm your order, and it is free: "
-  "every price already includes delivery anywhere in New Zealand.</p>"),
+  "<p>Delivery takes <strong>7 to 10 days</strong> from when you pay, anywhere in New Zealand. The "
+  "cost depends on what you order and where it is going, so we quote it with your total.</p>"),
  ("How do I pay?",
   f"<p>{PAY_HOW} All payments go through Stripe: we never see or store your card details, and we "
   "never ask for them by email or phone.</p>"),
@@ -57,21 +57,22 @@ def write_cart_js():
 
 
 def offer(p):
-    """Offer for Google merchant listings: price, availability, and free NZ
-    delivery in 7 to 10 days (1-3 days to dispatch, 6-7 in transit)."""
+    """Offer for Google merchant listings: price and availability. Shipping
+    details (free NZ delivery, 1-3 days to dispatch, 6-7 in transit) only when
+    delivery is included; while it is quoted per order there is no rate to state."""
     o = {"@type": "Offer", "price": p["price"], "priceCurrency": "NZD",
             "url": SITE + product_url(p), "seller": {"@id": f"{SITE}/#store"},
             "priceValidUntil": f"{date.today().year + 1}-12-31",
             "availability": "https://schema.org/InStock",
             "itemCondition": "https://schema.org/NewCondition",
-            "shippingDetails": {
+            **({} if QUOTE_DELIVERY else {"shippingDetails": {
                 "@type": "OfferShippingDetails",
                 "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "NZD"},
                 "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "NZ"},
                 "deliveryTime": {
                     "@type": "ShippingDeliveryTime",
                     "handlingTime": {"@type": "QuantitativeValue", "minValue": 1, "maxValue": 3, "unitCode": "DAY"},
-                    "transitTime": {"@type": "QuantitativeValue", "minValue": 6, "maxValue": 7, "unitCode": "DAY"}}},
+                    "transitTime": {"@type": "QuantitativeValue", "minValue": 6, "maxValue": 7, "unitCode": "DAY"}}}}),
             "hasMerchantReturnPolicy": RETURN_POLICY}
     if p.get("pack"):
         o["priceSpecification"] = {
@@ -121,14 +122,14 @@ ORDER_FORM = f'''<div>
 <div class="field"><label for="o-name">Your name</label><input id="o-name" name="name" type="text" autocomplete="name" required></div>
 <div class="field"><label for="o-email">Email address</label><input id="o-email" name="email" type="email" autocomplete="email" required></div>
 <div class="field"><label for="o-phone">Phone</label><input id="o-phone" name="phone" type="tel" autocomplete="tel" required></div>
-<div class="field"><label for="o-address">Delivery address</label><textarea id="o-address" name="address" autocomplete="street-address" required style="min-height:90px"></textarea><span class="hint">Free delivery anywhere in New Zealand, 7 to 10 days once your order is confirmed.</span></div>
+<div class="field"><label for="o-address">Delivery address</label><textarea id="o-address" name="address" autocomplete="street-address" required style="min-height:90px"></textarea><span class="hint">We use it to quote delivery. Delivery takes 7 to 10 days once you have paid.</span></div>
 <div class="field"><label for="o-notes">Notes</label><textarea id="o-notes" name="notes" style="min-height:90px"></textarea><span class="hint">Sizes, colours, or anything else we should know.</span></div>
-<button class="btn" type="submit">{"Send order request" if SHOW_PRICES else "Send enquiry"}</button>
+<button class="btn" type="submit">{"Request my total" if SHOW_PRICES else "Send enquiry"}</button>
 <p style="font-size:.79rem;color:var(--mute);margin:0">{"We use your details only to handle this. See our" if MESSAGE_URL else "This opens your email app with the order filled in. We use your details only to handle this order. See our"} <a href="/privacy/">privacy policy</a>.</p>
 <p class="cart-error" id="order-error" role="alert" hidden></p>
 </form>
-<div id="order-done" class="note note--ok" hidden style="margin-top:18px" tabindex="-1"><b>{"Thank you: your order request is on its way" if SHOW_PRICES else "Thank you: your enquiry is on its way"}</b>
-<p>We reply by email, usually the same working day{"" if SHOW_PRICES else ", with prices and stock"}. Questions in the meantime? Email <a href="mailto:{ORDER_EMAIL}">{ORDER_EMAIL}</a>.</p></div>
+<div id="order-done" class="note note--ok" hidden style="margin-top:18px" tabindex="-1"><b>{"Thank you: your request is on its way" if SHOW_PRICES else "Thank you: your enquiry is on its way"}</b>
+<p>We reply by email, usually the same working day{", with your total including delivery and a payment link" if SHOW_PRICES else ", with prices and stock"}. Questions in the meantime? Email <a href="mailto:{ORDER_EMAIL}">{ORDER_EMAIL}</a>.</p></div>
 <div id="order-sent" class="note" hidden style="margin-top:18px"><b>{"We could not send it just now" if MESSAGE_URL else "Almost done: press send in your email app"}</b>
 <p>{"Copy it below and email it to" if MESSAGE_URL else "If no email opened, copy the order below and email it to"} <a href="mailto:{ORDER_EMAIL}">{ORDER_EMAIL}</a>.</p>
 <div class="field"><label for="order-copy">Your order</label><textarea id="order-copy" readonly style="min-height:160px;font-family:var(--mono);font-size:.8rem"></textarea></div>
@@ -140,8 +141,8 @@ ORDER_FORM = f'''<div>
 def cart_section():
     o = []
     o.append(f'''<section id="cart" class="sec sec--haze" style="scroll-margin-top:70px"><div class="wrap">
-<div class="sec-head"><span class="kicker">{"Your cart" if SHOW_PRICES else "Your enquiry"}</span><h2>{"Your cart" if CHECKOUT_URL else ("Cart and order request" if SHOW_PRICES else "Enquiry list")}</h2>
-<p>{"Payment is made through Stripe: pay by card, Apple Pay, Google Pay, PayPal or Link. Delivery is included in every price." if CHECKOUT_URL else ("No payment is taken here. Send the request and we reply to confirm stock and how to pay. Delivery is included in every price." if SHOW_PRICES else "We are confirming prices with our suppliers. Add the products you want and send us your enquiry: we reply with prices, stock and how to pay. Delivery anywhere in New Zealand is free.")}</p></div>
+<div class="sec-head"><span class="kicker">{"Your cart" if SHOW_PRICES else "Your enquiry"}</span><h2>{"Your cart" if CHECKOUT_URL else ("Cart: request your total" if SHOW_PRICES else "Enquiry list")}</h2>
+<p>{"Payment is made through Stripe: pay by card, Apple Pay, Google Pay, PayPal or Link. Delivery is included in every price." if CHECKOUT_URL else ("Prices shown exclude delivery. Send us your cart and delivery address and we reply, usually the same working day, with the total including delivery and a secure Stripe payment link. Nothing is charged until you pay it." if SHOW_PRICES else "We are confirming prices with our suppliers. Add the products you want and send us your enquiry: we reply with prices, stock and how to pay. Delivery anywhere in New Zealand is free.")}</p></div>
 <div class="cart-grid{" cart-grid--solo" if CHECKOUT_URL else ""}">
 <div class="cart-box"><div id="cart-lines"><p class="cart-empty">Loading your cart&hellip;</p></div>
 {f'<div class="cart-paynow" id="pay-now-wrap" hidden><button class="btn btn--wide" type="button" id="pay-now" data-checkout="{esc(CHECKOUT_URL)}">{icon("lock")} Pay now</button><p class="cart-fine">Secure checkout by Stripe: card, Apple Pay, Google Pay, PayPal, Link and more. You enter your delivery address there.</p><p class="cart-error" id="pay-now-error" role="alert" hidden></p></div>' if CHECKOUT_URL else ""}
@@ -168,7 +169,7 @@ def front(depts):
     o.append(f'''<section class="hero"><div class="wrap">
 <span class="eyebrow">{icon("cart")} Order online &middot; Delivered across New Zealand in 7 to 10 days</span>
 <h1>Shop Online at {esc(STORE["name"])}</h1>
-<p class="lede">{"Add gear to your cart and pay securely through Stripe. Every price includes GST and" if CHECKOUT_URL else "Add gear to your cart and send us an order request. We confirm stock with you before anything is charged, and every price includes"} delivery anywhere in New Zealand. Can&rsquo;t find something? <a href="/search/">Search the shop</a> or <a href="/contact/">ask us</a>.</p>
+<p class="lede">{"Add gear to your cart and pay securely through Stripe. Every price includes GST and" if CHECKOUT_URL else "Add gear to your cart and request your total: we reply with the price including delivery anywhere in New Zealand and a secure Stripe payment link. Prices shown include GST and exclude"} delivery. Can&rsquo;t find something? <a href="/search/">Search the shop</a> or <a href="/contact/">ask us</a>.</p>
 </div></section>
 ''')
     o.append(f'''<section class="sec"><div class="wrap">
@@ -243,8 +244,9 @@ def description(p):
                 f"NZ${float(p['price']):,.2f} a pack, NZ${each:,.2f} each. A good fit for clubs, teams, "
                 "outfitters and resellers buying in bulk.")
     parts = [seo.description_html(p, pack)]
-    parts.append("<p>Order online and we deliver in <strong>7 to 10 days</strong> once your order is "
-                 "confirmed. Delivery anywhere in New Zealand is included in the price.</p>")
+    parts.append("<p>The price shown excludes delivery. Add it to your cart and request your total: we "
+                 "reply with the price including delivery anywhere in New Zealand and a secure Stripe payment "
+                 "link. Delivery takes <strong>7 to 10 days</strong> once you have paid.</p>")
     return "".join(parts)
 
 
@@ -253,9 +255,9 @@ def product_page(p, siblings):
     path = product_url(p)
     title = seo.title(p, STORE["name"])
     if SHOW_PRICES and p.get("pack"):
-        price_text = f"NZ${float(p['price']):,.2f} for a pack of {p['pack']}. "
+        price_text = f"NZ${float(p['price']):,.2f} for a pack of {p['pack']}, excl. delivery. "
     else:
-        price_text = f"NZ${float(p['price']):,.2f}. " if SHOW_PRICES else ""
+        price_text = f"NZ${float(p['price']):,.2f} excl. delivery. " if SHOW_PRICES else ""
     desc = clamp(seo.meta_description(p, price_text), 158)
     img = product_image(p["sku"])
     # Product markup only while prices are shown: Google treats a Product with
@@ -286,7 +288,7 @@ def product_page(p, siblings):
 {price_html(p, " pdp-price")}
 <p class="pdp-lede">{esc(p["blurb"])}</p>
 <div class="pdp-cta">{product_cta(p, size="")}</div>
-<p class="pdp-fine">{"Free delivery anywhere in New Zealand, 7 to 10 days. Price in NZD, including GST and delivery." if SHOW_PRICES else "We are confirming prices: add it to your enquiry and we reply with the price. Free delivery anywhere in New Zealand, 7 to 10 days."}</p>
+<p class="pdp-fine">{"Price in NZD including GST, excluding delivery. Add it to your cart and request your total with delivery; we reply usually the same working day." if SHOW_PRICES else "We are confirming prices: add it to your enquiry and we reply with the price. Free delivery anywhere in New Zealand, 7 to 10 days."}</p>
 {pay_badges()}
 <p class="pdp-fine"><a href="{PATH}#cart">{"View your cart" if SHOW_PRICES else "View your enquiry list"} &rarr;</a></p>
 </div>
@@ -328,6 +330,7 @@ def write_search():
     ver = hashlib.sha1(open(os.path.join(d, "search.json"), "rb").read()).hexdigest()[:10]
     src = open(os.path.join(ROOT, "_build", "search.js"), encoding="utf-8").read()
     src = src.replace('"/assets/js/search.json"', f'"/assets/js/search.json?v={ver}"')
+    src = src.replace('/*@@DELIVERY_TAG@@*/""', json.dumps(DELIVERY_TAG))
     open(os.path.join(d, "search.js"), "w", encoding="utf-8").write(src)
 
 

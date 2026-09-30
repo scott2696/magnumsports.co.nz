@@ -135,7 +135,12 @@ CHECKOUT_WORKER = "https://magnumsports-checkout.scott2696.workers.dev/checkout"
 # no price is shown or published anywhere, the cart is an enquiry list, and
 # card checkout is off. Set True and rebuild to show prices and take payment.
 SHOW_PRICES = True
-CHECKOUT_URL = CHECKOUT_WORKER if SHOW_PRICES else ""
+# Prices shown are for the goods only; delivery is quoted per order. So the
+# cart is a quote request (the Worker emails it to us) and we reply with the
+# total including delivery and a Stripe payment link. Pay now is off while
+# delivery is quoted; set QUOTE_DELIVERY = False to turn it back on.
+QUOTE_DELIVERY = True
+CHECKOUT_URL = CHECKOUT_WORKER if SHOW_PRICES and not QUOTE_DELIVERY else ""
 # Order requests, enquiries and contact messages are posted here; the Worker
 # emails them to the shop's private inbox (its NOTIFY_TO secret), so that
 # address never appears on the site. Empty = fall back to opening the
@@ -171,8 +176,8 @@ if CHECKOUT_URL:
     PAY_HOW = ("Pay at checkout through <strong>Stripe</strong>&rsquo;s secure payment page, by "
                f"{METHODS}. If anything you have paid for turns out to be unavailable, we refund it in full.")
 else:
-    PAY_HOW = ("Once we confirm your order, we email you a secure <strong>Stripe</strong> payment link. "
-               f"Pay by {METHODS}.")
+    PAY_HOW = ("Once we reply with your total including delivery, we email you a secure "
+               f"<strong>Stripe</strong> payment link. Pay by {METHODS}.")
 # The shop's public address, shown on the site and used only if the Worker is
 # unreachable. Cloudflare Email Routing forwards it to the private inbox.
 ORDER_EMAIL = EMAIL
@@ -244,9 +249,9 @@ IC = {
 # compete with one another in the SERP.
 META = {
  "/": ("Tactical Gear NZ: Gloves, Pouches & Bipods | Magnum Sports",
-       "Tactical gear online in NZ: tactical, motorcycle and cycling gloves, MOLLE and magazine pouches, rifle bipods and more. Free delivery in 7 to 10 days."),
+       "Tactical gear online in NZ: tactical, motorcycle and cycling gloves, MOLLE and magazine pouches, rifle bipods and more. Request your delivered total; NZ-wide in 7 to 10 days."),
  "/shop/": ("Shop Tactical & Outdoor Gear Online NZ | Magnum Sports",
-       "Shop tactical gloves, MOLLE pouches, tactical bags and rifle bipods online. Prices include GST and free delivery anywhere in New Zealand."),
+       "Shop tactical gloves, MOLLE pouches, tactical bags and rifle bipods online. Prices include GST; request your total with delivery anywhere in NZ."),
  "/about/": ("About Magnum Sports | Outdoor Gear Online",
        "Magnum Sports is a New Zealand online store for outdoor gear: clothing, gloves, bags and hunting accessories, delivered NZ-wide."),
  "/contact/": ("Contact Magnum Sports",
@@ -439,7 +444,7 @@ def footer():
 {cols}
 </div>
 <div class="foot-bot">
-<p>Prices are in New Zealand dollars and include GST and delivery anywhere in New Zealand. Payment is through Stripe, and orders are delivered in 7 to 10 days.</p>
+<p>Prices are in New Zealand dollars, include GST and exclude delivery. Add what you want to your cart and request your total: we reply with the delivered price and a secure Stripe payment link. Delivery takes 7 to 10 days.</p>
 <div class="foot-badges">
 <a href="/shop/">Shop online</a>
 <a href="/contact/">Contact</a>
@@ -484,14 +489,19 @@ def product_image(sku):
     return None
 
 
+# Under every price while delivery is quoted per order.
+DELIVERY_TAG = ('<span class="prod-deliv">Excl. delivery &middot; request your total</span>'
+                if QUOTE_DELIVERY else "")
+
+
 def price_html(p, extra=""):
     """The price, or 'Price on request' while prices are hidden."""
     if SHOW_PRICES and p.get("pack"):
         each = float(p["price"]) / p["pack"]
         return (f'<div class="prod-price{extra}">NZ${float(p["price"]):,.2f}'
-                f'<span class="prod-pack">Pack of {p["pack"]} &middot; NZ${each:,.2f} each</span></div>')
+                f'<span class="prod-pack">Pack of {p["pack"]} &middot; NZ${each:,.2f} each</span>{DELIVERY_TAG}</div>')
     if SHOW_PRICES:
-        return f'<div class="prod-price{extra}">NZ${float(p["price"]):,.2f}</div>'
+        return f'<div class="prod-price{extra}">NZ${float(p["price"]):,.2f}{DELIVERY_TAG}</div>'
     return f'<div class="prod-price prod-price--ask{extra}">Price on request</div>'
 
 

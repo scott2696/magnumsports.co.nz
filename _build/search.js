@@ -63,6 +63,8 @@
   // No "p" in the index while prices are unconfirmed.
   function nz(n) { return "NZ$" + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
   function money(p) { return p ? nz(parseFloat(p)) : "Price on request"; }
+  // Set by the build: the note under each price while delivery is quoted per order.
+  var DELIVERY_TAG = /*@@DELIVERY_TAG@@*/"";
   function packNote(p) {
     return p.k ? '<span class="prod-pack">Pack of ' + p.k + " &middot; " + nz(parseFloat(p.p) / p.k) + " each</span>" : "";
   }
@@ -131,7 +133,7 @@
     return '<div class="pick prod" data-sku="' + esc(p.s) + '">' + media +
       '<span class="pick-cat">' + esc(p.d) + '</span>' +
       '<div class="pick-brand"><b><a class="prod-link" href="' + esc(p.u) + '">' + esc(p.n) + '</a></b></div>' +
-      '<p>' + esc(p.b) + '</p><div class="prod-price' + (p.p ? "" : " prod-price--ask") + '">' + money(p.p) + packNote(p) + '</div>' + cta + '</div>';
+      '<p>' + esc(p.b) + '</p><div class="prod-price' + (p.p ? "" : " prod-price--ask") + '">' + money(p.p) + packNote(p) + (p.p ? DELIVERY_TAG : "") + '</div>' + cta + '</div>';
   }
 
   function wirePage() {

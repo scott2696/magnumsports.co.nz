@@ -47,7 +47,7 @@ GROUPS = {
     notes="Unless the listing says otherwise these are not certified motorcycle protective equipment "
           "(EN 13594), so for road riding pair them with the protection you would normally wear.",
     section="Riding gloves for motorcycles, scooters and trail bikes, with knuckle protection and anti-slip "
-            "palms. Motorcycle gloves in NZ with free delivery."),
+            "palms. Motorcycle gloves in NZ, delivered in 7 to 10 days."),
  "cycling-gloves": dict(
     label="Cycling gloves", noun="cycling gloves", kw="cycling gloves", title="Cycling Gloves NZ",
     keywords=["cycling gloves", "cycling gloves nz", "bike cycling gloves", "winter cycling gloves",
@@ -59,7 +59,7 @@ GROUPS = {
     notes="For cycling, choose a snug fit: loose fingers bunch on the bars. Wash in cool water and let "
           "them air-dry away from direct heat.",
     section="Breathable cycling gloves for road, mountain bike and gym, many with touchscreen fingertips. "
-            "Cycling gloves in NZ, delivered free."),
+            "Cycling gloves in NZ, delivered in 7 to 10 days."),
  "fingerless-gloves": dict(
     label="Fingerless gloves", noun="fingerless gloves", kw="fingerless gloves", title="Fingerless Gloves NZ",
     keywords=["fingerless gloves", "fingerless gloves nz", "fingerless gloves new zealand", "gloves fingerless",
@@ -80,7 +80,7 @@ GROUPS = {
     uses=["Winter hunting and tramping", "Cold-weather cycling and riding", "Farm and outdoor work", "Skiing and snow days"],
     notes="Winter gloves should have a little room at the fingertips: trapped air is what keeps you warm.",
     section="Warmer, windproof gloves for the New Zealand winter on the hill, the bike or the farm. "
-            "Winter gloves in NZ with free delivery."),
+            "Winter gloves in NZ, delivered in 7 to 10 days."),
  "work-gloves": dict(
     label="Work gloves", noun="work gloves", kw="work gloves", title="Work Gloves NZ",
     keywords=["work gloves", "work gloves nz", "winter work gloves"],
@@ -576,12 +576,12 @@ def meta_description(p, price_text, limit=158):
         # No colour to tell listings apart: lead with the product's own name.
         short = " ".join(base.split()[:7])
         lead = f"{short}: {ph}{which}"
-    s = f"{lead}. {price_text}Free NZ delivery in 7 to 10 days."
+    s = f"{lead}. {price_text}Request your total with NZ delivery."
     for extra in (" Pay by card, Apple Pay, Google Pay or PayPal.", " Pay by card or PayPal."):
         if len(s + extra) <= limit:
             return s + extra
     if len(s) > limit:
-        s = f"{lead}. {price_text}Free NZ delivery."
+        s = f"{lead}. {price_text}Delivery quoted."
     return s
 
 
@@ -621,30 +621,30 @@ DEPTS = {
     title="Tactical Gloves NZ: Motorcycle, Cycling & Work Gloves",
     h1="Tactical, Motorcycle & Cycling Gloves",
     desc="Tactical gloves, motorcycle gloves, cycling gloves, fingerless and winter gloves, plus tactical "
-         "belts. Shop online in NZ with free delivery in 7 to 10 days.",
+         "belts. Shop online in NZ; request your total with delivery.",
     lede="Gloves for every job: <strong>tactical gloves</strong> for grip and dexterity, "
          "<strong>motorcycle gloves</strong> with knuckle protection, breathable <strong>cycling gloves</strong>, "
          "<strong>fingerless gloves</strong> for shooting and fine work, and warmer <strong>winter gloves</strong>. "
-         "Most come in several colours, many with touchscreen fingertips. Free delivery anywhere in New Zealand."),
+         "Most come in several colours, many with touchscreen fingertips. Delivered anywhere in New Zealand."),
  "Bags": dict(
     title="MOLLE Pouches & Tactical Bags NZ",
     h1="MOLLE Pouches, Tactical Bags & Waist Packs",
     desc="MOLLE pouches, magazine pouches, first aid pouches, radio and EDC pouches, tactical waist bags, "
-         "sling bags and backpacks. Free NZ delivery in 7 to 10 days.",
+         "sling bags and backpacks. NZ-wide delivery in 7 to 10 days.",
     lede="Build your loadout: <strong>MOLLE pouches</strong> for packs, belts and vests, "
          "<strong>magazine pouches</strong>, <strong>first aid pouches</strong>, <strong>radio pouches</strong> and "
          "<strong>EDC pouches</strong>, plus <strong>tactical waist bags</strong>, sling bags and a "
-         "<strong>tactical backpack</strong>. For hunting, tramping, airsoft and everyday carry, delivered free "
+         "<strong>tactical backpack</strong>. For hunting, tramping, airsoft and everyday carry, delivered "
          "across New Zealand."),
  "Hunting Accessories": dict(
     title="Rifle Bipods & Hunting Accessories NZ",
     h1="Rifle Bipods & Hunting Accessories",
     desc="Rifle bipods from 6 to 27 inches, carbon and M-Lok bipods, drop leg platforms, shemaghs and "
-         "hunting accessories. Free NZ delivery in 7 to 10 days.",
+         "hunting accessories. NZ-wide delivery in 7 to 10 days.",
     lede="Steady your shot with a <strong>rifle bipod</strong>: aluminium models from 6 to 27 inches, a "
          "lightweight <strong>carbon fibre bipod</strong> and an <strong>M-Lok bipod</strong>. Plus drop leg "
          "platforms, helmet covers, MOLLE connectors and a cotton <strong>shemagh</strong>. Hunting accessories "
-         "delivered free anywhere in New Zealand."),
+         "delivered anywhere in New Zealand."),
 }
 
 
