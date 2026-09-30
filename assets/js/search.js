@@ -10,7 +10,7 @@
      cards is handled by cart.js, which listens for [data-add] clicks. */
 (function () {
   "use strict";
-  var INDEX_URL = "/assets/js/search.json?v=d94fb7e0f5";
+  var INDEX_URL = "/assets/js/search.json?v=44d440185a";
   var SUGGEST = 8;
   var items = null, loading = null;
 
@@ -64,7 +64,8 @@
   function nz(n) { return "NZ$" + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
   function money(p) { return p ? nz(parseFloat(p)) : "Price on request"; }
   // Set by the build: the note under each price while delivery is quoted per order.
-  var DELIVERY_TAG = "<span class=\"prod-deliv\">Excl. delivery &middot; request your total</span>";
+  var DELIVERY_TAG = "<span class=\"prod-deliv\">Excl. delivery &middot; request your total</span>";   // packs: delivery quoted
+  var SINGLE_TAG = "<span class=\"prod-deliv\">Incl. NZ delivery</span>";       // single items
   function packNote(p) {
     return p.k ? '<span class="prod-pack">Pack of ' + p.k + " &middot; " + nz(parseFloat(p.p) / p.k) + " each</span>" : "";
   }
@@ -125,7 +126,7 @@
     var cta = p.o
         ? '<a class="btn btn--sm" href="' + esc(p.u) + '">Choose options</a>'
         : '<button class="btn btn--sm" type="button" data-add="' + esc(p.s) + '">' +
-          (p.p ? (p.k ? "Add pack to cart" : "Add to cart") : "Add to enquiry") + '</button>';
+          (p.p ? (p.k ? (DELIVERY_TAG ? "Add pack to quote" : "Add pack to cart") : "Add to cart") : "Add to enquiry") + '</button>';
     var media = p.i
       ? '<a class="prod-img" href="' + esc(p.u) + '" tabindex="-1" aria-hidden="true"><img src="' + esc(p.i) +
         '" alt="" width="600" height="600" loading="lazy" decoding="async"></a>'
@@ -133,7 +134,7 @@
     return '<div class="pick prod" data-sku="' + esc(p.s) + '">' + media +
       '<span class="pick-cat">' + esc(p.d) + '</span>' +
       '<div class="pick-brand"><b><a class="prod-link" href="' + esc(p.u) + '">' + esc(p.n) + '</a></b></div>' +
-      '<p>' + esc(p.b) + '</p><div class="prod-price' + (p.p ? "" : " prod-price--ask") + '">' + money(p.p) + packNote(p) + (p.p ? DELIVERY_TAG : "") + '</div>' + cta + '</div>';
+      '<p>' + esc(p.b) + '</p><div class="prod-price' + (p.p ? "" : " prod-price--ask") + '">' + money(p.p) + packNote(p) + (p.p ? (p.k ? DELIVERY_TAG : SINGLE_TAG) : "") + '</div>' + cta + '</div>';
   }
 
   function wirePage() {

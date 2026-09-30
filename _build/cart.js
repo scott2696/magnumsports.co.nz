@@ -12,6 +12,39 @@
   // false while prices are unconfirmed: no amounts anywhere, and the order
   // email becomes an enquiry (the catalogue then carries no prices at all).
   var PRICES = /*@@SHOW_PRICES@@*/true;
+  // Delivery is quoted (not in the price) for every item, or for packs only.
+  var QUOTE_ALL = /*@@QUOTE_ALL@@*/false;
+  var QUOTE_PACKS = /*@@QUOTE_PACKS@@*/false;
+  // Delivery by weight for lines whose price excludes it (set by the build).
+  // Delivery rates by destination (delivery_rates.json, enabled cities only; NZD).
+  var RATES = /*@@RATES@@*/[];
+  var CITY_KEY = "ms-city-v1";
+  function city() {
+    var id = ""; try { id = localStorage.getItem(CITY_KEY) || ""; } catch (e) {}
+    if (id === "other") return { id: "other" };
+    for (var i = 0; i < RATES.length; i++) if (RATES[i].id === id) return RATES[i];
+    return null;
+  }
+  function setCity(id) { try { localStorage.setItem(CITY_KEY, id); } catch (e) {} }
+  function shipKg() {
+    return lines.reduce(function (kg, l) {
+      var p = CAT[l.sku]; return kg + (p && p.delivery_extra ? (p.weight || 0) * l.qty : 0);
+    }, 0);
+  }
+  function shipFee() {
+    var kg = shipKg(), c = city(); if (!kg || !c || !c.first) return 0;
+    return Math.round(c.first * 100) + Math.round(c.extra * 100) * (Math.max(1, Math.ceil(Math.round(kg * 1000) / 1000)) - 1);
+  }
+  // A destination not on the rate card: delivery is quoted, like packs.
+  function otherPlace() {
+    var c = city(); if (!(shipKg() > 0 && c)) return false;
+    if (c.id === "other") return true;
+    // Outside NZ only the weight-priced items ship at these rates; anything else is quoted.
+    return c.country !== "NZ" && lines.some(function (l) { var p = CAT[l.sku]; return p && !p.delivery_extra; });
+  }
+  function needsQuote() {
+    return QUOTE_ALL || (QUOTE_PACKS && lines.some(function (l) { return CAT[l.sku] && CAT[l.sku].pack; })) || otherPlace();
+  }
   var KEY = "ms-cart-v1";
 
   function load() {
@@ -107,7 +140,8 @@
       if (form) form.hidden = true;
       return;
     }
-    if (form) form.hidden = false;
+    // Single items: Pay now. Any pack in the cart: request the total instead.
+    if (form) form.hidden = !needsQuote();
     var ul = el("ul", "cart-list");
     lines.forEach(function (l, i) {
       var p = CAT[l.sku];
@@ -139,14 +173,44 @@
     box.appendChild(ul);
     var t = el("div", "cart-total");
     var items = count(lines) + " item" + (count(lines) === 1 ? "" : "s");
+    var ship = PRICES && !needsQuote() ? shipFee() : 0;
+    var kgNow = PRICES ? shipKg() : 0;
+    if (kgNow > 0) {
+      // Delivery depends on where it is going: ask first, then price it.
+      var pick = el("div", "field cart-city");
+      var lab = el("label", null, "Delivery to"); lab.htmlFor = "cart-city";
+      var sel = document.createElement("select"); sel.id = "cart-city";
+      sel.appendChild(new Option("Choose your city\u2026", ""));
+      var groups = {};
+      RATES.forEach(function (r) {
+        if (!groups[r.country_name]) { groups[r.country_name] = document.createElement("optgroup"); groups[r.country_name].label = r.country_name; sel.appendChild(groups[r.country_name]); }
+        groups[r.country_name].appendChild(new Option(r.city, r.id));
+      });
+      sel.appendChild(new Option("Somewhere else \u2014 request a total", "other"));
+      var cur = city(); sel.value = cur ? cur.id : "";
+      sel.onchange = function () { setCity(sel.value); render(); document.dispatchEvent(new Event("cart:change")); };
+      pick.append(lab, sel);
+      box.appendChild(pick);
+      var d = el("div", "cart-total cart-ship");
+      var kgTxt = " (" + (Math.round(kgNow * 100) / 100) + " kg)";
+      d.append(el("span", null, "Delivery" + kgTxt),
+               el("b", null, ship && !otherPlace() ? money(ship) : (otherPlace() ? "Quoted" : "Choose your city")));
+      box.appendChild(d);
+    }
     if (PRICES) {
-      t.append(el("span", null, "Subtotal (" + items + "), excl. delivery"), el("b", null, money(total(lines))));
+      var noCityYet = kgNow > 0 && !ship && !needsQuote();
+      t.append(el("span", null, needsQuote() ? "Subtotal (" + items + "), excl. delivery"
+                                : noCityYet ? "Subtotal (" + items + "), plus delivery"
+                                : "Total (" + items + "), incl. delivery"), el("b", null, money(total(lines) + ship)));
     } else {
       t.append(el("span", null, "Enquiry (" + items + ")"), el("b", null, "Prices on request"));
     }
     box.appendChild(t);
     box.appendChild(el("p", "cart-fine", PRICES
-      ? "Prices are in New Zealand dollars and include GST. Delivery is extra: request your total and we reply with the delivered price and a secure payment link."
+      ? (needsQuote()
+        ? "Your cart includes a bulk pack, so delivery is quoted: request your total below and we reply with the delivered price and a secure Stripe invoice."
+        : kgNow ? "Delivery on items marked \u201c+ delivery by weight\u201d depends on your city and the weight of those items; other items include delivery. 7 to 10 days. Prices include GST."
+        : "Free delivery anywhere in New Zealand, 7 to 10 days. Prices are in New Zealand dollars and include GST and delivery.")
       : "We are confirming prices. Send your enquiry and we reply with prices, stock and how to pay."));
   }
 
@@ -169,12 +233,27 @@
 
   // Pay now: send SKUs and quantities to the checkout Worker, which prices them
   // from the site's catalogue and returns a Stripe Checkout address.
+  // "Measurements" button next to a size menu opens that product's size chart.
+  function wireSizeGuides() {
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest("[data-sizeguide]");
+      if (b) {
+        var d = document.getElementById(b.getAttribute("data-sizeguide"));
+        if (d && d.showModal) { d.showModal(); } else if (d) { d.setAttribute("open", ""); }
+        return;
+      }
+      var x = e.target.closest && e.target.closest("dialog [data-close]");
+      if (x) { x.closest("dialog").close(); return; }
+      if (e.target.tagName === "DIALOG") e.target.close();      // click on the backdrop
+    });
+  }
+
   function wirePayNow() {
     var btn = document.getElementById("pay-now");
     if (!btn) return;
     var wrap = document.getElementById("pay-now-wrap");
     var err = document.getElementById("pay-now-error");
-    var sync = function () { wrap.hidden = !lines.length; };
+    var sync = function () { wrap.hidden = !lines.length || needsQuote() || (shipKg() > 0 && !shipFee()); };
     sync();
     document.addEventListener("cart:change", sync);
     btn.addEventListener("click", function () {
@@ -186,7 +265,7 @@
       fetch(btn.getAttribute("data-checkout"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: lines.map(function (l) { return { sku: l.sku, qty: l.qty, opt: l.opt || "" }; }) })
+        body: JSON.stringify({ city: (city() || {}).id || "", items: lines.map(function (l) { return { sku: l.sku, qty: l.qty, opt: l.opt || "" }; }) })
       }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
         .then(function (x) {
           if (x.ok && x.d.url) { location.href = x.d.url; return; }
@@ -236,6 +315,7 @@
         body: JSON.stringify({
           kind: PRICES ? "order" : "enquiry", website: get("website"),
           name: get("name"), email: get("email"), phone: get("phone"), address: get("address"),
+          city: (city() || {}).id || "",
           notes: get("notes"),
           items: lines.map(function (l) { return { sku: l.sku, qty: l.qty, opt: l.opt || "" }; })
         })
@@ -376,6 +456,7 @@
     render();
     wireCheckout();
     wirePayNow();
+    wireSizeGuides();
     wireContact();
     wireHotspots();
   }

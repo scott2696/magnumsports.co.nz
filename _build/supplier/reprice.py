@@ -139,4 +139,7 @@ if __name__ == "__main__":
     rate, when = usd_nzd()
     print(f"USD->NZD {rate} ({when}); x{MARKUP} on the top of each supplier price")
     for info in SUPPLIERS.values():
+        if info.get("reprice") is False:     # priced outside this script (see its "prices" note)
+            print(f"  {info['name']}: skipped (priced in its own sheet)")
+            continue
         reprice(info, rate)

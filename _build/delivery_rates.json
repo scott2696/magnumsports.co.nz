@@ -1,0 +1,607 @@
+{
+ "_note": "Supplier courier rate card (NZD), supplied 30 Sep 2026: first kg, then each extra kg or part. Australia ships only items priced '+ delivery by weight' (the Cipansi range); the cart and the Worker quote any other item bound for Australia.",
+ "countries": {
+  "NZ": {
+   "name": "New Zealand",
+   "enabled": true
+  },
+  "AU": {
+   "name": "Australia",
+   "enabled": true
+  }
+ },
+ "cities": [
+  {
+   "id": "nz-auckland",
+   "country": "NZ",
+   "city": "Auckland",
+   "postcode": "1010",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "nz-wellington",
+   "country": "NZ",
+   "city": "Wellington",
+   "postcode": "6011",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "nz-christchurch",
+   "country": "NZ",
+   "city": "Christchurch",
+   "postcode": "8011",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "nz-hamilton",
+   "country": "NZ",
+   "city": "Hamilton",
+   "postcode": "3204",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "nz-tauranga",
+   "country": "NZ",
+   "city": "Tauranga",
+   "postcode": "3110",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "nz-dunedin",
+   "country": "NZ",
+   "city": "Dunedin",
+   "postcode": "9016",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "nz-palmerston-north",
+   "country": "NZ",
+   "city": "Palmerston North",
+   "postcode": "4410",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "nz-napier",
+   "country": "NZ",
+   "city": "Napier",
+   "postcode": "4110",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "nz-nelson",
+   "country": "NZ",
+   "city": "Nelson",
+   "postcode": "7010",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "nz-invercargill",
+   "country": "NZ",
+   "city": "Invercargill",
+   "postcode": "9810",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "nz-lower-hutt",
+   "country": "NZ",
+   "city": "Lower Hutt",
+   "postcode": "5010",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "nz-upper-hutt",
+   "country": "NZ",
+   "city": "Upper Hutt",
+   "postcode": "5018",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "nz-porirua",
+   "country": "NZ",
+   "city": "Porirua",
+   "postcode": "5022",
+   "first": 30.11,
+   "extra": 22.19
+  },
+  {
+   "id": "au-sydney",
+   "country": "AU",
+   "city": "Sydney",
+   "postcode": "2000",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-melbourne",
+   "country": "AU",
+   "city": "Melbourne",
+   "postcode": "3000",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-brisbane",
+   "country": "AU",
+   "city": "Brisbane",
+   "postcode": "4000",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-perth",
+   "country": "AU",
+   "city": "Perth",
+   "postcode": "6000",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-adelaide",
+   "country": "AU",
+   "city": "Adelaide",
+   "postcode": "5000",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-hobart",
+   "country": "AU",
+   "city": "Hobart",
+   "postcode": "7000",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-canberra",
+   "country": "AU",
+   "city": "Canberra",
+   "postcode": "2600",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-darwin",
+   "country": "AU",
+   "city": "Darwin",
+   "postcode": "800",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-newcastle",
+   "country": "AU",
+   "city": "Newcastle",
+   "postcode": "2300",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-wollongong",
+   "country": "AU",
+   "city": "Wollongong",
+   "postcode": "2500",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-central-coast",
+   "country": "AU",
+   "city": "Central Coast",
+   "postcode": "2250",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-maitland",
+   "country": "AU",
+   "city": "Maitland",
+   "postcode": "2320",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-albury",
+   "country": "AU",
+   "city": "Albury",
+   "postcode": "2640",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-wagga-wagga",
+   "country": "AU",
+   "city": "Wagga Wagga",
+   "postcode": "2650",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-coffs-harbour",
+   "country": "AU",
+   "city": "Coffs Harbour",
+   "postcode": "2450",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-port-macquarie",
+   "country": "AU",
+   "city": "Port Macquarie",
+   "postcode": "2444",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-tamworth",
+   "country": "AU",
+   "city": "Tamworth",
+   "postcode": "2340",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-orange",
+   "country": "AU",
+   "city": "Orange",
+   "postcode": "2800",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-dubbo",
+   "country": "AU",
+   "city": "Dubbo",
+   "postcode": "2830",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-bathurst",
+   "country": "AU",
+   "city": "Bathurst",
+   "postcode": "2795",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-lismore",
+   "country": "AU",
+   "city": "Lismore",
+   "postcode": "2480",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-armidale",
+   "country": "AU",
+   "city": "Armidale",
+   "postcode": "2350",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-queanbeyan",
+   "country": "AU",
+   "city": "Queanbeyan",
+   "postcode": "2620",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-geelong",
+   "country": "AU",
+   "city": "Geelong",
+   "postcode": "3220",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-ballarat",
+   "country": "AU",
+   "city": "Ballarat",
+   "postcode": "3350",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-bendigo",
+   "country": "AU",
+   "city": "Bendigo",
+   "postcode": "3550",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-shepparton",
+   "country": "AU",
+   "city": "Shepparton",
+   "postcode": "3630",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-melton",
+   "country": "AU",
+   "city": "Melton",
+   "postcode": "3337",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-mildura",
+   "country": "AU",
+   "city": "Mildura",
+   "postcode": "3500",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-warrnambool",
+   "country": "AU",
+   "city": "Warrnambool",
+   "postcode": "3280",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-wodonga",
+   "country": "AU",
+   "city": "Wodonga",
+   "postcode": "3690",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-traralgon",
+   "country": "AU",
+   "city": "Traralgon",
+   "postcode": "3844",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-gold-coast",
+   "country": "AU",
+   "city": "Gold Coast",
+   "postcode": "4217",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-sunshine-coast",
+   "country": "AU",
+   "city": "Sunshine Coast",
+   "postcode": "4551",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-townsville",
+   "country": "AU",
+   "city": "Townsville",
+   "postcode": "4810",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-cairns",
+   "country": "AU",
+   "city": "Cairns",
+   "postcode": "4870",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-toowoomba",
+   "country": "AU",
+   "city": "Toowoomba",
+   "postcode": "4350",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-mackay",
+   "country": "AU",
+   "city": "Mackay",
+   "postcode": "4740",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-rockhampton",
+   "country": "AU",
+   "city": "Rockhampton",
+   "postcode": "4700",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-bundaberg",
+   "country": "AU",
+   "city": "Bundaberg",
+   "postcode": "4670",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-hervey-bay",
+   "country": "AU",
+   "city": "Hervey Bay",
+   "postcode": "4655",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-gladstone",
+   "country": "AU",
+   "city": "Gladstone",
+   "postcode": "4680",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-ipswich",
+   "country": "AU",
+   "city": "Ipswich",
+   "postcode": "4305",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-logan",
+   "country": "AU",
+   "city": "Logan",
+   "postcode": "4114",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-redcliffe",
+   "country": "AU",
+   "city": "Redcliffe",
+   "postcode": "4020",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-mount-isa",
+   "country": "AU",
+   "city": "Mount Isa",
+   "postcode": "4825",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-mandurah",
+   "country": "AU",
+   "city": "Mandurah",
+   "postcode": "6210",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-bunbury",
+   "country": "AU",
+   "city": "Bunbury",
+   "postcode": "6230",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-geraldton",
+   "country": "AU",
+   "city": "Geraldton",
+   "postcode": "6530",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-kalgoorlie",
+   "country": "AU",
+   "city": "Kalgoorlie",
+   "postcode": "6430",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-albany",
+   "country": "AU",
+   "city": "Albany",
+   "postcode": "6330",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-rockingham",
+   "country": "AU",
+   "city": "Rockingham",
+   "postcode": "6168",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-karratha",
+   "country": "AU",
+   "city": "Karratha",
+   "postcode": "6714",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-port-hedland",
+   "country": "AU",
+   "city": "Port Hedland",
+   "postcode": "6721",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-mount-gambier",
+   "country": "AU",
+   "city": "Mount Gambier",
+   "postcode": "5290",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-whyalla",
+   "country": "AU",
+   "city": "Whyalla",
+   "postcode": "5600",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-port-augusta",
+   "country": "AU",
+   "city": "Port Augusta",
+   "postcode": "5700",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-murray-bridge",
+   "country": "AU",
+   "city": "Murray Bridge",
+   "postcode": "5253",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-launceston",
+   "country": "AU",
+   "city": "Launceston",
+   "postcode": "7250",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-devonport",
+   "country": "AU",
+   "city": "Devonport",
+   "postcode": "7310",
+   "first": 37.38,
+   "extra": 12.42
+  },
+  {
+   "id": "au-burnie",
+   "country": "AU",
+   "city": "Burnie",
+   "postcode": "7320",
+   "first": 37.38,
+   "extra": 12.42
+  }
+ ]
+}

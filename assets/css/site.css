@@ -724,3 +724,13 @@ table.specs{min-width:0;table-layout:fixed}
   .hs-card{transition:none}
 }
 .cart-grid--solo{grid-template-columns:minmax(0,760px)}
+/* size menu + "Measurements" pop-up */
+.prod-opt-row{display:flex;gap:8px;align-items:stretch}
+.prod-opt-row select{flex:1;min-width:0}
+.size-btn{white-space:nowrap}
+.size-dialog{max-width:min(720px,calc(100vw - 32px));width:100%;border:1px solid var(--graphite);border-radius:var(--radius);
+  background:var(--asphalt);color:var(--ink);padding:20px 20px 16px}
+.size-dialog::backdrop{background:rgba(0,0,0,.6)}
+.size-dialog-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:12px}
+.size-dialog-head h2{font-size:1.15rem;margin:0}
+.size-dialog-x{background:none;border:0;color:inherit;font-size:1.6rem;line-height:1;cursor:pointer;padding:0 4px}

@@ -23,5 +23,16 @@
   "photo_top_band": 0,
   "photo_referer": "https://www.ultra-safety.com/",
   "added": "2026-09-23"
+ },
+ "cipansi": {
+  "name": "Cipansi",
+  "company": "Yancheng Jie Chanel Fashion Co., Ltd (Cipansi brand)",
+  "website": "https://zhx55huaxin.1688.com",
+  "sheet": "cipansi.csv",
+  "sku_prefix": "cipansi-",
+  "prices": "FOB USD per piece from the 2026 catalogue PDF (pages 36-82), converted to NZD; the markup and exchange rate are in private.json. Delivery is charged on top by weight (NZ rate card: NZ$30.11 first kg + NZ$22.19 per extra kg).",
+  "reprice": false,
+  "added": "2026-09-30",
+  "excluded": "Football jerseys pp.1-35 (replica club and national kits); S.W.A.T. POLICE tees; lines with US Navy SEAL trident or US-seal eagle insignia; denim jacket (Emerson Gear branding); printed-photo tees; colourways whose only photo shows a firearm."
  }
 }

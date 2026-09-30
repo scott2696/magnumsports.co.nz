@@ -366,6 +366,104 @@ GROUPS = {
           "at the front and wrap the ends around your neck. A shemagh and a keffiyeh are the same kind "
           "of scarf; shemagh is the name most used in outdoor and military gear.",
     section="Large cotton shemagh scarves for sun, wind and dust."),
+
+ # --- Cipansi range (added 30 Sep 2026); group set in the supplier sheet ---
+ "camo-tshirt": dict(
+    label="Camo and quick-dry T-shirts", noun="T-shirt", kw="camo t shirt", title="Camo T-Shirts NZ",
+    keywords=["camo t shirt", "camo t shirt nz", "camouflage t shirt", "quick dry t shirt", "hunting t shirt"],
+    intro="Lightweight, quick-drying T-shirts in camouflage and plain colours: a base layer for hunting and "
+          "tramping, a gym tee, or an everyday shirt that copes with sweat and sun.",
+    uses=["Hunting and tramping base layer", "Gym and training", "Airsoft and paintball", "Everyday wear"],
+    notes="Sizing may run smaller than NZ brands: if you are between sizes, go up one.",
+    section="Camo and plain quick-dry T-shirts for the hill, the gym and every day. Camo T-shirts in NZ."),
+ "tactical-shirt": dict(
+    label="Tactical shirts", noun="tactical shirt", kw="tactical shirt", title="Tactical Shirts NZ",
+    keywords=["tactical shirt", "tactical shirt nz", "quick dry shirt", "hunting shirt", "camo shirt"],
+    intro="Button-up and polo-style tactical shirts in quick-drying fabric, with chest and sleeve pockets: "
+          "for hunting, fishing, travel and outdoor work, where a T-shirt is not enough.",
+    uses=["Hunting and fishing", "Travel and hiking", "Outdoor work", "Range days"],
+    notes="Sizing may run smaller than NZ brands: if you are between sizes, go up one.",
+    section="Quick-dry button-up and polo tactical shirts with useful pockets. Tactical shirts in NZ."),
+ "softshell-jacket": dict(
+    label="Softshell jackets and vests", noun="softshell jacket", kw="softshell jacket", title="Softshell Jackets NZ",
+    keywords=["softshell jacket", "softshell jacket nz", "tactical jacket", "tactical jacket nz", "hunting jacket"],
+    intro="A softshell jacket blocks wind and light showers while it breathes and stretches, with a warm "
+          "fleece-backed lining: the jacket most people actually wear on the hill, on the bike or around town.",
+    uses=["Hunting and tramping", "Cold mornings and wind", "Motorbike and quad riding", "Everyday wear"],
+    notes="Sizing may run smaller than NZ brands: if you are between sizes, go up one.",
+    section="Wind-blocking, fleece-lined softshell jackets and vests in camo and plain colours. Softshell jackets in NZ."),
+ "fleece-jacket": dict(
+    label="Fleece jackets", noun="fleece jacket", kw="fleece jacket", title="Fleece Jackets NZ",
+    keywords=["fleece jacket", "fleece jacket nz", "tactical fleece", "hunting fleece", "polar fleece jacket"],
+    intro="Warm, light fleece jackets with zip pockets: a mid-layer under a shell in winter or a jacket on "
+          "its own on cool evenings, at the hut and around camp.",
+    uses=["Mid-layer for winter hunting", "Camping and huts", "Work and everyday wear"],
+    notes="Sizing may run smaller than NZ brands: if you are between sizes, go up one.",
+    section="Warm tactical and stand-collar fleece jackets. Fleece jackets in NZ."),
+ "rain-jacket": dict(
+    label="Shell jackets", noun="shell jacket", kw="hardshell jacket", title="Shell Jackets NZ",
+    keywords=["hardshell jacket", "shell jacket", "hooded jacket", "3 in 1 jacket", "outdoor jacket nz"],
+    intro="Hooded outer-shell jackets for wind and wet weather on the hill, some with a zip-in fleece "
+          "(3-in-1). Check each listing for its fabric and lining.",
+    uses=["Tramping and hunting in changeable weather", "Farm and outdoor work", "Travel"],
+    notes="Sizing may run smaller than NZ brands; allow room for layers underneath.",
+    section="Hooded hardshell, laminated and 3-in-1 jackets for changeable weather."),
+ "tactical-pants": dict(
+    label="Tactical trousers", noun="tactical trousers", kw="tactical pants", title="Tactical Pants NZ",
+    keywords=["tactical pants", "tactical pants nz", "cargo pants", "hunting pants", "softshell pants"],
+    intro="Tough, stretchy tactical trousers with cargo pockets: ripstop for summer, softshell with a fleece "
+          "lining for winter, and zip-off legs for the in-between. For hunting, tramping, work and every day.",
+    uses=["Hunting and tramping", "Outdoor and trade work", "Airsoft and training", "Everyday wear"],
+    notes="Sizing may run smaller than NZ brands: go up a size if you are unsure.",
+    section="Ripstop, stretch and fleece-lined softshell tactical trousers. Tactical pants in NZ."),
+ "tactical-shorts": dict(
+    label="Tactical shorts", noun="tactical shorts", kw="cargo shorts", title="Cargo Shorts NZ",
+    keywords=["cargo shorts", "cargo shorts nz", "tactical shorts", "hiking shorts"],
+    intro="Stretch cargo shorts with room for a phone, knife and keys: for summer tramps, fishing and work.",
+    uses=["Summer tramping", "Fishing and boating", "Work and everyday wear"],
+    notes="Sizing may run smaller than NZ brands.",
+    section="Stretch cargo shorts for summer. Cargo shorts in NZ."),
+ "shoulder-bag": dict(
+    label="Shoulder and saddle bags", noun="shoulder bag", kw="tactical shoulder bag", title="Tactical Shoulder Bags NZ",
+    keywords=["tactical shoulder bag", "saddle bag", "tactical messenger bag", "camera bag"],
+    intro="Compact shoulder and saddle bags that ride on the hip: room for a camera, phone, wallet and a "
+          "few tools, with MOLLE webbing to add pouches.",
+    uses=["Day trips and travel", "Photography", "Hunting and fishing", "Everyday carry"],
+    notes="Straps adjust to wear across the body or over one shoulder.",
+    section="Hip-riding saddle and shoulder bags with MOLLE webbing."),
+ "hiking-backpack": dict(
+    label="Large hiking backpacks", noun="hiking backpack", kw="hiking backpack", title="Hiking Backpacks NZ",
+    keywords=["hiking backpack", "hiking backpack nz", "tramping pack", "65l backpack", "50l backpack"],
+    intro="Large 50 to 65 litre packs and modular backpack sets for overnight tramps, hunting trips and "
+          "travel, with room for a sleeping bag, food and spare clothes.",
+    uses=["Overnight tramps and hut trips", "Multi-day hunting", "Travel", "Camping"],
+    notes="Pack heavy items close to your back and use the hip belt to carry the weight.",
+    section="50 to 65 litre packs and modular backpack sets for multi-day trips."),
+ "tactical-boots": dict(
+    label="Tactical boots", noun="tactical boots", kw="tactical boots", title="Tactical Boots NZ",
+    keywords=["tactical boots", "tactical boots nz", "military boots", "combat boots", "hiking boots"],
+    intro="Lace-up tactical and military-style boots with grippy soles and ankle support, for hunting, "
+          "work, security and airsoft, plus a kids' version.",
+    uses=["Hunting and tramping", "Security and work", "Airsoft and training", "Everyday wear"],
+    notes="Each size shows the NZ/AU/UK size and the European (EU) size the boots are made in "
+          "(EU 42 = NZ 8, EU 44 = NZ 10). If you are between sizes, go up one.",
+    section="Tactical and military-style boots in EU sizes, including kids' boots. Tactical boots in NZ."),
+ "knee-pads": dict(
+    label="Knee pads", noun="knee pads", kw="tactical knee pads", title="Tactical Knee Pads NZ",
+    keywords=["tactical knee pads", "knee pads", "knee pads nz", "work knee pads"],
+    intro="Hard-shell knee pads with foam padding and adjustable straps, for kneeling on rock, gravel or "
+          "concrete: airsoft, hunting, building and garden work.",
+    uses=["Airsoft and paintball", "Hunting from a kneeling position", "Building and garden work"],
+    notes="Sold as a pair. Straps adjust to fit over trousers.",
+    section="Hard-shell knee pads for airsoft, hunting and work."),
+ "load-bearing-vest": dict(
+    label="Load-bearing vests", noun="load-bearing vest", kw="tactical vest", title="Tactical Vests NZ",
+    keywords=["tactical vest", "tactical vest nz", "molle vest", "airsoft vest"],
+    intro="A MOLLE load-bearing vest with built-in pouches carries gear on your chest and back instead of "
+          "your belt: for airsoft, paintball and training.",
+    uses=["Airsoft and paintball", "Training", "Carrying gear hands-free"],
+    notes="This is a load-carrying vest, not body armour: it gives no ballistic or stab protection.",
+    section="MOLLE load-bearing vests for airsoft and training. Not body armour."),
 }
 
 # Which group each product is in. Glove families match on the model code in
@@ -462,6 +560,17 @@ FEATURES = [
     (r"carbon fib", "carbon fibre"),
     (r"lightweight|\blight\b", "lightweight"),
     (r"foldable|collapsible", "a fold-flat design"),
+    (r"hooded", "a hood"),
+    (r"3-in-1", "a zip-in fleece (3-in-1)"),
+    (r"reversible", "a reversible design"),
+    (r"zip-off", "zip-off legs"),
+    (r"ripstop", "ripstop fabric"),
+    (r"stretch", "stretch fabric"),
+    (r"quick-dry", "quick-dry fabric"),
+    (r"cargo", "cargo pockets"),
+    (r"zip pockets", "zip pockets"),
+    (r"(\d{2})l\b", "a \\1-litre capacity"),
+    (r"load-bearing", "built-in pouches"),
     (r"molle expandable", "expandable sides"),
 ]
 
@@ -483,6 +592,9 @@ def code(p):
 
 def colour(p):
     _, var = split_name(p)
+    own = spec(p, "Colour")
+    if own:
+        return own
     if var in COLOURS:
         return var
     c = dict(p.get("specs") or []).get("Color", "")
@@ -498,8 +610,13 @@ def features(p):
     name = split_name(p)[0].lower()
     out = []
     for rx, f in FEATURES:
-        if re.search(rx, name) and f not in out:
-            out.append(f)
+        m = re.search(rx, name)
+        if m:
+            f = m.expand(f) if "\\" in f else f
+            if f not in out:
+                out.append(f)
+    if "camo" in colour(p).lower() and "a camo pattern" not in out:
+        out.append("a camo pattern")
     return out
 
 
@@ -528,8 +645,16 @@ def _phrase(p, n_with=2):
     g, fs = G(p), features(p)
     adj = [f.replace(" fit", "") for f in fs if f in ADJ][:2]
     rest = [f for f in fs if f not in ADJ][:n_with]
-    s = " ".join(adj + [g["noun"]]) + (" with " + _join(rest) if rest else "")
+    noun = g["noun"]
+    if "vest" in split_name(p)[0].lower() and "jacket" in noun:
+        noun = noun.replace("jacket", "vest")
+    s = " ".join(adj + [noun]) + (" with " + _join(rest) if rest else "")
     return s
+
+
+def cl(c):
+    """Colour for mid-sentence use: lower case, but keep camo codes (CP, ACU) as written."""
+    return c if re.search(r"\b(CP|ACU)\b", c) else c.lower()
 
 
 def blurb(p):
@@ -537,13 +662,14 @@ def blurb(p):
     s = _phrase(p)
     s = s[0].upper() + s[1:]
     mat = spec(p, "Material")
-    tail = [x for x in (mat, colour(p).lower() if colour(p) else "") if x]
-    return s + "." + (" " + ", ".join(tail).capitalize() + "." if tail else "")
+    tail = [x for x in (mat, cl(colour(p)) if colour(p) else "") if x]
+    t = ", ".join(tail)
+    return s + "." + (" " + t[0].upper() + t[1:] + "." if tail else "")
 
 
-def title(p, brand):
-    """'<name> – <colour> | <Keyword> NZ', fitted to the width Google shows.
-    The name is shortened first; the colour stays so variants stay distinct."""
+def title_options(p):
+    """Candidate titles, best first: '<name> <code> – <colour> | <Keyword> NZ', all
+    within the width Google shows. The colour always stays (it tells variants apart)."""
     g = G(p)
     base, var = split_name(p)
     words = base.split()
@@ -552,16 +678,34 @@ def title(p, brand):
         mc = ""
     kw = f" | {g['title']}"
     v = f" – {var}" if var else ""
-    # Keep, in order of importance: keyword, colour, model code, then as much name as fits.
-    for tail in ((f" {mc}" if mc else "") + v + kw, v + kw, kw):
+    c = f" {mc}" if mc else ""
+    fits = lambda t: px(t) <= TITLE_PX - 5
+    out = []
+    for tail in (c + v + kw, v + kw):                 # the whole name
+        if fits(" ".join(words) + tail):
+            out.append(" ".join(words) + tail)
+    for tail in (v + kw, c + v + kw, kw):             # shortened name
         ws = list(words)
-        while px(" ".join(ws) + tail) > TITLE_PX - 5 and len(ws) > 1:
+        while not fits(" ".join(ws) + tail) and len(ws) > 1:
             ws.pop()
         t = " ".join(ws) + tail
-        # One word of name is enough when a model code or variant follows it.
-        if px(t) <= TITLE_PX - 5 and (len(ws) >= 2 or tail != kw):
-            return t
-    return t
+        if fits(t) and (len(ws) >= 2 or tail != kw):
+            out.append(t)
+    return list(dict.fromkeys(out)) or [" ".join(words[:3]) + kw]
+
+
+def assign_titles(products):
+    """{sku: title}: each product takes its best title that no other product has."""
+    taken, out = set(), {}
+    for p in products:
+        opts = title_options(p)
+        t = next((o for o in opts if o not in taken), opts[0])
+        taken.add(t); out[p["sku"]] = t
+    return out
+
+
+def title(p, brand):
+    return title_options(p)[0]
 
 
 def meta_description(p, price_text, limit=158):
@@ -570,13 +714,16 @@ def meta_description(p, price_text, limit=158):
     c = colour(p)
     ph = _phrase(p)
     mc = code(p)
-    which = (f", in {c.lower()}" if c else (f", model {var}" if var else "")) + (f" ({mc})" if mc and c else "")
+    which = (f", in {cl(c)}" if c else (f", model {var}" if var and var != c else "")) + (f" ({mc})" if mc and c else "")
     lead = ph[0].upper() + ph[1:] + which
     if not c:
         # No colour to tell listings apart: lead with the product's own name.
         short = " ".join(base.split()[:7])
         lead = f"{short}: {ph}{which}"
-    s = f"{lead}. {price_text}Request your total with NZ delivery."
+    tail = ("Request your total with NZ delivery." if "excl. delivery" in price_text
+            else "Ships to NZ and Australia in 7 to 10 days." if "delivery by weight" in price_text
+            else "Delivered in 7 to 10 days.")
+    s = f"{lead}. {price_text}{tail}"
     for extra in (" Pay by card, Apple Pay, Google Pay or PayPal.", " Pay by card or PayPal."):
         if len(s + extra) <= limit:
             return s + extra
@@ -591,7 +738,7 @@ def description_html(p, pack_text=""):
     c = colour(p)
     ph = _phrase(p, 3)
     art = "a pair of" if g["noun"].endswith("gloves") else ("an" if ph[0] in "aeiouAEIOU" else "a")
-    lead = (f"<p>The <strong>{esc(base)}</strong>{' in ' + esc(c.lower()) if c else ''} is "
+    lead = (f"<p>The <strong>{esc(base)}</strong>{' in ' + esc(cl(c)) if c else ''} is "
             f"{art} {esc(ph)}. {esc(g['intro'])}</p>")
     facts = [f[0].upper() + f[1:] for f in fs]
     for k, label in (("Material", "Material"), ("Nylon Type", "Fabric"), ("Dimensions", "Size"),
@@ -602,7 +749,7 @@ def description_html(p, pack_text=""):
             facts.append(f"{label}: {v}")
     if colours_available(p):
         facts.append("Available in " + _join(colours_available(p)).lower() + " (see the photo for this listing)")
-    if var and var not in COLOURS:
+    if var and var not in COLOURS and var != colour(p):
         facts.append(f"Model: {var}")
     out = [lead]
     if facts:
@@ -618,24 +765,34 @@ def description_html(p, pack_text=""):
 # searches each department answers.
 DEPTS = {
  "Apparel": dict(
-    title="Tactical Gloves NZ: Motorcycle, Cycling & Work Gloves",
-    h1="Tactical, Motorcycle & Cycling Gloves",
-    desc="Tactical gloves, motorcycle gloves, cycling gloves, fingerless and winter gloves, plus tactical "
-         "belts. Shop online in NZ; request your total with delivery.",
-    lede="Gloves for every job: <strong>tactical gloves</strong> for grip and dexterity, "
+    title="Tactical Clothing NZ: Jackets, Pants & Gloves",
+    h1="Tactical Clothing, Jackets, Pants & Gloves",
+    desc="Softshell and fleece jackets, tactical pants, camo T-shirts and shirts, and tactical, motorcycle "
+         "and cycling gloves. Shop online, delivered NZ-wide in 7 to 10 days.",
+    lede="<strong>Softshell jackets</strong>, fleece and shell jackets, <strong>tactical pants</strong>, "
+         "<strong>camo T-shirts</strong> and tactical shirts, plus gloves for every job: <strong>tactical gloves</strong> for grip and dexterity, "
          "<strong>motorcycle gloves</strong> with knuckle protection, breathable <strong>cycling gloves</strong>, "
          "<strong>fingerless gloves</strong> for shooting and fine work, and warmer <strong>winter gloves</strong>. "
          "Most come in several colours, many with touchscreen fingertips. Delivered anywhere in New Zealand."),
  "Bags": dict(
-    title="MOLLE Pouches & Tactical Bags NZ",
-    h1="MOLLE Pouches, Tactical Bags & Waist Packs",
+    title="Tactical Backpacks, Bags & MOLLE Pouches NZ",
+    h1="Tactical Backpacks, Bags & MOLLE Pouches",
     desc="MOLLE pouches, magazine pouches, first aid pouches, radio and EDC pouches, tactical waist bags, "
-         "sling bags and backpacks. NZ-wide delivery in 7 to 10 days.",
-    lede="Build your loadout: <strong>MOLLE pouches</strong> for packs, belts and vests, "
+         "sling, saddle and shoulder bags, tactical and 65L hiking backpacks. NZ-wide delivery.",
+    lede="<strong>Tactical backpacks</strong> from 35 to 65 litres, saddle, sling and waist bags, and everything "
+         "to build your loadout: <strong>MOLLE pouches</strong> for packs, belts and vests, "
          "<strong>magazine pouches</strong>, <strong>first aid pouches</strong>, <strong>radio pouches</strong> and "
          "<strong>EDC pouches</strong>, plus <strong>tactical waist bags</strong>, sling bags and a "
          "<strong>tactical backpack</strong>. For hunting, tramping, airsoft and everyday carry, delivered "
          "across New Zealand."),
+ "Footwear": dict(
+    title="Tactical Boots NZ: Military & Hiking Boots",
+    h1="Tactical & Military Boots",
+    desc="Tactical boots, military boots, lightweight high-top and low tactical shoes and kids' tactical "
+         "boots in EU sizes. Delivered anywhere in New Zealand in 7 to 10 days.",
+    lede="Lace-up <strong>tactical boots</strong> and <strong>military boots</strong> for hunting, work, security "
+         "and airsoft: leather and lightweight high-tops, low tactical shoes and <strong>kids' tactical boots</strong>. "
+         "Sizes are European (EU); delivery is added at checkout by weight."),
  "Hunting Accessories": dict(
     title="Rifle Bipods & Hunting Accessories NZ",
     h1="Rifle Bipods & Hunting Accessories",

@@ -72,7 +72,7 @@ def build():
     picks = [p for s in HERO_PICKS for p in PRODUCTS if p["sku"] == s[0]]
     facts = {s[0]: s[1] for s in HERO_PICKS}
     collage = "".join(hero_card(i, p, facts[p["sku"]]) for i, p in enumerate(picks))
-    trust = [("truck", "NZ-wide delivery", "Quoted with your order, 7&ndash;10 days"),
+    trust = [("truck", "NZ-wide delivery", "7&ndash;10 days, free on most single items"),
              ("lock", "Secure payment", "Through Stripe, incl. PayPal"),
              ("tag", f"{total} products", f"Across {len(depts)} departments"),
              ("chat", "Real people", "Replies usually same working day")]
@@ -130,7 +130,7 @@ def build():
 <div class="sec-head"><span class="kicker">How it works</span><h2>Ordering, payment and delivery</h2></div>
 {cards([
  ("cart", "1. Add to your cart" if SHOW_PRICES else "1. Add to your enquiry", "Browse by department or search, and add what you want. Your cart is kept in your browser until you check out." if CHECKOUT_URL else "Browse by department or search, and add what you want. Your list is kept in your browser until you send it.", "/shop/", "Start shopping"),
- ("lock", "2. Pay at checkout", "Press Pay now and pay on Stripe's secure page, where you enter your delivery address. Delivery is already in the price.", None) if CHECKOUT_URL else ("mail", "2. Request your total" if SHOW_PRICES else "2. Send your enquiry", "Prices shown exclude delivery. Send your cart with your delivery address and we reply, usually the same working day, with the total including delivery." if SHOW_PRICES else "Fill in your details and delivery address. We reply, usually the same working day, with prices and stock. Delivery is free.", None),
+ ("lock", "2. Pay at checkout", "Press Pay now and pay on Stripe's secure page, where you enter your delivery address. Single items include delivery; for bulk packs, request your total instead.", None) if CHECKOUT_URL else ("mail", "2. Request your total" if SHOW_PRICES else "2. Send your enquiry", "Prices shown exclude delivery. Send your cart with your delivery address and we reply, usually the same working day, with the total including delivery." if SHOW_PRICES else "Fill in your details and delivery address. We reply, usually the same working day, with prices and stock. Delivery is free.", None),
  ("truck", "3. We deliver", "We email to confirm your order and deliver anywhere in New Zealand in 7 to 10 days.", None) if CHECKOUT_URL else ("wallet", "3. Pay and we deliver", "Pay the total with the secure Stripe link we send: Visa, Mastercard, American Express, Apple Pay, Google Pay, PayPal or Link. We deliver anywhere in New Zealand in 7 to 10 days.", None),
 ])}
 <div style="margin-top:22px">{pay_badges()}</div>

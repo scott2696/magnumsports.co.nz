@@ -6,7 +6,7 @@
 
    The browser sends only SKUs and quantities. Names, prices and photos come
    from the site's own published catalogue (CATALOGUE_URL), so a price edited
-   in someone's browser never reaches Stripe. Prices include GST (delivery: see the site's QUOTE_DELIVERY).
+   in someone's browser never reaches Stripe. Prices include GST and, for single items, delivery; packs are refused (quoted by email).
 
    POST /message   {"kind": "order"|"enquiry"|"contact", "name", "email", ...}
      -> emails the shop through Cloudflare Email Routing (binding NOTIFY), with
@@ -121,11 +121,15 @@ export default {
     form.set("custom_fields[0][type]", "text");
     form.set("custom_fields[0][optional]", "true");
     const skus = [];
+    const cn = [];
     let n = 0;
+    let kg = 0;          // weight of lines whose delivery is charged by weight (search.json "x", "w")
     for (const it of items) {
       const p = catalogue.get(String(it.sku || ""));
       const qty = Math.max(1, Math.min(MAX_QTY, parseInt(it.qty, 10) || 0));
       if (!p) return reply({ error: `A product in your cart is no longer available (${it.sku}). Please remove it and try again.` }, 409);
+      // Bulk packs exclude delivery: they are quoted by email, never paid for here.
+      if (p.k) return reply({ error: "Your cart has a bulk pack, whose delivery is quoted. Please use Request my total." }, 409);
       const cents = Math.round(parseFloat(p.p) * 100);
       if (!(cents > 0)) return reply({ error: "Bad price" }, 500);
       const k = `line_items[${n}]`;
@@ -133,14 +137,47 @@ export default {
       form.set(`${k}[price_data][currency]`, "nzd");
       form.set(`${k}[price_data][unit_amount]`, String(cents));
       form.set(`${k}[price_data][tax_behavior]`, "inclusive");
-      const pname = p.n + (p.k ? ` (pack of ${p.k})` : "") + (it.opt ? ` (${it.opt})` : "");
+      const opt = String(it.opt || "").slice(0, 40);
+      const pname = p.n + (p.k ? ` (pack of ${p.k})` : "") + (opt ? ` (size ${opt})` : "");
+      // Supplier size behind the NZ size: for us only (Stripe metadata), never shown to the customer.
+      if (opt && p.z && p.z[opt]) cn.push(`${p.s} ${opt}=China ${p.z[opt]}`);
       form.set(`${k}[price_data][product_data][name]`, pname.slice(0, 250));
       form.set(`${k}[price_data][product_data][metadata][sku]`, p.s);
       if (p.i) form.set(`${k}[price_data][product_data][images][0]`, site + p.i);
       skus.push(`${p.s}x${qty}`);
+      if (p.x) kg += (parseFloat(p.w) || 0) * qty;
       n++;
     }
     form.set("metadata[skus]", skus.join(",").slice(0, 500));
+    if (cn.length) form.set("metadata[china_sizes]", cn.join("; ").slice(0, 500));
+    if (kg > 0) {
+      // Delivery by destination and weight: the site's published rate table (delivery.json).
+      let rates = [];
+      try {
+        const r = await fetch(env.CATALOGUE_URL.replace("search.json", "delivery.json"), { cf: { cacheTtl: 300 } });
+        rates = await r.json();
+      } catch (e) { return reply({ error: "Could not load delivery rates. Please try again." }, 502); }
+      const dest = rates.find((c) => c.id === String(body.city || ""));
+      if (!dest) return reply({ error: "Please choose your city in the cart so we can add delivery." }, 400);
+      // Outside New Zealand only weight-priced items ship at these rates.
+      if (dest.country !== "NZ" && items.some((it) => { const q = catalogue.get(String(it.sku || "")); return !q || !q.x; }))
+        return reply({ error: "Some items in your cart only ship within New Zealand. Please use Request my total." }, 409);
+      const whole = Math.max(1, Math.ceil(Math.round(kg * 1000) / 1000));
+      const fee = Math.round(dest.first * 100) + Math.round(dest.extra * 100) * (whole - 1);
+      form.set("shipping_address_collection[allowed_countries][0]", dest.country);
+      form.set("metadata[delivery_city]", `${dest.city} ${dest.postcode}`);
+      const o = "shipping_options[0][shipping_rate_data]";
+      form.set(`${o}[type]`, "fixed_amount");
+      form.set(`${o}[display_name]`, `Delivery to ${dest.city} (${whole} kg)`);
+      form.set(`${o}[fixed_amount][amount]`, String(fee));
+      form.set(`${o}[fixed_amount][currency]`, "nzd");
+      form.set(`${o}[tax_behavior]`, "inclusive");
+      form.set(`${o}[delivery_estimate][minimum][unit]`, "business_day");
+      form.set(`${o}[delivery_estimate][minimum][value]`, "7");
+      form.set(`${o}[delivery_estimate][maximum][unit]`, "business_day");
+      form.set(`${o}[delivery_estimate][maximum][value]`, "10");
+      form.set("metadata[delivery_kg]", String(Math.round(kg * 100) / 100));
+    }
     form.set("payment_intent_data[description]", "Magnum Sports online order");
 
     const s = await fetch("https://api.stripe.com/v1/checkout/sessions", {
@@ -190,17 +227,19 @@ async function sendMessage(request, env, reply) {
     const items = Array.isArray(b.items) ? b.items.slice(0, 50) : [];
     if (!items.length) return reply({ error: "Your list is empty." }, 400);
     const site = env.SITE_URL.replace(/\/$/, "");
-    let sub = 0;
+    let sub = 0, kgx = 0;
     for (const it of items) {
       const sku = one(it.sku, 80), qty = Math.max(1, Math.min(99, parseInt(it.qty, 10) || 1));
       const p = cat.get(sku);
       const price = p && p.p ? `  @ NZ$${p.p}` : "";
       if (p && p.p) sub += Math.round(parseFloat(p.p) * 100) * qty;
-      lines.push(`${qty} x ${p ? p.n : sku}${p && p.k ? ` (pack of ${p.k})` : ""}${it.opt ? " (" + one(it.opt, 60) + ")" : ""}${price}   [${sku}]`,
+      if (p && p.x) kgx += (parseFloat(p.w) || 0) * qty;
+      lines.push(`${qty} x ${p ? p.n : sku}${p && p.k ? ` (pack of ${p.k})` : ""}${it.opt ? " (size " + one(it.opt, 60) + (p && p.z && p.z[it.opt] ? ", order China " + p.z[it.opt] : "") + ")" : ""}${price}   [${sku}]`,
                  p ? `    ${site}${p.u}` : "");
     }
     if (sub) subtotal = `Subtotal: NZ$${(sub / 100).toFixed(2)} incl. GST, EXCLUDING delivery.\n` +
-      "Reply with the total including delivery and a Stripe payment link.";
+      "Reply with the total including delivery and a Stripe payment link." +
+      (kgx ? `\nItems charged by weight: ${Math.round(kgx * 100) / 100} kg (NZ$30.11 first kg + NZ$22.19 each extra kg).` : "");
   }
   const title = { order: "Quote request", enquiry: "Enquiry", contact: "Contact" }[kind];
   const body = [
@@ -209,6 +248,7 @@ async function sendMessage(request, env, reply) {
     `Name:     ${name}`, `Email:    ${email}`,
     b.phone ? `Phone:    ${one(b.phone, 40)}` : "",
     b.address ? `Deliver:  ${one(b.address, 400)}` : "",
+    b.city ? `City:     ${b.city === "other" ? "not on the rate card (quote delivery)" : one(b.city, 60)}` : "",
     b.payment ? `Payment:  ${one(b.payment, 80)}` : "",
     b.topic ? `Topic:    ${one(b.topic, 80)}` : "",
     b.notes ? `\nNotes:\n${many(b.notes)}` : "",

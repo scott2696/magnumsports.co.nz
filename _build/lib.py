@@ -28,17 +28,17 @@ STORE = {
 # the site only once it has products; the rest are ready for when they do.
 DEPARTMENTS = [
     ("Apparel", "apparel", "shirt",
-     "Tactical gloves, motorcycle and cycling gloves, fingerless, winter and work gloves, "
-     "and tactical belts."),
+     "Softshell and fleece jackets, tactical pants, camo T-shirts and shirts, "
+     "and tactical, motorcycle and cycling gloves."),
     ("Bags", "bags", "pack",
-     "MOLLE pouches, magazine, first aid, radio and EDC pouches, tactical waist bags, "
-     "sling bags and a tactical backpack."),
+     "Tactical backpacks up to 65L, saddle, sling and waist bags, and MOLLE, "
+     "magazine, first aid and EDC pouches."),
     ("Fishing", "fishing", "fish",
      "Freshwater and saltwater: rods, reels, line, lures, flies, nets and "
      "terminal tackle."),
     ("Footwear", "footwear", "boot",
-     "Boots for the bush, gumboots for the paddock, wading boots for the "
-     "river, and socks worth the money."),
+     "Tactical and military boots, lightweight high-tops, low tactical shoes "
+     "and kids' tactical boots."),
     ("Hunting Accessories", "hunting-accessories", "compass",
      "Rifle bipods from 6 to 27 inches, carbon and M-Lok bipods, drop leg platforms "
      "and a cotton shemagh."),
@@ -88,7 +88,13 @@ def _supplier_products():
                         "model": row.get("model", "").strip(), "specs": specs,
                         "origin": row.get("origin", "").strip(),
                         # Sold as a pack of this many (the supplier's minimum order); price is per pack.
-                        "pack": int(row["pack"]) if row.get("pack", "").strip().isdigit() else 0})
+                        "pack": int(row["pack"]) if row.get("pack", "").strip().isdigit() else 0,
+                        # Sizes to choose from; shipping weight (kg) and "extra" when delivery is
+                        # charged on top by weight rather than included in the price.
+                        "options": [o for o in row.get("options", "").split("|") if o.strip()],
+                        "weight": float(row["weight_kg"]) if row.get("weight_kg", "").strip() else 0.0,
+                        "delivery_extra": row.get("delivery", "").strip() == "extra",
+                        "group_csv": row.get("group", "").strip()})
     return out
 
 
@@ -106,13 +112,19 @@ for _p in PRODUCTS:
 # Keyword group and search copy (seo.py). The supplier's one-line summary is
 # kept as spec_blurb; cards, search and schema use the written blurb.
 import seo
+import sizes
 for _p in PRODUCTS:
-    _p["group"] = seo.group_of(_p)
+    _p["group"] = _p.get("group_csv") or seo.group_of(_p)
 seo.check(PRODUCTS)
 _dd = seo._DEPT_DEFAULT
 for _p in PRODUCTS:
     _p["group"] = _p["group"] or _dd.get(_p["dept"], "molle-pouch")
     _p["spec_blurb"] = _p["blurb"]
+    # China sizes -> NZ labels (sizes.py); the China size stays in each label for ordering.
+    if _p["options"] and _p.get("group_csv"):
+        _p["options_cn"] = _p["options"]
+        _p["options"] = [sizes.label(_p, s) for s in _p["options"]]
+        _p["specs"] = [("Sizes", ", ".join(_p["options"])) if k == "Sizes" else (k, v) for k, v in _p["specs"]]
     _p["blurb"] = seo.blurb(_p)
 FEATURED = [p for p in PRODUCTS if p.get("featured")]
 DEPT_SLUG = {d[0]: d[1] for d in DEPARTMENTS}
@@ -135,11 +147,13 @@ CHECKOUT_WORKER = "https://magnumsports-checkout.scott2696.workers.dev/checkout"
 # no price is shown or published anywhere, the cart is an enquiry list, and
 # card checkout is off. Set True and rebuild to show prices and take payment.
 SHOW_PRICES = True
-# Prices shown are for the goods only; delivery is quoted per order. So the
-# cart is a quote request (the Worker emails it to us) and we reply with the
-# total including delivery and a Stripe payment link. Pay now is off while
-# delivery is quoted; set QUOTE_DELIVERY = False to turn it back on.
-QUOTE_DELIVERY = True
+# Single items: the price includes delivery anywhere in NZ and they are paid
+# for at once through Stripe (Pay now). Pack items (sold by the supplier's
+# minimum order): the price excludes delivery, so a cart holding any pack is a
+# quote request instead; the Worker emails it to us and we reply with the total
+# including delivery and a Stripe invoice. The Worker's checkout refuses packs.
+QUOTE_DELIVERY = False      # True = every item quoted, Pay now off
+QUOTE_PACKS = True
 CHECKOUT_URL = CHECKOUT_WORKER if SHOW_PRICES and not QUOTE_DELIVERY else ""
 # Order requests, enquiries and contact messages are posted here; the Worker
 # emails them to the shop's private inbox (its NOTIFY_TO secret), so that
@@ -249,9 +263,9 @@ IC = {
 # compete with one another in the SERP.
 META = {
  "/": ("Tactical Gear NZ: Gloves, Pouches & Bipods | Magnum Sports",
-       "Tactical gear online in NZ: tactical, motorcycle and cycling gloves, MOLLE and magazine pouches, rifle bipods and more. Request your delivered total; NZ-wide in 7 to 10 days."),
+       "Tactical gear online in NZ: tactical, motorcycle and cycling gloves, MOLLE and magazine pouches, rifle bipods and more. Free NZ delivery on single items in 7 to 10 days."),
  "/shop/": ("Shop Tactical & Outdoor Gear Online NZ | Magnum Sports",
-       "Shop tactical gloves, MOLLE pouches, tactical bags and rifle bipods online. Prices include GST; request your total with delivery anywhere in NZ."),
+       "Shop tactical gloves, MOLLE pouches, tactical bags and rifle bipods online. Single items include GST and delivery anywhere in NZ; bulk packs are quoted."),
  "/about/": ("About Magnum Sports | Outdoor Gear Online",
        "Magnum Sports is a New Zealand online store for outdoor gear: clothing, gloves, bags and hunting accessories, delivered NZ-wide."),
  "/contact/": ("Contact Magnum Sports",
@@ -444,7 +458,7 @@ def footer():
 {cols}
 </div>
 <div class="foot-bot">
-<p>Prices are in New Zealand dollars, include GST and exclude delivery. Add what you want to your cart and request your total: we reply with the delivered price and a secure Stripe payment link. Delivery takes 7 to 10 days.</p>
+<p>Prices are in New Zealand dollars and include GST. Most single items include delivery anywhere in New Zealand; items marked &ldquo;+ delivery by weight&rdquo; add it in the cart by city and weight. You pay through Stripe. Bulk packs exclude delivery: request your total and we reply with the delivered price. Delivery takes 7 to 10 days.</p>
 <div class="foot-badges">
 <a href="/shop/">Shop online</a>
 <a href="/contact/">Contact</a>
@@ -489,9 +503,46 @@ def product_image(sku):
     return None
 
 
-# Under every price while delivery is quoted per order.
-DELIVERY_TAG = ('<span class="prod-deliv">Excl. delivery &middot; request your total</span>'
-                if QUOTE_DELIVERY else "")
+# Under each price: whether delivery is in it.
+PACK_TAG = ('<span class="prod-deliv">Excl. delivery &middot; request your total</span>'
+            if QUOTE_DELIVERY or QUOTE_PACKS else "")
+SINGLE_TAG = ('<span class="prod-deliv">Excl. delivery &middot; request your total</span>' if QUOTE_DELIVERY
+              else '<span class="prod-deliv">Incl. NZ delivery</span>')
+DELIVERY_TAG = PACK_TAG     # search.js: packs only (singles use SINGLE_TAG)
+
+
+# Delivery charged by weight (supplier rate card, same for every NZ city):
+# first kg, then each extra kg or part of one. Used for lines whose sheet says
+# delivery = extra; the Worker charges the same at checkout.
+# Rates per destination live in delivery_rates.json (cart, product pages and the
+# Worker all read it); product pages quote the cheapest enabled city as "from".
+_RATES = json.load(open(os.path.join(ROOT, "_build", "delivery_rates.json"), encoding="utf-8"))
+DELIVERY_CITIES = [dict(c, country_name=_RATES["countries"][c["country"]]["name"]) for c in _RATES["cities"]
+                   if _RATES["countries"][c["country"]]["enabled"]]
+NZ_FIRST_KG = min(c["first"] for c in DELIVERY_CITIES)
+NZ_EXTRA_KG = min(c["extra"] for c in DELIVERY_CITIES)
+
+
+# Countries the shop delivers to (Australia: weight-priced items only).
+AREA_SERVED = [{"@type": "Country", "name": n} for n in
+               dict.fromkeys(c["country_name"] for c in DELIVERY_CITIES)]
+
+
+def delivery_fee(kg, dest=None):
+    """Delivery for this weight to one destination; with none, the cheapest New Zealand city ("from")."""
+    import math
+    whole = max(1, math.ceil(round(kg, 3)))
+    cost = lambda c: round(c["first"] + c["extra"] * (whole - 1), 2)
+    return cost(dest) if dest else min(cost(c) for c in DELIVERY_CITIES if c["country"] == "NZ")
+
+
+def extra_tag(p):
+    return (f'<span class="prod-deliv">+ NZ delivery by weight, from NZ${delivery_fee(p.get("weight") or 0):,.2f}</span>')
+
+
+def quoted(p):
+    """True when this product's delivery is quoted rather than in the price."""
+    return QUOTE_DELIVERY or (QUOTE_PACKS and bool(p.get("pack")))
 
 
 def price_html(p, extra=""):
@@ -499,23 +550,28 @@ def price_html(p, extra=""):
     if SHOW_PRICES and p.get("pack"):
         each = float(p["price"]) / p["pack"]
         return (f'<div class="prod-price{extra}">NZ${float(p["price"]):,.2f}'
-                f'<span class="prod-pack">Pack of {p["pack"]} &middot; NZ${each:,.2f} each</span>{DELIVERY_TAG}</div>')
+                f'<span class="prod-pack">Pack of {p["pack"]} &middot; NZ${each:,.2f} each</span>{PACK_TAG}</div>')
     if SHOW_PRICES:
-        return f'<div class="prod-price{extra}">NZ${float(p["price"]):,.2f}{DELIVERY_TAG}</div>'
+        return (f'<div class="prod-price{extra}">NZ${float(p["price"]):,.2f}'
+                f'{extra_tag(p) if p.get("delivery_extra") else SINGLE_TAG}</div>')
     return f'<div class="prod-price prod-price--ask{extra}">Price on request</div>'
 
 
-def product_cta(p, size="btn--sm"):
+def product_cta(p, size="btn--sm", guide=False):
     """Add-to-cart control (cart.js wires it up). Must sit inside an element
-    with data-sku."""
+    with data-sku. guide=True adds the 'Measurements' button (product pages)."""
     opts = ""
     if p.get("options"):
         oid = f'opt-{p["sku"]}'
-        opts = (f'<div class="field prod-opt"><label for="{oid}">Option</label>'
-                f'<select id="{oid}" data-opt><option value="">Choose&hellip;</option>'
+        btn = (f'<button type="button" class="btn btn--sm btn--ghost size-btn" data-sizeguide="sg-{esc(p["sku"])}">'
+               f'Measurements</button>' if guide else "")
+        opts = (f'<div class="field prod-opt"><label for="{oid}">Size (NZ)</label>'
+                f'<div class="prod-opt-row"><select id="{oid}" data-opt><option value="">Choose&hellip;</option>'
                 + "".join(f'<option>{esc(o)}</option>' for o in p["options"])
-                + '</select></div>')
-    label = ("Add pack to cart" if p.get("pack") else "Add to cart") if SHOW_PRICES else "Add to enquiry"
+                + f'</select>{btn}</div></div>'
+                + (sizes.dialog_html(p, esc) if guide else ""))
+    label = ("Add pack to quote" if quoted(p) and p.get("pack") else "Add pack to cart" if p.get("pack")
+             else "Add to cart") if SHOW_PRICES else "Add to enquiry"
     return (f'{opts}<button class="btn {size}" type="button" data-add="{esc(p["sku"])}">'
             f'{icon("cart")} {label}</button>')
 
@@ -645,7 +701,7 @@ def org_schema():
     return {
         "@type": "Organization", "@id": f"{SITE}/#organization", "name": NAME, "url": SITE,
         "logo": {"@type": "ImageObject", "url": f"{SITE}/favicon-512x512.png", "width": 512, "height": 512},
-        "email": EMAIL, "areaServed": {"@type": "Country", "name": "New Zealand"},
+        "email": EMAIL, "areaServed": AREA_SERVED,
         "knowsLanguage": "en-NZ",
         "description": "New Zealand online store for outdoor, hunting and tactical gear, delivered NZ-wide.",
         "address": {"@type": "PostalAddress", "streetAddress": STORE["street"],
@@ -653,7 +709,8 @@ def org_schema():
                     "postalCode": STORE["postcode"], "addressCountry": STORE["country"]},
         "contactPoint": {"@type": "ContactPoint", "contactType": "customer service",
                          "email": EMAIL, "url": f"{SITE}/contact/",
-                         "areaServed": "NZ", "availableLanguage": "en"},
+                         "areaServed": [c for c in dict.fromkeys(x["country"] for x in DELIVERY_CITIES)],
+                         "availableLanguage": "en"},
     }
 
 
@@ -682,7 +739,7 @@ def store_schema():
             "postalCode": STORE["postcode"],
             "addressCountry": STORE["country"],
         },
-        "areaServed": {"@type": "Country", "name": "New Zealand"},
+        "areaServed": AREA_SERVED,
         "currenciesAccepted": "NZD",
         "hasMerchantReturnPolicy": RETURN_POLICY,
         "paymentAccepted": ", ".join(PAYMENT) + " (through Stripe)",

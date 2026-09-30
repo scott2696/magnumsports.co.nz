@@ -9,8 +9,10 @@ from datetime import date
 import hashlib
 from lib import *
 import seo
+import sizes
 from seo import split_name
 FAMILY = seo.families(PRODUCTS)
+TITLES = seo.assign_titles(PRODUCTS)
 from faq_data import DEPT as DEPT_FAQ
 
 TITLE, DESC = META["/shop/"]
@@ -21,7 +23,7 @@ FAQ = [
   ("<p>Add what you want to the cart and press <strong>Pay now</strong>. You pay on Stripe&rsquo;s "
    "secure page, by card, Apple Pay, Google Pay, PayPal or Link, and enter your delivery address there. "
    "We email to confirm and deliver in 7 to 10 days. If an item turns out to be unavailable we refund "
-   "it in full.</p>") if CHECKOUT_URL else
+   "it in full. Bulk packs (sold by the maker&rsquo;s minimum order, e.g. 500) are different: their price excludes delivery, so add them to your cart and press <strong>Request my total</strong>; we reply with the total including delivery and a secure Stripe invoice.</p>") if CHECKOUT_URL else
   ("<p>Add what you want to the cart, then fill in your name, email and delivery address and press "
    "<strong>Request my total</strong>. We reply, usually the same working day, with the total including "
    "delivery and a secure Stripe payment link. Nothing is charged until you have seen the total and "
@@ -31,8 +33,9 @@ FAQ = [
    "<strong>Send enquiry</strong>. We reply, usually the same working day, with prices, stock and how "
    "to pay. Nothing is charged until you have agreed the price.</p>")),
  ("How long does delivery take?",
-  "<p>Delivery takes <strong>7 to 10 days</strong> from when you pay, anywhere in New Zealand. The "
-  "cost depends on what you order and where it is going, so we quote it with your total.</p>"),
+  "<p>Delivery takes <strong>7 to 10 days</strong> from when you pay, anywhere in New Zealand. On most "
+  "single items it is free: the price already includes it. Clothing, boots and bags marked <strong>&ldquo;+ delivery by weight&rdquo;</strong> add delivery in the cart once you choose your city: it depends on the destination and the weight of those items (from NZ$30.11 for the first kg). On bulk packs it depends on the size of the order and "
+  "where it is going, so we quote it with your total.</p>"),
  ("How do I pay?",
   f"<p>{PAY_HOW} All payments go through Stripe: we never see or store your card details, and we "
   "never ask for them by email or phone.</p>"),
@@ -44,36 +47,55 @@ FAQ = [
 
 
 def write_cart_js():
-    keys = ("name", "price", "options", "pack") if SHOW_PRICES else ("name", "options")
+    keys = ("name", "price", "options", "pack", "weight", "delivery_extra") if SHOW_PRICES else ("name", "options")
     cat = {p["sku"]: {k: p[k] for k in keys if k in p and p[k]} for p in PRODUCTS}
     src = open(os.path.join(ROOT, "_build", "cart.js"), encoding="utf-8").read()
     src = (src.replace("/*@@CATALOGUE@@*/{}", json.dumps(cat, ensure_ascii=False, separators=(",", ":")))
               .replace("/*@@ORDER_EMAIL@@*/", ORDER_EMAIL)
-              .replace("/*@@SHOW_PRICES@@*/true", "true" if SHOW_PRICES else "false"))
+              .replace("/*@@SHOW_PRICES@@*/true", "true" if SHOW_PRICES else "false")
+              .replace("/*@@QUOTE_ALL@@*/false", "true" if QUOTE_DELIVERY else "false")
+              .replace("/*@@QUOTE_PACKS@@*/false", "true" if QUOTE_PACKS else "false")
+              .replace("/*@@RATES@@*/[]", json.dumps(DELIVERY_CITIES, separators=(",", ":"))))
     d = os.path.join(ROOT, "assets", "js")
     os.makedirs(d, exist_ok=True)
     open(os.path.join(d, "cart.js"), "w", encoding="utf-8").write(src)
+    # The checkout Worker prices delivery from this file, as the cart does.
+    json.dump(DELIVERY_CITIES, open(os.path.join(d, "delivery.json"), "w", encoding="utf-8"),
+              ensure_ascii=False, separators=(",", ":"))
 
+
+
+def ship_detail(country, fee):
+    """One shipping option for Google: rate, destination, 1-3 days to dispatch, 6-7 in transit."""
+    return {"@type": "OfferShippingDetails",
+            "shippingRate": {"@type": "MonetaryAmount", "currency": "NZD", "value": f"{fee:.2f}"},
+            "shippingDestination": {"@type": "DefinedRegion", "addressCountry": country},
+            "deliveryTime": {
+                "@type": "ShippingDeliveryTime",
+                "handlingTime": {"@type": "QuantitativeValue", "minValue": 1, "maxValue": 3, "unitCode": "DAY"},
+                "transitTime": {"@type": "QuantitativeValue", "minValue": 6, "maxValue": 7, "unitCode": "DAY"}}}
 
 
 def offer(p):
-    """Offer for Google merchant listings: price and availability. Shipping
-    details (free NZ delivery, 1-3 days to dispatch, 6-7 in transit) only when
-    delivery is included; while it is quoted per order there is no rate to state."""
+    """Offer for Google merchant listings: price, availability and shipping.
+    Delivery included: free to NZ. Delivery by weight: this item's rate to the
+    cheapest city in each country it ships to (NZ, and Australia when enabled).
+    Quoted (packs): no rate to state, so no shipping details."""
+    ship = []
+    if not quoted(p):
+        if p.get("delivery_extra"):
+            w = p.get("weight") or 0
+            for cc in dict.fromkeys(c["country"] for c in DELIVERY_CITIES):
+                ship.append(ship_detail(cc, min(delivery_fee(w, c) for c in DELIVERY_CITIES if c["country"] == cc)))
+        else:
+            ship.append(ship_detail("NZ", 0))
     o = {"@type": "Offer", "price": p["price"], "priceCurrency": "NZD",
-            "url": SITE + product_url(p), "seller": {"@id": f"{SITE}/#store"},
-            "priceValidUntil": f"{date.today().year + 1}-12-31",
-            "availability": "https://schema.org/InStock",
-            "itemCondition": "https://schema.org/NewCondition",
-            **({} if QUOTE_DELIVERY else {"shippingDetails": {
-                "@type": "OfferShippingDetails",
-                "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "NZD"},
-                "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "NZ"},
-                "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {"@type": "QuantitativeValue", "minValue": 1, "maxValue": 3, "unitCode": "DAY"},
-                    "transitTime": {"@type": "QuantitativeValue", "minValue": 6, "maxValue": 7, "unitCode": "DAY"}}}}),
-            "hasMerchantReturnPolicy": RETURN_POLICY}
+         "url": SITE + product_url(p), "seller": {"@id": f"{SITE}/#store"},
+         "priceValidUntil": f"{date.today().year + 1}-12-31",
+         "availability": "https://schema.org/InStock",
+         "itemCondition": "https://schema.org/NewCondition",
+         **({"shippingDetails": ship[0] if len(ship) == 1 else ship} if ship else {}),
+         "hasMerchantReturnPolicy": RETURN_POLICY}
     if p.get("pack"):
         o["priceSpecification"] = {
             "@type": "UnitPriceSpecification", "price": p["price"], "priceCurrency": "NZD",
@@ -142,13 +164,13 @@ def cart_section():
     o = []
     o.append(f'''<section id="cart" class="sec sec--haze" style="scroll-margin-top:70px"><div class="wrap">
 <div class="sec-head"><span class="kicker">{"Your cart" if SHOW_PRICES else "Your enquiry"}</span><h2>{"Your cart" if CHECKOUT_URL else ("Cart: request your total" if SHOW_PRICES else "Enquiry list")}</h2>
-<p>{"Payment is made through Stripe: pay by card, Apple Pay, Google Pay, PayPal or Link. Delivery is included in every price." if CHECKOUT_URL else ("Prices shown exclude delivery. Send us your cart and delivery address and we reply, usually the same working day, with the total including delivery and a secure Stripe payment link. Nothing is charged until you pay it." if SHOW_PRICES else "We are confirming prices with our suppliers. Add the products you want and send us your enquiry: we reply with prices, stock and how to pay. Delivery anywhere in New Zealand is free.")}</p></div>
-<div class="cart-grid{" cart-grid--solo" if CHECKOUT_URL else ""}">
+<p>{"Pay through Stripe by card, Apple Pay, Google Pay, PayPal or Link. Most single items include delivery; items marked \u201c+ delivery by weight\u201d add it once you choose your city. With a bulk pack in your cart, request your total and we reply with it and a secure Stripe invoice." if CHECKOUT_URL and QUOTE_PACKS else "Payment is made through Stripe: pay by card, Apple Pay, Google Pay, PayPal or Link. Delivery is included in every price." if CHECKOUT_URL else ("Prices shown exclude delivery. Send us your cart and delivery address and we reply, usually the same working day, with the total including delivery and a secure Stripe payment link. Nothing is charged until you pay it." if SHOW_PRICES else "We are confirming prices with our suppliers. Add the products you want and send us your enquiry: we reply with prices, stock and how to pay. Delivery anywhere in New Zealand is free.")}</p></div>
+<div class="cart-grid{" cart-grid--solo" if CHECKOUT_URL and not QUOTE_PACKS else ""}">
 <div class="cart-box"><div id="cart-lines"><p class="cart-empty">Loading your cart&hellip;</p></div>
 {f'<div class="cart-paynow" id="pay-now-wrap" hidden><button class="btn btn--wide" type="button" id="pay-now" data-checkout="{esc(CHECKOUT_URL)}">{icon("lock")} Pay now</button><p class="cart-fine">Secure checkout by Stripe: card, Apple Pay, Google Pay, PayPal, Link and more. You enter your delivery address there.</p><p class="cart-error" id="pay-now-error" role="alert" hidden></p></div>' if CHECKOUT_URL else ""}
 <div class="cart-pay">{pay_badges()}<p>{PAY_HOW}</p></div>
 <noscript><p class="cart-empty">The cart needs JavaScript. Email <a href="mailto:{ORDER_EMAIL}">{ORDER_EMAIL}</a> to order instead.</p></noscript></div>
-{"" if CHECKOUT_URL else ORDER_FORM}
+{"" if CHECKOUT_URL and not QUOTE_PACKS else ORDER_FORM}
 </div>
 </div></section>
 ''')
@@ -169,7 +191,7 @@ def front(depts):
     o.append(f'''<section class="hero"><div class="wrap">
 <span class="eyebrow">{icon("cart")} Order online &middot; Delivered across New Zealand in 7 to 10 days</span>
 <h1>Shop Online at {esc(STORE["name"])}</h1>
-<p class="lede">{"Add gear to your cart and pay securely through Stripe. Every price includes GST and" if CHECKOUT_URL else "Add gear to your cart and request your total: we reply with the price including delivery anywhere in New Zealand and a secure Stripe payment link. Prices shown include GST and exclude"} delivery. Can&rsquo;t find something? <a href="/search/">Search the shop</a> or <a href="/contact/">ask us</a>.</p>
+<p class="lede">{"Add gear to your cart and pay securely through Stripe. Single items include GST and delivery anywhere in New Zealand; for bulk packs, request your total with" if CHECKOUT_URL else "Add gear to your cart and request your total: we reply with the price including delivery anywhere in New Zealand and a secure Stripe payment link. Prices shown include GST and exclude"} delivery. Can&rsquo;t find something? <a href="/search/">Search the shop</a> or <a href="/contact/">ask us</a>.</p>
 </div></section>
 ''')
     o.append(f'''<section class="sec"><div class="wrap">
@@ -244,20 +266,34 @@ def description(p):
                 f"NZ${float(p['price']):,.2f} a pack, NZ${each:,.2f} each. A good fit for clubs, teams, "
                 "outfitters and resellers buying in bulk.")
     parts = [seo.description_html(p, pack)]
-    parts.append("<p>The price shown excludes delivery. Add it to your cart and request your total: we "
-                 "reply with the price including delivery anywhere in New Zealand and a secure Stripe payment "
-                 "link. Delivery takes <strong>7 to 10 days</strong> once you have paid.</p>")
+    if p.get("options_cn"):
+        parts.append(f"<h3>Sizing</h3><p>{esc(sizes.note(p))}</p>" + sizes.table_html(p, esc))
+    if p.get("delivery_extra"):
+        parts.append(f"<p>Delivery is added in the cart once you choose your city: it depends on where it is going "
+                     f"and the weight of the order. This item ships at about <strong>{p['weight']} kg</strong>; on its own, "
+                     f"delivery starts from <strong>NZ${delivery_fee(p['weight']):,.2f}</strong>. "
+                     "Delivery takes <strong>7 to 10 days</strong>.</p>"
+                     "<p><strong>Ships to Australia too.</strong> Choose your Australian city in the cart and "
+                     "delivery is added by weight; you pay in NZ dollars through Stripe. Australian import "
+                     "charges, if any, are the buyer's responsibility.</p>")
+    elif quoted(p):
+        parts.append("<p>The price shown excludes delivery. Add it to your cart and request your total: we "
+                     "reply with the price including delivery anywhere in New Zealand and a secure Stripe "
+                     "invoice. Delivery takes <strong>7 to 10 days</strong> once you have paid.</p>")
+    else:
+        parts.append("<p>The price includes delivery anywhere in New Zealand. Add it to your cart and pay "
+                     "securely through Stripe; we deliver in <strong>7 to 10 days</strong>.</p>")
     return "".join(parts)
 
 
 def product_page(p, siblings):
     name, slug = p["dept"], DEPT_SLUG[p["dept"]]
     path = product_url(p)
-    title = seo.title(p, STORE["name"])
+    title = TITLES[p["sku"]]
     if SHOW_PRICES and p.get("pack"):
         price_text = f"NZ${float(p['price']):,.2f} for a pack of {p['pack']}, excl. delivery. "
     else:
-        price_text = f"NZ${float(p['price']):,.2f} excl. delivery. " if SHOW_PRICES else ""
+        price_text = (f"NZ${float(p['price']):,.2f}" + (" + delivery by weight. " if p.get("delivery_extra") else " excl. delivery. " if quoted(p) else " incl. NZ delivery. ")) if SHOW_PRICES else ""
     desc = clamp(seo.meta_description(p, price_text), 158)
     img = product_image(p["sku"])
     # Product markup only while prices are shown: Google treats a Product with
@@ -287,8 +323,8 @@ def product_page(p, siblings):
 <h1>{esc(p["name"])}</h1>
 {price_html(p, " pdp-price")}
 <p class="pdp-lede">{esc(p["blurb"])}</p>
-<div class="pdp-cta">{product_cta(p, size="")}</div>
-<p class="pdp-fine">{"Price in NZD including GST, excluding delivery. Add it to your cart and request your total with delivery; we reply usually the same working day." if SHOW_PRICES else "We are confirming prices: add it to your enquiry and we reply with the price. Free delivery anywhere in New Zealand, 7 to 10 days."}</p>
+<div class="pdp-cta">{product_cta(p, size="", guide=True)}</div>
+<p class="pdp-fine">{(f"Price in NZD including GST. Delivers to New Zealand and Australia: delivery depends on your city and is added in the cart, from NZ${delivery_fee(p.get('weight') or 0):,.2f} for this item on its own, 7 to 10 days." if p.get("delivery_extra") else "Price in NZD including GST, excluding delivery. Add it to your cart and request your total with delivery; we reply usually the same working day." if quoted(p) else "Free delivery anywhere in New Zealand, 7 to 10 days. Price in NZD, including GST and delivery.") if SHOW_PRICES else "We are confirming prices: add it to your enquiry and we reply with the price. Free delivery anywhere in New Zealand, 7 to 10 days."}</p>
 {pay_badges()}
 <p class="pdp-fine"><a href="{PATH}#cart">{"View your cart" if SHOW_PRICES else "View your enquiry list"} &rarr;</a></p>
 </div>
@@ -322,7 +358,9 @@ def write_search():
     idx = [{"s": p["sku"], "n": p["name"], "d": p["dept"], **({"p": p["price"]} if SHOW_PRICES else {}),
             "u": product_url(p),
             "i": product_image(p["sku"]) or "", "b": p["blurb"], "m": p.get("model", ""),
-            **({"o": 1} if p.get("options") else {}), **({"k": p["pack"]} if SHOW_PRICES and p.get("pack") else {})}
+            **({"o": 1} if p.get("options") else {}), **({"k": p["pack"]} if SHOW_PRICES and p.get("pack") else {}),
+            **({"x": 1, "w": p["weight"]} if SHOW_PRICES and p.get("delivery_extra") else {}),
+            **({"z": {lab: cn for lab, cn in zip(p["options"], p["options_cn"]) if lab != cn}} if p.get("options_cn") else {})}
            for p in PRODUCTS]
     json.dump(idx, open(os.path.join(d, "search.json"), "w", encoding="utf-8"),
               ensure_ascii=False, separators=(",", ":"))
@@ -330,7 +368,7 @@ def write_search():
     ver = hashlib.sha1(open(os.path.join(d, "search.json"), "rb").read()).hexdigest()[:10]
     src = open(os.path.join(ROOT, "_build", "search.js"), encoding="utf-8").read()
     src = src.replace('"/assets/js/search.json"', f'"/assets/js/search.json?v={ver}"')
-    src = src.replace('/*@@DELIVERY_TAG@@*/""', json.dumps(DELIVERY_TAG))
+    src = src.replace('/*@@DELIVERY_TAG@@*/""', json.dumps(DELIVERY_TAG)).replace('/*@@SINGLE_TAG@@*/""', json.dumps(SINGLE_TAG))
     open(os.path.join(d, "search.js"), "w", encoding="utf-8").write(src)
 
 

@@ -17,7 +17,7 @@ HOME = [
   ("<p>Add what you want to the cart and press <strong>Pay now</strong>. You pay on Stripe&rsquo;s "
    "secure page, by card, Apple Pay, Google Pay, PayPal or Link, and enter your delivery address there. "
    "We email to confirm and deliver in 7 to 10 days. If an item turns out to be unavailable we refund "
-   "it in full.</p>") if CHECKOUT_URL else
+   "it in full. Bulk packs (sold by the maker&rsquo;s minimum order, e.g. 500) are different: their price excludes delivery, so add them to your cart and press <strong>Request my total</strong>; we reply with the total including delivery and a secure Stripe invoice.</p>") if CHECKOUT_URL else
   ("<p>Add what you want to the cart, then fill in your name, email and delivery address and press "
    "<strong>Request my total</strong>. We reply, usually the same working day, with the total including "
    "delivery and a secure Stripe payment link. Nothing is charged until you have seen the total and "
@@ -27,13 +27,18 @@ HOME = [
    "the same working day, with prices, stock and how to pay. Nothing is charged until you have agreed "
    "the price.</p>")),
  ("How long does delivery take?",
-  "<p><strong>7 to 10 days</strong> from when we confirm your order, anywhere in New Zealand.</p>"),
+  "<p><strong>7 to 10 days</strong> from when you pay, anywhere in New Zealand.</p>"),
  ("How much is delivery?",
-  "<p>Delivery depends on what you order and where it is going, so it is quoted per order: add "
-  "your items to the cart and request your total, and we reply with the delivered price, usually the "
+  "<p>It depends on the item. Gloves, pouches, bipods and other single items: nothing extra, the price "
+  "already includes delivery anywhere in New Zealand. "
+  "Clothing, boots and bags marked <strong>&ldquo;+ delivery by weight&rdquo;</strong> add delivery in the cart once you choose your city: it depends on the destination and the weight of those items (from NZ$30.11 for the first kg). "
+  "On bulk packs, delivery depends on the size of the order and where it is going, so it is quoted: "
+  "add the pack to your cart and request your total, and we reply with the delivered price, usually the "
   "same working day. Nothing is charged until you have seen and accepted it.</p>"),
  ("Do you ship overseas?",
-  "<p>No. We deliver within New Zealand only.</p>"),
+  "<p>To Australia, yes, for clothing, boots and bags marked <strong>&ldquo;+ delivery by weight&rdquo;</strong>: "
+  "choose your Australian city in the cart and delivery is added by weight. Everything else ships within New "
+  "Zealand only; for those items to Australia, request your total and we will quote.</p>"),
  ("How do I pay?",
   f"<p>{PAY_HOW} All payments go through Stripe, so we never see or store your card details, and "
   "we never ask for them by email or phone.</p>"),
@@ -50,7 +55,7 @@ HOME = [
   + "".join(f"<li><strong>{g}:</strong> {', '.join(ms)}</li>" for g, ms in PAYMENT_LOCAL) +
   "</ul><p>Stripe shows you the methods that apply to you when you pay.</p>"),
  ("Are your prices in New Zealand dollars?",
-  "<p>Yes. Every price is in NZ dollars and includes GST. Delivery is extra and quoted with your order." +
+  "<p>Yes. Every price is in NZ dollars and includes GST. Most single items also include delivery; items marked &ldquo;+ delivery by weight&rdquo; add it at checkout, and bulk packs exclude it and we quote it with your total." +
   ("" if SHOW_PRICES else " We are confirming prices now; send an enquiry and we will quote you.") + "</p>"),
  ("How do I know what size to order?",
   "<p>Sizing varies by maker, so put your usual size, and for gloves your hand measurement, in "

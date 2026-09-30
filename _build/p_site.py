@@ -41,7 +41,7 @@ def about():
 {cards([(ic, esc(n), b, f"/shop/{slug}/", f"Shop {len(items)} products") for n, slug, ic, b, items in depts])}
 
 <h2>How ordering works</h2>
-<p>{"Add what you want to your cart and pay securely through Stripe. We email to confirm your order and deliver in 7 to 10 days." if CHECKOUT_URL else "Add what you want to your cart and request your total. Prices shown include GST and exclude delivery; we reply, usually the same working day, with the total including delivery anywhere in New Zealand, and deliver in 7 to 10 days once you have paid."} {PAY_HOW}</p>
+<p>{"Add what you want to your cart and pay securely through Stripe: single items include GST and delivery anywhere in New Zealand. Bulk packs exclude delivery, so for those you request your total and we reply with it. We deliver in 7 to 10 days." if CHECKOUT_URL else "Add what you want to your cart and request your total. Prices shown include GST and exclude delivery; we reply, usually the same working day, with the total including delivery anywhere in New Zealand, and deliver in 7 to 10 days once you have paid."} {PAY_HOW}</p>
 <p>The details are in our <a href="/terms/">terms</a>, and the answers to common questions are on the <a href="/#faq">homepage</a> and each department page.</p>
 
 <h2>Get in touch</h2>
@@ -112,16 +112,16 @@ def terms():
 
 <h2>2. Orders</h2>
 {"<p>If you pay at checkout, your payment is an offer to buy at the price shown. We check stock and dispatch; if an item is unavailable, or a price was shown in error, we tell you and refund it in full within five working days.</p>" if CHECKOUT_URL else ""}
-{"" if CHECKOUT_URL else "<p>Requesting your total from the cart is not an order. When we reply with the total including delivery, paying it through the Stripe link is your offer to buy, and we accept it by dispatching your order. We may decline or cancel an order &mdash; for example if an item is out of stock or a price is shown in error &mdash; and if you have already paid we will refund you in full.</p>"}
+{"" if CHECKOUT_URL and not QUOTE_PACKS else "<p>For bulk packs, requesting your total from the cart is not an order. When we reply with the total including delivery, paying it through the Stripe link is your offer to buy, and we accept it by dispatching your order. We may decline or cancel an order &mdash; for example if an item is out of stock or a price is shown in error &mdash; and if you have already paid we will refund you in full.</p>"}
 
 <h2>3. Prices</h2>
-<p>Prices are in New Zealand dollars and include GST. They exclude delivery, which depends on what you order and where it is going: we quote it with your total before you pay. We may change prices at any time, but the price you pay is the total we quote to you.</p>
+<p>Prices are in New Zealand dollars and include GST. Prices of most single items also include delivery anywhere in New Zealand. Items marked &ldquo;+ delivery by weight&rdquo; add delivery at checkout, priced by the destination city you choose in the cart and the weight of those items (each started kg counts as a full kg). If your town is not listed, request your total and we quote delivery. Prices of bulk packs exclude delivery, which we quote with your total before you pay. We may change prices at any time, but the price you pay is the one shown at checkout or the total we quote to you.</p>
 
 <h2>4. Payment</h2>
 <p>We take payment only through Stripe. {PAY_HOW} The full list of methods is in our <a href="/#faq">FAQ</a>. Stripe processes every payment on its own secure page; we never see or store your card number, and we never ask for payment details by email or phone. Goods are dispatched once payment has cleared.</p>
 
 <h2>5. Delivery</h2>
-<p>We deliver within New Zealand. Delivery takes <strong>7 to 10 days</strong> from when we confirm your order. Risk in the goods passes to you on delivery.</p>
+<p>We deliver within New Zealand, and to Australia for items marked &ldquo;+ delivery by weight&rdquo;. Delivery takes <strong>7 to 10 days</strong> from when you pay. Deliveries to Australia may attract Australian import charges, which are the buyer&rsquo;s responsibility. Risk in the goods passes to you on delivery.</p>
 
 <h2>6. Returns and your consumer rights</h2>
 <p>Nothing in these terms limits your rights under the <strong>Consumer Guarantees Act 1993</strong> or the <strong>Fair Trading Act 1986</strong>. If something you buy from us is faulty or not as described, email <a href="mailto:{EMAIL}">{EMAIL}</a> and we will put it right as those Acts require. If you have simply changed your mind, get in touch and we will tell you what we can do.</p>
@@ -158,7 +158,7 @@ def privacy():
 
 <h2>1. What we collect</h2>
 <ul>
-<li><strong>Orders.</strong> {"When you pay at checkout: your name, email address, phone number, delivery address and the items you bought. Stripe collects these and passes them to us." if CHECKOUT_URL else "When you request your total: your name, email address, phone number, delivery address, the items you want and any notes. These reach us by email, delivered through our website host, Cloudflare."}</li>
+<li><strong>Orders.</strong> {"When you pay at checkout: your name, email address, phone number, delivery address and the items you bought. Stripe collects these and passes them to us." + (" When you request a total for a bulk pack: your name, email address, phone number, delivery address, the items and any notes, which reach us by email through our website host, Cloudflare." if QUOTE_PACKS else "") if CHECKOUT_URL else "When you request your total: your name, email address, phone number, delivery address, the items you want and any notes. These reach us by email, delivered through our website host, Cloudflare."}</li>
 <li><strong>Messages.</strong> When you contact us: your name, email address and what you tell us.</li>
 {"<li><strong>Live chat.</strong> When you use the chat: your messages, and the name and email address you give. The chat is run by Tawk.to, which also records your IP address and the page you are on (see <a href='https://www.tawk.to/privacy-policy/' rel='nofollow noopener' target='_blank'>Tawk.to&rsquo;s privacy policy</a>).</li>" if CHAT else ""}
 <li><strong>Payments.</strong> Every payment is made through Stripe on its own secure page. Stripe tells us the order is paid; your card or wallet details go to Stripe, not to us (see <a href="https://stripe.com/privacy" rel="nofollow noopener" target="_blank">Stripe&rsquo;s privacy policy</a>).</li>
